@@ -1,3 +1,4 @@
+// 在Vuex里面向后端发起请求
 import {
     addRoomAPI,
     addHotelAPI,
@@ -8,7 +9,10 @@ import {
 import {
     hotelAllCouponsAPI,
     hotelTargetMoneyAPI,
+    hotelTimeAPI,
+    hotelTargetRoomNumAPI
 } from '@/api/coupon'
+// 提示组件
 import { message } from 'ant-design-vue'
 
 const hotelManager = {
@@ -38,6 +42,7 @@ const hotelManager = {
         activeHotelId: 0,
         couponList: [],
     },
+    // actions里面主要处理异步事件，mutation则反之
     mutations: {
         set_orderList: function(state, data) {
             state.orderList = data
@@ -45,6 +50,8 @@ const hotelManager = {
         set_addHotelModalVisible: function(state, data) {
             state.addHotelModalVisible = data
         },
+        // es6中的一种新的赋值方式，...代表着将对象拆分成一个个键值对，然后'{}'内的所有键值对重新组成一个新的对象
+        // 在这里，就是将data里的键值对加到addHotelParams里面
         set_addHotelParams: function(state, data) {
             state.addHotelParams = {
                 ...state.addHotelParams,
@@ -76,6 +83,7 @@ const hotelManager = {
     actions: {
         getAllOrders: async({ state, commit }) => {
             const res = await getAllOrdersAPI()
+            // res非空时进行
             if(res){
                 commit('set_orderList', res)
             }
@@ -120,14 +128,46 @@ const hotelManager = {
             const res = await hotelAllCouponsAPI(state.activeHotelId)
             if(res) {
                 // 获取到酒店策略之后的操作（将获取到的数组赋值给couponList）
+                commit('set_couponList',res)
             }
         },
-        addHotelCoupon: async({ commit, dispatch }, data) => {
+        addHotelTargetMoneyCoupon: async({ commit, dispatch }, data) => {
             const res = await hotelTargetMoneyAPI(data)
             if(res){
                 // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
+                dispatch('getHotelCoupon')
+                commit('set_addCouponVisible',false)
+                commit('set_couponVisible',true)
+                message.success('添加策略成功')
             }else{
                 // 添加失败后的操作
+                message.error('添加失败')
+            }
+        },
+        addHotelTimeCoupon: async({ commit, dispatch }, data) => {
+            const res = await hotelTimeAPI(data)
+            if(res){
+                // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
+                dispatch('getHotelCoupon')
+                commit('set_addCouponVisible',false)
+                commit('set_couponVisible',true)
+                message.success('添加策略成功')
+            }else{
+                // 添加失败后的操作
+                message.error('添加失败')
+            }
+        },
+        addHotelTargetRoomNumCoupon: async({ commit, dispatch }, data) => {
+            const res = await hotelTargetRoomNumAPI(data)
+            if(res){
+                // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
+                dispatch('getHotelCoupon')
+                commit('set_addCouponVisible',false)
+                commit('set_couponVisible',true)
+                message.success('添加策略成功')
+            }else{
+                // 添加失败后的操作
+                message.error('添加失败')
             }
         }
     }

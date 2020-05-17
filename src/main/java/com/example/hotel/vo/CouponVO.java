@@ -7,6 +7,8 @@ public class CouponVO {
     private String name;
     private Integer type;
 
+
+
     public Integer getId() {
         return id;
     }

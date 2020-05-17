@@ -47,10 +47,20 @@ public class Coupon {
      */
     private LocalDateTime endTime;
 
+    private Integer targetRoomNum;
+
     /**
      * 优惠券状态 是否已经失效 1可用 0失效
      */
     private Integer status;
+
+    public Integer getTargetRoomNum() {
+        return targetRoomNum;
+    }
+
+    public void setTargetRoomNum(Integer targetRoomNum) {
+        this.targetRoomNum = targetRoomNum;
+    }
 
     public LocalDateTime getStartTime() {
         return startTime;

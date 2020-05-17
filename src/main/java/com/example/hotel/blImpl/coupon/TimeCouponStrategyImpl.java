@@ -5,6 +5,8 @@ import com.example.hotel.po.Coupon;
 import com.example.hotel.vo.OrderVO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class TimeCouponStrategyImpl implements CouponMatchStrategy {
 
@@ -16,6 +18,12 @@ public class TimeCouponStrategyImpl implements CouponMatchStrategy {
      */
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
+        if(coupon.getCouponType()!=4) return false;
+        LocalDate checkIn= LocalDate.parse(orderVO.getCheckInDate());
+        LocalDate checkOut=LocalDate.parse(orderVO.getCheckOutDate());
+        LocalDate startDate=coupon.getStartTime().toLocalDate();
+        LocalDate endDate=coupon.getEndTime().toLocalDate();
+        if(checkIn.isAfter(startDate)&&endDate.isAfter(checkOut)) return true;
         return false;
     }
 }

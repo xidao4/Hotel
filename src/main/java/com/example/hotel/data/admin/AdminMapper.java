@@ -18,3 +18,4 @@ public interface AdminMapper {
 
     List<User> getAllManagers();
 }
+

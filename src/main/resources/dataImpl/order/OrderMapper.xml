@@ -15,8 +15,11 @@
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
     </select>
-   <!--取消订单的数据库操作-->
 
+    <!--取消订单的数据库操作-->
+    <update id="annulOrder">
+        update OrderList set orderState="已撤销" where id=#{orderid}
+    </update>
 
 
     <resultMap id="Order" type="com.example.hotel.po.Order">

@@ -5,11 +5,13 @@ import java.time.LocalDateTime;
 public class TimeCouponVO extends CouponVO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private Integer hotelId;
 
     //自行决定是打折还是直接减金额 如果选择打折就把targetMoney变为负数 否则就把discount变为负数
 
     private double discount;
     private Integer targetMoney;
+
 
     public LocalDateTime getEndTime() {
         return endTime;
@@ -41,5 +43,13 @@ public class TimeCouponVO extends CouponVO {
 
     public void setTargetMoney(Integer targetMoney) {
         this.targetMoney = targetMoney;
+    }
+
+    public Integer getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(Integer hotelId) {
+        this.hotelId = hotelId;
     }
 }

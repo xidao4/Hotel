@@ -10,6 +10,22 @@ export function hotelTargetMoneyAPI(data) {
     })
 }
 
+export function hotelTimeAPI(data) {
+    return axios({
+        url: `${api.couponPre}/hotelTime`,
+        method: 'POST',
+        data,
+    })
+}
+
+export function hotelTargetRoomNumAPI(data) {
+    return axios({
+        url: `${api.couponPre}/hotelTargetRoomNum`,
+        method: 'POST',
+        data,
+    })
+}
+
 export function hotelAllCouponsAPI(hotelId) {
     return axios({
         url: `${api.couponPre}/hotelAllCoupons`,
