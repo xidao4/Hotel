@@ -8,10 +8,10 @@
     />
     <a-tooltip :title="hotel.title" placement="top">
       <a-card-meta :title="hotel.name">
-      <template slot="description">
-        <a-rate style="font-size: 15px" :value="hotel.rate" disabled allowHalf/> {{hotel.rate}}分
-      </template>
-    </a-card-meta>
+        <template slot="description">
+          <a-rate style="font-size: 15px" :value="hotel.rate" disabled allowHalf/> {{hotel.rate}}分
+        </template>
+      </a-card-meta>
     </a-tooltip>
   </a-card>
 </template>
