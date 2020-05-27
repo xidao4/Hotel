@@ -1,4 +1,5 @@
 import {
+    getClientListAPI,
     getManagerListAPI,
     addManagerAPI,
 } from '@/api/admin'
@@ -6,6 +7,9 @@ import { message } from 'ant-design-vue'
 
 const admin = {
     state: {
+        clientList:[
+
+        ],
         managerList: [
 
         ],
@@ -16,6 +20,9 @@ const admin = {
         }
     },
     mutations: {
+        set_clientList:function(state,data){
+            state.clientList=data
+        },
         set_managerList: function(state, data) {
             state.managerList = data
         },
@@ -30,6 +37,13 @@ const admin = {
         }
     },
     actions: {
+        getClientList: async({commit}) => {
+            const res=await getClientListAPI()
+            if(res){
+                commit('set_clientList',res)
+                //console.log(state.clientList)
+            }
+        },
         getManagerList: async({ commit }) => {
             const res = await getManagerListAPI()
             if(res){

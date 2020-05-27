@@ -1,7 +1,7 @@
 <template>
     <div class="manageUser-wrapper">
         <a-tabs>
-            <a-tab-pane tab="账户管理" key="1">
+            <a-tab-pane tab="入驻酒店账号管理" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
                     <a-button type="primary" @click="addManager"><a-icon type="plus" />添加用户</a-button>
                 </div>
@@ -18,6 +18,20 @@
                     </span>
                 </a-table>
             </a-tab-pane>
+            <a-tab-pane tab="客户账号管理" key="2">
+                <a-table
+                  :columns="columns"
+                  :dataSource="clientList"
+                  bordered
+                 >
+                  <span slot="price" slot-scope="text">
+                        <span>￥{{ text }}</span>
+                    </span>
+                  <span slot="action" slot-scope="text, record">
+                        <a-button type="danger" @click="order(record)">删除用户</a-button>
+                    </span>
+                </a-table>
+            </a-tab-pane>
         </a-tabs>
         <AddManagerModal></AddManagerModal>
     </div>
@@ -25,12 +39,33 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddManagerModal from './components/addManagerModal'
+const colHotel=[
+    {
+        title:'id',
+        dataIndex:'id',
+    },{
+        title:'name',
+        dataIndex:'name',
+    },
+    {
+        title:'managerId',
+        dataIndex:'managerId',
+    },
+    {
+        title:'email',
+        dataIndex:'email',
+    },{
+        title: '操作',
+        key: 'action',
+        scopedSlots: { customRender: 'action' },
+    }
+]
 const columns = [
-    {  
+    {
         title: '用户邮箱',
         dataIndex: 'email',
     },
-    {  
+    {
         title: '用户名',
         dataIndex: 'userName',
     },
@@ -69,21 +104,28 @@ export default {
     computed: {
         ...mapGetters([
             'addManagerModalVisible',
-            'managerList'
+            'managerList',
+            'clientList'
         ])
     },
     mounted() {
-      this.getManagerList()
+      this.getManagerList(),
+      this.getClientList()
     },
     methods: {
         ...mapActions([
-            'getManagerList'
+            'getManagerList',
+            'getClientList'
         ]),
         ...mapMutations([
             'set_addManagerModalVisible'
         ]),
         addManager(){
             this.set_addManagerModalVisible(true)
+
+            // console.log(this);
+            // this.getClientList();
+            // console.log(this.clientList);
         }
     }
 }
@@ -107,5 +149,5 @@ export default {
     }
 </style>
 <style lang="less">
-    
+
 </style>

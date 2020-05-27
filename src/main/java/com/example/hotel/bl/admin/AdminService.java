@@ -25,5 +25,5 @@ public interface AdminService {
      */
     List<User> getAllManagers();
 
-
+    List<User> getAllClients();
 }

@@ -35,7 +35,7 @@ const user = {
             state.token = '',
             state.userId = '',
             state.userInfo = {
-                
+
             },
             state.userOrderList = []
         },
@@ -65,8 +65,13 @@ const user = {
             if(res){
                 setToken(res.id)
                 commit('set_userId', res.id)
-                dispatch('getUserInfo')
-                router.push('/hotel/hotelList')
+
+                if(res.id ==3){
+                    router.push('/websiteAdmin')
+                }else {
+                    dispatch('getUserInfo')
+                    router.push('/hotel/hotelList')
+                }
             }
         },
         register: async({ commit }, data) => {
