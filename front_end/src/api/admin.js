@@ -20,9 +20,9 @@ export function getOperatorListAPI(){
         method:'POST'
     })
 }
-export function addManagerAPI(data) {
+export function addOperatorAPI(data) {
     return axios({
-        url: `${api.adminPre}/addManager`,
+        url: `${api.adminPre}/addOperator`,
         method: 'POST',
         data
     })

@@ -22,13 +22,14 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     AdminMapper adminMapper;
     @Override
-    public ResponseVO addManager(UserForm userForm) {
+    public ResponseVO addOperator(UserForm userForm) {
         User user = new User();
         user.setEmail(userForm.getEmail());
+        user.setUserName(userForm.getUserName());
         user.setPassword(userForm.getPassword());
-        user.setUserType(UserType.HotelManager);
+        user.setUserType(UserType.Operator);
         try {
-            adminMapper.addManager(user);
+            adminMapper.addOperator(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_EXIST);

@@ -20,9 +20,9 @@ public class AdminController {
     @Autowired
     AccountService accountService;
 
-    @PostMapping("/addManager")
-    public ResponseVO addManager(@RequestBody UserForm userForm){
-        return adminService.addManager(userForm);
+    @PostMapping("/addOperator")
+    public ResponseVO addOperator(@RequestBody UserForm userForm){
+        return adminService.addOperator(userForm);
     }
 
     @PostMapping("/getAllManagers")

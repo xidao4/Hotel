@@ -52,12 +52,12 @@
               </a-table>
             </a-tab-pane>
         </a-tabs>
-        <AddManagerModal></AddManagerModal>
+        <AddOperatorModal></AddOperatorModal>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import AddManagerModal from './components/addManagerModal'
+import AddOperatorModal from './components/addOperatorModal'
 const colHotel=[
     {
         title:'酒店编号',
@@ -137,11 +137,11 @@ export default {
         }
     },
     components: {
-        AddManagerModal
+        AddOperatorModal
     },
     computed: {
         ...mapGetters([
-            'addManagerModalVisible',
+            'addOperatorModalVisible',
             'managerList',
             'clientList',
             'hotelList',
@@ -163,10 +163,10 @@ export default {
             'deleteUser'
         ]),
         ...mapMutations([
-            'set_addManagerModalVisible'
+            'set_addOperatorModalVisible'
         ]),
-        addManager(){
-            this.set_addManagerModalVisible(true)
+        addOperator(){
+            this.set_addOperatorModalVisible(true)
         },
         order(userId){
             this.deleteUser(userId);

@@ -2,7 +2,7 @@ import {
     getOperatorListAPI,
     getClientListAPI,
     getManagerListAPI,
-    addManagerAPI,
+    addOperatorAPI,
     deleteUserAPI
 } from '@/api/admin'
 import{
@@ -16,9 +16,10 @@ const admin = {
         hotelList:[],
         clientList:[],
         managerList: [],
-        addManagerModalVisible: false,
-        addManagerParams: {
+        addOperatorModalVisible: false,
+        addOperatorParams: {
             email:'',
+            userName:'',
             password:''
         },
         addhotelAndManagerList:{
@@ -44,12 +45,12 @@ const admin = {
         set_managerList: function(state, data) {
             state.managerList = data
         },
-        set_addManagerModalVisible: function(state, data) {
-            state.addManagerModalVisible = data
+        set_addOperatorModalVisible: function(state, data) {
+            state.addOperatorModalVisible = data
         },
-        set_addManagerParams: function(state, data) {
-            state.addManagerParams = {
-                ...state.addManagerParams,
+        set_addOperatorParams: function(state, data) {
+            state.addOperatorParams = {
+                ...state.addOperatorParams,
                 ...data,
             }
         }
@@ -77,16 +78,17 @@ const admin = {
                 commit('set_managerList', res)
             }
         },
-        addManager: async({ state, commit, dispatch }) => {
-            const res = await addManagerAPI(state.addManagerParams)
+        addOperator: async({ state, commit, dispatch }) => {
+            const res = await addOperatorAPI(state.addOperatorParams)
             if(res) {
-                commit('set_addManagerParams',{
+                commit('set_addOperatorParams',{
                     email:'',
+                    userName:'',
                     password:''
                 })
-                commit('set_addManagerModalVisible', false)
+                commit('set_addOperatorModalVisible', false)
                 message.success('添加成功')
-                dispatch('getManagerList')
+                dispatch('getOperatorList')
             }else{
                 message.error('添加失败')
             }
