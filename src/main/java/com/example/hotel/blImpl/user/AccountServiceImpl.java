@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountServiceImpl implements AccountService {
     private final static String ACCOUNT_EXIST = "账号已存在";
-    private final static String UPDATE_ERROR = "修改失败";
+    private final static String  UPDATE_ERROR="更新失败";
+    private final static String  DELETE_ERROR="删除失败";
+
     @Autowired
     private AccountMapper accountMapper;
 
@@ -56,6 +58,17 @@ public class AccountServiceImpl implements AccountService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO deleteUser(int id){
+        try {
+            accountMapper.deleteUser(id);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(DELETE_ERROR);
         }
         return ResponseVO.buildSuccess(true);
     }

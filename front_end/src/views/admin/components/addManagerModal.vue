@@ -1,7 +1,7 @@
 <template>
     <a-modal
         :visible="addManagerModalVisible"
-        title="添加用户"
+        title="添加酒店工作人员"
         cancelText="取消"
         okText="确定"
         @cancel="cancel"
@@ -15,8 +15,8 @@
                         { rules: [{required: true, message: '请输入用户邮箱', }] }
                     ]"
                 />
-            </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="密码">
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="密码">
                 <a-input
                     v-decorator="[
                         'password',

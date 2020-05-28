@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class AccountController {
     private final static String ACCOUNT_INFO_ERROR = "用户名或密码错误";
+    private final static String DELETE_ERROR="删除失败";
+
     @Autowired
     private AccountService accountService;
 
@@ -46,7 +48,7 @@ public class AccountController {
     @PostMapping("/{id}/userInfo/update")
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
-
     }
+
 
 }

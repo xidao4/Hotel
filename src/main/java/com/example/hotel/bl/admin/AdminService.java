@@ -3,6 +3,7 @@ package com.example.hotel.bl.admin;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,4 +27,8 @@ public interface AdminService {
     List<User> getAllManagers();
 
     List<User> getAllClients();
+
+    List<User> getAllOperators();
+
+
 }

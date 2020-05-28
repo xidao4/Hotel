@@ -1,25 +1,43 @@
 import {
+    getOperatorListAPI,
     getClientListAPI,
     getManagerListAPI,
     addManagerAPI,
+    deleteUserAPI
 } from '@/api/admin'
+import{
+    getHotelsAPI
+}from '@/api/hotel'
 import { message } from 'ant-design-vue'
 
 const admin = {
     state: {
-        clientList:[
-
-        ],
-        managerList: [
-
-        ],
+        operatorList:[],
+        hotelList:[],
+        clientList:[],
+        managerList: [],
         addManagerModalVisible: false,
         addManagerParams: {
             email:'',
             password:''
+        },
+        addhotelAndManagerList:{
+            id:'',
+            name:'',
+            manager_id:'',
+            email:''
         }
     },
     mutations: {
+        set_operatorList:function(state,data){
+            state.operatorList=data
+        },
+        set_hotelAndManagerList: function(state,hotelList,hotelManagerList){
+
+        },
+        set_hotelList: function(state,data){
+            state.hotelList=data
+        },
         set_clientList:function(state,data){
             state.clientList=data
         },
@@ -37,11 +55,20 @@ const admin = {
         }
     },
     actions: {
+        getOperatorList:async({commit})=>{
+            const res=await getOperatorListAPI()
+            if(res){commit('set_operatorList',res)}
+        },
+        getHotelList: async({commit})=>{
+            const res=await getHotelsAPI()
+            if(res){
+                commit('set_hotelList',res)
+            }
+        },
         getClientList: async({commit}) => {
             const res=await getClientListAPI()
             if(res){
                 commit('set_clientList',res)
-                //console.log(state.clientList)
             }
         },
         getManagerList: async({ commit }) => {
@@ -62,6 +89,14 @@ const admin = {
                 dispatch('getManagerList')
             }else{
                 message.error('添加失败')
+            }
+        },
+        deleteUser:async({dispatch},userId)=>{
+            const res=await deleteUserAPI(userId)
+            if(res){
+                dispatch('getClientList')
+            }else{
+                message.error('删除失败')
             }
         }
     }

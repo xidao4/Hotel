@@ -66,7 +66,7 @@ const user = {
                 setToken(res.id)
                 commit('set_userId', res.id)
 
-                if(res.id ==3){
+                if(res.id ===0){
                     router.push('/websiteAdmin')
                 }else {
                     dispatch('getUserInfo')

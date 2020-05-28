@@ -14,6 +14,12 @@ export function getManagerListAPI(){
         method: 'POST'
     })
 }
+export function getOperatorListAPI(){
+    return axios({
+        url: `${api.adminPre}/getAllOperators`,
+        method:'POST'
+    })
+}
 export function addManagerAPI(data) {
     return axios({
         url: `${api.adminPre}/addManager`,
@@ -25,6 +31,12 @@ export function addHotelAPI(data) {
     return axios({
         url: `${api.adminPre}/addHotel`,
         method: 'POST',
-        data,
+        data
+    })
+}
+export function deleteUserAPI(data) {
+    return axios({
+        url: `${api.adminPre}/${data}/deleteUser`,
+        method: 'POST',
     })
 }

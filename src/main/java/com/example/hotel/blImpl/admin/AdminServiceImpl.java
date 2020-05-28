@@ -18,6 +18,7 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
     private final static String ACCOUNT_EXIST = "账号已存在";
+
     @Autowired
     AdminMapper adminMapper;
     @Override
@@ -43,4 +44,9 @@ public class AdminServiceImpl implements AdminService {
     public List<User> getAllClients(){
         return adminMapper.getAllClients();
     }
+
+    @Override
+    public List<User> getAllOperators() { return adminMapper.getAllOperators(); }
+
+
 }
