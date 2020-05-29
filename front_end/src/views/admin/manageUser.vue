@@ -46,18 +46,20 @@
                 :dataSource="operatorList"
                 bordered
                 >
-                <span slot="action" >
-                  <a-button>更改信息</a-button>
+                <span slot="action" slot-scope="text, record">
+                  <a-button @click="modifyOO(record.id)">更改信息</a-button>
                 </span>
               </a-table>
             </a-tab-pane>
         </a-tabs>
         <AddOperatorModal></AddOperatorModal>
+        <ModifyOOModal></ModifyOOModal>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddOperatorModal from './components/addOperatorModal'
+import ModifyOOModal from "./components/ModifyOOModal";
 const colHotel=[
     {
         title:'酒店编号',
@@ -137,22 +139,26 @@ export default {
         }
     },
     components: {
+        ModifyOOModal,
         AddOperatorModal
     },
     computed: {
         ...mapGetters([
             'addOperatorModalVisible',
+            'modifyOOModalVisible',
             'managerList',
             'clientList',
             'hotelList',
-            'operatorList'
+            'operatorList',
+            'OOIdx'
         ]),
     },
     mounted() {
-      this.getManagerList(),
-      this.getClientList(),
-      this.getHotelList(),
-      this.getOperatorList()
+        console.log("before mounting manageUser.vue"),
+        this.getManagerList(),
+        this.getClientList(),
+        this.getHotelList(),
+        this.getOperatorList()
     },
     methods: {
         ...mapActions([
@@ -160,17 +166,31 @@ export default {
             'getManagerList',
             'getClientList',
             'getHotelList',
-            'deleteUser'
+            'deleteUser',
+            'getTmpUserInfo',
+
         ]),
         ...mapMutations([
-            'set_addOperatorModalVisible'
+            'set_addOperatorModalVisible',
+            'set_modifyOOModalVisible',
+            'set_OOIdx',
+            'set_modifyOOModalVisible',
         ]),
         addOperator(){
             this.set_addOperatorModalVisible(true)
         },
         order(userId){
             this.deleteUser(userId);
-        }
+        },
+        modifyOO(userId){
+
+            this.set_OOIdx(userId)
+            console.log("before getTmpUserInfo","test",this.OOIdx),
+            this.getTmpUserInfo(),
+            console.log("after getTmpUserInfo")
+            //this.set_modifyOOModalVisible(true)
+        },
+
     }
 }
 </script>

@@ -6,6 +6,9 @@ import {
     deleteUserAPI
 } from '@/api/admin'
 import{
+    getUserInfoAPI
+} from '@/api/user'
+import{
     getHotelsAPI
 }from '@/api/hotel'
 import { message } from 'ant-design-vue'
@@ -16,18 +19,21 @@ const admin = {
         hotelList:[],
         clientList:[],
         managerList: [],
+        tmpUserInfo:[],
         addOperatorModalVisible: false,
         addOperatorParams: {
             email:'',
             userName:'',
             password:''
         },
-        addhotelAndManagerList:{
+        modifyOOModalVisible:false,
+        addHotelAndManagerList:{
             id:'',
             name:'',
             manager_id:'',
             email:''
-        }
+        },
+        OOIdx:''
     },
     mutations: {
         set_operatorList:function(state,data){
@@ -52,6 +58,18 @@ const admin = {
             state.addOperatorParams = {
                 ...state.addOperatorParams,
                 ...data,
+            }
+        },
+        set_modifyOOModalVisible: function(state,data){
+            state.modifyOOModalVisible=data
+        },
+        set_OOIdx:function(state,data){
+            state.OOIdx=data
+        },
+        set_tmpUserInfo: function(state,data){
+            state.tmpUserInfo = {
+                ...state.tmpUserInfo,
+                ...data
             }
         }
     },
@@ -100,7 +118,16 @@ const admin = {
             }else{
                 message.error('删除失败')
             }
-        }
+        },
+        getTmpUserInfo:async({ state, commit })=> {
+            console.log('in getTmpUserInfo >> state.OOIdx',state.OOIdx)
+            const res = await getUserInfoAPI(state.OOIdx)
+            if(res){
+                commit('set_tmpUserInfo', res)
+                console.log('in getTmpUserInfo >> state.tmpUserInfo',state.tmpUserInfo)
+            }
+            commit('set_modifyOOModalVisible',true)
+        },
     }
 }
 export default admin
