@@ -20,5 +20,7 @@ public interface AdminMapper {
     List<User> getAllManagers();
     List<User> getAllClients();
     List<User> getAllOperators();
+
+    List<User> searchOO();
 }
 

@@ -38,9 +38,7 @@
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="网站运营人员" key="3">
-              <div >
-                <a-button @click="btnClick">test</a-button>
-              </div>
+              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearch" />
               <div style="width: 100%; text-align: right; margin:20px 0">
                 <a-button type="primary" @click="addOperator"><a-icon type="plus" />添加网站运营人员</a-button>
               </div>
