@@ -1,5 +1,6 @@
 package com.example.hotel.blImpl.hotel;
 
+import com.example.hotel.bl.coupon.CouponService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
@@ -15,13 +16,11 @@ import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelVO;
-import com.example.hotel.vo.RoomVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +37,10 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired
+    private CouponService couponService;
+
 
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
@@ -68,13 +71,19 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveHotels() {
-
-        return hotelMapper.selectAllHotel();
+    public List<HotelVO> retrieveHotels(Integer userid) {
+        List<HotelVO> hotelVOS = hotelMapper.selectAllHotel();
+        for(HotelVO hotelVO: hotelVOS){
+            boolean hasOrderedBefore = orderService.hasOrderedBefore(userid, hotelVO.getId());
+            hotelVO.setHasOrderedBefore(hasOrderedBefore);
+            List<String> couponNames = couponService.getHotelAllCouponName(hotelVO.getId());
+            hotelVO.setCouponNames(couponNames);
+        }
+        return hotelVOS;
     }
 
     @Override
-    public HotelVO retrieveHotelDetails(Integer hotelId) {
+    public HotelVO retrieveHotelDetails(Integer hotelId, Integer userid) {
         HotelVO hotelVO = hotelMapper.selectById(hotelId);
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
         List<RoomVO> roomVOS = rooms.stream().map(r -> {
@@ -87,8 +96,48 @@ public class HotelServiceImpl implements HotelService {
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
-
+        hotelVO.setHasOrderedBefore(orderService.hasOrderedBefore(userid, hotelId));
+        hotelVO.setCouponNames(couponService.getHotelAllCouponName(hotelId));
         return hotelVO;
     }
 
+    @Override
+    public List<HotelVO> retrieveHotelByDate(Integer userid, String checkInDate, String checkOutDate) {
+        List<HotelVO> hotelVOS = retrieveHotels(userid);
+        List<HotelVO> hotelVOSByDate = new ArrayList<>();
+        for(HotelVO hotelVO: hotelVOS){
+            List<Order> orders = orderService.getHotelOrders(hotelVO.getId());
+            int curRoomNum = getTotalRoomNum(hotelVO.getId());
+            for(Order order: orders){
+                if((checkInDate.compareTo(order.getCheckInDate())>=0 && checkInDate.compareTo(order.getCheckOutDate())<=0) || checkOutDate.compareTo(order.getCheckInDate())>=0 && checkOutDate.compareTo(order.getCheckOutDate())<=0){
+                    curRoomNum -= order.getRoomNum();
+                }
+            }
+            if(curRoomNum>0){
+                hotelVOSByDate.add(hotelVO);
+            }
+        }
+        return hotelVOSByDate;
+    }
+
+    @Override
+    public int getTotalRoomNum(Integer hotelId){
+        List<HotelRoom> hotelRooms = roomService.retrieveHotelRoomInfo(hotelId);
+        int num = 0;
+        for(HotelRoom hotelRoom: hotelRooms){
+            num += hotelRoom.getTotal();
+        }
+        return num;
+    }
+
+    /*@Override
+    public int getRoomNumOfTypicalType(HotelVO hotelVO, String roomType){
+        int num = 0;
+        for(RoomVO roomVO: hotelVO.getRooms()){
+            if(roomVO.getRoomType()==roomType){
+                num += roomVO.getTotal();
+            }
+        }
+        return num;
+    }*/
 }

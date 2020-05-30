@@ -21,6 +21,13 @@ public interface CouponService {
     List<Coupon> getHotelAllCoupon(Integer hotelId);
 
     /**
+     * 返回某个酒店提供的所有当前可用优惠策略
+     * @param hotelId
+     * @return
+     */
+    List<String> getHotelAllCouponName(Integer hotelId);
+
+    /**
      * 添加酒店满减优惠策略
      * @param couponVO
      * @return

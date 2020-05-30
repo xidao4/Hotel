@@ -72,6 +72,19 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.getUserOrders(userid);
     }
 
+    @Override
+    public boolean hasOrderedBefore(int userid, int hotelid) {
+        List<Order> orders = getUserOrders(userid);
+        boolean res = false;
+        for(Order order: orders){
+            if(order.getHotelId()==hotelid){
+                res = true;
+                break;
+            }
+        }
+        return res;
+    }
+
     @Transactional
     @Override
     public ResponseVO annulOrder(int orderid) {

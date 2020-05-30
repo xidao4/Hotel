@@ -64,6 +64,18 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    public List<String> getHotelAllCouponName(Integer hotelId) {
+        List<Coupon> hotelCoupons = getHotelAllCoupon(hotelId);
+        List<String> couponNames = new ArrayList<>();
+        for(Coupon coupon: hotelCoupons){
+            if(coupon.getStatus()==1){
+                couponNames.add(coupon.getCouponName());
+            }
+        }
+        return couponNames;
+    }
+
+    @Override
     public CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO) {
         Coupon coupon = new Coupon();
         coupon.setCouponName(couponVO.getName());

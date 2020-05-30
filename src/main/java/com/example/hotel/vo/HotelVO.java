@@ -17,8 +17,9 @@ public class HotelVO {
     private String description;
     private String phoneNum;
     private Integer managerId;
-
     private List<RoomVO> rooms;
+    private boolean hasOrderedBefore;
+    private List<String> couponNames;
 
     public Integer getId() {
         return id;
@@ -99,4 +100,21 @@ public class HotelVO {
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
     }
+
+    public boolean isHasOrderedBefore() {
+        return hasOrderedBefore;
+    }
+
+    public void setHasOrderedBefore(boolean hasOrderedBefore) {
+        this.hasOrderedBefore = hasOrderedBefore;
+    }
+
+    public List<String> getCouponNames() {
+        return couponNames;
+    }
+
+    public void setCouponNames(List<String> couponNames) {
+        this.couponNames = couponNames;
+    }
+
 }

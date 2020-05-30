@@ -1,5 +1,6 @@
 <template>
-  <a-card hoverable class="hotelCard ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
+ <div></div>
+ <!-- <a-card hoverable class="hotelCard ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
     <img
       alt="example"
       src="@/assets/cover.jpeg"
@@ -13,7 +14,7 @@
         </template>
       </a-card-meta>
     </a-tooltip>
-  </a-card>
+  </a-card>-->
 </template>
 <script>
 export default {

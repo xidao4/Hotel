@@ -33,6 +33,14 @@ public interface OrderService {
     List<Order> getUserOrders(int userid);
 
     /**
+     * 返回指定用户是否预订过指定酒店
+     * @param userid
+     * @param hotelid
+     * @return
+     */
+    boolean hasOrderedBefore(int userid, int hotelid);
+
+    /**
      * 撤销订单
      * @param orderid
      * @return
@@ -45,5 +53,6 @@ public interface OrderService {
      * @return
      */
     List<Order> getHotelOrders(Integer hotelId);
+
 
 }

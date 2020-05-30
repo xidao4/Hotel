@@ -2,7 +2,8 @@ import { message } from 'ant-design-vue'
 import store from '@/store'
 import {
     getHotelsAPI,
-    getHotelByIdAPI
+    getHotelByIdAPI,
+    getHotelByDateAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -10,6 +11,7 @@ import {
 import {
     orderMatchCouponsAPI,
 } from '@/api/coupon'
+
 
 const hotel = {
     state: {
@@ -34,6 +36,9 @@ const hotel = {
         ]
     },
     mutations: {
+        set_userId: function(state, data) {
+            state.userId = data
+        },
         set_hotelList: function(state, data) {
             state.hotelList = data
         },
@@ -70,19 +75,29 @@ const hotel = {
     },
 
     actions: {
-        getHotelList: async({commit, state}) => {
-            const res = await getHotelsAPI()
+        getHotelList: async({commit, state},data) => {
+            const res = await getHotelsAPI({
+                userId: data
+            })
             if(res){
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
             }
         },
-        getHotelById: async({commit, state}) => {
+        getHotelById: async({commit, state}, data) => {
             const res = await getHotelByIdAPI({
-                hotelId: state.currentHotelId
+                hotelId: state.currentHotelId,
+                userId: data
             })
             if(res){
                 commit('set_currentHotelInfo', res)
+            }
+        },
+        getHotelByDate: async({commit, state}, data) => {
+            const res = await getHotelByDateAPI(data)
+            console.log(data)
+            if (res) {
+                commit('set_hotelListLoading', false)
             }
         },
         addOrder: async({ state, commit }, data) => {

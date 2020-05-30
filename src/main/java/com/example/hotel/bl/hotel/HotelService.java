@@ -1,9 +1,6 @@
 package com.example.hotel.bl.hotel;
 
-import com.example.hotel.po.HotelRoom;
-import com.example.hotel.po.Order;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelVO;
 
 import java.util.List;
@@ -30,14 +27,14 @@ public interface HotelService {
      * 列表获取酒店信息
      * @return
      */
-    List<HotelVO> retrieveHotels();
+    List<HotelVO> retrieveHotels(Integer userid);
 
     /**
      * 获取某家酒店详细信息
      * @param hotelId
      * @return
      */
-    HotelVO retrieveHotelDetails(Integer hotelId);
+    HotelVO retrieveHotelDetails(Integer hotelId, Integer userid);
 
     /**
      * 查看酒店剩余某种房间数量
@@ -46,5 +43,18 @@ public interface HotelService {
      * @return
      */
     int getRoomCurNum(Integer hotelId,String roomType);
+
+    /**
+     * 根据日期返回酒店
+     * @param userid
+     * @param checkInDate
+     * @param checkOutDate
+     * @return
+     */
+    List<HotelVO> retrieveHotelByDate(Integer userid, String checkInDate, String checkOutDate);
+
+    int getTotalRoomNum(Integer hotelId);
+
+   /* int getRoomNumOfTypicalType(HotelVO hotelVO, String roomType);*/
 
 }

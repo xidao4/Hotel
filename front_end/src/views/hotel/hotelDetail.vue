@@ -35,6 +35,13 @@
                             <span class="label">酒店简介:</span> 
                             <span class="value">{{ currentHotelInfo.description }}</span>
                         </div>
+                        <div class="items">
+                            <span class="label">是否预订过:</span>
+                            <span class="value">
+                                <div v-if="currentHotelInfo.hasOrderedBefore">预订过</div>
+                                <div v-else>未预订过</div>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <a-divider></a-divider>
@@ -43,6 +50,9 @@
                         <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                     </a-tab-pane>
                     <a-tab-pane tab="酒店详情" key="2">
+
+                    </a-tab-pane>
+                    <a-tab-pane tab="评价" key="3">
 
                     </a-tab-pane>
                 </a-tabs>
@@ -65,16 +75,17 @@ export default {
     },
     computed: {
         ...mapGetters([
+        	'userId',
             'currentHotelInfo',
         ])
     },
     mounted() {
         this.set_currentHotelId(Number(this.$route.params.hotelId))
-        this.getHotelById()
+        this.getHotelById(Number(this.userId))
     },
     beforeRouteUpdate(to, from, next) {
         this.set_currentHotelId(Number(to.params.hotelId))
-        this.getHotelById()
+        this.getHotelById(Number(this.userId))
         next()
     },
     methods: {

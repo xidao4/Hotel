@@ -1,7 +1,10 @@
 package com.example.hotel.controller.hotel;
 
+import com.alibaba.fastjson.JSON;
+import com.example.hotel.bl.coupon.CouponService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
+import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelVO;
@@ -17,7 +20,8 @@ public class HotelController {
     private HotelService hotelService;
     @Autowired
     private RoomService roomService;
-
+    @Autowired
+    private OrderService orderService;
 
     @PostMapping("/addHotel")
     public ResponseVO createHotel(@RequestBody HotelVO hotelVO) throws ServiceException {
@@ -26,9 +30,10 @@ public class HotelController {
         return ResponseVO.buildSuccess(true);
     }
 
-    @GetMapping("/all")
-    public ResponseVO retrieveAllHotels(){
-        return ResponseVO.buildSuccess(hotelService.retrieveHotels());
+    @PostMapping("/all")
+    public ResponseVO retrieveAllHotels(@RequestBody String str){
+        Integer userId = Integer.parseInt(JSON.parseObject(str).get("userId").toString());
+        return ResponseVO.buildSuccess(hotelService.retrieveHotels(userId));
     }
 
     @PostMapping("/roomInfo")
@@ -37,9 +42,20 @@ public class HotelController {
         return ResponseVO.buildSuccess();
     }
 
-    @GetMapping("/{hotelId}/detail")
-    public ResponseVO retrieveHotelDetail(@PathVariable Integer hotelId) {
-        return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
+    @PostMapping("/{hotelId}/detail")
+    public ResponseVO retrieveHotelDetail(@RequestBody String str) {
+        Integer hotelId = Integer.parseInt(JSON.parseObject(str).get("hotelId").toString());
+        Integer userId = Integer.parseInt(JSON.parseObject(str).get("userId").toString());
+        return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId,userId));
+    }
+
+    @PostMapping("/inDateRange")
+    public ResponseVO retrieveAllHotelsInDateRange(@RequestBody String str){
+        System.out.println(str);
+        Integer userId = Integer.parseInt(JSON.parseObject(str).get("userId").toString());
+        String checkInDate = JSON.parseObject(str).get("checkInDate").toString();
+        String checkOutDate = JSON.parseObject(str).get("checkOutDate").toString();
+        return ResponseVO.buildSuccess(hotelService.retrieveHotelByDate(userId,checkInDate,checkOutDate));
     }
 
 }
