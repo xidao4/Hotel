@@ -18,6 +18,11 @@
     <delete id="deleteUser" parameterType="java.lang.Integer">
         delete from User where id=#{id}
     </delete>
+    <select id="searchOO" parameterType="java.lang.String" resultMap="User">
+        select * from User
+        where userType ='Operator'
+        and (userName like CONCAT('%',#{keyword},'%') or email like CONCAT('%',#{keyword},'%'))
+    </select>
 
     <resultMap id="User" type="com.example.hotel.po.User">
         <id column="id" property="id"></id>

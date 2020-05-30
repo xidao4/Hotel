@@ -1,10 +1,12 @@
 import {
+    getHotelAndManagerListAPI,
     getOperatorListAPI,
     getClientListAPI,
     getManagerListAPI,
     addOperatorAPI,
     deleteUserAPI,
-    updateTmpUserInfoAPI
+    updateTmpUserInfoAPI,
+    searchOOAPI
 } from '@/api/admin'
 import{
     getUserInfoAPI
@@ -16,7 +18,14 @@ import { message } from 'ant-design-vue'
 
 const admin = {
     state: {
+        hotelAndManagerList:{
+            hotelId:'',
+            name:'',
+            managerId:'',
+            email:'',
+        },
         operatorList:[],
+        displayOperatorList:[],
         hotelList:[],
         clientList:[],
         managerList: [],
@@ -28,20 +37,17 @@ const admin = {
             password:''
         },
         modifyOOModalVisible:false,
-        addHotelAndManagerList:{
-            id:'',
-            name:'',
-            manager_id:'',
-            email:''
-        },
         OOIdx:''
     },
     mutations: {
+        set_hotelAndManagerList:function(state,data){
+            state.hotelAndManagerList=data
+        },
         set_operatorList:function(state,data){
             state.operatorList=data
         },
-        set_hotelAndManagerList: function(state,hotelList,hotelManagerList){
-
+        set_displayOperatorList:function(state,data){
+            state.displayOperatorList=data
         },
         set_hotelList: function(state,data){
             state.hotelList=data
@@ -75,9 +81,26 @@ const admin = {
         }
     },
     actions: {
+        getHotelAndManagerList:async({commit})=>{
+            const res=await getHotelAndManagerListAPI()
+            if(res) {
+                commit('set_hotelAndManagerList', res)
+                console.log("16:28",this.hotelAndManagerList)
+                //commit('set_displayOperatorList', res)
+            }
+        },
+        searchOO:async({commit},data)=>{
+            const res=await searchOOAPI(data)
+            if(res){
+                commit('set_displayOperatorList',res)
+            }
+        },
         getOperatorList:async({commit})=>{
             const res=await getOperatorListAPI()
-            if(res){commit('set_operatorList',res)}
+            if(res) {
+                commit('set_operatorList', res)
+                commit('set_displayOperatorList', res)
+            }
         },
         getHotelList: async({commit})=>{
             const res=await getHotelsAPI()

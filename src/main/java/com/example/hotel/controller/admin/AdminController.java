@@ -26,6 +26,11 @@ public class AdminController {
         return adminService.addOperator(userForm);
     }
 
+    @PostMapping("/getHotelAndManager")
+    public ResponseVO getHM(){
+        return ResponseVO.buildSuccess(adminService.getHM());
+    }
+
     @PostMapping("/getAllManagers")
     public ResponseVO getAllManagers(){
         return ResponseVO.buildSuccess(adminService.getAllManagers());
@@ -49,6 +54,11 @@ public class AdminController {
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
 
-    @PostMapping("/searchOO")
-    public ResponseVO
+    @PostMapping("/searchOO/{keyword}")
+    public ResponseVO searchOOByKeyword(@PathVariable("keyword") String keyword){
+        System.out.println("in the method");
+        return ResponseVO.buildSuccess(adminService.searchOO(keyword));
+    }
+
+
 }

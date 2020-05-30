@@ -2,6 +2,12 @@ import { axios } from '@/utils/request'
 const api = {
     adminPre: '/api/admin'
 }
+export function getHotelAndManagerListAPI(){
+    return axios({
+        url: `${api.adminPre}/getHotelAndManager`,
+        method: 'POST'
+    })
+}
 export function getClientListAPI(){
     return axios({
         url: `${api.adminPre}/getAllClients`,
@@ -47,3 +53,10 @@ export function updateTmpUserInfoAPI(data){
         data
     })
 }
+export function searchOOAPI(data){
+    return axios({
+        url: `${api.adminPre}/searchOO/${data}`,
+        method:'POST',
+    })
+}
+

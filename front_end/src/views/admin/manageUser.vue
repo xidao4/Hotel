@@ -10,7 +10,7 @@
                 </div>
                 <a-table
                     :columns="colHotel"
-                    :dataSource="hotelList"
+                    :dataSource="hotelAndManagerList"
                     bordered
                 >
                     <span slot="price" slot-scope="text">
@@ -38,13 +38,13 @@
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="网站运营人员" key="3">
-              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearch" />
+              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchOO" />
               <div style="width: 100%; text-align: right; margin:20px 0">
                 <a-button type="primary" @click="addOperator"><a-icon type="plus" />添加网站运营人员</a-button>
               </div>
               <a-table
                 :columns="colOperator"
-                :dataSource="operatorList"
+                :dataSource="displayOperatorList"
                 bordered
                 >
                 <span slot="action" slot-scope="text, record">
@@ -64,7 +64,7 @@ import ModifyOOModal from "./components/ModifyOOModal";
 const colHotel=[
     {
         title:'酒店编号',
-        dataIndex:'id',
+        dataIndex:'hotelId',
     },
     {
         title:'名称',
@@ -99,7 +99,7 @@ const colHotel=[
         dataIndex:'managerId',
     },
     {
-        title:'工作人员账号',
+        title:'工作人员邮箱',
         dataIndex:'email',
     },
     // {
@@ -181,10 +181,12 @@ export default {
         ...mapGetters([
             'addOperatorModalVisible',
             'modifyOOModalVisible',
+            'hotelAndManagerList',
             'managerList',
             'clientList',
             'hotelList',
             'operatorList',
+            'displayOperatorList',
             'OOIdx'
         ]),
     },
@@ -193,26 +195,29 @@ export default {
     },
     mounted() {
         console.log("before mounting manageUser.vue"),
-        this.getManagerList(),
+        this.getHotelAndManagerList(),
         this.getClientList(),
-        this.getHotelList(),
         this.getOperatorList()
+        //myInit()
     },
     methods: {
         ...mapActions([
+            'getHotelAndManagerList',
             'getOperatorList',
+            'searchOO',
             'getManagerList',
             'getClientList',
             'getHotelList',
             'deleteUser',
             'getTmpUserInfo',
-
         ]),
         ...mapMutations([
             'set_addOperatorModalVisible',
             'set_modifyOOModalVisible',
             'set_OOIdx',
             'set_modifyOOModalVisible',
+            'set_displayOperatorList',
+            'set_hotelAndManagerList'
         ]),
         addOperator(){
             this.set_addOperatorModalVisible(true)
@@ -221,15 +226,14 @@ export default {
             this.deleteUser(userId);
         },
         modifyOO(userId){
-
             this.set_OOIdx(userId)
             console.log("before getTmpUserInfo","test",this.OOIdx),
             this.getTmpUserInfo(),
             console.log("after getTmpUserInfo")
             //this.set_modifyOOModalVisible(true)
         },
-        btnClick(){
-            console.log("0530 click the test button",this.operatorList)
+        onSearchOO(value){
+            this.searchOO(value);
         }
     }
 }
