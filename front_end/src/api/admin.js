@@ -40,3 +40,10 @@ export function deleteUserAPI(data) {
         method: 'POST',
     })
 }
+export function updateTmpUserInfoAPI(data){
+    return axios({
+        url: `${api.adminPre}/${data.id}/tmpUserInfo/update`,
+        method: 'POST',
+        data
+    })
+}

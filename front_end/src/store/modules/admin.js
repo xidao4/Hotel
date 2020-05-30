@@ -3,7 +3,8 @@ import {
     getClientListAPI,
     getManagerListAPI,
     addOperatorAPI,
-    deleteUserAPI
+    deleteUserAPI,
+    updateTmpUserInfoAPI
 } from '@/api/admin'
 import{
     getUserInfoAPI
@@ -128,6 +129,19 @@ const admin = {
             }
             commit('set_modifyOOModalVisible',true)
         },
+        updateTmpUserInfo:async({state,dispatch},data)=>{
+            const params = {
+                id: state.OOIdx,
+                ...data,
+            }
+            const res = await updateTmpUserInfoAPI(params)
+            if(res){
+                message.success('修改成功')
+                dispatch('getTmpUserInfo')
+                dispatch('getOperatorList')
+                console.log("0530,in updateTmpUserInfo,admin.js",this.operatorList)
+            }
+        }
     }
 }
 export default admin

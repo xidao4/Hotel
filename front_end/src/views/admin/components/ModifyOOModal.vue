@@ -5,7 +5,7 @@
           cancelText="取消"
           okText="确定"
           @cancel="cancel"
-          @ok="handleSubmit"
+          @ok="saveModify"
   >
 
     <a-Form :form="form">
@@ -54,7 +54,8 @@
             ...mapGetters([
                 'modifyOOModalVisible',
                 'OOIdx',
-                'tmpUserInfo'
+                'tmpUserInfo',
+                'operatorList'
             ])
         },
         watch:{
@@ -71,12 +72,24 @@
         methods:{
             ...mapMutations([
                 'set_modifyOOModalVisible',
-                'set_OOIdx'
+                'set_OOIdx',
+                'set_OperatorList'
             ]),
             ...mapActions([
                 'getTmpUserInfo',
+                'updateTmpUserInfo',
+                'getOperatorList'
             ]),
-            handleSubmit(){
+            saveModify() {
+                this.form.validateFields((err, values) => {
+                    if (!err) {
+                        const data = {
+                            userName: this.form.getFieldValue('userName'),
+                            password: this.form.getFieldValue('password')
+                        }
+                        this.updateTmpUserInfo(data)
+                    }
+                });
 
             },
             cancel() {

@@ -38,6 +38,9 @@
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="网站运营人员" key="3">
+              <div >
+                <a-button @click="btnClick">test</a-button>
+              </div>
               <div style="width: 100%; text-align: right; margin:20px 0">
                 <a-button type="primary" @click="addOperator"><a-icon type="plus" />添加网站运营人员</a-button>
               </div>
@@ -64,21 +67,55 @@ const colHotel=[
     {
         title:'酒店编号',
         dataIndex:'id',
-    },{
-        title:'酒店名称',
+    },
+    {
+        title:'名称',
         dataIndex:'name',
     },
+    // {
+    //     title:'地址',
+    //     dataIndex:'address',
+    // },
+    // {
+    //     title:'商圈',
+    //     dataIndex:'bizRegion'
+    // },
+    // {
+    //     title:'星级',
+    //     dataIndex:'hotelStar'
+    // },
+    // {
+    //     title:'电话号码',
+    //     dataIndex:'phoneNum'
+    // },
+    // {
+    //     title:'评分',
+    //     dataIndex:'rate'
+    // },
+    // {
+    //     title:'描述',
+    //     dataIndex:'hotelDescription'
+    // },
     {
         title:'酒店工作人员账号编号',
         dataIndex:'managerId',
     },
     {
-        title:'酒店工作人员账号',
+        title:'工作人员账号',
         dataIndex:'email',
-    },{
+    },
+    // {
+    //     title:'工作人员用户名',
+    //     dataIndex:'userName',
+    // },
+    // {
+    //     title:'工作人员密码',
+    //     dataIndex:'password'
+    // },
+    {
         title: '操作',
         key: 'action',
-        scopedSlots: { customRender: 'action' },
+        scopedSlots: { customRender: 'action' }
     }
 ]
 const columns = [
@@ -153,6 +190,9 @@ export default {
             'OOIdx'
         ]),
     },
+    watch:{
+
+    },
     mounted() {
         console.log("before mounting manageUser.vue"),
         this.getManagerList(),
@@ -190,7 +230,9 @@ export default {
             console.log("after getTmpUserInfo")
             //this.set_modifyOOModalVisible(true)
         },
-
+        btnClick(){
+            console.log("0530 click the test button",this.operatorList)
+        }
     }
 }
 </script>

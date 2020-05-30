@@ -5,6 +5,7 @@ import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.blImpl.admin.AdminServiceImpl;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +42,10 @@ public class AdminController {
     @PostMapping("/{id}/deleteUser")
     public ResponseVO deleteUser(@PathVariable int id ){
         return accountService.deleteUser(id);
+    }
+
+    @PostMapping("/{id}/tmpUserInfo/update")
+    public ResponseVO updateTmpUserInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
+        return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
 }
