@@ -23,6 +23,11 @@
         where userType ='Operator'
         and (userName like CONCAT('%',#{keyword},'%') or email like CONCAT('%',#{keyword},'%'))
     </select>
+    <select id="searchClient" parameterType="java.lang.String" resultMap="User">
+        select * from User
+        where userType ='Client'
+        and (userName like CONCAT('%',#{keyword},'%') or email like CONCAT('%',#{keyword},'%'))
+    </select>
 
     <resultMap id="User" type="com.example.hotel.po.User">
         <id column="id" property="id"></id>

@@ -60,5 +60,9 @@ public class AdminController {
         return ResponseVO.buildSuccess(adminService.searchOO(keyword));
     }
 
+    @GetMapping("/searchClient/{keyword}")
+    public ResponseVO searchClientByKeyword(@PathVariable("keyword") String keyword){
+        return ResponseVO.buildSuccess(adminService.searchClient(keyword));
+    }
 
 }

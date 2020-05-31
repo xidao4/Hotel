@@ -45,4 +45,6 @@ public interface AccountMapper {
      * @return
      */
      List<User> searchOO(@Param("keyword") String keyword);
+
+    List<User> searchClient(@Param("keyword") String keyword);
 }

@@ -38,4 +38,5 @@ public interface AdminService {
     List<User> getAllOperators();
 
     List<User> searchOO(String keyword);
+    List<User> searchClient(String keyword);
 }

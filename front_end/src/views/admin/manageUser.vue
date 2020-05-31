@@ -8,37 +8,40 @@
                 <div style="width: 100%; text-align: right; margin:20px 0">
                     <a-button type="primary" @click="addManager"><a-icon type="plus" />添加酒店工作人员</a-button>
                 </div>
+<!--              以下为有用代码-->
+              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchClient" />
+              <a-button @click="showAllClient">显示全部</a-button>
+              <div style="width: 100%; text-align: right; margin:20px 0">
+                <a-button type="primary" @click="myAdd"><a-icon type="plus" />添加</a-button>
+              </div>
                 <a-table
                     :columns="colHotel"
-                    :dataSource="hotelAndManagerList"
+                    :dataSource="displayHMList"
                     bordered
                 >
-                    <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
-                    </span>
                     <span slot="action" slot-scope="text, record">
-                        <a-button>更改酒店及其工作人员信息</a-button>
-                        <a-button type="danger" @click="order(record)">删除酒店及其工作人员</a-button>
+                        <a-button>更改</a-button>
+                        <a-button type="danger" @click="order(record)">删除</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="用户" key="2">
+              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchClient" />
+              <a-button @click="showAllClient">显示全部</a-button>
                 <a-table
                   :columns="columns"
-                  :dataSource="clientList"
+                  :dataSource="displayClientList"
                   bordered
                  >
-                  <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
-                    </span>
                   <span slot="action" slot-scope="text, record">
-                        <a-button>更改信息</a-button>
+                        <a-button @click="modifyClient(record.id)">更改信息</a-button>
                         <a-button type="danger" @click="order(record.id)">删除用户</a-button>
                   </span>
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="网站运营人员" key="3">
               <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchOO" />
+              <a-button @click="showAll">显示全部</a-button>
               <div style="width: 100%; text-align: right; margin:20px 0">
                 <a-button type="primary" @click="addOperator"><a-icon type="plus" />添加网站运营人员</a-button>
               </div>
@@ -55,12 +58,15 @@
         </a-tabs>
         <AddOperatorModal></AddOperatorModal>
         <ModifyOOModal></ModifyOOModal>
+        <ModifyClientModal></ModifyClientModal>
+        <ModifyHMModal></ModifyHMModal>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddOperatorModal from './components/addOperatorModal'
 import ModifyOOModal from "./components/ModifyOOModal";
+import ModifyClientModal from "./components/ModifyClientModal"
 const colHotel=[
     {
         title:'酒店编号',
@@ -133,9 +139,6 @@ const columns = [
         title: '用户手机号',
         dataIndex: 'phoneNumber',
     }, {
-        title: '信用值',
-        dataIndex: 'credit',
-    }, {
       title: '操作',
       key: 'action',
       scopedSlots: { customRender: 'action' },
@@ -174,6 +177,7 @@ export default {
         }
     },
     components: {
+        ModifyClientModal,
         ModifyOOModal,
         AddOperatorModal
     },
@@ -181,21 +185,25 @@ export default {
         ...mapGetters([
             'addOperatorModalVisible',
             'modifyOOModalVisible',
-            'hotelAndManagerList',
             'managerList',
             'clientList',
             'hotelList',
             'operatorList',
             'displayOperatorList',
-            'OOIdx'
+            'OOIdx',
+            'isSearching',
+            'displayClientList',
+            'tmpClientId',
+            'tmpClientInfo',
+            'modifyClientModalVisible',
+            'displayHMList',
+            'HMList'
         ]),
     },
-    watch:{
-
-    },
+    watch:{},
     mounted() {
         console.log("before mounting manageUser.vue"),
-        this.getHotelAndManagerList(),
+        this.getHMList(),
         this.getClientList(),
         this.getOperatorList()
         //myInit()
@@ -210,6 +218,9 @@ export default {
             'getHotelList',
             'deleteUser',
             'getTmpUserInfo',
+            'getTmpClientInfo',
+            'searchClient',
+            'getHMList',
         ]),
         ...mapMutations([
             'set_addOperatorModalVisible',
@@ -217,7 +228,13 @@ export default {
             'set_OOIdx',
             'set_modifyOOModalVisible',
             'set_displayOperatorList',
-            'set_hotelAndManagerList'
+            'set_hotelAndManagerList',
+            'set_displayClientList',
+            'set_tmpClientId',
+            'set_tmpClientInfo',
+            'set_modifyClientModalVisible',
+            'set_HMList',
+            'set_displayHMList'
         ]),
         addOperator(){
             this.set_addOperatorModalVisible(true)
@@ -234,6 +251,26 @@ export default {
         },
         onSearchOO(value){
             this.searchOO(value);
+        },
+        showAll(){
+            this.isSearching=false
+            this.getOperatorList()
+        },
+        async modifyClient(userId){
+            this.set_tmpClientId(userId)
+            console.log('tmpClientId',this.tmpClientId)
+            await this.getTmpClientInfo()
+            console.log('after await getTmpClientInfo')
+            this.set_modifyClientModalVisible(true)
+            console.log(this.modifyClientModalVisible)
+        },
+        onSearchClient(value){
+            this.searchClient(value)
+        },
+        showAllClient(){
+            console.log('before showAllClient')
+            this.getClientList()
+            console.log('after showAllClient')
         }
     }
 }

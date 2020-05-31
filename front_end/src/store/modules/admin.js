@@ -6,7 +6,8 @@ import {
     addOperatorAPI,
     deleteUserAPI,
     updateTmpUserInfoAPI,
-    searchOOAPI
+    searchOOAPI,
+    searchClientAPI
 } from '@/api/admin'
 import{
     getUserInfoAPI
@@ -18,12 +19,6 @@ import { message } from 'ant-design-vue'
 
 const admin = {
     state: {
-        hotelAndManagerList:{
-            hotelId:'',
-            name:'',
-            managerId:'',
-            email:'',
-        },
         operatorList:[],
         displayOperatorList:[],
         hotelList:[],
@@ -37,7 +32,20 @@ const admin = {
             password:''
         },
         modifyOOModalVisible:false,
-        OOIdx:''
+        OOIdx:'',
+        isSearching:false,
+        displayClientList:'',
+        tmpClientId:'',
+        tmpClientInfo:[],
+        modifyClientModalVisible:false,
+        // hotelAndManagerList:{
+        //     hotelId:'',
+        //     name:'',
+        //     managerId:'',
+        //     email:'',
+        // },
+        HMList:[],
+        displayHMList:[]
     },
     mutations: {
         set_hotelAndManagerList:function(state,data){
@@ -78,6 +86,30 @@ const admin = {
                 ...state.tmpUserInfo,
                 ...data
             }
+        },
+        set_isSearching: function (state,data) {
+            state.isSearching=data
+        },
+        set_displayClientList:function(state,data){
+            state.displayClientList=data
+        },
+        set_tmpClientId:function(state,data){
+            state.tmpClientId =data
+        },
+        set_tmpClientInfo: function(state,data){
+            state.tmpClientInfo={
+                ...state.tmpClientInfo,
+                ...data
+            }
+        },
+        set_modifyClientModalVisible:function (state,data) {
+            state.modifyClientModalVisible=data
+        },
+        set_HMList:function (state,data) {
+            state.HMList=data
+        },
+        set_displayHMList:function (state,data) {
+            state.displayHMList=data
         }
     },
     actions: {
@@ -94,6 +126,7 @@ const admin = {
             if(res){
                 commit('set_displayOperatorList',res)
             }
+            commit('set_isSearching',true)
         },
         getOperatorList:async({commit})=>{
             const res=await getOperatorListAPI()
@@ -112,6 +145,7 @@ const admin = {
             const res=await getClientListAPI()
             if(res){
                 commit('set_clientList',res)
+                commit('set_displayClientList',res)
             }
         },
         getManagerList: async({ commit }) => {
@@ -152,7 +186,7 @@ const admin = {
             }
             commit('set_modifyOOModalVisible',true)
         },
-        updateTmpUserInfo:async({state,dispatch},data)=>{
+        updateTmpUserInfo:async({state,commit,dispatch},data)=>{
             const params = {
                 id: state.OOIdx,
                 ...data,
@@ -163,8 +197,40 @@ const admin = {
                 dispatch('getTmpUserInfo')
                 dispatch('getOperatorList')
                 console.log("0530,in updateTmpUserInfo,admin.js",this.operatorList)
+                commit('set_modifyOOModalVisible',false)
             }
-        }
+        },
+        getTmpClientInfo:async({state,commit})=>{
+            const res=await getUserInfoAPI(state.tmpClientId)
+            if(res){
+                commit('set_tmpClientInfo',res)
+            }
+        },
+        updateTmpClientInfo:async({state,commit,dispatch},data)=>{
+            const params = {
+                id: state.tmpClientId,
+                ...data,
+            }
+            const res = await updateTmpUserInfoAPI(params)
+            if(res){
+                dispatch('getTmpClientInfo')
+                dispatch('getClientList')
+            }
+        },
+        searchClient:async({commit},data)=>{
+            const res=await searchClientAPI(data)
+            if(res){
+                commit('set_displayClientList',res)
+            }
+            commit('set_isSearching',true)
+        },
+        getHMList:async({commit})=>{
+            const res=await getHotelAndManagerListAPI()
+            if(res) {
+                commit('set_HMList', res)
+                commit('set_displayHMList',res)
+            }
+        },
     }
 }
 export default admin

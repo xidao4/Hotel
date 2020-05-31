@@ -59,4 +59,10 @@ export function searchOOAPI(data){
         method:'POST',
     })
 }
+export function searchClientAPI(data){
+    return axios({
+        url: `${api.adminPre}/searchClient/${data}`,
+        method:'GET',
+    })
+}
 

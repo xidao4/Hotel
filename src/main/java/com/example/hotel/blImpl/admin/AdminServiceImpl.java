@@ -92,6 +92,8 @@ public class AdminServiceImpl implements AdminService {
     public List<User> searchOO(String keyword) {
         return accountMapper.searchOO(keyword);
     }
-
-
+    @Override
+    public List<User> searchClient(String keyword) {
+        return accountMapper.searchClient(keyword);
+    }
 }

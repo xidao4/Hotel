@@ -22,6 +22,11 @@ const getters = {
   modifyOOModalVisible:state=>state.admin.modifyOOModalVisible,
   OOIdx:state=>state.admin.OOIdx,
   tmpUserInfo:state=>state.admin.tmpUserInfo,
+  isSearching:state=>state.admin.isSearching,
+  displayClientList:state=>state.admin.displayClientList,
+  tmpClientId:state=>state.admin.tmpClientId,
+  tmpClientInfo:state=>state.admin.tmpClientInfo,
+  modifyClientModalVisible:state=>state.admin.modifyClientModalVisible,
   //hotelManager
   orderList: state => state.hotelManager.orderList,
   addHotelModalVisible: state => state.hotelManager.addHotelModalVisible,
