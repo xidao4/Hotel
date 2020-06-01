@@ -13,8 +13,13 @@
     <select id="selectById" resultMap="Hotel">
         select * from Hotel where id=#{id}
     </select>
-
-
+    <update id="setManagerId">
+        update Hotel set manager_id=#{managerId}
+        where id=#{id}
+    </update>
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from Hotel where id=#{id}
+    </delete>
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"></id>
         <result column="address" property="address"></result>

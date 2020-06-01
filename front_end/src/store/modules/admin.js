@@ -1,5 +1,4 @@
 import {
-    getHotelAndManagerListAPI,
     getOperatorListAPI,
     getClientListAPI,
     getManagerListAPI,
@@ -7,13 +6,15 @@ import {
     deleteUserAPI,
     updateTmpUserInfoAPI,
     searchOOAPI,
-    searchClientAPI
+    searchClientAPI,
+    addManagerAPI
 } from '@/api/admin'
 import{
     getUserInfoAPI
 } from '@/api/user'
 import{
-    getHotelsAPI
+    getHotelsAPI,
+    addHotelAPI
 }from '@/api/hotel'
 import { message } from 'ant-design-vue'
 
@@ -38,19 +39,15 @@ const admin = {
         tmpClientId:'',
         tmpClientInfo:[],
         modifyClientModalVisible:false,
-        // hotelAndManagerList:{
-        //     hotelId:'',
-        //     name:'',
-        //     managerId:'',
-        //     email:'',
-        // },
         HMList:[],
-        displayHMList:[]
+        displayHMList:[],
+        addHMModalVisible:false,
+        modifyHMModalVisible:false,
+        addHotelModalVisible:false,
+        addMModalVisible:false,
+        tmpHotelId:'',
     },
     mutations: {
-        set_hotelAndManagerList:function(state,data){
-            state.hotelAndManagerList=data
-        },
         set_operatorList:function(state,data){
             state.operatorList=data
         },
@@ -110,17 +107,24 @@ const admin = {
         },
         set_displayHMList:function (state,data) {
             state.displayHMList=data
-        }
+        },
+        set_addHMModalVisible:function (state,data){
+            state.addHMModalVisible=data
+        },
+        set_modifyHMModalVisible:function (state,data) {
+            state.modifyHMModal=data
+        },
+        set_addHotelModalVisible:function (state,data) {
+            state.addHotelModalVisible=data
+        },
+        set_addMModalVisible:function (state,data) {
+            state.addMModalVisible=data
+        },
+        set_tmpHotelId:function (state,data) {
+            state.tmpHotelId=data
+        },
     },
     actions: {
-        getHotelAndManagerList:async({commit})=>{
-            const res=await getHotelAndManagerListAPI()
-            if(res) {
-                commit('set_hotelAndManagerList', res)
-                console.log("16:28",this.hotelAndManagerList)
-                //commit('set_displayOperatorList', res)
-            }
-        },
         searchOO:async({commit},data)=>{
             const res=await searchOOAPI(data)
             if(res){
@@ -133,12 +137,6 @@ const admin = {
             if(res) {
                 commit('set_operatorList', res)
                 commit('set_displayOperatorList', res)
-            }
-        },
-        getHotelList: async({commit})=>{
-            const res=await getHotelsAPI()
-            if(res){
-                commit('set_hotelList',res)
             }
         },
         getClientList: async({commit}) => {
@@ -224,11 +222,25 @@ const admin = {
             }
             commit('set_isSearching',true)
         },
-        getHMList:async({commit})=>{
-            const res=await getHotelAndManagerListAPI()
+        addHotel:async({commit,dispatch},data)=>{
+            const res = await addHotelAPI(data)
             if(res) {
-                commit('set_HMList', res)
-                commit('set_displayHMList',res)
+                commit('set_addHotelModalVisible', false)
+                message.success('添加成功')
+                dispatch('getHotelList')
+            }else{
+                message.error('添加失败')
+            }
+        },
+        addManager:async({commit,dispatch},data)=>{
+            const res = await addManagerAPI(data)
+            if(res) {
+                commit('set_addMModalVisible', false)
+                message.success('添加成功')
+                dispatch('getMList')
+                dispatch('getHotelList')
+            }else{
+                message.error('添加失败')
             }
         },
     }

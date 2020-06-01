@@ -1,9 +1,7 @@
 package com.example.hotel.data.admin;
 
 import com.example.hotel.po.User;
-import com.example.hotel.vo.HotelAndManagerVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,8 +15,7 @@ import java.util.List;
 public interface AdminMapper {
 
     int addOperator(User user);
-
-    List<HotelAndManagerVO> getHM();
+    int addManager(User user);
     List<User> getAllManagers();
     List<User> getAllClients();
     List<User> getAllOperators();

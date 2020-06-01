@@ -2,12 +2,7 @@ import { axios } from '@/utils/request'
 const api = {
     adminPre: '/api/admin'
 }
-export function getHotelAndManagerListAPI(){
-    return axios({
-        url: `${api.adminPre}/getHotelAndManager`,
-        method: 'POST'
-    })
-}
+
 export function getClientListAPI(){
     return axios({
         url: `${api.adminPre}/getAllClients`,
@@ -29,13 +24,6 @@ export function getOperatorListAPI(){
 export function addOperatorAPI(data) {
     return axios({
         url: `${api.adminPre}/addOperator`,
-        method: 'POST',
-        data
-    })
-}
-export function addHotelAPI(data) {
-    return axios({
-        url: `${api.adminPre}/addHotel`,
         method: 'POST',
         data
     })
@@ -63,6 +51,19 @@ export function searchClientAPI(data){
     return axios({
         url: `${api.adminPre}/searchClient/${data}`,
         method:'GET',
+    })
+}
+export function addManagerAPI(data){
+    return axios({
+        url: `${api.adminPre}/addManager`,
+        method: 'POST',
+        data
+    })
+}
+export function deleteHMAPI(hotelId){
+    return axios({
+        url: `${api.adminPre}/${hotelId}/deleteHM`,
+        method: 'POST',
     })
 }
 

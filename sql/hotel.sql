@@ -168,7 +168,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (0,'websiteAdmin@qq.com','12345678','网站管理员',NULL,NULL,'Manager'),(1,'hanTing@qq.com','12345678','汉庭酒店',NULL,NULL,'HotelManager'),(2,'rujia@qq.com','12345678','儒家酒店',NULL,NULL,'HotelManager'),(3,'guiyuan@qq.com','12345678','桂圆酒店',NULL,NULL,'HotelManager'),(4,'1012681@qq.com','123456','测试一号','12345678919',100,'Client'),(5,'123@qq.com','123456','测试二号','12345678911',100,'Client'),(6,'operator1@qq.com','12345678','网站运营人员一',NULL,NULL,'Operator');
+INSERT INTO `User` VALUES (0,'websiteAdmin@qq.com','12345678','网站管理员',NULL,NULL,'Manager'),(1,'hanTing@qq.com','12345678','汉庭酒店',NULL,NULL,'HotelManager'),(2,'rujia@qq.com','12345678','儒家酒店',NULL,NULL,'HotelManager'),(3,'guiyuan@qq.com','12345678','桂圆酒店',NULL,NULL,'HotelManager'),(4,'432@qq.com','123456','测试一号','12345678919',100,'Client'),(5,'543@qq.com','123456','测试二号','12345678911',100,'Client'),(6,'operator1@qq.com','12345678','网站运营人员一',NULL,NULL,'Operator'),(7,'765@qq.com','123456','测试三号','12345678911',100,'Client');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

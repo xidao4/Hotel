@@ -54,7 +54,7 @@
                     </span>
                 </a-table>
             </a-tab-pane>
-            
+
         </a-tabs>
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
@@ -68,7 +68,7 @@ import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
 const moment = require('moment')
 const columns1 = [
-    {  
+    {
         title: '酒店名',
         dataIndex: 'name',
     },
@@ -99,11 +99,11 @@ const columns1 = [
     },
   ];
 const columns2 = [
-    {  
+    {
         title: '订单号',
         dataIndex: 'id',
     },
-    {  
+    {
         title: '酒店名',
         dataIndex: 'hotelName',
     },
@@ -178,9 +178,6 @@ export default {
             'getAllOrders',
             'getHotelCoupon'
         ]),
-        addHotel() {
-            this.set_addHotelModalVisible(true)
-        },
         addRoom(record) {
             this.set_activeHotelId(record.id)
             this.set_addRoomModalVisible(true)
@@ -218,5 +215,5 @@ export default {
     }
 </style>
 <style lang="less">
-    
+
 </style>

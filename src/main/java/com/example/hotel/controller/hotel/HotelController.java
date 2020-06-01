@@ -21,7 +21,6 @@ public class HotelController {
 
     @PostMapping("/addHotel")
     public ResponseVO createHotel(@RequestBody HotelVO hotelVO) throws ServiceException {
-
         hotelService.addHotel(hotelVO);
         return ResponseVO.buildSuccess(true);
     }
@@ -42,4 +41,8 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
     }
 
+    @PostMapping("/{hotelId}/getManagerId")
+    public ResponseVO getManagerId(@PathVariable Integer hotelId){
+        return hotelService.getManagerId(hotelId);
+    }
 }

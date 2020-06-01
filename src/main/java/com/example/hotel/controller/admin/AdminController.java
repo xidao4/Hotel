@@ -2,7 +2,7 @@ package com.example.hotel.controller.admin;
 
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.bl.user.AccountService;
-import com.example.hotel.blImpl.admin.AdminServiceImpl;
+import com.example.hotel.vo.HotelManagerVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.UserInfoVO;
@@ -24,11 +24,6 @@ public class AdminController {
     @PostMapping("/addOperator")
     public ResponseVO addOperator(@RequestBody UserForm userForm){
         return adminService.addOperator(userForm);
-    }
-
-    @PostMapping("/getHotelAndManager")
-    public ResponseVO getHM(){
-        return ResponseVO.buildSuccess(adminService.getHM());
     }
 
     @PostMapping("/getAllManagers")
@@ -65,4 +60,13 @@ public class AdminController {
         return ResponseVO.buildSuccess(adminService.searchClient(keyword));
     }
 
+    @PostMapping("/addManager")
+    public ResponseVO addManager(@RequestBody HotelManagerVO hotelManagerVO){
+        return adminService.addManager(hotelManagerVO);
+    }
+
+    @PostMapping("/{hotelId}/deleteHM")
+    public ResponseVO deleteHM(@PathVariable Integer hotelId){
+        return adminService.deleteHM(hotelId);
+    }
 }

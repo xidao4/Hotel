@@ -2,13 +2,11 @@ package com.example.hotel.controller.user;
 
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.po.User;
-import com.example.hotel.vo.UserForm;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserInfoVO;
-import com.example.hotel.vo.UserVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 
 
 @RestController()
@@ -35,7 +33,6 @@ public class AccountController {
         return accountService.registerAccount(userVO);
     }
 
-
     @GetMapping("/{id}/getUserInfo")
     public ResponseVO getUserInfo(@PathVariable int id) {
         User user = accountService.getUserInfo(id);
@@ -49,6 +46,25 @@ public class AccountController {
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
+
+//    @PostMapping("/registerMem")
+//    public ResponseVO registerMem(@RequestParam int userId, @RequestParam Date birthday){
+//        return accountService.registerMem(userId,birthday);
+//    }
+//
+//    @PostMapping("/upgradeMem")
+//    public ResponseVO upgradeMem(@RequestParam int userId){
+//        return accountService.upgradeMem(userId);
+//    }
+//
+//    @GetMapping("/getMemInfo")
+//    public ResponseVO getMemInfo(@RequestParam int userId){
+//        MemInfoVO memInfoVO=accountService.getMemInfo(userId);
+//        if(memInfoVO==null){
+//            return ResponseVO.buildFailure("不是会员！");
+//        }
+//        return ResponseVO.buildSuccess(memInfoVO);
+//    }
 
 
 }

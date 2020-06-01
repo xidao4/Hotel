@@ -14,3 +14,16 @@ export function getHotelByIdAPI(param) {
         method: 'GET',
     })
 }
+export function addHotelAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/addHotel`,
+        method: 'POST',
+        data
+    })
+}
+export function getManagerIdByHotelIdAPI(hotelId) {
+    return axios({
+        url:`${api.hotelPre}/${hotelId}/getManagerId`,
+        method:'POST',
+    })
+}

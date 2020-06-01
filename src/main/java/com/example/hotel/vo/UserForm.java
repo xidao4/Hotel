@@ -14,6 +14,9 @@ public class UserForm {
      */
     private String password;
 
+    private String userName;
+
+
     public String getUserName() {
         return userName;
     }
@@ -22,7 +25,6 @@ public class UserForm {
         this.userName = userName;
     }
 
-    private String userName;
 
     public String getEmail() {
         return email;
