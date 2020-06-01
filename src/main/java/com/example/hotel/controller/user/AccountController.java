@@ -47,24 +47,25 @@ public class AccountController {
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
 
-//    @PostMapping("/registerMem")
-//    public ResponseVO registerMem(@RequestParam int userId, @RequestParam Date birthday){
-//        return accountService.registerMem(userId,birthday);
-//    }
-//
-//    @PostMapping("/upgradeMem")
-//    public ResponseVO upgradeMem(@RequestParam int userId){
-//        return accountService.upgradeMem(userId);
-//    }
-//
-//    @GetMapping("/getMemInfo")
-//    public ResponseVO getMemInfo(@RequestParam int userId){
-//        MemInfoVO memInfoVO=accountService.getMemInfo(userId);
-//        if(memInfoVO==null){
-//            return ResponseVO.buildFailure("不是会员！");
-//        }
-//        return ResponseVO.buildSuccess(memInfoVO);
-//    }
+    @PostMapping("/registerMem")
+    public ResponseVO registerMem(@RequestBody MemRegisterVO memRegisterVO){
+        return accountService.registerMem(memRegisterVO);
+    }
+
+    @PostMapping("/{userId}/upgradeMem")
+    public ResponseVO upgradeMem(@PathVariable int userId){
+        return accountService.upgradeMem(userId);
+    }
+
+    @GetMapping("/{userId}/getMemInfo")
+    public ResponseVO getMemInfo(@PathVariable int userId){
+        System.out.println("into the method back end");
+        MemInfoVO memInfoVO=accountService.getMemInfo(userId);
+        if(memInfoVO==null){
+            return ResponseVO.buildSuccess(false);
+        }
+        return ResponseVO.buildSuccess(memInfoVO);
+    }
 
 
 }

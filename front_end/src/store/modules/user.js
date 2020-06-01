@@ -8,13 +8,13 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
+    getMemInfoAPI,
+    registerMemAPI,
 } from '@/api/user'
-
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
 } from '@/api/order'
-
 const getDefaultState = () => {
     return {
         userId: '',
@@ -23,7 +23,10 @@ const getDefaultState = () => {
         },
         userOrderList: [
 
-        ]
+        ],
+        membership:'',
+        memInfo:[],
+        registerModalVisible:false,
     }
 }
 
@@ -37,7 +40,9 @@ const user = {
             state.userInfo = {
 
             },
-            state.userOrderList = []
+            state.userOrderList = [],
+            state.membership='',
+            state.memInfo=[]
         },
         set_token: function(state, token){
             state.token = token
@@ -56,6 +61,15 @@ const user = {
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
+        },
+        set_membership:(state,data)=>{
+            state.membership=data
+        },
+        set_memInfo:(state,data)=>{
+            state.memInfo=data
+        },
+        set_registerModalVisible:(state,data)=>{
+            state.registerModalVisible=data
         }
     },
 
@@ -138,6 +152,24 @@ const user = {
                 resolve()
             })
         },
+        getMemInfo:async ({state,commit})=>{
+            const res=await getMemInfoAPI(state.userId)
+            if(!res){
+                commit('set_membership',0)
+            }else{
+                if(res.membership===1)
+                    commit('set_membership',1)
+                else
+                    commit('set_membership',2)
+                commit('set_memInfo',res)
+            }
+        },
+        registerMem:async ({commit},data)=>{
+            const res = await registerMemAPI(data)
+            if(res){
+                message.success('注册成功')
+            }
+        }
     }
 }
 

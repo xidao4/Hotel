@@ -3,7 +3,6 @@
         <a-tabs>
             <a-tab-pane tab="我的信息" key="1">
                 <a-form :form="form" style="margin-top: 30px">
-                    
                     <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                         <a-input
                             placeholder="请填写用户名"
@@ -15,7 +14,6 @@
                     <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <span>{{ userInfo.email }}</span>
                     </a-form-item>
-                    
                     <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <a-input
                             placeholder="请填写手机号"
@@ -78,21 +76,34 @@
                         >
                             <a-button type="danger" size="small">撤销</a-button>
                         </a-popconfirm>
-                        
+
                     </span>
                 </a-table>
             </a-tab-pane>
+            <a-tab-pane tab="会员信息" key="3">
+                <div>
+                    <a-button v-if="this.membership===0" @click="registerBtn">注册成为银会员</a-button>
+                    <a-button v-if="this.membership===1">升级成为金会员</a-button>
+                    <div v-if="this.membership!==0">
+                        <div>会员状态：{{this.memInfo.membership}}</div>
+                        <div>会员积分：{{this.memInfo.memberPoints}}</div>
+                        <div>生日：{{this.memInfo.birthday}}</div>
+                    </div>
+                </div>
+            </a-tab-pane>
+            <RegisterModal></RegisterModal>
         </a-tabs>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import RegisterModal from "./registerModal"
 const columns = [
-    {  
+    {
         title: '订单号',
         dataIndex: 'id',
     },
-    {  
+    {
         title: '酒店名',
         dataIndex: 'hotelName',
     },
@@ -131,7 +142,6 @@ const columns = [
       key: 'action',
       scopedSlots: { customRender: 'action' },
     },
-    
   ];
 export default {
     name: 'info',
@@ -146,24 +156,34 @@ export default {
         }
     },
     components: {
+        RegisterModal
     },
     computed: {
         ...mapGetters([
             'userId',
             'userInfo',
-            'userOrderList'
+            'userOrderList',
+            'membership',
+            'memInfo',
+            'registerModalVisible',
         ])
     },
     async mounted() {
         await this.getUserInfo()
         await this.getUserOrders()
+        console.log('before getMemInfo()')
+        await this.getMemInfo()
     },
     methods: {
         ...mapActions([
             'getUserInfo',
             'getUserOrders',
             'updateUserInfo',
-            'cancelOrder'
+            'cancelOrder',
+            'getMemInfo',
+        ]),
+        ...mapMutations([
+            'set_registerModalVisible'
         ]),
         saveModify() {
             this.form.validateFields((err, values) => {
@@ -196,8 +216,13 @@ export default {
         },
         cancelCancelOrder() {
 
+        },
+        registerBtn(){
+            this.set_registerModalVisible(true)
+            console.log(this.registerModalVisible)
+            console.log(this.memInfo.membership)
+            console.log(this.memInfo.memberPoints)
         }
-        
     }
 }
 </script>
@@ -220,5 +245,5 @@ export default {
     }
 </style>
 <style lang="less">
-    
+
 </style>

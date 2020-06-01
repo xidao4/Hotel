@@ -16,6 +16,24 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+--
+-- Table structure for table `Member`
+--
+
+DROP TABLE IF EXISTS `Member`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Member` (
+  `userId` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户编号',
+  `membership` int(1) NOT NULL DEFAULT 0 COMMENT '0非会员 1银会员 2金会员',
+  `memberPoints` int(11) NOT NULL DEFAULT 0 COMMENT '会员积分',
+  `birthday` datetime DEFAULT NULL COMMENT '会员生日',
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
 --
 -- Table structure for table `Coupon`
 --
@@ -139,7 +157,7 @@ CREATE TABLE `Room` (
 
 BEGIN;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(5,122,7,0,1,'BigBed'),(6,399,10,10,2,'Family');
+INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(6,399,10,10,2,'Family');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 COMMIT;
 
@@ -168,7 +186,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (0,'websiteAdmin@qq.com','12345678','网站管理员',NULL,NULL,'Manager'),(1,'hanTing@qq.com','12345678','汉庭酒店',NULL,NULL,'HotelManager'),(2,'rujia@qq.com','12345678','儒家酒店',NULL,NULL,'HotelManager'),(3,'guiyuan@qq.com','12345678','桂圆酒店',NULL,NULL,'HotelManager'),(4,'432@qq.com','123456','测试一号','12345678919',100,'Client'),(5,'543@qq.com','123456','测试二号','12345678911',100,'Client'),(6,'operator1@qq.com','12345678','网站运营人员一',NULL,NULL,'Operator'),(7,'765@qq.com','123456','测试三号','12345678911',100,'Client');
+INSERT INTO `User` VALUES (0,'websiteAdmin@qq.com','12345678','网站管理员',NULL,NULL,'Manager'),(1,'hanTing@qq.com','12345678','汉庭酒店',NULL,NULL,'HotelManager'),(2,'rujia@qq.com','12345678','儒家酒店',NULL,NULL,'HotelManager'),(3,'guiyuan@qq.com','12345678','桂圆酒店',NULL,NULL,'HotelManager'),(4,'432@qq.com','123456','测试一号','12345678919',100,'Client'),(5,'543@qq.com','123456','测试二号','12345678911',100,'Client'),(6,'operator1@qq.com','12345678','网站运营人员一',NULL,NULL,'Operator'),(7,'765@qq.com','123456','测试三号','12345678911',100,'Client'),(8,'operator2@qq.com','12345678','网站运营人员二',NULL,NULL,'Operator');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

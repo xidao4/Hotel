@@ -42,4 +42,7 @@ public interface AccountService {
 
     ResponseVO deleteUser(int id);
 
+    ResponseVO registerMem(MemRegisterVO memRegisterVO);
+    ResponseVO upgradeMem(int userId);
+    MemInfoVO getMemInfo(int userId);
 }

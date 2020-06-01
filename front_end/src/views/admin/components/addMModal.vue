@@ -68,7 +68,7 @@
                 'set_addMModalVisible'
             ]),
             ...mapActions([
-                'addManager'
+                'addManager',
             ]),
             cancel() {
                 this.set_addMModalVisible(false)

@@ -30,4 +30,17 @@ export function updateUserInfoAPI(data) {
         data
     })
 }
+export function getMemInfoAPI(userId) {
+    return axios({
+        url:`${api.userPre}/${userId}/getMemInfo`,
+        method :'GET'
+    })
 
+}
+export function registerMemAPI(data){
+    return axios({
+        url: `${api.userPre}/registerMem`,
+        method: 'POST',
+        data
+    })
+}
