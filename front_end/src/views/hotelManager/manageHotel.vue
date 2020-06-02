@@ -1,5 +1,6 @@
 <template>
     <div class="manageHotel-wrapper">
+
         <a-tabs>
             <a-tab-pane tab="酒店管理" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
@@ -32,9 +33,6 @@
                     :dataSource="orderList"
                     bordered
                 >
-                    <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
-                    </span>
                     <span slot="roomType" slot-scope="text">
                         <span v-if="text == 'BigBed'">大床房</span>
                         <span v-if="text == 'DoubleBed'">双床房</span>
@@ -54,7 +52,42 @@
                     </span>
                 </a-table>
             </a-tab-pane>
-
+            <a-tab-pane tab="基本信息维护" key="3">
+                <a-form :form="form" style="margin-top: 30px">
+                    <a-form-item label="名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                    <span>{{ currentHotelInfo.name }}</span>
+                    </a-form-item>
+                    <a-form-item label="地址" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <a-input
+                                placeholder="请填写地址"
+                                v-decorator="['address', { rules: [{ required: true, message: '请输入地址' }] }]"
+                                v-if="modify"
+                        />
+                        <span v-else>{{ currentHotelInfo.address }}</span>
+                    </a-form-item>
+                    <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                        <a-input
+                                placeholder="请填写手机号"
+                                v-decorator="['phoneNum', { rules: [{ required: true, message: '请输入手机号' }] }]"
+                                v-if="modify"
+                        />
+                        <span v-else>{{ currentHotelInfo.phoneNum}}</span>
+                    </a-form-item>
+                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
+                        <a-button type="primary" @click="saveModify">
+                            保存
+                        </a-button>
+                        <a-button type="default" style="margin-left: 30px" @click="cancelModify">
+                            取消
+                        </a-button>
+                    </a-form-item>
+                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
+                        <a-button type="primary" @click="modifyInfo">
+                            修改信息
+                        </a-button>
+                    </a-form-item>
+                </a-form>
+            </a-tab-pane>
         </a-tabs>
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
@@ -140,6 +173,7 @@ export default {
     name: 'manageHotel',
     data(){
         return {
+            modify: false,
             formLayout: 'horizontal',
             pagination: {},
             columns1,
@@ -160,11 +194,21 @@ export default {
             'addRoomModalVisible',
             'activeHotelId',
             'couponVisible',
+            'hotelInfo',
+            'userId',
+            'hotelId',
+            'currentHotelId',//used
+            'currentHotelInfo',//used
         ]),
     },
     async mounted() {
+        console.log("this.userId",this.userId)//1
+        console.log("this.currentHotelId",this.currentHotelId)//1
+        console.log("this.hotelId",this.hotelId)//1
         await this.getHotelList()
         await this.getAllOrders()
+        //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
+        await this.getHotelInfo()
     },
     methods: {
         ...mapMutations([
@@ -172,11 +216,14 @@ export default {
             'set_addRoomModalVisible',
             'set_couponVisible',
             'set_activeHotelId',
+            'set_hotelId',
         ]),
         ...mapActions([
             'getHotelList',
             'getAllOrders',
-            'getHotelCoupon'
+            'getHotelCoupon',
+            'getHotelInfo',
+            'updateHotelInfo'
         ]),
         addRoom(record) {
             this.set_activeHotelId(record.id)
@@ -193,6 +240,32 @@ export default {
         deleteOrder(){
 
         },
+        modifyInfo() {
+            setTimeout(() => {
+                this.form.setFieldsValue({
+                    'phoneNum': this.currentHotelInfo.phoneNum,
+                    'address':this.currentHotelInfo.address,
+                })
+            }, 0)
+            this.modify = true
+        },
+        cancelModify() {
+            this.modify = false
+        },
+        saveModify(){
+            console.log(this.form.getFieldValue('phoneNum'))
+            this.form.validateFields((err, values) => {
+                if (!err) {
+                    const data = {
+                        phoneNum: this.form.getFieldValue('phoneNum'),
+                        address: this.form.getFieldValue('address')
+                    }
+                    this.updateHotelInfo(data).then(()=>{
+                        this.modify = false
+                    })
+                }
+            });
+        }
     }
 }
 </script>

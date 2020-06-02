@@ -6,7 +6,9 @@ const getters = {
   userOrderList: state => state.user.userOrderList,
   membership:state=>state.user.membership,
   memInfo:state=>state.user.memInfo,
+  hotelId:state=>state.user.hotelId,
   registerModalVisible:state=>state.user.registerModalVisible,
+  //hotel
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,
   currentHotelInfo: state => state.hotel.currentHotelInfo,
@@ -14,6 +16,7 @@ const getters = {
   orderModalVisible: state => state.hotel.orderModalVisible,
   currentOrderRoom: state => state.hotel.currentOrderRoom,
   orderMatchCouponList: state => state.hotel.orderMatchCouponList,
+  hotelInfo:state=>state.hotel.hotelInfo,
   //admin
   operatorList:state=>state.admin.operatorList,
   displayOperatorList:state=>state.admin.displayOperatorList,

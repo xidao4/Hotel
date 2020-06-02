@@ -15,6 +15,10 @@ import {
     getUserOrdersAPI,
     cancelOrderAPI,
 } from '@/api/order'
+import{
+    getHotelIdByManagerIdAPI
+}from '@/api/hotel'
+
 const getDefaultState = () => {
     return {
         userId: '',
@@ -27,6 +31,7 @@ const getDefaultState = () => {
         membership:'',
         memInfo:[],
         registerModalVisible:false,
+        hotelId:''
     }
 }
 
@@ -42,7 +47,8 @@ const user = {
             },
             state.userOrderList = [],
             state.membership='',
-            state.memInfo=[]
+            state.memInfo=[],
+            state.hotelId=''
         },
         set_token: function(state, token){
             state.token = token
@@ -70,17 +76,31 @@ const user = {
         },
         set_registerModalVisible:(state,data)=>{
             state.registerModalVisible=data
+        },
+        set_hotelId:(state,data)=>{
+            state.hotelId=data
         }
+
     },
 
     actions: {
-        login: async ({ dispatch, commit }, userData) => {
+        login: async ({ state,dispatch, commit }, userData) => {
             const res = await loginAPI(userData)
             if(res){
                 setToken(res.id)
                 commit('set_userId', res.id)
 
-                if(res.id ===0){
+                if(res.userType==='HotelManager'){
+                    const hotelId=await getHotelIdByManagerIdAPI(res.id)
+                    commit('set_hotelId',hotelId)
+                    commit('set_currentHotelId',hotelId)
+                    console.log('state.currentHotelId',state.currentHotelId)//undefined
+                    console.log("state.hotelId",state.hotelId)//1
+                    //console.log("this.userId",this.userId)//uncaught typeError: cannot read property 'userId' of undefined
+                    console.log("state.userId",state.userId)//1
+                }
+
+                if(res.userType==='Manager'){
                     router.push('/websiteAdmin')
                 }else {
                     dispatch('getUserInfo')

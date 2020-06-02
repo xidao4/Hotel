@@ -49,4 +49,8 @@ public interface HotelService {
     int getRoomCurNum(Integer hotelId,String roomType);
 
     ResponseVO getManagerId(Integer hotelId);
+
+    int getHotelId(Integer managerId);
+
+    ResponseVO updateHotelInfo(int id,String address,String phoneNum);
 }

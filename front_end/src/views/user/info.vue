@@ -171,7 +171,6 @@ export default {
     async mounted() {
         await this.getUserInfo()
         await this.getUserOrders()
-        console.log('before getMemInfo()')
         await this.getMemInfo()
     },
     methods: {
@@ -183,7 +182,7 @@ export default {
             'getMemInfo',
         ]),
         ...mapMutations([
-            'set_registerModalVisible'
+            'set_registerModalVisible',
         ]),
         saveModify() {
             this.form.validateFields((err, values) => {

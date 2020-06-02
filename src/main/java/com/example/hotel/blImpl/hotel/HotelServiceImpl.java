@@ -116,4 +116,27 @@ public class HotelServiceImpl implements HotelService {
         return hotelVO;
     }
 
+    @Override
+    public int getHotelId(Integer managerId){
+        List<HotelVO> hotelVOS=hotelMapper.selectAllHotel();
+        for(HotelVO hotelVO:hotelVOS){
+            if(hotelVO.getManagerId() == managerId){
+                return hotelVO.getId();
+            }
+        }
+        return -1000;
+    }
+
+    @Override
+    public ResponseVO updateHotelInfo(int id, String address, String phoneNum) {
+        try {
+            hotelMapper.update(id, address, phoneNum);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure("更新酒店基本信息失败");
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+
 }
