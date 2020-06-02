@@ -2,25 +2,18 @@ package com.example.hotel.vo;
 
 public class CreditUpdateVO {
 
-    private Integer userId;
-    private Double creditVal;
+    private Integer orderId;
     private String desc;
 
-    public Integer getUserId() {
-        return userId;
+
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
-    public Double getCreditVal() {
-        return creditVal;
-    }
-
-    public void setCreditVal(Double creditVal) {
-        this.creditVal = creditVal;
-    }
 
     public String getDesc() {
         return desc;

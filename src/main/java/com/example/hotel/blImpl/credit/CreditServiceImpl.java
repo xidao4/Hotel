@@ -1,15 +1,14 @@
 package com.example.hotel.blImpl.credit;
 
-import ch.qos.logback.classic.gaffer.PropertyUtil;
 import com.example.hotel.bl.credit.CreditService;
-import com.example.hotel.bl.credit.CreditUpdateStrategy;
+import com.example.hotel.bl.credit.DefaultCreditUpdateStrategy;
+import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.data.credit.CreditMapper;
+import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.po.CreditRecord;
 import com.example.hotel.vo.*;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +23,8 @@ public class CreditServiceImpl implements CreditService {
 
     @Autowired
     private CreditMapper creditMapper;
+    @Autowired
+    private OrderService orderService;
 
     private final static String UPDATE_ERROR = "信用值更新失败";
     private final static String CANCEL_ERROR = "撤销失败";
@@ -44,14 +45,37 @@ public class CreditServiceImpl implements CreditService {
     }
 
     @Override
-    public ResponseVO updateCredit(CreditUpdateStrategy creditUpdateStrategy) {
+    public ResponseVO defaultUpdateCredit(DefaultUpdateCreditVO defaultUpdateCreditVO, DefaultCreditUpdateStrategy defaultCreditUpdateStrategy) {
         try {
-            CreditRecord creditRecord = creditUpdateStrategy.getResult();
+            Integer userId = orderService.getUserId(defaultUpdateCreditVO.getOrderId());
+            Double credit = creditMapper.getUserCredit(userId);
+            Double price = orderService.getPrice(defaultUpdateCreditVO.getOrderId());
+            CreditRecord creditRecord = new CreditRecord();
+            creditRecord.setUserId(userId);
+            creditRecord.setCredit(defaultCreditUpdateStrategy.getResult(price, credit));
+            creditRecord.setStatus("1");
+            creditRecord.setDesc(defaultUpdateCreditVO.getDesc());
             creditMapper.insertCreditRecord(creditRecord);
         } catch (Exception e) {
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
-        return ResponseVO.buildSuccess();
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO manualUpdateCredit(ManualUpdateCreditVO manualUpdateCreditVO) {
+        try {
+            Integer userId = orderService.getUserId(manualUpdateCreditVO.getOrderId());
+            CreditRecord creditRecord = new CreditRecord();
+            creditRecord.setUserId(userId);
+            creditRecord.setCredit(manualUpdateCreditVO.getCreditVal());
+            creditRecord.setStatus("1");
+            creditRecord.setDesc(manualUpdateCreditVO.getDesc());
+            creditMapper.insertCreditRecord(creditRecord);
+        } catch (Exception e) {
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
     }
 
     @Override

@@ -6,5 +6,13 @@ package com.example.hotel.vo;
  */
 public class ManualUpdateCreditVO extends CreditUpdateVO{
 
+    private Double creditVal;
 
+    public Double getCreditVal() {
+        return creditVal;
+    }
+
+    public void setCreditVal(Double creditVal) {
+        this.creditVal = creditVal;
+    }
 }

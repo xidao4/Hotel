@@ -26,4 +26,8 @@ public interface OrderMapper {
 
     Order getOrderById(@Param("orderid") int orderid);
 
+    Double getPriceById(@Param("orderid") int orderid);
+
+    Integer getUserId(@Param("orderid") int orderid);
+
 }

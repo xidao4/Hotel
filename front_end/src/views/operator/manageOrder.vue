@@ -46,7 +46,7 @@
                     :style="{ color: filtered ? '#108ee9' : undefined }"
             />
             <span slot="action" slot-scope="record">
-                <a-button type="primary" size="small" v-if="record.orderState === '已撤销' || record.orderState === '异常'" @click="manageCredit">信用变更</a-button>
+                <a-button type="primary" size="small" v-if="record.orderState === '已撤销' || record.orderState === '异常'" @click="manageCredit(record)">信用变更</a-button>
                 <a-button type="primary" size="small" v-else @click="showOrderDetail">订单详情</a-button>
             </span>
         </a-table>
@@ -147,7 +147,8 @@
                 'getAllOrders'
             ]),
             ...mapMutations([
-                'set_manageCreditVisible'
+                'set_manageCreditVisible',
+                'set_currentUpdateInfo'
             ]),
             handleSearch(selectedKeys, confirm, dataIndex) {
                 confirm();
@@ -159,8 +160,13 @@
                 clearFilters();
                 this.searchText = '';
             },
-            manageCredit() {
+            manageCredit(record) {
                 this.set_manageCreditVisible(true);
+                const userInfo = {
+                    orderId: record.id,
+                    userId: record.userId,
+                };
+                this.set_currentUpdateInfo(userInfo)
             },
             showOrderDetail() {
 

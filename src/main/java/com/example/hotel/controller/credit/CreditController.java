@@ -1,14 +1,11 @@
 package com.example.hotel.controller.credit;
 
 import com.example.hotel.bl.credit.CreditService;
-import com.example.hotel.blImpl.credit.DefaultCreditDecreImpl;
-import com.example.hotel.blImpl.credit.DefaultCreditIncreImpl;
-import com.example.hotel.blImpl.credit.ManualCreditUpdateImpl;
+import com.example.hotel.blImpl.credit.DefaultDefaultCreditDecreImpl;
+import com.example.hotel.blImpl.credit.DefaultDefaultCreditIncreImpl;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @Author: wyc
@@ -28,25 +25,19 @@ public class CreditController {
         return ResponseVO.buildSuccess(creditVO);
     }
 
-    @PostMapping("decreDefault")
-    public ResponseVO decrementDefault(@RequestBody DefaultUpdateCreditVO defaultUpdateCreditVO){
-        DefaultCreditDecreImpl defaultCreditDecre = new DefaultCreditDecreImpl();
-        defaultCreditDecre.setCreditUpdateVO(defaultUpdateCreditVO);
-        return creditService.updateCredit(defaultCreditDecre);
+    @PostMapping("/{method}")
+    public ResponseVO decrementDefault(@PathVariable String method, @RequestBody DefaultUpdateCreditVO defaultUpdateCreditVO){
+        if(method.equals("IncreDefault")) {
+            return creditService.defaultUpdateCredit(defaultUpdateCreditVO, new DefaultDefaultCreditIncreImpl());
+        } else if(method.equals("decreDefault")) {
+            return creditService.defaultUpdateCredit(defaultUpdateCreditVO, new DefaultDefaultCreditDecreImpl());
+        }
+        return ResponseVO.buildFailure("路径错误");
     }
 
-    @PostMapping("increDefault")
-    public ResponseVO incrementDefault(@RequestBody DefaultUpdateCreditVO defaultUpdateCreditVO){
-        DefaultCreditIncreImpl defaultCreditIncre = new DefaultCreditIncreImpl();
-        defaultCreditIncre.setCreditUpdateVO(defaultUpdateCreditVO);
-        return creditService.updateCredit(defaultCreditIncre);
-    }
-
-    @PostMapping("decreManual")
-    public ResponseVO manualUpdate(@RequestBody ManualUpdateCreditVO manualUpdateCreditVO){
-        ManualCreditUpdateImpl manualCreditUpdate = new ManualCreditUpdateImpl();
-        manualCreditUpdate.setCreditUpdateVO(manualUpdateCreditVO);
-        return creditService.updateCredit(manualCreditUpdate);
+    @PostMapping("/manualUpdate")
+    public ResponseVO manualUpdate(@RequestBody ManualUpdateCreditVO manualUpdateCreditVO) {
+        return creditService.manualUpdateCredit(manualUpdateCreditVO);
     }
 
     @GetMapping("/getCreditRecords")

@@ -18,7 +18,9 @@ public interface CreditService {
      */
     int initCredit(int userId, double Credit);
 
-    ResponseVO updateCredit(CreditUpdateStrategy creditUpdateStrategy);
+    ResponseVO defaultUpdateCredit(DefaultUpdateCreditVO defaultUpdateCreditVO, DefaultCreditUpdateStrategy defaultCreditUpdateStrategy);
+
+    ResponseVO manualUpdateCredit(ManualUpdateCreditVO manualUpdateCreditVO);
 
     /**
      * 获取所有信用变更记录

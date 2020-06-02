@@ -104,4 +104,13 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
     }
 
+    @Override
+    public Double getPrice(int orderId) {
+        return orderMapper.getPriceById(orderId);
+    }
+
+    @Override
+    public Integer getUserId(int orderId) {
+        return orderMapper.getUserId(orderId);
+    }
 }

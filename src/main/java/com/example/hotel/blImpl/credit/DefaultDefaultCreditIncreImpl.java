@@ -1,36 +1,19 @@
 package com.example.hotel.blImpl.credit;
 
-import com.example.hotel.bl.credit.CreditUpdateStrategy;
-import com.example.hotel.bl.order.OrderService;
-import com.example.hotel.po.CreditRecord;
-import com.example.hotel.vo.CreditUpdateVO;
-import com.example.hotel.vo.DefaultUpdateCreditVO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.hotel.bl.credit.DefaultCreditUpdateStrategy;
 
-public class DefaultCreditIncreImpl implements CreditUpdateStrategy {
+/**
+ * @Author: wyc
+ * @Date: 2020-06-01
+ */
+public class DefaultDefaultCreditIncreImpl implements DefaultCreditUpdateStrategy {
 
-    private DefaultUpdateCreditVO defaultUpdateCreditVO;
-    private Double credit;
-
-    @Autowired
-    private OrderService orderService;
-
+    /**
+     * 如果订单正常执行，信用值增加订单的总价值
+     * @return
+     */
     @Override
-    public CreditRecord getResult() {
-        CreditRecord creditRecord = new CreditRecord();
-        creditRecord.setUserId(defaultUpdateCreditVO.getUserId());
-        creditRecord.setCredit(credit + orderService.getPrice(defaultUpdateCreditVO.getOrderId()));
-        creditRecord.setStatus("1");
-        creditRecord.setDesc(defaultUpdateCreditVO.getDesc());
-        return creditRecord;
-    }
-
-    @Override
-    public void setCreditUpdateVO(CreditUpdateVO creditUpdateVO) {
-        this.defaultUpdateCreditVO = (DefaultUpdateCreditVO) creditUpdateVO;
-    }
-
-    public void setUserCredit(Double credit) {
-        this.credit = credit;
+    public Double getResult(Double price, Double credit) {
+        return price + credit;
     }
 }

@@ -6,13 +6,5 @@ package com.example.hotel.vo;
  */
 public class DefaultUpdateCreditVO extends CreditUpdateVO{
 
-    private Double price;
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 }

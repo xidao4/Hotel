@@ -46,4 +46,18 @@ public interface OrderService {
      */
     List<Order> getHotelOrders(Integer hotelId);
 
+    /**
+     * 获得订单金额
+     * @param orderId
+     * @return
+     */
+    Double getPrice(int orderId);
+
+    /**
+     * 获得订单客户id
+     * @param orderId
+     * @return
+     */
+    Integer getUserId(int orderId);
+
 }

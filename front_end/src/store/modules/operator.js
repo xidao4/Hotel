@@ -1,20 +1,15 @@
-import { getCreditRecordsAPI } from '../../api/credit'
+import {
+    getCreditRecordsAPI,
+    updateCreditAPI,
+    getCreditByIdAPI,
+} from '../../api/credit'
+import { getUserInfoAPI } from "../../api/user";
 
 const state = {
     manageCreditVisible: false,
     currentOrderId: '',   // 当前展示的orderId
-    currentUserId: '',
-    currentUserInfo: '',
-    creditRecordsList: [
-        // private Integer rid;
-        // private Integer userId;
-        // private String username;
-        // private Double credit;
-        // private String createTime;
-        // private String updateTime;
-        // private String status;
-        // private String desc;
-    ]
+    currentUpdateInfo: {},
+    creditRecordsList: [],
 };
 
 const operator = {
@@ -23,14 +18,28 @@ const operator = {
         set_manageCreditVisible(state, data) {
             state.manageCreditVisible = data
         },
+        set_currentOrderId(state, data) {
+            state.currentOrderId = data
+        },
+        set_currentUpdateInfo(state, data) {
+            state.currentUpdateInfo = {
+                ...state.currentUpdateInfo,
+                ...data
+            }
+        },
+        clear_currentUpdateInfo(state) {
+            state.currentUpdateInfo = {}
+        },
         set_creditRecordsList(state, data) {
             state.creditRecordsList = [...data]
         }
     },
     actions: {
-        getUserCreditById: async ({state}) => {
-            const res = await (state.currentUserId)
-
+        getUserCreditById: async ({state, commit}, param) => {
+            const res = await getCreditByIdAPI(param);
+            if(res) {
+                commit('set_currentUpdateInfo', res);
+            }
         },
         getCreditRecords: async ({rootState, commit}) => {
             const res = await getCreditRecordsAPI({
@@ -39,7 +48,14 @@ const operator = {
             if(res) {
                 commit('set_creditRecordsList', res)
             }
-        }
+        },
+        updateCredit: async ({commit}, param) => {
+            const res = await updateCreditAPI(param);
+            if(res) {
+                commit('set_manageCreditVisible', false)
+                commit('clear_currentUpdateInfo')
+            }
+        },
     }
 };
 

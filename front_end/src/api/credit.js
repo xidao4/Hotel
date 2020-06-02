@@ -4,27 +4,12 @@ const api = {
     creditPre: '/api/credit'
 }
 
-export function decreDefaultAPI(data){
+export function updateCreditAPI(param) {
+    console.log(param.method)
     return axios({
-        url:`${api.creditPre}/decreDefault`,
+        url:`${api.creditPre}/${param.method}`,
         method: 'POST',
-        data
-    })
-}
-
-export function increDefaultAPI(data){
-    return axios({
-        url:`${api.creditPre}/increDefault`,
-        method: 'POST',
-        data
-    })
-}
-
-export function decreManualAPI(data){
-    return axios({
-        url:`${api.creditPre}/decreManual`,
-        method: 'POST',
-        data
+        data: param.data
     })
 }
 

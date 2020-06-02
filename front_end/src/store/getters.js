@@ -26,6 +26,8 @@ const getters = {
   //operator
   manageCreditVisible: state => state.operator.manageCreditVisible,
   creditRecordsList: state => state.operator.creditRecordsList,
+  currentOrderId: state => state.operator.currentOrderId,
+  currentUpdateInfo: state => state.operator.currentUpdateInfo,
   }
 
   export default getters

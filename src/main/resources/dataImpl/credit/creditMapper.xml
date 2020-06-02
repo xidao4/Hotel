@@ -21,7 +21,7 @@
         update CreditRecord set status="0" where id=#{id}
     </update>
 
-    <insert id="insertCreditRecord" parameterType="com.example.hotel.po.CreditRecord" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCreditRecord" parameterType="com.example.hotel.po.CreditRecord" useGeneratedKeys="true" keyProperty="rid">
         insert into CreditRecord(userId, credit, status, description)
         values(#{userId},#{credit},#{status},#{desc})
     </insert>
