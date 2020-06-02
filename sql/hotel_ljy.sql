@@ -18,6 +18,61 @@
 
 
 --
+-- Table structure for table `Tag`
+--
+
+DROP TABLE IF EXISTS `Tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Tag` (
+  `tagId` int(11) NOT NULL AUTO_INCREMENT COMMENT '标签编号',
+  `tagName` varchar(255) NOT NULL COMMENT '标签名称',
+  PRIMARY KEY (`tagId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Tag`
+--
+
+BEGIN;
+/*!40000 ALTER TABLE `Tag` DISABLE KEYS */;
+INSERT INTO `Tag` VALUES (1,'免费无线上网'),(2,'叫醒服务'),(3,'免费保存贵重物品（保险箱）'),(4,'泳池');
+/*!40000 ALTER TABLE `Tag` ENABLE KEYS */;
+COMMIT;
+
+
+
+
+
+--
+-- Table structure for table `TagRelation`
+--
+
+DROP TABLE IF EXISTS `TagRelation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TagRelation` (
+  `relationId` int(11) NOT NULL AUTO_INCREMENT COMMENT '关系编号',
+  `hotelId` int(11) NOT NULL COMMENT '酒店编号',
+  `tagId` int(11) NOT NULL COMMENT '标签编号',
+  PRIMARY KEY (`relationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TagRelation`
+--
+BEGIN;
+/*!40000 ALTER TABLE `TagRelation` DISABLE KEYS */;
+INSERT INTO `TagRelation` VALUES (1,1,1),(2,1,2),(3,2,3),(4,2,4),(5,2,1),(6,3,2);
+/*!40000 ALTER TABLE `TagRelation` ENABLE KEYS */;
+COMMIT;
+
+
+
+
+--
 -- Table structure for table `Member`
 --
 
