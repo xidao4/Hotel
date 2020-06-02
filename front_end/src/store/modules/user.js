@@ -13,6 +13,7 @@ import {
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
+    getOrderAPI
 } from '@/api/order'
 
 const getDefaultState = () => {
@@ -23,7 +24,10 @@ const getDefaultState = () => {
         },
         userOrderList: [
 
-        ]
+        ],
+        idOrder:{
+            id: -1
+        }
     }
 }
 
@@ -56,6 +60,9 @@ const user = {
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
+        },
+        set_idOrder: (state,data)=>{
+            state.idOrder=data
         }
     },
 
@@ -111,8 +118,19 @@ const user = {
                 console.log(state.userOrderList)
             }
         },
-        cancelOrder: async({ state, dispatch }, orderId) => {
-            const res = await cancelOrderAPI(orderId)
+        getOrderById: async({state,commit},data)=>{
+            const res=await getOrderAPI(data)
+            if(res){
+                console.log('getOrderById')
+                console.log(res)
+                commit('set_idOrder',res)
+                console.log('已取回目标id的记录')
+            }
+        },
+        cancelOrder: async({ state, dispatch },data) => {
+            const res = await cancelOrderAPI(data)
+            console.log('user.js')
+            console.log(data.reason)
             if(res) {
                 dispatch('getUserOrders')
                 message.success('撤销成功')

@@ -5,6 +5,7 @@ import {
 } from '@/api/hotelManager'
 import {
     getAllOrdersAPI,
+    changeStatusAPI
 } from '@/api/order'
 import {
     hotelAllCouponsAPI,
@@ -168,6 +169,15 @@ const hotelManager = {
             }else{
                 // 添加失败后的操作
                 message.error('添加失败')
+            }
+        },
+        changeStatus: async({commit},data) =>{
+            const res=await changeStatusAPI(data)
+            if(res){
+                message.success('更改状态成功')
+            }
+            else {
+                message.error('更改失败')
             }
         }
     }

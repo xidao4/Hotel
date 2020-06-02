@@ -9,8 +9,8 @@
         select * from OrderList where userId=#{userid}
     </select>
     <insert id="addOrder" parameterType="com.example.hotel.po.Order" useGeneratedKeys="true" keyProperty="id">
-        insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState)
-        values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState})
+        insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState,cancelReason)
+        values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState},#{cancelReason})
     </insert>
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
@@ -18,7 +18,12 @@
 
     <!--取消订单的数据库操作-->
     <update id="annulOrder">
-        update OrderList set orderState="已撤销" where id=#{orderid}
+        update OrderList set orderState="客户撤销", cancelReason=#{reason} where id=#{orderid}
+    </update>
+
+    <!--取消订单状态的数据库操作-->
+    <update id="changeStatus">
+        update OrderList set orderState=#{status} where id=#{orderid}
     </update>
 
 

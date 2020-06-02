@@ -41,16 +41,40 @@
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">订单详情</a-button>
+                        <a-button type="primary" size="small" @click="showContentModal(record.id)">订单详情</a-button>
+                        <a-modal title="订单详情" :visible="contentVisible&&(currentIndex===record.id)"  @cancel="cancelContent" :footer="null">
+                            <a-descriptions title="User Info" bordered :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }" layout="vertical">
+                                <a-descriptions-item label="订单号">{{idOrder.id}}</a-descriptions-item>
+                                <a-descriptions-item label="酒店名称">{{idOrder.hotelName}}</a-descriptions-item>
+                                <a-descriptions-item label="入住时间">{{idOrder.checkInDate}}</a-descriptions-item>
+                                <a-descriptions-item label="退房时间">{{idOrder.checkOutDate}}</a-descriptions-item>
+                                <a-descriptions-item label="房间类型">{{idOrder.roomType}}</a-descriptions-item>
+                                <a-descriptions-item label="房间数量">{{idOrder.roomNum}}</a-descriptions-item>
+                                <a-descriptions-item label="入住人数">{{idOrder.peopleNum}}</a-descriptions-item>
+                                <a-descriptions-item label="是否携带孩童">{{idOrder.haveChild}}</a-descriptions-item>
+                                <a-descriptions-item label="价格">{{idOrder.price}}</a-descriptions-item>
+                                <a-descriptions-item label="客户名称">{{idOrder.clientName}}</a-descriptions-item>
+                                <a-descriptions-item label="手机号">{{idOrder.phoneNumber}}</a-descriptions-item>
+                                <a-descriptions-item label="订单状态">{{idOrder.orderState}}</a-descriptions-item>
+                                <a-descriptions-item label="撤销理由" v-if="idOrder.orderState=='客户撤销'">{{idOrder.cancelReason}}</a-descriptions-item>
+                            </a-descriptions>
+                        </a-modal>
                         <a-divider type="vertical"></a-divider>
-                        <a-popconfirm
-                            title="确定想删除该订单吗？"
-                            @confirm="deleteOrder(record)"
-                            okText="确定"
-                            cancelText="取消"
-                        >
-                            <a-button type="danger" size="small">删除订单</a-button>
-                        </a-popconfirm>
+<!--                        <a-popconfirm-->
+<!--                            title="确定想删除该订单吗？"-->
+<!--                            @confirm="deleteOrder(record)"-->
+<!--                            okText="确定"-->
+<!--                            cancelText="取消"-->
+<!--                        >-->
+<!--                            <a-button type="danger" size="small">删除订单</a-button>-->
+                        <a-popover title="订单状态管理" trigger="click" :ref="`popover-${record.id}`">
+                            <a slot="content" @click="change(record.id,'已入住')"><a-tag>已入住</a-tag></a>
+                            <a slot="content" @click="change(record.id,'已执行')"><a-tag>已执行</a-tag></a>
+                            <a slot="content" @click="change(record.id,'酒店撤销')"><a-tag>撤销</a-tag></a>
+                            <a slot="content" @click="change(record.id,'异常')"><a-tag>异常</a-tag></a>
+                            <a-button type="primary" size="small" @click="manage">订单管理</a-button>
+                        </a-popover>
+<!--                        </a-popconfirm>-->
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -140,6 +164,9 @@ export default {
     name: 'manageHotel',
     data(){
         return {
+            currentIndex: '',
+            visible: false,
+            contentVisible: false,
             formLayout: 'horizontal',
             pagination: {},
             columns1,
@@ -160,6 +187,7 @@ export default {
             'addRoomModalVisible',
             'activeHotelId',
             'couponVisible',
+            'idOrder'
         ]),
     },
     async mounted() {
@@ -176,8 +204,24 @@ export default {
         ...mapActions([
             'getHotelList',
             'getAllOrders',
-            'getHotelCoupon'
+            'getHotelCoupon',
+            'getOrderById',
+            'changeStatus'
         ]),
+        manage(index,item){
+            for (const key in this.$refs) {
+                if (key.indexOf('popover-') !== -1) {
+                    this.$refs[key].doClose();
+                }
+            }
+        },
+        change(orderid,status){
+            const data={
+                orderid:orderid,
+                status:status
+            }
+            this.changeStatus(data)
+        },
         addHotel() {
             this.set_addHotelModalVisible(true)
         },
@@ -195,6 +239,17 @@ export default {
         },
         deleteOrder(){
 
+        },
+        cancelContent(){
+            this.contentVisible=false
+        },
+        showContentModal(recordid){
+            this.contentVisible=true
+            this.currentIndex=recordid
+            console.log('你好啊啊啊啊啊啊啊')
+            console.log(recordid)
+            this.getOrderById(recordid)
+            console.log('点击显示时向后端发送请求更新orderById对象')
         },
     }
 }

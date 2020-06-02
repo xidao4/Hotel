@@ -101,9 +101,9 @@
             <a-form-item v-bind="formItemLayout" label="总价">
                 <span>￥{{ totalPrice }}</span>
             </a-form-item>
-            <a-divider></a-divider>
+            <a-divider v-if="orderMatchCouponList.length>0"></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
-            <a-checkbox-group v-model="checkedList" @change="onchange">
+            <a-checkbox-group v-model="checkedList" @change="onchange" v-if="orderMatchCouponList.length>0">
                 <a-table
                     :columns="columns"
                     :dataSource="orderMatchCouponList"
@@ -119,7 +119,7 @@
                     </a-checkbox>
                 </a-table>
             </a-checkbox-group>
-             <a-form-item v-bind="formItemLayout" label="结算后总价">
+             <a-form-item v-bind="formItemLayout" label="结算后总价" v-if="orderMatchCouponList.length>0">
                 <span>￥{{ finalPrice }}</span>
             </a-form-item>
         </a-form>
@@ -239,6 +239,7 @@ export default {
                         price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                     }
                     this.addOrder(data)
+                    console.log(data)
                 }
             });
         },

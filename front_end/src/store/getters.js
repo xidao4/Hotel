@@ -4,6 +4,7 @@ const getters = {
   userId: state => state.user.userId,
   userInfo: state => state.user.userInfo,
   userOrderList: state => state.user.userOrderList,
+  idOrder: state=>state.user.idOrder,
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,
   currentHotelInfo: state => state.hotel.currentHotelInfo,
