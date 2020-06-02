@@ -12,7 +12,7 @@ const service = axios.create({
   withCredentials: true
 })
 console.log(process.env.NODE_ENV)
- const err = (error) => { 
+ const err = (error) => {
   if (error.response) {
     const data = error.response.data
     const token = Vue.ls.get('ACCESS_TOKEN')
@@ -51,7 +51,7 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use((response) => {
   switch (response.status) {
     case 200:
-      if(response.data.success && response.data.success){
+      if(response.data && response.data.success){
         return response.data.content
       }
       message.error(response.data.message)

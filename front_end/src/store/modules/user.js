@@ -35,7 +35,7 @@ const user = {
             state.token = '',
             state.userId = '',
             state.userInfo = {
-                
+
             },
             state.userOrderList = []
         },
@@ -70,6 +70,7 @@ const user = {
             }
         },
         register: async({ commit }, data) => {
+            console.log(data.userType);
             const res = await registerAPI(data)
             if(res){
                 message.success('注册成功')

@@ -1,7 +1,10 @@
 package com.example.hotel.blImpl.user;
 
+import com.example.hotel.bl.credit.CreditService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.data.credit.CreditMapper;
 import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.ResponseVO;
@@ -15,8 +18,11 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String UPDATE_ERROR = "修改失败";
+    private final static String INIT_ERROR = "账户信用值初始化失败";
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private CreditService creditService;
 
     @Override
     public ResponseVO registerAccount(UserVO userVO) {
@@ -28,7 +34,11 @@ public class AccountServiceImpl implements AccountService {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_EXIST);
         }
-        return ResponseVO.buildSuccess();
+        if(creditService.initCredit(user.getId(), userVO.getCredit()) == 1) {
+            return ResponseVO.buildSuccess();
+        } else {
+            return ResponseVO.buildFailure(INIT_ERROR);
+        }
     }
 
     @Override

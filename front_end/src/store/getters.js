@@ -23,6 +23,9 @@ const getters = {
   addCouponVisible: state => state.hotelManager.addCouponVisible,
   activeHotelId: state => state.hotelManager.activeHotelId,
   couponList: state => state.hotelManager.couponList,
+  //operator
+  manageCreditVisible: state => state.operator.manageCreditVisible,
+  creditRecordsList: state => state.operator.creditRecordsList,
   }
-  
+
   export default getters

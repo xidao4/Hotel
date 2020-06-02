@@ -3,7 +3,7 @@
         <div class="label">
             <img src="@/assets/logo.svg" class="logo" alt="logo" @click="jumpToHome">
             <span class="title">NJUSE 酒店管理系统</span>
-            
+
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
             <a-menu-item key="1" @click="selectMenu">
@@ -22,6 +22,21 @@
             <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
                 <router-link :to="{ name: 'manageUser'}">
                      <a-icon type="user" />账户管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="5" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'manageOrder'}">
+                    <a-icon type="user" />订单管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="6" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'creditList'}">
+                    <a-icon type="user" />信用管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="7" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'msgFromUser'}">
+                    <a-icon type="user" />客户消息
                 </router-link>
             </a-menu-item>
         </a-menu>
@@ -48,9 +63,9 @@
                 </a-menu>
             </a-dropdown>
         </div>
-        
+
     </div>
-    
+
 </template>
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
@@ -70,12 +85,18 @@ export default {
     mounted() {
         if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
             this.current = ['1']
-        }else if(this.$route.name == 'userInfo') {
+        } else if (this.$route.name == 'userInfo') {
             this.current = ['2']
-        }else if(this.$route.name == 'manageHotel') {
+        } else if (this.$route.name == 'manageHotel') {
             this.current = ['3']
-        }else {
+        } else if (this.$route.name == 'manageUser') {
             this.current = ['4']
+        } else if (this.$route.name == 'manageOrder') {
+            this.current = ['5']
+        } else if (this.$route.name == 'creditList') {
+            this.current = ['6']
+        } else if (this.$route.name == 'msgFromUser') {
+            this.current = ['7']
         }
     },
     methods: {
@@ -132,7 +153,7 @@ export default {
           }
 
           .search {
-              width: 300px; 
+              width: 300px;
               margin-left: 30px
           }
         }
