@@ -1,11 +1,15 @@
 package com.example.hotel.blImpl.user;
 
+import com.example.hotel.bl.credit.CreditService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.data.user.MemberMapper;
 import com.example.hotel.po.Member;
 import com.example.hotel.po.Order;
+import com.example.hotel.data.credit.CreditMapper;
+import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +26,7 @@ public class AccountServiceImpl implements AccountService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String  UPDATE_ERROR="更新失败";
     private final static String  DELETE_ERROR="删除失败";
+    private final static String INIT_ERROR = "账户信用值初始化失败";
 
     @Autowired
     private AccountMapper accountMapper;
@@ -29,6 +34,8 @@ public class AccountServiceImpl implements AccountService {
     private OrderMapper orderMapper;
     @Autowired
     private MemberMapper memberMapper;
+    @Autowired
+    private CreditService creditService;
 
     @Override
     public ResponseVO registerAccount(UserVO userVO) {
@@ -40,7 +47,11 @@ public class AccountServiceImpl implements AccountService {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_EXIST);
         }
-        return ResponseVO.buildSuccess();
+        if(creditService.initCredit(user.getId(), userVO.getCredit()) == 1) {
+            return ResponseVO.buildSuccess();
+        } else {
+            return ResponseVO.buildFailure(INIT_ERROR);
+        }
     }
     @Override
     public User login(UserForm userForm) {

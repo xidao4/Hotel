@@ -28,4 +28,8 @@ public interface OrderMapper {
 
     int changeStatus(@Param("orderid") int orderid,@Param("status") String status);
 
+    Double getPriceById(@Param("orderid") int orderid);
+
+    Integer getUserId(@Param("orderid") int orderid);
+
 }

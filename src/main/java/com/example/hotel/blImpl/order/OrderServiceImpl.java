@@ -122,8 +122,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseVO changeStatus(int orderid, String status){
-        orderMapper.changeStatus(orderid,status);
+    public ResponseVO changeStatus(int orderid, String status) {
+        orderMapper.changeStatus(orderid, status);
         return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public Double getPrice(int orderId) {
+        return orderMapper.getPriceById(orderId);
+    }
+
+    @Override
+    public Integer getUserId(int orderId) {
+        return orderMapper.getUserId(orderId);
     }
 }

@@ -3,8 +3,8 @@
 <mapper namespace="com.example.hotel.data.user.AccountMapper">
 
     <insert id="createNewAccount" parameterType="com.example.hotel.po.User" useGeneratedKeys="true" keyProperty="id">
-        insert into User(email,password,username,phonenumber,credit,usertype)
-        values(#{email},#{password},#{userName},#{phoneNumber},#{credit},#{userType})
+        insert into User(email,password,username,phonenumber,usertype)
+        values(#{email},#{password},#{userName},#{phoneNumber},#{userType})
     </insert>
     <select id="getAccountByName" resultMap="User">
         select * from User where email=#{email}
@@ -36,7 +36,6 @@
         <result column="password" property="password"></result>
         <result column="username" property="userName"></result>
         <result column="phonenumber" property="phoneNumber"></result>
-        <result column="credit" property="credit"></result>
         <result column="usertype" property="userType"></result>
     </resultMap>
 </mapper>

@@ -9,7 +9,6 @@ public enum UserType {
     HotelManager("2"),
     Manager("3"),
     Operator("4");
-
     private String value;
 
     UserType(String value) {

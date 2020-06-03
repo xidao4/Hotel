@@ -26,6 +26,14 @@
         update OrderList set orderState=#{status} where id=#{orderid}
     </update>
 
+    <select id="getPriceById" resultType="double">
+        select price from OrderList where id=#{orderid}
+    </select>
+
+    <select id="getUserId" resultType="int">
+        select userId from OrderList where id=#{orderid}
+    </select>
+
 
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>
