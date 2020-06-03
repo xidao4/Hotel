@@ -35,7 +35,7 @@
             <a-tag
                     slot="orderState"
                     slot-scope="text"
-                    :color="text === '已撤销' || text === '异常' ? 'volcano' : 'geekblue'"
+                    :color="text === '客户撤销' || text === '异常' ? 'volcano' : 'geekblue'"
             >
                 {{text}}
             </a-tag>
@@ -46,7 +46,7 @@
                     :style="{ color: filtered ? '#108ee9' : undefined }"
             />
             <span slot="action" slot-scope="record">
-                <a-button type="primary" size="small" v-if="record.orderState === '已撤销' || record.orderState === '异常'" @click="manageCredit(record)">信用变更</a-button>
+                <a-button type="primary" size="small" v-if="record.orderState === '客户撤销' || record.orderState === '异常'" @click="manageCredit(record)">信用变更</a-button>
                 <a-button type="primary" size="small" v-else @click="showOrderDetail">订单详情</a-button>
             </span>
         </a-table>
@@ -121,7 +121,7 @@
                         title: '状态',
                         filters: [
                             { text: '已预订', value: '已预订' },
-                            { text: '已撤销', value: '已撤销' },
+                            { text: '客户撤销', value: '客户撤销' },
                             { text: '已入住', value: '已入住' },
                             { text: '已执行', value: '已执行' },
                             { text: '异常', value: '异常' },
