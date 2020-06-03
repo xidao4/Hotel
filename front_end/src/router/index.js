@@ -13,6 +13,11 @@ const routes = [
     path: '/',
     redirect: '/NJUSE'
   },
+    {
+        path:'/websiteAdmin',
+        name:'websiteAdmin',
+        component:()=>import('@/views/admin/manageUser.vue')
+    },
   {
     path: '/NJUSE',
     name: 'layout',

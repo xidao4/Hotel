@@ -17,12 +17,15 @@ import com.example.hotel.po.User;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.sql.Types.NULL;
 
 @Service
 public class HotelServiceImpl implements HotelService {
@@ -41,19 +44,20 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
-        User manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if(manager == null || !manager.getUserType().equals(UserType.HotelManager)){
-            throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
-        }
+//        User manager = accountService.getUserInfo(hotelVO.getManagerId());
+//        if(manager == null || !manager.getUserType().equals(UserType.HotelManager)){
+//            throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
+//        }
         Hotel hotel = new Hotel();
-        hotel.setDescription(hotelVO.getDescription());
         hotel.setAddress(hotelVO.getAddress());
         hotel.setHotelName(hotelVO.getName());
-        hotel.setPhoneNum(hotelVO.getPhoneNum());
-        hotel.setManagerId(hotelVO.getManagerId());
-        hotel.setRate(hotelVO.getRate());
         hotel.setBizRegion(BizRegion.valueOf(hotelVO.getBizRegion()));
-        hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
+
+        hotel.setManagerId(hotelVO.getManagerId());
+        hotel.setPhoneNum(hotelVO.getPhoneNum());
+        hotel.setRate(hotelVO.getRate());
+        hotel.setDescription(hotelVO.getDescription());
+        //hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
         hotelMapper.insertHotel(hotel);
     }
 
@@ -65,6 +69,27 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public int getRoomCurNum(Integer hotelId, String roomType) {
         return roomService.getRoomCurNum(hotelId,roomType);
+    }
+
+    @Override
+    public ResponseVO getManagerId(Integer hotelId) {
+        System.out.println(hotelId);
+        HotelVO hotelVO=hotelMapper.selectById(hotelId);
+        System.out.println(hotelVO.getId());
+//        try{
+//            hotelVO.getManagerId();
+//            return ResponseVO.buildSuccess(true);
+//        }catch(Exception e){
+//            System.out.println(e.getMessage());
+//            return ResponseVO.buildFailure("该酒店暂时没有工作人员账号");
+//        }
+        System.out.println(hotelVO.getName());
+        System.out.println(hotelVO.getManagerId());
+        if(hotelVO.getManagerId()==null){
+            return ResponseVO.buildSuccess(false);
+        }else{
+            return ResponseVO.buildSuccess(true);
+        }
     }
 
     @Override
@@ -90,5 +115,28 @@ public class HotelServiceImpl implements HotelService {
 
         return hotelVO;
     }
+
+    @Override
+    public int getHotelId(Integer managerId){
+        List<HotelVO> hotelVOS=hotelMapper.selectAllHotel();
+        for(HotelVO hotelVO:hotelVOS){
+            if(hotelVO.getManagerId() == managerId){
+                return hotelVO.getId();
+            }
+        }
+        return -1000;
+    }
+
+    @Override
+    public ResponseVO updateHotelInfo(int id, String address, String phoneNum) {
+        try {
+            hotelMapper.update(id, address, phoneNum);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure("更新酒店基本信息失败");
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
 
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hotel.data.user.MemberMapper">
+
+    <insert id="insert" parameterType="com.example.hotel.po.Member" useGeneratedKeys="true" keyProperty="userId">
+        insert into Member(membership,memberPoints,birthday)
+        values(1,0,#{birthday})
+    </insert>
+
+    <select id="getInfo" resultMap="Member">
+        select * from Member where userId=#{userId}
+    </select>
+
+    <update id="update">
+        update Member set membership=#{membership},memberPoints=#{memberPoints}
+        where userId=#{userId}
+    </update>
+
+
+    <resultMap id="Member" type="com.example.hotel.po.Member">
+        <id column="userId" property="userId"></id>
+        <result column="membership" property="membership"></result>
+        <result column="memberPoints" property="memberPoints"></result>
+        <result column="birthday" property="birthday"></result>
+    </resultMap>
+</mapper>

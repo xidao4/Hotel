@@ -2,7 +2,7 @@ import { message } from 'ant-design-vue'
 import store from '@/store'
 import {
     getHotelsAPI,
-    getHotelByIdAPI
+    getHotelByIdAPI,
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -10,11 +10,14 @@ import {
 import {
     orderMatchCouponsAPI,
 } from '@/api/coupon'
+import {
+    updateHotelInfoAPI
+} from "../../api/hotel";
 
 const hotel = {
     state: {
         hotelList: [
-            
+
         ],
         hotelListParams: {
             pageNo: 0,
@@ -31,7 +34,7 @@ const hotel = {
         },
         orderMatchCouponList: [
 
-        ]
+        ],
     },
     mutations: {
         set_hotelList: function(state, data) {
@@ -66,7 +69,7 @@ const hotel = {
         },
         set_orderMatchCouponList: function(state, data) {
             state.orderMatchCouponList = data
-        }
+        },
     },
 
     actions: {
@@ -78,9 +81,11 @@ const hotel = {
             }
         },
         getHotelById: async({commit, state}) => {
-            const res = await getHotelByIdAPI({
-                hotelId: state.currentHotelId
-            })
+            // const res = await getHotelByIdAPI({
+            //     hotelId: state.currentHotelId
+            // })
+            console.log('in getHotelById action')
+            const res=await getHotelByIdAPI(state.currentHotelId)
             if(res){
                 commit('set_currentHotelInfo', res)
             }
@@ -97,6 +102,24 @@ const hotel = {
             const res = await orderMatchCouponsAPI(data)
             if(res){
                 commit('set_orderMatchCouponList', res)
+            }
+        },
+        getHotelInfo:async({state,commit,dispatch})=>{
+            console.log("in the method getHotelInfo")
+            console.log("state.userId",state.userId)//undefined
+            console.log("state.hotelId",state.hotelId)//undefined
+            console.log("state.currentHotelId",state.currentHotelId)//1
+            dispatch('getHotelById')
+        },
+        updateHotelInfo:async({state,dispatch},data)=>{
+            const params = {
+                id: state.currentHotelId,
+                ...data,
+            }
+            const res=await updateHotelInfoAPI(params)
+            if(res){
+                message.success('修改成功')
+                dispatch('getHotelInfo')
             }
         }
     }
