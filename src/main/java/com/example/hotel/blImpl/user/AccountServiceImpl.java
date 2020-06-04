@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_EXIST);
         }
-        if(creditService.initCredit(user.getId(), userVO.getCredit()) == 1) {
+        if(creditService.initCredit(user.getId(), userVO.getCredit()) > 0) {
             return ResponseVO.buildSuccess();
         } else {
             return ResponseVO.buildFailure(INIT_ERROR);

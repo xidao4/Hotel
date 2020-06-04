@@ -31,17 +31,12 @@ public class CreditServiceImpl implements CreditService {
 
     @Override
     public int initCredit(int userId, double credit) {
-        try {
-            CreditRecord creditRecord = new CreditRecord();
-            creditRecord.setUserId(userId);
-            creditRecord.setCredit(credit);
-            creditRecord.setDesc("用户注册，信用值初始化");
-            creditRecord.setStatus("1");
-            creditMapper.insertCreditRecord(creditRecord);
-        } catch (Exception e) {
-            return 0;
-        }
-        return 1;
+        CreditRecord creditRecord = new CreditRecord();
+        creditRecord.setUserId(userId);
+        creditRecord.setCredit(credit);
+        creditRecord.setDesc("用户注册，信用值初始化");
+        creditRecord.setStatus("1");
+        return creditMapper.insertCreditRecord(creditRecord);
     }
 
     @Override
