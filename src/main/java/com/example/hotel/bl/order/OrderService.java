@@ -33,11 +33,19 @@ public interface OrderService {
     List<Order> getUserOrders(int userid);
 
     /**
+     * 根据orderid获取对应的order记录
+     * @param orderid
+     * @return
+     */
+    Order getOrder(int orderid);
+
+
+    /**
      * 撤销订单
      * @param orderid
      * @return
      */
-    ResponseVO annulOrder(int orderid);
+    ResponseVO annulOrder(int orderid,String reason);
 
     /**
      * 查看酒店的所有订单
@@ -45,6 +53,14 @@ public interface OrderService {
      * @return
      */
     List<Order> getHotelOrders(Integer hotelId);
+
+    /**
+     * 酒店管理员更改订单状态
+     * @param orderid
+     * @param status
+     * @return
+     */
+    ResponseVO changeStatus(int orderid,String status);
 
     /**
      * 获得订单金额

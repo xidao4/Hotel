@@ -5,6 +5,7 @@ import {
 } from '@/api/hotelManager'
 import {
     getAllOrdersAPI,
+    changeStatusAPI
 } from '@/api/order'
 import {
     hotelAllCouponsAPI,
@@ -47,17 +48,8 @@ const hotelManager = {
         set_orderList: function(state, data) {
             state.orderList = data
         },
-        set_addHotelModalVisible: function(state, data) {
-            state.addHotelModalVisible = data
-        },
         // es6中的一种新的赋值方式，...代表着将对象拆分成一个个键值对，然后'{}'内的所有键值对重新组成一个新的对象
         // 在这里，就是将data里的键值对加到addHotelParams里面
-        set_addHotelParams: function(state, data) {
-            state.addHotelParams = {
-                ...state.addHotelParams,
-                ...data,
-            }
-        },
         set_addRoomModalVisible: function(state, data) {
             state.addRoomModalVisible = data
         },
@@ -88,26 +80,26 @@ const hotelManager = {
                 commit('set_orderList', res)
             }
         },
-        addHotel: async({ state, dispatch, commit }) => {
-            const res = await addHotelAPI(state.addHotelParams)
-            if(res){
-                dispatch('getHotelList')
-                commit('set_addHotelParams', {
-                    name: '',
-                    address: '',
-                    bizRegion:'XiDan',
-                    hotelStar:'',
-                    rate: 0,
-                    description:'',
-                    phoneNum:'',
-                    managerId:'',
-                })
-                commit('set_addHotelModalVisible', false)
-                message.success('添加成功')
-            }else{
-                message.error('添加失败')
-            }
-        },
+        // addHotel: async({ state, dispatch, commit }) => {
+        //     const res = await addHotelAPI(state.addHotelParams)
+        //     if(res){
+        //         dispatch('getHotelList')
+        //         commit('set_addHotelParams', {
+        //             name: '',
+        //             address: '',
+        //             bizRegion:'XiDan',
+        //             hotelStar:'',
+        //             rate: 0,
+        //             description:'',
+        //             phoneNum:'',
+        //             managerId:'',
+        //         })
+        //         commit('set_addHotelModalVisible', false)
+        //         message.success('添加成功')
+        //     }else{
+        //         message.error('添加失败')
+        //     }
+        // },
         addRoom: async({ state, dispatch, commit }) => {
             const res = await addRoomAPI(state.addRoomParams)
             if(res){
@@ -168,6 +160,15 @@ const hotelManager = {
             }else{
                 // 添加失败后的操作
                 message.error('添加失败')
+            }
+        },
+        changeStatus: async({commit},data) =>{
+            const res=await changeStatusAPI(data)
+            if(res){
+                message.success('更改状态成功')
+            }
+            else {
+                message.error('更改失败')
             }
         }
     }

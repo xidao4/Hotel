@@ -38,5 +38,13 @@ public interface AccountMapper {
      */
      int updateAccount(@Param("id") int id, @Param("password") String password,@Param("userName") String username, @Param("phoneNumber") String phonenumber);
 
+     int deleteUser(@Param("id") int id);
 
+    /**
+     * 根据用户输入的关键字，在所有运营人员的用户名和邮箱中查看是否存在该关键字
+     * @return
+     */
+     List<User> searchOO(@Param("keyword") String keyword);
+
+    List<User> searchClient(@Param("keyword") String keyword);
 }

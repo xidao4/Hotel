@@ -84,4 +84,5 @@ public class CreditRecord {
     public String getUsername() {
         return user.getUserName();
     }
+
 }

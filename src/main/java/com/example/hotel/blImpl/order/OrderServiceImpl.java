@@ -37,8 +37,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
+        System.out.println("-------------------------------");
         int reserveRoomNum = orderVO.getRoomNum();
-        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(),orderVO.getRoomType());
+        System.out.println("+++++++++++++++++++++++++++++++++");
+        int hotelid=orderVO.getHotelId();
+
+        String type=orderVO.getRoomType();
+
+        int curNum = hotelService.getRoomCurNum(hotelid,type);
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~");
         if(reserveRoomNum>curNum){
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
@@ -47,7 +54,9 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date(System.currentTimeMillis());
             String curdate = sf.format(date);
             orderVO.setCreateDate(curdate);
+            System.out.println("-------------------------------");
             orderVO.setOrderState("已预订");
+            orderVO.setCancelReason("未撤销");
             User user = accountService.getUserInfo(orderVO.getUserId());
             orderVO.setClientName(user.getUserName());
             orderVO.setPhoneNumber(user.getPhoneNumber());
@@ -72,9 +81,14 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.getUserOrders(userid);
     }
 
+    @Override
+    public Order getOrder(int orderid){
+        return orderMapper.getOrderById(orderid);
+    }
+
     @Transactional
     @Override
-    public ResponseVO annulOrder(int orderid) {
+    public ResponseVO annulOrder(int orderid,String reason) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
         try {
             Order order = orderMapper.getOrderById(orderid);
@@ -89,8 +103,11 @@ public class OrderServiceImpl implements OrderService {
 //            long nowTime = new Date(System.currentTimeMillis()).getTime();
 //
 //            User user = accountService.getUserInfo(order.getUserId());
+            System.out.println("OrderServiceImpl");
+            System.out.println(orderid);
+            System.out.println(reason);
             hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());
-            orderMapper.annulOrder(orderid);
+            orderMapper.annulOrder(orderid,reason);
         } catch (Exception e){
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ANNUL_ERROR);
@@ -102,6 +119,12 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getHotelOrders(Integer hotelId) {
         List<Order> orders = getAllOrders();
         return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
+    }
+
+    @Override
+    public ResponseVO changeStatus(int orderid, String status) {
+        orderMapper.changeStatus(orderid, status);
+        return ResponseVO.buildSuccess(true);
     }
 
     @Override

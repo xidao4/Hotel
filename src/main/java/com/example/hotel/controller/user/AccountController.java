@@ -4,20 +4,19 @@ import com.example.hotel.bl.credit.CreditService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
-import com.example.hotel.vo.UserForm;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserInfoVO;
-import com.example.hotel.vo.UserVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 
 
 @RestController()
 @RequestMapping("/api/user")
 public class AccountController {
     private final static String ACCOUNT_INFO_ERROR = "用户名或密码错误";
+    private final static String DELETE_ERROR="删除失败";
     private final static String CREDIT_INFO_ERROR = "信用值获取失败";
 
     @Autowired
@@ -36,7 +35,6 @@ public class AccountController {
         return accountService.registerAccount(userVO);
     }
 
-
     @GetMapping("/{id}/getUserInfo")
     public ResponseVO getUserInfo(@PathVariable int id) {
         User user = accountService.getUserInfo(id);
@@ -46,7 +44,26 @@ public class AccountController {
     @PostMapping("/{id}/userInfo/update")
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
+    }
 
+    @PostMapping("/registerMem")
+    public ResponseVO registerMem(@RequestBody MemRegisterVO memRegisterVO){
+        return accountService.registerMem(memRegisterVO);
+    }
+
+    @PostMapping("/{userId}/upgradeMem")
+    public ResponseVO upgradeMem(@PathVariable int userId){
+        return accountService.upgradeMem(userId);
+    }
+
+    @GetMapping("/{userId}/getMemInfo")
+    public ResponseVO getMemInfo(@PathVariable int userId){
+        System.out.println("into the method back end");
+        MemInfoVO memInfoVO=accountService.getMemInfo(userId);
+        if(memInfoVO==null){
+            return ResponseVO.buildSuccess(false);
+        }
+        return ResponseVO.buildSuccess(memInfoVO);
     }
 
     private ResponseVO getResUserVO(User user) {
@@ -64,5 +81,4 @@ public class AccountController {
         }
         return ResponseVO.buildSuccess(userVO);
     }
-
 }

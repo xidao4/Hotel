@@ -22,12 +22,16 @@ public interface OrderMapper {
 
     List<Order> getUserOrders(@Param("userid") int userid);
 
-    int annulOrder(@Param("orderid") int orderid);
+    int annulOrder(@Param("orderid") int orderid,@Param("reason") String reason);
 
     Order getOrderById(@Param("orderid") int orderid);
+
+    int changeStatus(@Param("orderid") int orderid,@Param("status") String status);
 
     Double getPriceById(@Param("orderid") int orderid);
 
     Integer getUserId(@Param("orderid") int orderid);
+
+    Integer setCrid(@Param("orderid") int orderid, @Param("crid") int crid);
 
 }

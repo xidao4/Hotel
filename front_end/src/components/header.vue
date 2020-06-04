@@ -26,12 +26,12 @@
             </a-menu-item>
             <a-menu-item key="5" @click="selectMenu" v-if="userInfo.userType=='Operator'">
                 <router-link :to="{ name: 'manageOrder'}">
-                    <a-icon type="user" />订单管理
+                    <a-icon type="user" />订单信用变更
                 </router-link>
             </a-menu-item>
             <a-menu-item key="6" @click="selectMenu" v-if="userInfo.userType=='Operator'">
                 <router-link :to="{ name: 'creditList'}">
-                    <a-icon type="user" />信用管理
+                    <a-icon type="user" />信用变更情况
                 </router-link>
             </a-menu-item>
             <a-menu-item key="7" @click="selectMenu" v-if="userInfo.userType=='Operator'">
