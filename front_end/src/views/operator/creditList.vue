@@ -44,6 +44,15 @@
                 type="search"
                 :style="{ color: filtered ? '#108ee9' : undefined }"
         />
+        <span slot="action" slot-scope="record">
+            <a-popconfirm title="确定置为无效？" @confirm="changeStatus(record.rid)">
+                <a-icon slot="icon" type="question-circle-o" style="color: red" />
+                <a-button
+                        type="danger"
+                        size="small"
+                        :disabled="record.status === '0'">置为无效</a-button>
+            </a-popconfirm>
+        </span>
     </a-table>
 </template>
 
@@ -55,7 +64,6 @@
         name: "creditList",
         data() {
             return {
-                showRecordsList: [],
                 searchText: '',
                 searchInput: null,
                 searchedColumn: '',
@@ -63,7 +71,8 @@
         },
         methods: {
             ...mapActions([
-                'getCreditRecords'
+                'getCreditRecords',
+                'cancelUpdate'
             ]),
             handleSearch(selectedKeys, confirm, dataIndex) {
                 confirm();
@@ -74,12 +83,17 @@
                 clearFilters();
                 this.searchText = '';
             },
-
+            changeStatus(id) {
+                this.cancelUpdate(id);
+            }
         },
         computed: {
             ...mapGetters([
                 'creditRecordsList'
             ]),
+            showRecordsList() {
+                return this.creditRecordsList
+            },
             columns() {
                 return [
                     {
@@ -88,6 +102,18 @@
                         key: 'id',
                         align: 'center',
                         width: '100',
+                        scopedSlots: {
+                            filterDropdown: 'filterDropdown',
+                            filterIcon: 'filterIcon',
+                        },
+                        onFilter: (value, record) => Number(record.rid) === Number(value),
+                        onFilterDropdownVisibleChange: visible => {
+                            if (visible) {
+                                setTimeout(() => {
+                                    this.searchInput.focus();
+                                }, 0);
+                            }
+                        },
                     },
                     {
                         title: '用户名',
@@ -152,12 +178,16 @@
                         key: 'desc',
                         scopedSlots: {customRender: 'desc'},
                     },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        scopedSlots: { customRender: 'action' },
+                    },
                 ];
             }
         },
         async mounted() {
             await this.getCreditRecords();
-            this.showRecordsList = this.creditRecordsList;
         }
     }
 </script>

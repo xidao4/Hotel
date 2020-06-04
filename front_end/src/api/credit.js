@@ -5,7 +5,6 @@ const api = {
 }
 
 export function updateCreditAPI(param) {
-    console.log(param.method)
     return axios({
         url:`${api.creditPre}/${param.method}`,
         method: 'POST',
@@ -31,5 +30,12 @@ export function getCreditByIdAPI(data){
     return axios({
         url:`${api.creditPre}/${data.userId}/getCreditById`,
         method: 'GET',
+    })
+}
+
+export function cancelUpdateAPI(param){
+    return axios({
+        url:`${api.creditPre}/${param}/cancelUpdate`,
+        method: 'POST',
     })
 }

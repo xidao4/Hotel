@@ -34,6 +34,10 @@
         select userId from OrderList where id=#{orderid}
     </select>
 
+    <update id="setCrid">
+        update OrderList set crid=#{crid} where id=#{orderid}
+    </update>
+
 
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>

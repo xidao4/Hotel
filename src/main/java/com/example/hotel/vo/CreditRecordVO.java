@@ -79,6 +79,7 @@ public class CreditRecordVO {
         this.desc = desc;
     }
 
+
     @Override
     public String toString() {
         return "CreditRecordVO{" +
