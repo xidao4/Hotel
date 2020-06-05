@@ -28,6 +28,21 @@
                     账户管理
                 </router-link>
             </a-menu-item>
+            <a-menu-item key="5" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'manageOrder'}">
+                    <a-icon type="user" />订单管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="6" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'creditList'}">
+                    <a-icon type="user" />信用管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="7" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'msgFromUser'}">
+                    <a-icon type="user" />客户消息
+                </router-link>
+            </a-menu-item>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
@@ -57,8 +72,7 @@
 
 </template>
 <script>
-	import {mapGetters, mapActions, mapMutations} from 'vuex'
-
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
 	export default {
 		name: '',
 		data() {
@@ -73,15 +87,21 @@
 			])
 		},
 		mounted() {
-			if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
-				this.current = ['1']
-			} else if (this.$route.name == 'userInfo') {
-				this.current = ['2']
-			} else if (this.$route.name == 'manageHotel') {
-				this.current = ['3']
-			} else {
-				this.current = ['4']
-			}
+                if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
+                    this.current = ['1']
+                } else if (this.$route.name == 'userInfo') {
+                    this.current = ['2']
+                } else if (this.$route.name == 'manageHotel') {
+                    this.current = ['3']
+                } else if (this.$route.name == 'manageUser') {
+                    this.current = ['4']
+                } else if (this.$route.name == 'manageOrder') {
+                    this.current = ['5']
+                } else if (this.$route.name == 'creditList') {
+                    this.current = ['6']
+                } else if (this.$route.name == 'msgFromUser') {
+                    this.current = ['7']
+                }
 		},
 		computed: {
 			...mapGetters([
@@ -142,7 +162,6 @@
                 position: relative;
                 top: 2px;
             }
-
             .search {
                 width: 300px;
                 margin-left: 30px

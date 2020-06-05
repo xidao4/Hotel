@@ -11,7 +11,6 @@ public class User {
     private String password;
     private String userName;
     private String phoneNumber;
-    private double credit;
     private UserType userType;
     private int membership;
     private String birthday;
@@ -42,13 +41,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public double getCredit() {
-        return credit;
-    }
-
-    public void setCredit(double credit) {
-        this.credit = credit;
-    }
 
     public String getEmail() {
         return email;
@@ -104,5 +96,17 @@ public class User {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userName='" + userName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", userType=" + userType +
+                '}';
+
     }
 }

@@ -1,14 +1,25 @@
 <template>
-    <div id="app" v-title data-title="NJUSE酒店管理系统">
-        <transition name="fade-transform" mode="out-in">
-            <router-view/>
-        </transition>
-    </div>
+    <a-config-provider :locale="zh_CN">
+        <div id="app" v-title data-title="NJUSE酒店管理系统">
+            <transition name="fade-transform" mode="out-in">
+                <router-view/>
+            </transition>
+        </div>
+    </a-config-provider>
 </template>
+
+
 <script>
-	export default {
-		components: {}
-	}
+    import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN';
+
+    export default {
+        name: 'app',
+        data() {
+            return {
+                zh_CN,
+            };
+        }
+    };
 </script>
 <style>
     #app {

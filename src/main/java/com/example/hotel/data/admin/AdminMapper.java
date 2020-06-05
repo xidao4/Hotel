@@ -14,10 +14,11 @@ import java.util.List;
 @Repository
 public interface AdminMapper {
 
+    int addOperator(User user);
     int addManager(User user);
-
     List<User> getAllManagers();
-
     List<User> getAllClients();
+    List<User> getAllOperators();
+
 }
 

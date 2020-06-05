@@ -40,5 +40,11 @@ public interface AccountService {
      */
     ResponseVO updateUserInfo(int id, String password,String username,String phonenumber);
 
+    ResponseVO deleteUser(int id);
 
+    ResponseVO registerMem(MemRegisterVO memRegisterVO);
+
+    ResponseVO upgradeMem(int userId);
+
+    MemInfoVO getMemInfo(int userId);
 }

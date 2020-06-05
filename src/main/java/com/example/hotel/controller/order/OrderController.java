@@ -34,9 +34,22 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
-    @GetMapping("/{orderid}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid){
-        return orderService.annulOrder(orderid);
+    @GetMapping("/{orderid}/{status}/changeStatus")
+    public ResponseVO changeStatus(@PathVariable int orderid,@PathVariable String status){
+        return orderService.changeStatus(orderid,status);
+    }
+
+    @GetMapping("/{orderid}/getOrder")
+    public ResponseVO retrieveOrder(@PathVariable int orderid){
+        return ResponseVO.buildSuccess(orderService.getOrder(orderid));
+    }
+
+    @GetMapping("/{orderid}/{reason}/annulOrder")
+    public ResponseVO annulOrder(@PathVariable int orderid,@PathVariable String reason){
+        System.out.println("OrderController");
+        System.out.println(orderid);
+        System.out.println(reason);
+        return orderService.annulOrder(orderid,reason);
     }
 
     @GetMapping("/{hotelId}/allOrders")

@@ -101,9 +101,9 @@
             <a-form-item v-bind="formItemLayout" label="总价">
                 <span>￥{{ totalPrice }}</span>
             </a-form-item>
-            <a-divider></a-divider>
+            <a-divider v-if="orderMatchCouponList.length>0"></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
-            <a-checkbox-group v-model="checkedList" @change="onchange">
+            <a-checkbox-group v-model="checkedList" @change="onchange" v-if="orderMatchCouponList.length>0">
                 <a-table
                         :columns="columns"
                         :dataSource="orderMatchCouponList"
@@ -119,7 +119,11 @@
                     </a-checkbox>
                 </a-table>
             </a-checkbox-group>
+<<<<<<< HEAD
             <a-form-item v-bind="formItemLayout" label="结算后总价">
+=======
+             <a-form-item v-bind="formItemLayout" label="结算后总价" v-if="orderMatchCouponList.length>0">
+>>>>>>> ca18125ddb2a32f789ffb7a87c1adc540aef84c4
                 <span>￥{{ finalPrice }}</span>
             </a-form-item>
         </a-form>
@@ -220,6 +224,7 @@
 					this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) != -1).forEach(item => this.finalPrice = this.finalPrice - item.discountMoney)
 				} else {
 
+<<<<<<< HEAD
 				}
 			},
 			handleSubmit(e) {
@@ -258,4 +263,55 @@
 			}
 		}
 	}
+=======
+        },
+        changeRoomNum(v) {
+            this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]),'day')
+        },
+        onchange() {
+            this.finalPrice = this.totalPrice
+            if(this.checkedList.length>0){
+                this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
+            }else{
+                
+            }
+        },
+        handleSubmit(e) {
+            e.preventDefault();
+            this.form.validateFieldsAndScroll((err, values) => {
+                if (!err) {
+                    const data = {
+                        hotelId: this.currentHotelId,
+                        hotelName: this.currentHotelInfo.name,
+                        userId: Number(this.userId),
+                        checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                        checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                        roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
+                        roomNum: this.form.getFieldValue('roomNum'),
+                        peopleNum: this.form.getFieldValue('peopleNum'),
+                        haveChild: this.form.getFieldValue('haveChild'),
+                        createDate: '',
+                        price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
+                    }
+                    this.addOrder(data)
+                    console.log(data)
+                }
+            });
+        },
+    },
+    watch:{
+        totalPrice(val) {
+            let data = {
+                userId: this.userId,
+                hotelId: this.currentHotelId,
+                orderPrice: this.totalPrice,
+                roomNum: this.form.getFieldValue('roomNum'),
+                checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+            }
+            this.getOrderMatchCoupons(data)
+        }
+    }
+}
+>>>>>>> ca18125ddb2a32f789ffb7a87c1adc540aef84c4
 </script>

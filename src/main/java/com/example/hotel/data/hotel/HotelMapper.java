@@ -17,4 +17,11 @@ public interface HotelMapper {
     List<HotelVO> selectAllHotel();
 
     HotelVO selectById(@Param("id") Integer id);
+
+    int setManagerId(@Param("managerId")Integer managerId,@Param("id") Integer id);
+
+    int delete(@Param("id") Integer id);
+
+    int update(@Param("id") int id, @Param("address") String address,@Param("phoneNum") String phoneNum);
+
 }
