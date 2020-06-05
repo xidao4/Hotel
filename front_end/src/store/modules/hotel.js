@@ -2,7 +2,10 @@ import { message } from 'ant-design-vue'
 import store from '@/store'
 import {
     getHotelsAPI,
-    getHotelByIdAPI
+    getHotelByIdAPI,
+    addHotelCommentAPI,
+    getCommentByHotelIdAPI,
+    updateReplyAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -31,9 +34,15 @@ const hotel = {
         },
         orderMatchCouponList: [
 
+        ],
+        comment: [
+
         ]
     },
     mutations: {
+        set_comment:function(state,data){
+            state.comment=data
+        },
         set_hotelList: function(state, data) {
             state.hotelList = data
         },
@@ -98,7 +107,40 @@ const hotel = {
             if(res){
                 commit('set_orderMatchCouponList', res)
             }
-        }
+        },
+        addHotelComment: async({ state, commit }, data) => {
+            console.log('Vuex里调用addComment')
+            const res = await addHotelCommentAPI(data)
+            if(res){
+                message.success('感谢你的评价～')
+            }
+            else {
+                message.error('评价失败，一会儿再试试吧')
+            }
+        },
+        getCommentByHotelId: async({ state, commit }, data) => {
+            console.log('Vuex里调用getCommentByHotelId')
+            console.log(data)
+            const res = await getCommentByHotelIdAPI(data)
+            console.log(res)
+            if(res){
+                console.log('改变Vuex里的comment')
+                console.log(res)
+                commit('set_comment', res)
+            }
+        },
+        updateReply: async({ state, commit }, data) => {
+            console.log('Vuex里调用updateReply')
+            console.log(data)
+            const res = await updateReplyAPI(data)
+            console.log(res)
+            if(res){
+                console.log('updateReply成功')
+                message.success('回复成功！')
+                // const r=await this.getCommentByHotelId(this.currentHotelId)
+            }
+        },
+
     }
 }
 

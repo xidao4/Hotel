@@ -21,7 +21,7 @@
         update OrderList set orderState="客户撤销", cancelReason=#{reason} where id=#{orderid}
     </update>
 
-    <!--取消订单状态的数据库操作-->
+    <!--更新订单状态的数据库操作-->
     <update id="changeStatus">
         update OrderList set orderState=#{status} where id=#{orderid}
     </update>

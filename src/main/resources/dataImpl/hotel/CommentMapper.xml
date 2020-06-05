@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hotel.data.hotel.CommentMapper">
+
+    <insert id="addComment" parameterType="com.example.hotel.po.Comment" useGeneratedKeys="true" keyProperty="id">
+        insert into CommentList(userId,hotelId,commentValue,commentContent,avatar,userName,reply)
+        values(#{userId},#{hotelId},#{commentValue},#{commentContent},#{avatar},#{userName},#{reply})
+    </insert>
+
+    <select id="getCommentByHotelId" resultMap="Comment">
+        select * from CommentList where hotelId=#{hotelId}
+    </select>
+
+    <!--更新评价回复的数据库操作-->
+    <update id="updateReply">
+        update CommentList set reply=#{reply} where id=#{commentId}
+    </update>
+
+    <resultMap id="Comment" type="com.example.hotel.po.Comment">
+    </resultMap>
+
+</mapper>
