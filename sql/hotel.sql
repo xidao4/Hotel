@@ -159,7 +159,8 @@ CREATE TABLE `User` (
   `credit` double(255,0) DEFAULT NULL,
   `usertype` varchar(255) DEFAULT NULL,
   `birthday` varchar(255) DEFAULT NULL,
-  `avatar_url` varchar(256) not null,
+  `avatar_url` varchar(256) DEFAULT null,
+  `createTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -170,7 +171,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (4,'1012681@qq.com','123456','测试一号','12345678919',100,'Client'),(5,'123@qq.com','123456','测试二号','12345678911',100,'Client'),(6,'333@qq.com','123456',NULL,NULL,NULL,'HotelManager');
+INSERT INTO `User` VALUES (4,'1012681@qq.com','123456','测试一号','12345678919',100,'Client',NULL,NULL,NULL),(5,'123@qq.com','123456','测试二号','12345678911',100,'Client',NULL,NULL,NULL),(6,'333@qq.com','123456',NULL,NULL,NULL,'HotelManager',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

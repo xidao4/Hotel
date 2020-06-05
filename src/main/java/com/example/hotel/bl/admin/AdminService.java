@@ -1,6 +1,7 @@
 package com.example.hotel.bl.admin;
 
 import com.example.hotel.po.User;
+import com.example.hotel.vo.AdminCurveVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
 
@@ -25,5 +26,9 @@ public interface AdminService {
      */
     List<User> getAllManagers();
 
-
+    /**
+     * 获得推广度曲线所需的datasets
+     * @return
+     */
+    AdminCurveVO getCurveDataSet();
 }

@@ -17,5 +17,7 @@ public interface AdminMapper {
     int addManager(User user);
 
     List<User> getAllManagers();
+
+    List<User> getAllClients();
 }
 

@@ -10,6 +10,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -22,6 +24,7 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVO registerAccount(UserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO,user);
+        user.setCreateTime(LocalDateTime.now());
         try {
             accountMapper.createNewAccount(user);
         } catch (Exception e) {

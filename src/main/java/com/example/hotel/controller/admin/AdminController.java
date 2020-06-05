@@ -5,10 +5,7 @@ import com.example.hotel.blImpl.admin.AdminServiceImpl;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: chenyizong
@@ -31,5 +28,7 @@ public class AdminController {
         return ResponseVO.buildSuccess(adminService.getAllManagers());
     }
 
-
+    @GetMapping("/getCurveDataSet")
+    public ResponseVO getCurveDataSet() {
+        return ResponseVO.buildSuccess(adminService.getCurveDataSet());}
 }

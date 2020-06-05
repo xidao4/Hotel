@@ -3,12 +3,15 @@ import {
     addManagerAPI,
 } from '@/api/admin'
 import { message } from 'ant-design-vue'
+import {getCurveDatasetAPI} from "../../api/admin";
 
 const admin = {
     state: {
         managerList: [
 
         ],
+        dateList: [],
+        numList: [],
         addManagerModalVisible: false,
         addManagerParams: {
             email:'',
@@ -27,6 +30,12 @@ const admin = {
                 ...state.addManagerParams,
                 ...data,
             }
+        },
+        set_dateList: function (state, data) {
+            state.dateList = data
+        },
+        set_numList: function (state, data) {
+            state.numList = data
         }
     },
     actions: {
@@ -48,6 +57,18 @@ const admin = {
                 dispatch('getManagerList')
             }else{
                 message.error('添加失败')
+            }
+        },
+        getCurveDataset: async ({commit, state}) => {
+            const res = await getCurveDatasetAPI()
+            if(res){
+                //console.log("module")
+                //console.log(res)
+                commit('set_dateList', res.dateList)
+                commit('set_numList', res.numList)
+                //console.log("module_fin")
+            }else{
+                console.log("error")
             }
         }
     }

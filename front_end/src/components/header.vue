@@ -22,7 +22,7 @@
                     酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
+            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Manager'">
                 <router-link :to="{ name: 'manageUser'}">
                     <a-icon type="user"/>
                     账户管理

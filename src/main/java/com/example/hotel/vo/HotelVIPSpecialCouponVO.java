@@ -1,5 +1,8 @@
 package com.example.hotel.vo;
 
+/**
+ * @Author: syc
+ */
 public class HotelVIPSpecialCouponVO extends CouponVO {
     private Integer hotelId;
     private Integer discountMoney;
