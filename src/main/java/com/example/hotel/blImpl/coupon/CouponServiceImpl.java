@@ -19,6 +19,9 @@ public class CouponServiceImpl implements CouponService {
     private final  TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy;
     private final RoomNumCouponStrategyImpl roomNumCouponStrategy;
     private final  TimeCouponStrategyImpl timeCouponStrategy;
+    private final BirthdayCouponStrategyImpl birthdayCouponStrategy;
+    private final FestivalCouponStrategyImpl festivalCouponStrategy;
+    private final VIPSpecialCouponStrategyImpl vipSpecialCouponStrategy;
     private final CouponMapper couponMapper;
 
     private static List<CouponMatchStrategy> strategyList = new ArrayList<>();
@@ -27,11 +30,17 @@ public class CouponServiceImpl implements CouponService {
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,
                              TimeCouponStrategyImpl timeCouponStrategy,
                              RoomNumCouponStrategyImpl roomNumCouponStrategy,
+                             BirthdayCouponStrategyImpl birthdayCouponStrategy,
+                             FestivalCouponStrategyImpl festivalCouponStrategy,
+                             VIPSpecialCouponStrategyImpl vipSpecialCouponStrategy,
                              CouponMapper couponMapper) {
         this.couponMapper = couponMapper;
         this.targetMoneyCouponStrategy = targetMoneyCouponStrategy;
         this.timeCouponStrategy = timeCouponStrategy;
         this.roomNumCouponStrategy=roomNumCouponStrategy;
+        this.birthdayCouponStrategy=birthdayCouponStrategy;
+        this.festivalCouponStrategy=festivalCouponStrategy;
+        this.vipSpecialCouponStrategy=vipSpecialCouponStrategy;
         //strategyList.add(roomNumCouponStrategy);
         strategyList.add(targetMoneyCouponStrategy);
         //strategyList.add(timeCouponStrategy);
@@ -112,8 +121,51 @@ public class CouponServiceImpl implements CouponService {
         coupon.setCouponName(couponVO.getName());
         coupon.setDescription(couponVO.getDescription());
         coupon.setCouponType(couponVO.getType());
+        coupon.setTargetRoomNum(couponVO.getTargetRoomNum());
         coupon.setHotelId(couponVO.getHotelId());
         coupon.setDiscount(couponVO.getDiscount());
+        coupon.setStatus(1);
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    @Override
+    public CouponVO addHotelBirthdayCoupon(HotelBirthdayCouponVO couponVO) {
+        Coupon coupon = new Coupon();
+        coupon.setCouponName(couponVO.getName());
+        coupon.setDescription(couponVO.getDescription());
+        coupon.setCouponType(couponVO.getType());
+        coupon.setHotelId(couponVO.getHotelId());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setStatus(1);
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    @Override
+    public CouponVO addHotelFestivalCoupon(HotelFestivalCouponVO couponVO) {
+        Coupon coupon = new Coupon();
+        coupon.setCouponName(couponVO.getName());
+        coupon.setDescription(couponVO.getDescription());
+        coupon.setCouponType(couponVO.getType());
+        coupon.setHotelId(couponVO.getHotelId());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setStatus(1);
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    @Override
+    public CouponVO addHotelVIPSpecialCoupon(HotelVIPSpecialCouponVO couponVO) {
+        Coupon coupon = new Coupon();
+        coupon.setCouponName(couponVO.getName());
+        coupon.setDescription(couponVO.getDescription());
+        coupon.setCouponType(couponVO.getType());
+        coupon.setHotelId(couponVO.getHotelId());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);

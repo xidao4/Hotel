@@ -11,6 +11,9 @@ public class User {
     private String phoneNumber;
     private double credit;
     private UserType userType;
+    private int membership;
+    private String birthday;
+    private String avatar_url;
 
     public Integer getId() {
         return id;
@@ -66,5 +69,29 @@ public class User {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public int getMembership() {
+        return membership;
+    }
+
+    public void setMembership(int membership) {
+        this.membership = membership;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
     }
 }

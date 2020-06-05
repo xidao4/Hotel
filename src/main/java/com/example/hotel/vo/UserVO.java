@@ -14,6 +14,7 @@ public class UserVO {
     private String phoneNumber;
     private double credit;
     private UserType userType;
+    private String avatar_url;
 
     public Integer getId() {
         return id;
@@ -69,5 +70,13 @@ public class UserVO {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
     }
 }
