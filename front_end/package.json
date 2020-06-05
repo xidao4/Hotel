@@ -1,17 +1,16 @@
 {
-
   "name": "njuse-front",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
-
   },
   "dependencies": {
     "ant-design-vue": "^1.4.11",
     "axios": "^0.19.0",
     "core-js": "^3.6.4",
+    "echarts": "^4.8.0",
     "js-cookie": "^2.2.1",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
@@ -35,7 +34,6 @@
     },
     "extends": [
       "plugin:vue/essential"
-
     ],
     "parserOptions": {
       "parser": "babel-eslint"
