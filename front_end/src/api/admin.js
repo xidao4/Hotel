@@ -63,7 +63,7 @@ export function addManagerAPI(data){
 
 export function getCurveDatasetAPI() {
     return axios({
-        url: `${api.adminPre}//getCurveDataSet`,
+        url: `${api.adminPre}/getCurveDataSet`,
         method: 'GET'
     })
 }

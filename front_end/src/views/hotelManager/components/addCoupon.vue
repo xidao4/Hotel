@@ -21,12 +21,31 @@
                     <a-select-option value="2">多间特惠</a-select-option>
                     <a-select-option value="3">满减特惠</a-select-option>
                     <a-select-option value="4">限时特惠</a-select-option>
+                    <a-select-option value="5">节日特惠</a-select-option>
+                    <a-select-option value="6">会员特惠</a-select-option>
                 </a-select>
             </a-form-item>
             <a-form-item label="券名" v-bind="formItemLayout">
                 <a-input placeholder="请填写优惠券名" v-decorator="['name',{rules: [{required:true,message:'请输入券名'}]}]" />
             </a-form-item>
 
+            <!--            生日优惠所需表单部分-->
+            <a-form-item label="折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='1'">
+                <a-input placeholder="请填写折扣" v-decorator="['discount',{rules:[{required:true,message:'请填写折扣'}]}]"/>
+            </a-form-item>
+
+            <!--            节日优惠所需表单部分-->
+            <a-form-item label="折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='5'">
+                <a-input placeholder="请填写折扣" v-decorator="['discount',{rules:[{required:true,message:'请填写折扣'}]}]"/>
+            </a-form-item>
+
+            <!--            会员优惠所需表单部分-->
+            <a-form-item label="银会员折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='6'">
+                <a-input placeholder="请填写银会员折扣" v-decorator="['discount-silver',{rules:[{required:true,message:'请填写折扣'}]}]"/>
+            </a-form-item>
+            <a-form-item label="金会员折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='6'">
+                <a-input placeholder="请填写金会员折扣" v-decorator="['discount-gold',{rules:[{required:true,message:'请填写折扣'}]}]"/>
+            </a-form-item>
 
             <!--            targetMoney满减优惠所需表单部分-->
             <a-form-item label="达标金额" v-if="this.form.getFieldValue('type')==='3'">
@@ -121,7 +140,10 @@
                 // addHotelTargetMoneyCoupon：添加酒店策略接口
                 'addHotelTargetMoneyCoupon',
                 'addHotelTimeCoupon',
-                'addHotelTargetRoomNumCoupon'
+                'addHotelTargetRoomNumCoupon',
+                'addHotelBirthdayCoupon',
+                'addHotelFestivalCoupon',
+                'addHotelVIPSpecialCoupon'
             ]),
             cancel() {
                 this.set_addCouponVisible(false)
@@ -192,6 +214,46 @@
                             }
                             this.addHotelTimeCoupon(data)
                             this.form.resetFields()
+                        }
+                        else if(this.form.getFieldValue('type')==='5'){
+                            const data = {
+                                name: this.form.getFieldValue('name'),
+                                description: this.form.getFieldValue('description'),
+                                type: Number(this.form.getFieldValue('type')),
+                                discount: Number(this.form.getFieldValue('discount')),
+                                hotelId: Number(this.activeHotelId),
+                                status: 1
+                            }
+                            this.addHotelFestivalCoupon(data)
+                            this.form.resetFields()
+
+                        }
+                        else if(this.form.getFieldValue('type')==='1'){
+                            const data = {
+                                name: this.form.getFieldValue('name'),
+                                description: this.form.getFieldValue('description'),
+                                type: Number(this.form.getFieldValue('type')),
+                                discount: Number(this.form.getFieldValue('discount')),
+                                hotelId: Number(this.activeHotelId),
+                                status: 1
+                            }
+                            this.addHotelBirthdayCoupon(data)
+                            this.form.resetFields()
+
+                        }
+                        else if(this.form.getFieldValue('type')==='6'){
+                            const data = {
+                                name: this.form.getFieldValue('name'),
+                                description: this.form.getFieldValue('description'),
+                                type: Number(this.form.getFieldValue('type')),
+                                discountSilver: Number(this.form.getFieldValue('discount-silver')),
+                                discountGold: Number(this.form.getFieldValue('discount-gold')),
+                                hotelId: Number(this.activeHotelId),
+                                status: 1
+                            }
+                            this.addHotelVIPSpecialCoupon(data)
+                            this.form.resetFields()
+
                         }
                     }
                 });

@@ -26,6 +26,30 @@ export function hotelTargetRoomNumAPI(data) {
     })
 }
 
+export function hotelBirthdayAPI(data) {
+    return axios({
+        url: `${api.couponPre}/hotelBirthday`,
+        method: 'POST',
+        data,
+    })
+}
+
+export function hotelFestivalAPI(data) {
+    return axios({
+        url: `${api.couponPre}/hotelFestival`,
+        method: 'POST',
+        data,
+    })
+}
+
+export function hotelVIPSpecialAPI(data) {
+    return axios({
+        url: `${api.couponPre}/hotelVIPSpecial`,
+        method: 'POST',
+        data,
+    })
+}
+
 export function hotelAllCouponsAPI(hotelId) {
     return axios({
         url: `${api.couponPre}/hotelAllCoupons`,

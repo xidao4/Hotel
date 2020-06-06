@@ -43,6 +43,11 @@
                     <a-icon type="user" />客户消息
                 </router-link>
             </a-menu-item>
+            <a-menu-item key="8" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'proposalCurve'}">
+                    <a-icon type="user" />推广度曲线
+                </router-link>
+            </a-menu-item>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
@@ -101,6 +106,8 @@
                     this.current = ['6']
                 } else if (this.$route.name == 'msgFromUser') {
                     this.current = ['7']
+                } else if (this.$route.name == 'proposalCurve') {
+                    this.current = ['8']
                 }
 		},
 		computed: {

@@ -17,12 +17,9 @@ import{
     addHotelAPI
 }from '@/api/hotel'
 import { message } from 'ant-design-vue'
-import {getCurveDatasetAPI} from "../../api/admin";
 
 const admin = {
     state: {
-        dateList: [],
-        numList: [],
         addManagerModalVisible: false,
         addManagerParams: [],
         operatorList:[],
@@ -76,12 +73,6 @@ const admin = {
                 ...state.addOperatorParams,
                 ...data,
             }
-        },
-        set_dateList: function (state, data) {
-            state.dateList = data
-        },
-        set_numList: function (state, data) {
-            state.numList = data
         },
         set_modifyOOModalVisible: function(state,data){
             state.modifyOOModalVisible=data
@@ -176,18 +167,6 @@ const admin = {
                 dispatch('getOperatorList')
             }else{
                 message.error('添加失败')
-            }
-        },
-        getCurveDataset: async ({commit, state}) => {
-            const res = await getCurveDatasetAPI()
-            if(res){
-                //console.log("module")
-                //console.log(res)
-                commit('set_dateList', res.dateList)
-                commit('set_numList', res.numList)
-                //console.log("module_fin")
-            }else{
-                console.log("error")
             }
         },
         deleteUser:async({dispatch},userId)=>{

@@ -47,7 +47,8 @@ public class CreditController {
 
     @GetMapping("/{id}/getUserCreditRecords")
     public ResponseVO getUserCredit(@PathVariable int id) {
-        return ResponseVO.buildSuccess(creditService.getUserCreditRecords(id));
+        System.out.println("succ");
+        return ResponseVO.buildSuccess(creditService.getCreditCurve(id));
     }
 
 }

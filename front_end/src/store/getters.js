@@ -9,6 +9,8 @@ const getters = {
   memInfo:state=>state.user.memInfo,
   hotelId:state=>state.user.hotelId,
   registerModalVisible:state=>state.user.registerModalVisible,
+  dateRecord:state=>state.user.dateRecord,
+  creditRecord:state=>state.user.creditRecord,
   //hotel
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,
@@ -25,8 +27,6 @@ const getters = {
   managerList: state => state.admin.managerList,
   addManagerModalVisible: state => state.admin.addManagerModalVisible,
   addManagerParams: state => state.admin.addManagerParams,
-  dateList: state => state.admin.dateList,
-  numList: state => state.admin.numList,
   addOperatorModalVisible: state => state.admin.addOperatorModalVisible,
   addOperatorParams: state => state.admin.addOperatorParams,
   modifyOOModalVisible:state=>state.admin.modifyOOModalVisible,
@@ -56,6 +56,8 @@ const getters = {
   creditRecordsList: state => state.operator.creditRecordsList,
   currentOrderId: state => state.operator.currentOrderId,
   currentUpdateInfo: state => state.operator.currentUpdateInfo,
+  dateList: state => state.operator.dateList,
+  numList: state => state.operator.numList,
   }
 
   export default getters

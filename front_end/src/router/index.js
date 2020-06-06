@@ -64,6 +64,11 @@ const routes = [
         name: 'creditList',
         component: () => import('@/views/operator/creditList')
       },
+      {
+        path: '/operator/proposalCurve',
+        name: 'proposalCurve',
+        component: () => import('@/views/operator/proposalCurve')
+      },
     ]
   },
 ]

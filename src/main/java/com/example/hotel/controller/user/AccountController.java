@@ -66,6 +66,8 @@ public class AccountController {
         return ResponseVO.buildSuccess(memInfoVO);
     }
 
+    
+
     private ResponseVO getResUserVO(User user) {
         if(user == null) {
             return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);

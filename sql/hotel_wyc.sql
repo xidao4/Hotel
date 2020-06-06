@@ -34,6 +34,8 @@ CREATE TABLE `Coupon` (
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   `discount_money` int(11) DEFAULT NULL,
+  `discountSilver` double DEFAULT NULL,
+  `discountGold` double DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

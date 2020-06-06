@@ -1,6 +1,5 @@
 <template>
     <div class="manageUser-wrapper">
-        <div id="pic2" style="width: 100%;height:400px;"></div>
         <a-tabs>
             <!--            <a-tab-pane tab="入驻酒店及其工作人员" key="1">-->
             <!--                <div style="width: 100%; text-align: right; margin:20px 0">-->
@@ -108,7 +107,6 @@
 </template>
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import echarts from 'echarts'
     import AddOperatorModal from './components/addOperatorModal'
     import ModifyOOModal from "./components/ModifyOOModal"
     import ModifyClientModal from "./components/ModifyClientModal"
@@ -301,44 +299,14 @@
                 'addHotelModalVisible',
                 'tmpHotelId',
                 'addMModalVisible',
-                'dateList',
-                'numList'
             ]),
         },
         watch: {},
-        async mounted() {
+        mounted() {
             this.getClientList()
             this.getOperatorList()
             this.getManagerList()
             this.getHotelList()
-            await this.getCurveDataset()
-            //console.log("loading...")
-            //console.log(this.dateList)
-            //console.log(this.numList)
-            this.$nextTick(function () {
-                let dom = document.getElementById('pic2')
-                let myChart = echarts.init(dom)
-                myChart.setOption({
-                    title: {
-                        text: '推广度曲线'
-                    },
-                    toolbox: {
-                        show: true
-                    },
-                    legend: {
-                        data: ['累计注册用户数']
-                    },
-                    xAxis: {
-                        data: this.dateList
-                    },
-                    yAxis: {},
-                    series: [{
-                        name: '注册用户数',
-                        type: 'line',
-                        data: this.numList
-                    }]
-                })
-            })
         },
         methods: {
             ...mapActions([
@@ -351,7 +319,6 @@
                 'getTmpUserInfo',
                 'getTmpClientInfo',
                 'searchClient',
-                'getCurveDataset',
             ]),
             ...mapMutations([
                 'set_addOperatorModalVisible',

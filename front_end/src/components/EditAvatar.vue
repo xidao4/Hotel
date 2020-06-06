@@ -4,7 +4,7 @@
             list-type="picture-card"
             class="avatar-uploader"
             :show-upload-list="false"
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            action="http://localhost:8000/api/user"
             :before-upload="beforeUpload"
             @change="handleChange"
     >

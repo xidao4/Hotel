@@ -179,7 +179,9 @@ export default {
             columns,
             data: [],
             form: this.$form.createForm(this, { name: 'coordinated' }),
-            avatar_url: ''
+            avatar_url: '',
+            date_curve: [],
+            credit_curve: [],
         }
     },
     components: {
@@ -195,6 +197,8 @@ export default {
             'membership',
             'memInfo',
             'registerModalVisible',
+            'dateRecord',
+            'creditRecord'
         ])
     },
     async mounted() {
@@ -203,6 +207,8 @@ export default {
         await this.getMemInfo()
         await this.getUserInfo()
         await this.getUserOrders()
+        //console.log("loading...")
+        await this.getUserCredit()
         this.$nextTick(function () {
             let dom = document.getElementById('pic')
             let myChart = echarts.init(dom)
@@ -214,16 +220,16 @@ export default {
                     show: true
                 },
                 legend: {
-                    data: ['销量']
+                    data: ['信用']
                 },
                 xAxis: {
-                    data: ["苹果", "橘子", "橙子", "香蕉", "菠萝", "榴莲"]
+                    data: this.dateRecord
                 },
                 yAxis: {},
                 series: [{
                     name: '信用',
                     type: 'line',
-                    data: [40, 20, 35, 60, 55, 10]
+                    data: this.creditRecord
                 }]
             })
         })
@@ -236,6 +242,7 @@ export default {
             'cancelOrder',
             'getOrderById',
             'getMemInfo',
+            'getUserCredit',
         ]),
         ...mapMutations([
             'set_registerModalVisible',

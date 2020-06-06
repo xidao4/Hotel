@@ -15,6 +15,7 @@ import {
 } from '@/api/coupon'
 // 提示组件
 import { message } from 'ant-design-vue'
+import {hotelBirthdayAPI, hotelFestivalAPI, hotelVIPSpecialAPI} from "../../api/coupon";
 
 const hotelManager = {
     state: {
@@ -151,6 +152,45 @@ const hotelManager = {
         },
         addHotelTargetRoomNumCoupon: async({ commit, dispatch }, data) => {
             const res = await hotelTargetRoomNumAPI(data)
+            if(res){
+                // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
+                dispatch('getHotelCoupon')
+                commit('set_addCouponVisible',false)
+                commit('set_couponVisible',true)
+                message.success('添加策略成功')
+            }else{
+                // 添加失败后的操作
+                message.error('添加失败')
+            }
+        },
+        addHotelBirthdayCoupon: async({ commit, dispatch }, data) => {
+            const res = await hotelBirthdayAPI(data)
+            if(res){
+                // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
+                dispatch('getHotelCoupon')
+                commit('set_addCouponVisible',false)
+                commit('set_couponVisible',true)
+                message.success('添加策略成功')
+            }else{
+                // 添加失败后的操作
+                message.error('添加失败')
+            }
+        },
+        addHotelFestivalCoupon: async({ commit, dispatch }, data) => {
+            const res = await hotelFestivalAPI(data)
+            if(res){
+                // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
+                dispatch('getHotelCoupon')
+                commit('set_addCouponVisible',false)
+                commit('set_couponVisible',true)
+                message.success('添加策略成功')
+            }else{
+                // 添加失败后的操作
+                message.error('添加失败')
+            }
+        },
+        addHotelVIPSpecialCoupon: async({ commit, dispatch }, data) => {
+            const res = await hotelVIPSpecialAPI(data)
             if(res){
                 // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
                 dispatch('getHotelCoupon')

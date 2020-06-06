@@ -29,6 +29,21 @@ public class CouponController {
         CouponVO couponVO = couponService.addHotelTargetRoomNumCoupon(hotelTargetRoomNumCouponVO);
         return ResponseVO.buildSuccess(couponVO);
     }
+    @PostMapping("/hotelBirthday")
+    public ResponseVO addHotelBirthdayCoupon(@RequestBody HotelBirthdayCouponVO hotelBirthdayCouponVO){
+        CouponVO couponVO = couponService.addHotelBirthdayCoupon(hotelBirthdayCouponVO);
+        return ResponseVO.buildSuccess(couponVO);
+    }
+    @PostMapping("/hotelFestival")
+    public ResponseVO addHotelFestivalCoupon(@RequestBody HotelFestivalCouponVO hotelFestivalCouponVO){
+        CouponVO couponVO = couponService.addHotelFestivalCoupon(hotelFestivalCouponVO);
+        return ResponseVO.buildSuccess(couponVO);
+    }
+    @PostMapping("/hotelVIPSpecial")
+    public ResponseVO addHotelVIPSpecialCoupon(@RequestBody HotelVIPSpecialCouponVO hotelVIPSpecialCouponVO){
+        CouponVO couponVO = couponService.addHotelVIPSpecialCoupon(hotelVIPSpecialCouponVO);
+        return ResponseVO.buildSuccess(couponVO);
+    }
 
     @GetMapping("/hotelAllCoupons")
     public ResponseVO getHotelAllCoupons(@RequestParam Integer hotelId) {
@@ -41,7 +56,8 @@ public class CouponController {
                                            @RequestParam Double orderPrice,
                                            @RequestParam Integer roomNum,
                                            @RequestParam String checkIn,
-                                           @RequestParam String checkOut) {
+                                           @RequestParam String checkOut,
+                                           @RequestParam String createDate) {
         OrderVO requestOrderVO = new OrderVO();
         requestOrderVO.setUserId(userId);
         requestOrderVO.setHotelId(hotelId);
@@ -49,6 +65,7 @@ public class CouponController {
         requestOrderVO.setRoomNum(roomNum);
         requestOrderVO.setCheckInDate(checkIn);
         requestOrderVO.setCheckOutDate(checkOut);
+        requestOrderVO.setCreateDate(createDate);
         return ResponseVO.buildSuccess(couponService.getMatchOrderCoupon(requestOrderVO));
     }
 

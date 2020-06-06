@@ -19,6 +19,9 @@ import {
 import{
     getHotelIdByManagerIdAPI
 }from '@/api/hotel'
+import{
+    getUserCreditAPI
+}from '@/api/credit'
 
 const getDefaultState = () => {
     return {
@@ -36,6 +39,8 @@ const getDefaultState = () => {
         memInfo:[],
         registerModalVisible:false,
         hotelId:'',
+        dateRecord: [],
+        creditRecord: [],
     }
 }
 
@@ -86,6 +91,12 @@ const user = {
         },
         set_hotelId:(state,data)=>{
             state.hotelId=data
+        },
+        set_dateRecord:(state,data)=>{
+            state.dateRecord = data
+        },
+        set_creditRecord:(state,data)=>{
+            state.creditRecord = data
         }
 
     },
@@ -207,6 +218,19 @@ const user = {
             const res = await registerMemAPI(data)
             if(res){
                 message.success('注册成功')
+            }
+        },
+        getUserCredit:async ({commit,state})=>{
+            const res = await getUserCreditAPI({
+                userId: Number(state.userId)
+            })
+            if(res){
+                console.log("module")
+                console.log(res)
+                commit('set_dateRecord',res.dateList)
+                commit('set_creditRecord',res.creditList)
+            }else{
+                console.log('fail')
             }
         }
     }

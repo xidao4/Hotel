@@ -137,7 +137,7 @@ public class CouponServiceImpl implements CouponService {
         coupon.setDescription(couponVO.getDescription());
         coupon.setCouponType(couponVO.getType());
         coupon.setHotelId(couponVO.getHotelId());
-        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setDiscount(couponVO.getDiscount());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
@@ -151,7 +151,7 @@ public class CouponServiceImpl implements CouponService {
         coupon.setDescription(couponVO.getDescription());
         coupon.setCouponType(couponVO.getType());
         coupon.setHotelId(couponVO.getHotelId());
-        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setDiscount(couponVO.getDiscount());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
@@ -165,7 +165,8 @@ public class CouponServiceImpl implements CouponService {
         coupon.setDescription(couponVO.getDescription());
         coupon.setCouponType(couponVO.getType());
         coupon.setHotelId(couponVO.getHotelId());
-        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setDiscountSilver(couponVO.getDiscountSilver());
+        coupon.setDiscountGold(couponVO.getDiscountGold());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);

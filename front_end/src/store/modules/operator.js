@@ -4,12 +4,15 @@ import {
     getCreditByIdAPI,
 } from '../../api/credit'
 import { getUserInfoAPI } from "../../api/user";
+import {getCurveDatasetAPI} from "../../api/admin";
 
 const state = {
     manageCreditVisible: false,
     currentOrderId: '',   // 当前展示的orderId
     currentUpdateInfo: {},
     creditRecordsList: [],
+    dateList: [],
+    numList: [],
 };
 
 const operator = {
@@ -32,9 +35,27 @@ const operator = {
         },
         set_creditRecordsList(state, data) {
             state.creditRecordsList = [...data]
-        }
+        },
+        set_dateList: function (state, data) {
+            state.dateList = [...data]
+        },
+        set_numList: function (state, data) {
+            state.numList = [...data]
+        },
     },
     actions: {
+        getCurveDataset: async ({commit, state}) => {
+            const res = await getCurveDatasetAPI()
+            if(res){
+                //console.log("module")
+                //console.log(res)
+                commit('set_dateList', res.dateList)
+                commit('set_numList', res.numList)
+                //console.log("module_fin")
+            }else{
+                console.log("error")
+            }
+        },
         getUserCreditById: async ({state, commit}, param) => {
             const res = await getCreditByIdAPI(param);
             if(res) {
