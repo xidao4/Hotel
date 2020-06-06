@@ -66,7 +66,7 @@ public class AccountController {
         return ResponseVO.buildSuccess(memInfoVO);
     }
 
-    
+    //TODO: 头像相关
 
     private ResponseVO getResUserVO(User user) {
         if(user == null) {
