@@ -95,7 +95,10 @@ public class AccountServiceImpl implements AccountService {
         int userId=memRegisterVO.getUserId();
         List<Order> orderList=orderMapper.getUserOrders(userId);
         for(Order o:orderList){
-            if(o.getOrderState()=="已完成"){
+            System.out.println("订单编号"+o.getId()+" 客户编号"+o.getUserId()+" "+o.getOrderState());
+        }
+        for(Order o:orderList){
+            if(o.getOrderState().equals("已执行")){
                 Member member=new Member();
 
                 try{
@@ -121,21 +124,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO upgradeMem(int userId) {
-        List<Order> orderList=orderMapper.getUserOrders(userId);
-        int count=0;
-        for(Order o:orderList) {
-            if (o.getOrderState() == "已完成") {
-                count++;
-            }
-            if(count==3){
-                Member member = new Member();
-                memberMapper.update(memberMapper.getInfo(userId).getMemberPoints(),userId);
-                return ResponseVO.buildSuccess(true);
-            }
+    public ResponseVO updateMemInfo(int userId, double amount) {
+        try{
+            memberMapper.update(amount*3,userId);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure("更新会员积分失败");
         }
-        return ResponseVO.buildFailure("没有升级金会员的资格");
+        return ResponseVO.buildSuccess(true);
     }
+
 
     @Override
     public MemInfoVO getMemInfo(int userId) {
@@ -146,7 +144,6 @@ public class AccountServiceImpl implements AccountService {
         }
         memInfoVO.setBirthday(member.getBirthday());
         memInfoVO.setMemberPoints(member.getMemberPoints());
-        memInfoVO.setMembership(member.getMembership());
         return memInfoVO;
     }
 }

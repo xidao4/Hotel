@@ -4,6 +4,7 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
+import com.example.hotel.data.user.MemberMapper;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
@@ -34,6 +35,8 @@ public class OrderServiceImpl implements OrderService {
     HotelService hotelService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    MemberMapper memberMapper;
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
@@ -124,6 +127,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO changeStatus(int orderid, String status) {
         orderMapper.changeStatus(orderid, status);
+        //如果改为“已执行”，且客户是会员，则更新会员积分 by ljy
+        if(status.equals("已执行")){
+            int userId=orderMapper.getUserId(orderid);
+            if(memberMapper.getInfo(userId)!=null){
+                Double amount=orderMapper.getPriceById(orderid);
+                accountService.updateMemInfo(userId,amount);
+            }
+        }
+
         return ResponseVO.buildSuccess(true);
     }
 

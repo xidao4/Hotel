@@ -43,6 +43,7 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
     }
 
+
     @PostMapping("/{hotelId}/getManagerId")
     public ResponseVO getManagerId(@PathVariable Integer hotelId){
         return hotelService.getManagerId(hotelId);

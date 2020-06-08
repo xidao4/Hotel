@@ -32,8 +32,11 @@ const getDefaultState = () => {
         idOrder:{
             id: -1
         },
-        membership:'',
-        memInfo:[],
+        memInfo: {
+            memberPoints: '',
+            birthday: ''
+        },
+        isMember:false,
         registerModalVisible:false,
         hotelId:'',
     }
@@ -75,19 +78,18 @@ const user = {
         set_idOrder: (state,data)=> {
             state.idOrder = data
         },
-        set_membership:(state,data)=>{
-            state.membership=data
-        },
         set_memInfo:(state,data)=>{
             state.memInfo=data
         },
         set_registerModalVisible:(state,data)=>{
             state.registerModalVisible=data
         },
+        set_isMember:(state,data)=>{
+            state.isMember=data
+        },
         set_hotelId:(state,data)=>{
             state.hotelId=data
         }
-
     },
 
     actions: {
@@ -194,20 +196,18 @@ const user = {
         getMemInfo:async ({state,commit})=>{
             const res=await getMemInfoAPI(state.userId)
             if(!res){
-                commit('set_membership',0)
+                commit('set_isMember',false)
             }else{
-                if(res.membership===1)
-                    commit('set_membership',1)
-                else
-                    commit('set_membership',2)
+                commit('set_isMember',true)
                 commit('set_memInfo',res)
             }
         },
-        registerMem:async ({commit},data)=>{
+        registerMem:async ({commit,dispatch},data)=>{
             const res = await registerMemAPI(data)
             if(res){
                 message.success('注册成功')
             }
+            dispatch('getMemInfo')
         }
     }
 }

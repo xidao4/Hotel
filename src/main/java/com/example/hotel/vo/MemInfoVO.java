@@ -3,23 +3,14 @@ package com.example.hotel.vo;
 import java.util.Date;
 
 public class MemInfoVO {
-    private Integer membership;
-    private Integer memberPoints;
+    private Double memberPoints;
     private Date birthday;
 
-    public Integer getMembership() {
-        return membership;
-    }
-
-    public void setMembership(Integer membership) {
-        this.membership = membership;
-    }
-
-    public Integer getMemberPoints() {
+    public Double getMemberPoints() {
         return memberPoints;
     }
 
-    public void setMemberPoints(Integer memberPoints) {
+    public void setMemberPoints(Double memberPoints) {
         this.memberPoints = memberPoints;
     }
 

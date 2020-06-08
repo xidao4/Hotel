@@ -45,29 +45,33 @@
             ...mapGetters([
                 'registerModalVisible',
                 'userId',
+                'memInfo'
             ])
         },
         methods: {
             ...mapMutations([
+                'set_registerModalVisible',
                 'set_registerModalVisible'
             ]),
             ...mapActions([
-                'registerMem'
+                'registerMem',
+                'getMemInfo'
             ]),
             cancel() {
                 this.set_registerModalVisible(false)
             },
             handleSubmit(e) {
                 e.preventDefault();
-                this.form.validateFieldsAndScroll((err, values) => {
+                this.form.validateFieldsAndScroll(async (err, values) => {
                     if (!err) {
                         const data = {
                             userId: this.userId,
                             birthday: this.form.getFieldValue('birthday'),
                         }
-                        this.registerMem(data)
+                        await this.registerMem(data)
                     }
                 });
+                this.set_registerModalVisible(false)
             },
         }
     }

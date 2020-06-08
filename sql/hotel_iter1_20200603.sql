@@ -167,7 +167,13 @@ CREATE TABLE `OrderList` (
 
 LOCK TABLES `OrderList` WRITE;
 /*!40000 ALTER TABLE `OrderList` DISABLE KEYS */;
-INSERT INTO `OrderList` VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已预订','未撤销'),(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123');
+INSERT INTO `OrderList`
+VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已预订','未撤销'),
+(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123'),
+(16,5,1,'汉庭酒店','2020-05-25','2020-05-30','Family',1,2,'0','2020-05-03',1895,'测试二号','12345678911','已执行','未撤销'),
+(17,5,1,'汉庭酒店','2020-05-23','2020-05-24','Family',1,2,'0','2020-05-03',1895,'测试二号','12345678911','已执行','未撤销'),
+(18,5,1,'汉庭酒店','2020-06-01','2020-06-02','Family',1,2,'0','2020-05-03',1895,'测试二号','12345678911','已执行','未撤销'),
+(19,7,1,'汉庭酒店','2020-06-01','2020-06-02','Family',1,2,'0','2020-05-03',1895,'测试三号','12345678911','已执行','未撤销');
 /*!40000 ALTER TABLE `OrderList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +278,16 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (0,'websiteAdmin@qq.com','12345678','网站管理员',NULL,'Manager'),(1,'hanTing@qq.com','12345678','汉庭酒店',NULL,'HotelManager'),(2,'rujia@qq.com','12345678','儒家酒店',NULL,'HotelManager'),(3,'guiyuan@qq.com','12345678','桂圆酒店',NULL,'HotelManager'),(4,'432@qq.com','123456','测试一号','12345678919','Client'),(5,'543@qq.com','123456','测试二号','12345678911','Client'),(6,'operator1@qq.com','12345678','网站运营人员一',NULL,'Operator'),(7,'765@qq.com','123456','测试三号','12345678911','Client'),(8,'operator2@qq.com','12345678','网站运营人员二',NULL,'Operator');
+INSERT INTO `User`
+VALUES (0,'websiteAdmin@qq.com','12345678','网站管理员',NULL,'Manager'),
+(1,'hanTing@qq.com','12345678','汉庭酒店',NULL,'HotelManager'),
+(2,'ruJia@qq.com','12345678','儒家酒店',NULL,'HotelManager'),
+(3,'guiYuan@qq.com','12345678','桂圆酒店',NULL,'HotelManager'),
+(4,'client1@qq.com','12345678','测试一号','12345678919','Client'),
+(5,'client2@qq.com','12345678','测试二号','12345678911','Client'),
+(6,'operator1@qq.com','12345678','网站运营人员一',NULL,'Operator'),
+(7,'client3@qq.com','12345678','测试三号','12345678911','Client'),
+(8,'operator2@qq.com','12345678','网站运营人员二',NULL,'Operator');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

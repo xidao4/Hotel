@@ -1,33 +1,6 @@
 <template>
     <div class="manageUser-wrapper">
         <a-tabs>
-<!--            <a-tab-pane tab="入驻酒店及其工作人员" key="1">-->
-<!--                <div style="width: 100%; text-align: right; margin:20px 0">-->
-<!--                  <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店及其工作人员</a-button>-->
-<!--                </div>-->
-<!--                <div style="width: 100%; text-align: right; margin:20px 0">-->
-<!--                    <a-button type="primary" @click="addManager"><a-icon type="plus" />添加酒店工作人员</a-button>-->
-<!--                </div>-->
-<!--&lt;!&ndash;              以下为有用代码&ndash;&gt;-->
-<!--              <div>-->
-<!--              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchClient" />-->
-<!--              <a-button @click="showAllHM">显示全部</a-button>-->
-<!--              </div>-->
-<!--              <div style="width: 100%; text-align: right; margin:20px 0">-->
-<!--                <a-button type="primary" @click="myAdd"><a-icon type="plus" />添加</a-button>-->
-<!--              </div>-->
-<!--                <a-table-->
-<!--                    :columns="colHotel"-->
-<!--                    :dataSource="displayHMList"-->
-<!--                    bordered-->
-<!--                >-->
-<!--                    <span slot="action" slot-scope="text, record">-->
-<!--                        <a-button>更改</a-button>-->
-<!--                      <br>-->
-<!--                        <a-button type="danger" @click="order(record)">删除</a-button>-->
-<!--                    </span>-->
-<!--                </a-table>-->
-<!--            </a-tab-pane>-->
             <a-tab-pane tab="用户" key="2">
               <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchClient" />
               <a-button @click="showAllClient">显示全部</a-button>

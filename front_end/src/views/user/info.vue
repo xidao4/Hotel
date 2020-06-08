@@ -95,13 +95,12 @@
             </a-tab-pane>
             <a-tab-pane tab="会员信息" key="3">
                 <div>
-                    <a-button v-if="this.membership===0" @click="registerBtn">注册成为银会员</a-button>
-                    <a-button v-if="this.membership===1">升级成为金会员</a-button>
-                    <div v-if="this.membership!==0">
-                        <div>会员状态：{{this.memInfo.membership}}</div>
-                        <div>会员积分：{{this.memInfo.memberPoints}}</div>
-                        <div>生日：{{this.memInfo.birthday}}</div>
-                    </div>
+                  <div v-if="isMember">
+                    会员积分：{{this.memInfo.memberPoints}}
+                    <br>
+                    生日：{{this.memInfo.birthday}}
+                  </div>
+                  <a-button v-else @click="registerBtn">注册成为会员</a-button>
                 </div>
             </a-tab-pane>
             <RegisterModal></RegisterModal>
@@ -181,9 +180,9 @@ export default {
             'userInfo',
             'userOrderList',
             'idOrder',
-            'membership',
             'memInfo',
             'registerModalVisible',
+            'isMember',
         ])
     },
     async mounted() {
@@ -191,6 +190,7 @@ export default {
         await this.getUserOrders()
         await this.getMemInfo()
     },
+
     methods: {
         ...mapActions([
             'getUserInfo',
@@ -271,9 +271,6 @@ export default {
         },
         registerBtn(){
             this.set_registerModalVisible(true)
-            console.log(this.registerModalVisible)
-            console.log(this.memInfo.membership)
-            console.log(this.memInfo.memberPoints)
         }
     }
 }

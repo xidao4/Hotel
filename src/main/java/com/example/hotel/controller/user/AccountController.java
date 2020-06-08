@@ -51,14 +51,8 @@ public class AccountController {
         return accountService.registerMem(memRegisterVO);
     }
 
-    @PostMapping("/{userId}/upgradeMem")
-    public ResponseVO upgradeMem(@PathVariable int userId){
-        return accountService.upgradeMem(userId);
-    }
-
     @GetMapping("/{userId}/getMemInfo")
     public ResponseVO getMemInfo(@PathVariable int userId){
-        System.out.println("into the method back end");
         MemInfoVO memInfoVO=accountService.getMemInfo(userId);
         if(memInfoVO==null){
             return ResponseVO.buildSuccess(false);

@@ -12,5 +12,5 @@ import java.util.Date;
 public interface MemberMapper {
     int insert(Member member);
     Member getInfo(@Param("userId")int userId);
-    int update(@Param("memberPoints") int memberPoints,@Param("userId") int userId);
+    int update(@Param("memberPoints") double memberPoints,@Param("userId") int userId);
 }

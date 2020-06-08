@@ -5,8 +5,8 @@ const getters = {
   userInfo: state => state.user.userInfo,
   userOrderList: state => state.user.userOrderList,
   idOrder: state=>state.user.idOrder,
-  membership:state=>state.user.membership,
   memInfo:state=>state.user.memInfo,
+  isMember:state=>state.user.isMember,
   hotelId:state=>state.user.hotelId,
   registerModalVisible:state=>state.user.registerModalVisible,
   //hotel

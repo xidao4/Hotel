@@ -44,7 +44,7 @@ public interface AccountService {
 
     ResponseVO registerMem(MemRegisterVO memRegisterVO);
 
-    ResponseVO upgradeMem(int userId);
+    ResponseVO updateMemInfo(int userId,double amount);
 
     MemInfoVO getMemInfo(int userId);
 }
