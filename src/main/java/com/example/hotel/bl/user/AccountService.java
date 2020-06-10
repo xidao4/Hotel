@@ -46,5 +46,7 @@ public interface AccountService {
 
     ResponseVO updateMemInfo(int userId,double amount);
 
+    ResponseVO resetMemberPoints(int userId,int memberPoints);
+
     MemInfoVO getMemInfo(int userId);
 }

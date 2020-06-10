@@ -60,6 +60,11 @@ public class AccountController {
         return ResponseVO.buildSuccess(memInfoVO);
     }
 
+    @PostMapping("/updateMemInfo")
+    public ResponseVO updateMemInfo(@RequestBody MemUpdateVO memUpdateVO){
+        return ResponseVO.buildSuccess(accountService.resetMemberPoints(memUpdateVO.getUserId(),memUpdateVO.getMemberPoints()));
+    }
+
     private ResponseVO getResUserVO(User user) {
         if(user == null) {
             return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);

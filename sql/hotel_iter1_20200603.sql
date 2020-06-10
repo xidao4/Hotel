@@ -117,7 +117,6 @@ DROP TABLE IF EXISTS `Member`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Member` (
   `userId` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户编号',
-  `membership` int(1) NOT NULL DEFAULT '0' COMMENT '0非会员 1银会员 2金会员',
   `memberPoints` int(11) NOT NULL DEFAULT '0' COMMENT '会员积分',
   `birthday` datetime DEFAULT NULL COMMENT '会员生日',
   PRIMARY KEY (`userId`)
@@ -169,11 +168,7 @@ LOCK TABLES `OrderList` WRITE;
 /*!40000 ALTER TABLE `OrderList` DISABLE KEYS */;
 INSERT INTO `OrderList`
 VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已预订','未撤销'),
-(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123'),
-(16,5,1,'汉庭酒店','2020-05-25','2020-05-30','Family',1,2,'0','2020-05-03',1895,'测试二号','12345678911','已执行','未撤销'),
-(17,5,1,'汉庭酒店','2020-05-23','2020-05-24','Family',1,2,'0','2020-05-03',1895,'测试二号','12345678911','已执行','未撤销'),
-(18,5,1,'汉庭酒店','2020-06-01','2020-06-02','Family',1,2,'0','2020-05-03',1895,'测试二号','12345678911','已执行','未撤销'),
-(19,7,1,'汉庭酒店','2020-06-01','2020-06-02','Family',1,2,'0','2020-05-03',1895,'测试三号','12345678911','已执行','未撤销');
+(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123');
 /*!40000 ALTER TABLE `OrderList` ENABLE KEYS */;
 UNLOCK TABLES;
 

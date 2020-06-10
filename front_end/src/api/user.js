@@ -44,3 +44,10 @@ export function registerMemAPI(data){
         data
     })
 }
+export function updateMemInfoAPI(data){
+    return axios({
+        url:`${api.userPre}/updateMemInfo`,
+        method:'POST',
+        data
+    })
+}

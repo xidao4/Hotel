@@ -10,6 +10,7 @@ import {
     updateUserInfoAPI,
     getMemInfoAPI,
     registerMemAPI,
+    updateMemInfoAPI,
 } from '@/api/user'
 import {
     getUserOrdersAPI,
@@ -208,6 +209,12 @@ const user = {
                 message.success('注册成功')
             }
             dispatch('getMemInfo')
+        },
+        updateMemInfo:async({commit},data)=>{
+            const res=await updateMemInfoAPI(data)
+            if(res){
+                message.success('更新会员积分成功')
+            }
         }
     }
 }

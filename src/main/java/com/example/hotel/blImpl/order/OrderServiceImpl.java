@@ -127,12 +127,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO changeStatus(int orderid, String status) {
         orderMapper.changeStatus(orderid, status);
-        //如果改为“已执行”，且客户是会员，则更新会员积分 by ljy
-        if(status.equals("已执行")){
+
+        //by ljy
+        if(status.equals("已执行")){//如果改为“已执行”，
             int userId=orderMapper.getUserId(orderid);
-            if(memberMapper.getInfo(userId)!=null){
+            if(memberMapper.getInfo(userId)!=null){//且客户是会员
                 Double amount=orderMapper.getPriceById(orderid);
-                accountService.updateMemInfo(userId,amount);
+                accountService.updateMemInfo(userId,amount);//则更新会员积分
             }
         }
 

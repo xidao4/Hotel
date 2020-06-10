@@ -126,7 +126,19 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVO updateMemInfo(int userId, double amount) {
         try{
-            memberMapper.update(amount*3,userId);
+            Double oldPoints=memberMapper.getInfo(userId).getMemberPoints();
+            memberMapper.update(Math.floor(amount*3)+oldPoints,userId);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure("更新会员积分失败");
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO resetMemberPoints(int userId, int memberPoints) {
+        try{
+            memberMapper.update(memberPoints,userId);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure("更新会员积分失败");
