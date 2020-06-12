@@ -29,17 +29,18 @@ const tag = {
         addTag:async({dispatch},param)=>{
             const res=await addTagAPI(param)
             if(res){
-                dispatch('getAllTags')
+                dispatch('getAllTags',param.hotelId)
             }else{
-                message.error('获取该酒店服务标签失败')
+                message.error('增加该酒店服务标签失败')
             }
         },
-        deleteTag:async({dispatch},param)=>{
-            const res=await deleteTagAPI(param)
+        deleteTag:async({dispatch},removedTag)=>{
+            const res=await deleteTagAPI(removedTag.id)
             if(res){
-                dispatch('getAllTags')
+                console.log('removedTag.hotelId',removedTag.hotelId)
+                await dispatch('getAllTags',removedTag.hotelId)
             }else{
-                message.error('获取该酒店服务标签失败')
+                message.error('删除该酒店服务标签失败')
             }
         }
 

@@ -201,53 +201,30 @@ INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(
 UNLOCK TABLES;
 
 --
--- Table structure for table `Tag`
+-- Table structure for table `MyTag`
 --
 
-DROP TABLE IF EXISTS `Tag`;
+DROP TABLE IF EXISTS `MyTag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Tag` (
-  `tagId` int(11) NOT NULL AUTO_INCREMENT COMMENT '标签编号',
+CREATE TABLE `MyTag` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标签编号',
   `tagName` varchar(255) NOT NULL COMMENT '标签名称',
-  PRIMARY KEY (`tagId`)
+  `hotelId` int(11) NOT NULL COMMENT '酒店编号',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Tag`
+-- Dumping data for table `MyTag`
 --
 
-LOCK TABLES `Tag` WRITE;
-/*!40000 ALTER TABLE `Tag` DISABLE KEYS */;
-INSERT INTO `Tag` VALUES (1,'免费无线上网'),(2,'叫醒服务'),(3,'免费保存贵重物品（保险箱）'),(4,'泳池');
-/*!40000 ALTER TABLE `Tag` ENABLE KEYS */;
+LOCK TABLES `MyTag` WRITE;
+/*!40000 ALTER TABLE `MyTag` DISABLE KEYS */;
+INSERT INTO `MyTag` VALUES (1,'免费无线上网',1),(2,'叫醒服务',1),(3,'免费保存贵重物品（保险箱）',1),(4,'泳池',1);
+/*!40000 ALTER TABLE `MyTag` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `TagRelation`
---
-
-DROP TABLE IF EXISTS `TagRelation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `TagRelation` (
-  `relationId` int(11) NOT NULL AUTO_INCREMENT COMMENT '关系编号',
-  `hotelId` int(11) NOT NULL COMMENT '酒店编号',
-  `tagId` int(11) NOT NULL COMMENT '标签编号',
-  PRIMARY KEY (`relationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `TagRelation`
---
-
-LOCK TABLES `TagRelation` WRITE;
-/*!40000 ALTER TABLE `TagRelation` DISABLE KEYS */;
-INSERT INTO `TagRelation` VALUES (1,1,1),(2,1,2),(3,2,3),(4,2,4),(5,2,1),(6,3,2);
-/*!40000 ALTER TABLE `TagRelation` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `User`

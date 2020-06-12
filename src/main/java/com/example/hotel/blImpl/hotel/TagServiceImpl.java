@@ -1,10 +1,8 @@
 package com.example.hotel.blImpl.hotel;
 
 import com.example.hotel.bl.hotel.TagService;
-import com.example.hotel.data.hotel.TagMapper;
-import com.example.hotel.data.hotel.TagRelationMapper;
-import com.example.hotel.po.Tag;
-import com.example.hotel.po.TagRelation;
+import com.example.hotel.data.hotel.MyTagMapper;
+import com.example.hotel.po.MyTag;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.TagVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,41 +15,26 @@ import java.util.List;
 public class TagServiceImpl implements TagService {
 
     @Autowired
-    TagMapper tagMapper;
-    @Autowired
-    TagRelationMapper tagRelationMapper;
+    MyTagMapper myTagMapper;
+
 
     @Override
-    public List<TagVO> getTagsByHotelId(Integer hotelId) {
-        List<TagVO> tagVOS=new ArrayList<>();
-        List<TagRelation> tags=tagRelationMapper.selectTagsByHotelId(hotelId);
-        for(TagRelation tagRelation:tags){
-            String name=tagMapper.selectById(tagRelation.getTagId()).getTagName();
-            TagVO tagVO=new TagVO();
-            tagVO.setTagName(name);
-            tagVO.setRelationId(tagRelation.getRelationId());
-            tagVOS.add(tagVO);
-        }
-        return tagVOS;
+    public List<MyTag> getTagsByHotelId(Integer hotelId) {
+        return myTagMapper.getTagsByHotelId(hotelId);
+    }
+
+    @Override
+    public ResponseVO deleteById(Integer id) {
+        return ResponseVO.buildSuccess(myTagMapper.deleteById(id));
     }
 
     @Override
     public ResponseVO save(String tagName,Integer hotelId) {
-        if(tagMapper.selectByName(tagName)==null){
-            Tag tag=new Tag();
-            tag.setTagName(tagName);
-            tagMapper.insert(tag);
-        }
-        TagRelation tagRelation=new TagRelation();
-        tagRelation.setHotelId(hotelId);
-        tagRelation.setHotelId(tagMapper.selectByName(tagName).getTagId());
-        tagRelationMapper.insert(tagRelation);
-        return null;
+        MyTag tag=new MyTag();
+        tag.setHotelId(hotelId);
+        tag.setTagName(tagName);
+        myTagMapper.insert(tag);
+        return ResponseVO.buildSuccess(true);
     }
 
-    @Override
-    public ResponseVO delete(String tagName,Integer hotelId) {
-        //return ResponseVO.buildSuccess(tagRelationMapper.delete(relationId));
-        return ResponseVO.buildSuccess();
-    }
 }

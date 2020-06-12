@@ -113,8 +113,9 @@
 
 
                     <template v-for="tag in tags">
-                      <a-tag :key="tag" closable @close="()=>handleClose(tag)">
-                        {{tag}}
+                      <a-tag :key="tag.tagName" closable @close="()=>handleClose(tag)">
+                        {{tag.tagName}}
+
                       </a-tag>
                     </template>
                     <a-input
@@ -263,7 +264,7 @@ export default {
         await this.getAllOrders()
         //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
         await this.getHotelInfo()
-        await this.getAllTags()
+        await this.getAllTags(this.currentHotelId)
     },
     methods: {
         ...mapMutations([
@@ -281,7 +282,9 @@ export default {
             'changeStatus',
             'getHotelInfo',
             'updateHotelInfo',
-            'getAllTags'
+            'getAllTags',
+            'deleteTag',
+            'addTag',
         ]),
         manage(index,item){
             for (const key in this.$refs) {
@@ -359,11 +362,10 @@ export default {
             });
         },
         handleClose(removedTag){
-            const param={
-                hotelId:this.hotelId,
-                tagName:removedTag
-            }
-            this.deleteTag()
+            console.log('removedTag',removedTag)
+            console.log('removedTag.id',removedTag.id)
+            console.log('removedTag.hotelId',removedTag.hotelId)
+            this.deleteTag(removedTag)
         },
         handleInputChange(e) {
             this.inputValue = e.target.value;
@@ -372,10 +374,10 @@ export default {
             const inputValue=this.inputValue;
             console.log("currentHotelId",this.currentHotelId)
             const param={
-                hotelId:this.hotelId,
+                hotelId:this.currentHotelId,
                 tagName:inputValue
             }
-            this.addTag()
+            this.addTag(param)
         }
     }
 }

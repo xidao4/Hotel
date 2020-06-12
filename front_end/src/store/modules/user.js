@@ -101,6 +101,7 @@ const user = {
                 setToken(res.id)
                 commit('set_userId', res.id)
 
+                //如果是酒店工作人员，
                 if(res.userType==='HotelManager'){
                     const hotelId=await getHotelIdByManagerIdAPI(res.id)
                     commit('set_hotelId',hotelId)

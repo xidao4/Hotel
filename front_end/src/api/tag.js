@@ -19,9 +19,9 @@ export function addTagAPI(param) {
     })
 }
 
-export function deleteTagAPI(param) {
+export function deleteTagAPI(id) {
     return axios({
-        url:`${api.tagPre}/${param.tagName}/${param.hotelId}/list`,
+        url:`${api.tagPre}/${id}/delete`,
         method: 'POST',
     })
 }
