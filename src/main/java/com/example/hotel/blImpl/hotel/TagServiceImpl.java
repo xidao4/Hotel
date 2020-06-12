@@ -50,7 +50,8 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public ResponseVO delete(Integer relationId) {
-        return ResponseVO.buildSuccess(tagRelationMapper.delete(relationId));
+    public ResponseVO delete(String tagName,Integer hotelId) {
+        //return ResponseVO.buildSuccess(tagRelationMapper.delete(relationId));
+        return ResponseVO.buildSuccess();
     }
 }

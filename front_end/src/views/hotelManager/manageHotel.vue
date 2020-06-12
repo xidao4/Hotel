@@ -110,6 +110,29 @@
                             修改信息
                         </a-button>
                     </a-form-item>
+
+
+                    <template v-for="tag in tags">
+                      <a-tag :key="tag" closable @close="()=>handleClose(tag)">
+                        {{tag}}
+                      </a-tag>
+                    </template>
+                    <a-input
+                      v-if="inputVisible"
+                      ref="input"
+                      type="txt"
+                      size="small"
+                      :style="{ width: '78px' }"
+                      :value="inputValue"
+                      @change="handleInputChange"
+                      @blur="handleInputConfirm"
+                      @keyup.enter="handleInputConfirm"
+                    />
+                  <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
+                    <a-icon type="plus" /> 新的酒店服务标签
+                  </a-tag>
+
+
                 </a-form>
             </a-tab-pane>
         </a-tabs>
@@ -206,6 +229,8 @@ export default {
             columns1,
             columns2,
             form: this.$form.createForm(this, { name: 'manageHotel' }),
+            inputVisible: false,
+            inputValue: '',
         }
     },
     components: {
@@ -227,6 +252,7 @@ export default {
             'hotelId',
             'currentHotelId',//used
             'currentHotelInfo',//used
+            'tags',
         ]),
     },
     async mounted() {
@@ -237,6 +263,7 @@ export default {
         await this.getAllOrders()
         //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
         await this.getHotelInfo()
+        await this.getAllTags()
     },
     methods: {
         ...mapMutations([
@@ -253,7 +280,8 @@ export default {
             'getOrderById',
             'changeStatus',
             'getHotelInfo',
-            'updateHotelInfo'
+            'updateHotelInfo',
+            'getAllTags'
         ]),
         manage(index,item){
             for (const key in this.$refs) {
@@ -323,6 +351,31 @@ export default {
                     })
                 }
             });
+        },
+        showInput() {
+            this.inputVisible = true;
+            this.$nextTick(function() {
+                this.$refs.input.focus();
+            });
+        },
+        handleClose(removedTag){
+            const param={
+                hotelId:this.hotelId,
+                tagName:removedTag
+            }
+            this.deleteTag()
+        },
+        handleInputChange(e) {
+            this.inputValue = e.target.value;
+        },
+        handleInputConfirm(){
+            const inputValue=this.inputValue;
+            console.log("currentHotelId",this.currentHotelId)
+            const param={
+                hotelId:this.hotelId,
+                tagName:inputValue
+            }
+            this.addTag()
         }
     }
 }

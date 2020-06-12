@@ -73,7 +73,7 @@ const hotel = {
     },
 
     actions: {
-        getHotelList: async({commit, state}) => {
+        getHotelList: async({commit}) => {
             const res = await getHotelsAPI()
             if(res){
                 commit('set_hotelList', res)

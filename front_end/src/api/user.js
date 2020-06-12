@@ -44,9 +44,16 @@ export function registerMemAPI(data){
         data
     })
 }
-export function updateMemInfoAPI(data){
+export function increaseMemberPointsAPI(data){
     return axios({
-        url:`${api.userPre}/updateMemInfo`,
+        url:`${api.userPre}/increaseMemberPoints`,
+        method:'POST',
+        data
+    })
+}
+export function decreaseMemberPointsAPI(data){
+    return axios({
+        url:`${api.userPre}/decreaseMemberPoints`,
         method:'POST',
         data
     })

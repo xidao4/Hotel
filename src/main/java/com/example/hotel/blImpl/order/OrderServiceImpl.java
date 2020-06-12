@@ -131,9 +131,10 @@ public class OrderServiceImpl implements OrderService {
         //by ljy
         if(status.equals("已执行")){//如果改为“已执行”，
             int userId=orderMapper.getUserId(orderid);
-            if(memberMapper.getInfo(userId)!=null){//且客户是会员
+            if(memberMapper.getInfo(userId)!=null){//,且客户是会员,
                 Double amount=orderMapper.getPriceById(orderid);
-                accountService.updateMemInfo(userId,amount);//则更新会员积分
+                //double->int
+                accountService.increaseMemberPoints(userId,(int)(amount*3));//则更新会员积分
             }
         }
 

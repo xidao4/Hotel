@@ -1,6 +1,11 @@
 package com.example.hotel.vo;
 
 public class MemUpdateVO {
+
+    private int userId;
+    private int memberPoints;
+
+
     public int getUserId() {
         return userId;
     }
@@ -17,7 +22,5 @@ public class MemUpdateVO {
         this.memberPoints = memberPoints;
     }
 
-    private int userId;
-    private int memberPoints;
 
 }

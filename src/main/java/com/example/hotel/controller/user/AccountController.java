@@ -60,10 +60,15 @@ public class AccountController {
         return ResponseVO.buildSuccess(memInfoVO);
     }
 
-    @PostMapping("/updateMemInfo")
-    public ResponseVO updateMemInfo(@RequestBody MemUpdateVO memUpdateVO){
-        return ResponseVO.buildSuccess(accountService.resetMemberPoints(memUpdateVO.getUserId(),memUpdateVO.getMemberPoints()));
+    @PostMapping("/increaseMemberPoints")
+    public ResponseVO increaseMemberPoints(@RequestBody MemUpdateVO memUpdateVO){
+        return ResponseVO.buildSuccess(accountService.increaseMemberPoints(memUpdateVO.getUserId(),memUpdateVO.getMemberPoints()));
     }
+    @PostMapping("/decreaseMemberPoints")
+    public ResponseVO decreaseMemberPoints(@RequestBody MemUpdateVO memUpdateVO){
+        return ResponseVO.buildSuccess(accountService.decreaseMemberPoints(memUpdateVO.getUserId(),memUpdateVO.getMemberPoints()));
+    }
+
 
     private ResponseVO getResUserVO(User user) {
         if(user == null) {

@@ -52,6 +52,8 @@ const getters = {
   creditRecordsList: state => state.operator.creditRecordsList,
   currentOrderId: state => state.operator.currentOrderId,
   currentUpdateInfo: state => state.operator.currentUpdateInfo,
+  //tag
+  tags:state=>state.tag.tags
   }
 
   export default getters

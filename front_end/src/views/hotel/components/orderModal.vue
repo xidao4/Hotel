@@ -180,11 +180,11 @@ export default {
                     sm: { span: 16 },
                 },
             },
-            totalPrice: '',
             columns,
             checkedList: [],
-            finalPrice: '',
+            totalPrice: '',
             memPrice:'',
+            finalPrice: '',
             usePoints:false,
         }
     },
@@ -214,7 +214,8 @@ export default {
             'addOrder',
             'getOrderMatchCoupons',
             'getMemInfo',
-            'updateMemInfo',
+            'increaseMemberPoints',
+            'decreaseMemberPoints'
         ]),
         cancelOrder() {
             this.set_orderModalVisible(false)
@@ -241,12 +242,12 @@ export default {
             }
         },
         onMemerPointsChange(){
-            console.log("0610",this.usePoints)
+            console.log("usePoints",this.usePoints)
         },
         handleSubmit(e) {
             e.preventDefault();
             console.log("finalPrice",this.finalPrice)
-            this.form.validateFieldsAndScroll((err, values) => {
+            this.form.validateFieldsAndScroll(async (err, values) => {
                 if (!err) {
                     const data = {
                         hotelId: this.currentHotelId,
@@ -262,17 +263,17 @@ export default {
                         //price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                         price:this.finalPrice
                     }
-                    this.addOrder(data)
-                    console.log(data)
+                    await this.addOrder(data)
+                    console.log('orderInfo',data)
+                    //如果使用了积分，那么扣除积分
                     if(this.usePoints){
                         const data={
                             userId:this.userId,
-                            memberPoints:Math.round(this.memInfo.memberPoints%100)
+                            memberPoints:parseInt(this.memInfo.memberPoints/100)*100   //1137//100*100=11*100=1100
                         }
-                        console.log('updateMemInfo',data)
-                        this.updateMemInfo(data)
+                        console.log('decreaseMemberPointsInfo',data)
+                        await this.decreaseMemberPoints(data)
                     }
-
                 }
             });
         },
@@ -286,6 +287,9 @@ export default {
                 console.log("memPrice=0.9*totalPrice=",this.memPrice)
 
                 if(this.usePoints){
+                    //eg. 1137积分，可以使用1100积分，抵扣11元
+                    //1137%100=37
+                    //1137//100=11
                     let subAmount=parseInt(this.memInfo.memberPoints/100)
                     this.memPrice-=subAmount
                 }
@@ -294,6 +298,7 @@ export default {
             }else{
                 this.finalPrice=this.totalPrice
             }
+
             //得到最新的匹配优惠券
             let data = {
                 userId: this.userId,

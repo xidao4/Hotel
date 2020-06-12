@@ -10,7 +10,8 @@ import {
     updateUserInfoAPI,
     getMemInfoAPI,
     registerMemAPI,
-    updateMemInfoAPI,
+    increaseMemberPointsAPI,
+    decreaseMemberPointsAPI
 } from '@/api/user'
 import {
     getUserOrdersAPI,
@@ -210,10 +211,16 @@ const user = {
             }
             dispatch('getMemInfo')
         },
-        updateMemInfo:async({commit},data)=>{
-            const res=await updateMemInfoAPI(data)
+        increaseMemberPoints:async({commit},data)=>{
+            const res=await increaseMemberPointsAPI(data)
             if(res){
-                message.success('更新会员积分成功')
+                message.success('增加会员积分成功')
+            }
+        },
+        decreaseMemberPoints:async({commit},data)=>{
+            const res=await decreaseMemberPointsAPI(data)
+            if(res){
+                message.success('扣除会员积分成功')
             }
         }
     }

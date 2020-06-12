@@ -9,5 +9,5 @@ import java.util.List;
 public interface TagService {
     List<TagVO> getTagsByHotelId(Integer hotelId);
     ResponseVO save(String tagName,Integer hotelId);
-    ResponseVO delete(Integer relationId);
+    ResponseVO delete(String tagName,Integer hotelId);
 }

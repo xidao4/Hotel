@@ -44,9 +44,8 @@ public interface AccountService {
 
     ResponseVO registerMem(MemRegisterVO memRegisterVO);
 
-    ResponseVO updateMemInfo(int userId,double amount);
-
-    ResponseVO resetMemberPoints(int userId,int memberPoints);
+    ResponseVO increaseMemberPoints(int userId, int amount);
+    ResponseVO decreaseMemberPoints(int userId, int amount);
 
     MemInfoVO getMemInfo(int userId);
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Member {
     private Integer userId;
-    private Double memberPoints;
+    private Integer memberPoints;
     private Date birthday;
     public Integer getUserId() {
         return userId;
@@ -14,11 +14,11 @@ public class Member {
         this.userId = userId;
     }
 
-    public Double getMemberPoints() {
+    public Integer getMemberPoints() {
         return memberPoints;
     }
 
-    public void setMemberPoints(Double memberPoints) {
+    public void setMemberPoints(Integer memberPoints) {
         this.memberPoints = memberPoints;
     }
 
