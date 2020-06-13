@@ -2,22 +2,62 @@
     <div class="manageUser-wrapper">
         <a-tabs>
             <a-tab-pane tab="用户" key="2">
-              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchClient" />
-              <a-button @click="showAllClient">显示全部</a-button>
+<!--              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchClient" />-->
+<!--              <a-button @click="showAllClient">显示全部</a-button>-->
                 <a-table
                   :columns="columns"
                   :dataSource="displayClientList"
                   bordered
                  >
+                  <div
+                          slot="filterDropdown"
+                          slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                          style="padding: 8px"
+                  >
+                    <a-input
+                            v-ant-ref="c => (searchInput = c)"
+                            :placeholder="`查找 ${column.title}`"
+                            :value="selectedKeys[0]"
+                            style="width: 188px; margin-bottom: 8px; display: block;"
+                            @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                            @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                    />
+                    <a-button
+                            type="primary"
+                            icon="search"
+                            size="small"
+                            style="width: 90px; margin-right: 8px"
+                            @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                    >
+                      查找
+                    </a-button>
+                    <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+                      重置
+                    </a-button>
+                  </div>
+                  <a-icon
+                          slot="filterIcon"
+                          slot-scope="filtered"
+                          type="search"
+                          :style="{ color: filtered ? '#108ee9' : undefined }"
+                  />
                   <span slot="action" slot-scope="text, record">
                         <a-button @click="modifyClient(record.id)">更改信息</a-button>
-                        <a-button type="danger" @click="order(record.id)">删除用户</a-button>
+                        <a-popconfirm
+                          title="确定删除吗？"
+                          ok-text="确定"
+                          cancel-text="取消"
+                          @confirm="order(record.id)"
+                          >
+                          <a-button type="danger">删除用户</a-button>
+                        </a-popconfirm>
+<!--                        <a-button type="danger" @click="order(record.id)">删除用户</a-button>-->
                   </span>
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="网站运营人员" key="3">
-              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchOO" />
-              <a-button @click="showAll">显示全部</a-button>
+<!--              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchOO" />-->
+<!--              <a-button @click="showAll">显示全部</a-button>-->
               <div style="width: 100%; text-align: right; margin:20px 0">
                 <a-button type="primary" @click="addOperator"><a-icon type="plus" />添加网站运营人员</a-button>
               </div>
@@ -26,6 +66,38 @@
                 :dataSource="displayOperatorList"
                 bordered
                 >
+                <div
+                        slot="filterDropdown"
+                        slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                        style="padding: 8px"
+                >
+                  <a-input
+                          v-ant-ref="c => (searchInput = c)"
+                          :placeholder="`查找 ${column.title}`"
+                          :value="selectedKeys[0]"
+                          style="width: 188px; margin-bottom: 8px; display: block;"
+                          @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                          @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                  />
+                  <a-button
+                          type="primary"
+                          icon="search"
+                          size="small"
+                          style="width: 90px; margin-right: 8px"
+                          @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                  >
+                    查找
+                  </a-button>
+                  <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+                    重置
+                  </a-button>
+                </div>
+                <a-icon
+                        slot="filterIcon"
+                        slot-scope="filtered"
+                        type="search"
+                        :style="{ color: filtered ? '#108ee9' : undefined }"
+                />
                 <span slot="action" slot-scope="text, record">
                   <a-button @click="modifyOO(record.id)">更改信息</a-button>
                 </span>
@@ -37,9 +109,41 @@
             </div>
             <a-table
               :columns="colH"
-              :dataSource="hotelList"
+              :dataSource="displayHotelList"
               bordered
               >
+              <div
+                      slot="filterDropdown"
+                      slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                      style="padding: 8px"
+              >
+                <a-input
+                        v-ant-ref="c => (searchInput = c)"
+                        :placeholder="`查找 ${column.title}`"
+                        :value="selectedKeys[0]"
+                        style="width: 188px; margin-bottom: 8px; display: block;"
+                        @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                        @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                />
+                <a-button
+                        type="primary"
+                        icon="search"
+                        size="small"
+                        style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                >
+                  查找
+                </a-button>
+                <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+                  重置
+                </a-button>
+              </div>
+              <a-icon
+                      slot="filterIcon"
+                      slot-scope="filtered"
+                      type="search"
+                      :style="{ color: filtered ? '#108ee9' : undefined }"
+              />
               <span slot="action" slot-scope="text, record">
                   <a-button @click="addM(record.id)">添加工作人员</a-button>
                   <a-popconfirm
@@ -93,12 +197,36 @@ const colH=[
     },{
         title:'名称',
         dataIndex:'name',
+        scopedSlots:{
+            filterDropdown:'filterDropdown',
+            filterIcon:'filterIcon',
+        },
+        onFilter:(value,record)=>record.name.indexOf(value)!==-1,
+        onFilterDropdownVisibleChange:visible=>{
+            if(visible){
+                setTimeout(()=>{
+                    this.searchInput.focus();
+                },0);
+            }
+        }
     },{
         title:'商圈',
         dataIndex:'bizRegion',
     },{
         title:'地址',
         dataIndex:'address',
+        scopedSlots:{
+            filterDropdown:'filterDropdown',
+            filterIcon:'filterIcon',
+        },
+        onFilter:(value,record)=>record.address!=='' && record.address.indexOf(value)!==-1,
+        onFilterDropdownVisibleChange:visible=>{
+            if(visible){
+                setTimeout(()=>{
+                    this.searchInput.focus();
+                },0);
+            }
+        }
     },{
       title:"工作人员编号",
         dataIndex:'managerId'
@@ -125,61 +253,62 @@ const colM=[
         dataIndex:'password'
     }
 ]
-const colHotel=[
-    {
-        title:'id',
-        dataIndex:'hotelId',
-    },
-    {
-        title:'名称',
-        dataIndex:'name',
-    },
-    {
-        title:'地址',
-        dataIndex:'address',
-    },
-    {
-        title:'商圈',
-        dataIndex:'bizRegion'
-    },
-    {
-        title:'星级',
-        dataIndex:'hotelStar'
-    },
-    {
-        title:'电话号码',
-        dataIndex:'phoneNum'
-    },
-    {
-        title:'评分',
-        dataIndex:'rate'
-    },
-    // {
-    //     title:'描述',
-    //     dataIndex:'hotelDescription'
-    // },
-    {
-        title:'编号',
-        dataIndex:'managerId',
-    },
-    {
-        title:'工作人员账号',
-        dataIndex:'email',
-    },
-    {
-        title:'用户名',
-        dataIndex:'userName',
-    },
-    {
-        title:'密码',
-        dataIndex:'password'
-    },
-    {
-        title: '操作',
-        key: 'action',
-        scopedSlots: { customRender: 'action' }
-    }
-]
+// //not used
+// const colHotel=[
+//     {
+//         title:'id',
+//         dataIndex:'hotelId',
+//     },
+//     {
+//         title:'名称',
+//         dataIndex:'name',
+//     },
+//     {
+//         title:'地址',
+//         dataIndex:'address',
+//     },
+//     {
+//         title:'商圈',
+//         dataIndex:'bizRegion'
+//     },
+//     {
+//         title:'星级',
+//         dataIndex:'hotelStar'
+//     },
+//     {
+//         title:'电话号码',
+//         dataIndex:'phoneNum'
+//     },
+//     {
+//         title:'评分',
+//         dataIndex:'rate'
+//     },
+//     // {
+//     //     title:'描述',
+//     //     dataIndex:'hotelDescription'
+//     // },
+//     {
+//         title:'编号',
+//         dataIndex:'managerId',
+//     },
+//     {
+//         title:'工作人员账号',
+//         dataIndex:'email',
+//     },
+//     {
+//         title:'用户名',
+//         dataIndex:'userName',
+//     },
+//     {
+//         title:'密码',
+//         dataIndex:'password'
+//     },
+//     {
+//         title: '操作',
+//         key: 'action',
+//         scopedSlots: { customRender: 'action' }
+//     }
+// ]
 const columns = [
     {
         title:'用户编号',
@@ -187,9 +316,33 @@ const columns = [
     }, {
         title: '用户邮箱',
         dataIndex: 'email',
+        scopedSlots:{
+            filterDropdown:'filterDropdown',
+            filterIcon:'filterIcon',
+        },
+        onFilter:(value,record)=>record.email.indexOf(value)!==-1,
+        onFilterDropdownVisibleChange:visible=>{
+             if(visible){
+                 setTimeout(()=>{
+                     this.searchInput.focus();
+                 },0);
+             }
+        }
     }, {
         title: '用户名',
         dataIndex: 'userName',
+        scopedSlots:{
+            filterDropdown:'filterDropdown',
+            filterIcon:'filterIcon',
+        },
+        onFilter:(value,record)=>record.userName.indexOf(value)!==-1,
+        onFilterDropdownVisibleChange:visible=>{
+            if(visible){
+                setTimeout(()=>{
+                    this.searchInput.focus();
+                },0);
+            }
+        }
     }, {
         title: '用户密码',
         dataIndex: 'password',
@@ -208,10 +361,34 @@ const colOperator=[
         dataIndex:'id',
     },{
         title:'邮箱',
-        dataIndex:'email'
+        dataIndex:'email',
+        scopedSlots:{
+            filterDropdown:'filterDropdown',
+            filterIcon:'filterIcon',
+        },
+        onFilter:(value,record)=>record.email.indexOf(value)!==-1,
+        onFilterDropdownVisibleChange:visible=>{
+            if(visible){
+                setTimeout(()=>{
+                    this.searchInput.focus();
+                },0);
+            }
+        }
     },{
         title:'用户名',
         dataIndex:'userName',
+        scopedSlots:{
+            filterDropdown:'filterDropdown',
+            filterIcon:'filterIcon',
+        },
+        onFilter:(value,record)=>record.userName.indexOf(value)!==-1,
+        onFilterDropdownVisibleChange:visible=>{
+            if(visible){
+                setTimeout(()=>{
+                    this.searchInput.focus();
+                },0);
+            }
+        }
     },{
         title:'密码',
         dataIndex:'password'
@@ -227,13 +404,16 @@ export default {
         return {
             formLayout: 'horizontal',
             pagination: {},
-            colHotel, //useless
             colH, //hotel
             colM, //manager
             columns,   //client
             colOperator,
             data: [],
             form: this.$form.createForm(this, { name: 'manageUser' }),
+            displayHotelList:[],
+            searchText: '',
+            searchInput: null,
+            searchedColumn: '',
         }
     },
     components: {
@@ -269,11 +449,12 @@ export default {
         ]),
     },
     watch:{},
-    mounted() {
-        this.getClientList(),
-        this.getOperatorList(),
-        this.getManagerList(),
-        this.getHotelList()
+    async mounted() {
+        await this.getClientList(),
+        await this.getOperatorList(),
+        await this.getManagerList(),
+        await this.getHotelList(),
+        this.displayHotelList=[...this.hotelList]
     },
     methods: {
         ...mapActions([
@@ -358,7 +539,16 @@ export default {
             const res=await deleteHMAPI(hotelId)
             this.getManagerList(),
             this.getHotelList()
-        }
+        },
+        handleSearch(selectedKeys, confirm, dataIndex) {
+            confirm();
+            this.searchText = selectedKeys[0];
+            this.searchedColumn = dataIndex;
+        },
+        handleReset(clearFilters) {
+            clearFilters();
+            this.searchText = '';
+        },
     }
 }
 </script>

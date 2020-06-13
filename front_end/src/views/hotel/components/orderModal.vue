@@ -107,7 +107,7 @@
                 <span>{{memInfo.memberPoints}}</span>
             </a-form-item>
 <!--            <span v-if="isMember">当前会员积分：{{memInfo.memberPoints}}</span>-->
-            <a-checkbox v-model="usePoints" @change="onMemerPointsChange" v-if="isMember">
+            <a-checkbox v-model="usePoints" @change="onMemberPointsChange" v-if="isMember">
                 使用积分抵扣（100积分抵扣1元现金）
             </a-checkbox>
             <a-form-item v-bind="formItemLayout" label="会员折扣价" v-if="isMember">
@@ -208,7 +208,8 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'set_orderModalVisible'
+            'set_orderModalVisible',
+            'set_orderMatchCouponList'
         ]),
         ...mapActions([
             'addOrder',
@@ -235,13 +236,21 @@ export default {
             this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]),'day')
         },
         onchange() {
-            if(this.checkedList.length>0){
-                this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
-            }else{
+            console.log('v-model=\'checkedList\'',this.checkedList)//为所有选中的优惠券
+            //console.log('onchange(msg)',msg)//也为所有选中的优惠券
+            if(this.isMember)
+                this.finalPrice=this.memPrice
+            else
+                this.finalPrice=this.totalPrice
+            this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
 
-            }
+            // if(this.checkedList.length>0){
+            //     this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
+            // }else{
+            //
+            // }
         },
-        onMemerPointsChange(){
+        onMemberPointsChange(){
             console.log("usePoints",this.usePoints)
         },
         handleSubmit(e) {
@@ -273,7 +282,16 @@ export default {
                         }
                         console.log('decreaseMemberPointsInfo',data)
                         await this.decreaseMemberPoints(data)
+                        await this.getMemInfo()
                     }
+
+                    this.form.resetFields()
+                    this.totalPrice=0
+                    this.checkedList=[]
+                    console.log('checkedList',this.checkedList)
+                    this.set_orderMatchCouponList( [])
+                    console.log('orderMatchCouponList',this.orderMatchCouponList)
+                    this.usePoints=false
                 }
             });
         },
@@ -294,7 +312,7 @@ export default {
                     this.memPrice-=subAmount
                 }
 
-                this.finalPrice=this.memPrice
+                this.onchange()
             }else{
                 this.finalPrice=this.totalPrice
             }

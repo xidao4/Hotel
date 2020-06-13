@@ -237,7 +237,7 @@ const admin = {
             if(res) {
                 commit('set_addMModalVisible', false)
                 message.success('添加成功')
-                dispatch('getMList')
+                dispatch('getManagerList')
                 dispatch('getHotelList')
             }else{
                 message.error('添加失败')

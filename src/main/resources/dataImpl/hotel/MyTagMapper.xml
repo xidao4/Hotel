@@ -17,6 +17,9 @@
         select * from MyTag where hotelId=#{hotelId}
     </select>
 
+    <select id="selectByHotelIdAndTagName" resultMap="MyTag">
+        select * from MyTag where hotelId=#{hotelId} and tagName=#{tagName}
+    </select>
 
 
     <resultMap id="MyTag" type="com.example.hotel.po.MyTag">

@@ -44,7 +44,9 @@ CREATE TABLE `Coupon` (
 
 LOCK TABLES `Coupon` WRITE;
 /*!40000 ALTER TABLE `Coupon` DISABLE KEYS */;
-INSERT INTO `Coupon` VALUES (2,'满500-100优惠',2,3,'满减优惠券',500,0,1,NULL,NULL,100);
+INSERT INTO `Coupon` VALUES (2,'满500-100优惠',2,3,'满减优惠券',500,0,1,NULL,NULL,100),
+(3,'满100-10优惠',2,3,'满减优惠券',100,0,1,NULL,NULL,10),
+(4,'满400-40优惠',2,3,'满减优惠券',400,0,1,NULL,NULL,40);
 /*!40000 ALTER TABLE `Coupon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,7 +106,7 @@ CREATE TABLE `Hotel` (
 
 LOCK TABLES `Hotel` WRITE;
 /*!40000 ALTER TABLE `Hotel` DISABLE KEYS */;
-INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住',NULL,'XiDan','Four',1829373819,4.8,1),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,2),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,3);
+INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住','苏州园区','XiDan','Four',1829373819,4.8,1),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,2),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,3);
 /*!40000 ALTER TABLE `Hotel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,8 +169,10 @@ CREATE TABLE `OrderList` (
 LOCK TABLES `OrderList` WRITE;
 /*!40000 ALTER TABLE `OrderList` DISABLE KEYS */;
 INSERT INTO `OrderList`
-VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已预订','未撤销'),
-(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123');
+VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已执行','未撤销'),
+(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123'),
+(16,5,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试二号','12345678919','已执行','未撤销'),
+(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已执行','未撤销');
 /*!40000 ALTER TABLE `OrderList` ENABLE KEYS */;
 UNLOCK TABLES;
 

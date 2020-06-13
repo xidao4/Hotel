@@ -30,6 +30,8 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public ResponseVO save(String tagName,Integer hotelId) {
+        if(myTagMapper.selectByHotelIdAndTagName(tagName,hotelId).size()!=0)//!=null
+            return ResponseVO.buildFailure("您的酒店已有此服务标签！");
         MyTag tag=new MyTag();
         tag.setHotelId(hotelId);
         tag.setTagName(tagName);

@@ -1,10 +1,11 @@
 package com.example.hotel.vo;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class MemInfoVO {
     private Integer memberPoints;
-    private Date birthday;
+    private LocalDate birthday;
 
     public Integer getMemberPoints() {
         return memberPoints;
@@ -14,11 +15,11 @@ public class MemInfoVO {
         this.memberPoints = memberPoints;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

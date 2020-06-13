@@ -370,14 +370,21 @@ export default {
         handleInputChange(e) {
             this.inputValue = e.target.value;
         },
-        handleInputConfirm(){
+        async handleInputConfirm(){
             const inputValue=this.inputValue;
-            console.log("currentHotelId",this.currentHotelId)
-            const param={
-                hotelId:this.currentHotelId,
-                tagName:inputValue
+            //console.log("currentHotelId",this.currentHotelId)
+            if(inputValue==='')
+                this.inputVisible=false
+            else{
+                const param={
+                    hotelId:this.currentHotelId,
+                    tagName:inputValue
+                }
+                await this.addTag(param)
+                this.inputValue=''
+                this.inputVisible=false
             }
-            this.addTag(param)
+
         }
     }
 }

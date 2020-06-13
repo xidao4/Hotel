@@ -100,7 +100,8 @@
                     <br>
                     生日：{{this.memInfo.birthday}}
                   </div>
-                  <a-button v-else @click="registerBtn">注册成为会员</a-button>
+                  <a-date-picker @change="onChange"  v-else-if="isRegistering"/>
+                  <a-button v-else @click="registerBtn" >注册成为会员</a-button>
                 </div>
             </a-tab-pane>
             <RegisterModal></RegisterModal>
@@ -168,7 +169,8 @@ export default {
             pagination: {},
             columns,
             data: [],
-            form: this.$form.createForm(this, { name: 'coordinated' })
+            form: this.$form.createForm(this, { name: 'coordinated' }),
+            isRegistering:false
         }
     },
     components: {
@@ -199,6 +201,7 @@ export default {
             'cancelOrder',
             'getOrderById',
             'getMemInfo',
+            'registerMem',
         ]),
         ...mapMutations([
             'set_registerModalVisible',
@@ -270,7 +273,16 @@ export default {
 
         },
         registerBtn(){
-            this.set_registerModalVisible(true)
+            this.isRegistering=true
+           // this.set_registerModalVisible(true)
+        },
+        async onChange(date,dateString){
+            const data = {
+                userId: this.userId,
+                birthday: dateString
+            }
+            await this.registerMem(data)
+            this.isRegistering=false
         }
     }
 }

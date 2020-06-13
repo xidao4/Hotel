@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -102,8 +103,8 @@ public class AccountServiceImpl implements AccountService {
                 Member member=new Member();
 
                 try{
-                    Date date=new SimpleDateFormat("yyyy-MM-dd").parse(memRegisterVO.getBirthday());
-                    member.setBirthday(date);
+                    LocalDate localDate=LocalDate.parse(memRegisterVO.getBirthday());
+                    member.setBirthday(localDate);
                 }catch (Exception e){
                     System.out.println(e.getMessage());
                     return ResponseVO.buildFailure("生日输入格式错误，注册失败");

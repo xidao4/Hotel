@@ -1,11 +1,12 @@
 package com.example.hotel.po;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Member {
     private Integer userId;
     private Integer memberPoints;
-    private Date birthday;
+    private LocalDate birthday;
     public Integer getUserId() {
         return userId;
     }
@@ -22,11 +23,11 @@ public class Member {
         this.memberPoints = memberPoints;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

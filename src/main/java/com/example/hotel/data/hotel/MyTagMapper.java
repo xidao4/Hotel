@@ -12,4 +12,5 @@ public interface MyTagMapper {
     List<MyTag> getTagsByHotelId(int hotel);
     int deleteById(int id);
     int insert(MyTag myTag);
+    List<MyTag> selectByHotelIdAndTagName(String tagName,int hotelId);
 }
