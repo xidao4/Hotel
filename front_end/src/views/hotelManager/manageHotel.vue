@@ -1,6 +1,6 @@
 <template>
     <div class="manageHotel-wrapper">
-
+        <a-button @click="testUserId"></a-button>
         <a-tabs>
             <a-tab-pane tab="酒店管理(删除)" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
