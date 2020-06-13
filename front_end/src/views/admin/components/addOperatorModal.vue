@@ -26,6 +26,9 @@
       </a-form-item >
         <a-form-item v-bind="formItemLayout" label="密码">
                 <a-input
+                    type="password"
+                    autocomplete="false"
+                    placeholder="密码"
                     v-decorator="[
                         'password',
                         { rules: [{required: true, message: '请输入密码', }] }

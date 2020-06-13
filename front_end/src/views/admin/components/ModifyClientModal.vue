@@ -21,6 +21,9 @@
       </a-form-item >
       <a-form-item v-bind="formItemLayout" label="密码">
         <a-input
+                type="password"
+                autocomplete="false"
+                placeholder="密码"
                 v-decorator="[
                         'password',
                         { rules: [{required: true, message: '请输入密码', }] }
@@ -97,7 +100,7 @@
                 this.set_modifyClientModalVisible(false)
             },
             modifyInfo() {
-                console.log('in modifyInfo()',this.tmpClientInfo.userName)
+                //console.log('in modifyInfo()',this.tmpClientInfo.userName)
                 setTimeout(() => {
                     this.form.setFieldsValue({
                         'userName': this.tmpClientInfo.userName,

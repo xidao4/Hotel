@@ -31,6 +31,16 @@
                             v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
                         />
                     </a-form-item>
+                    <a-form-item label="会员积分" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="isMember">
+                        <span>{{this.memInfo.memberPoints}}</span>
+                    </a-form-item>
+                    <a-form-item label="生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="isMember">
+                        <span>{{this.memInfo.birthday}}</span>
+                    </a-form-item>
+                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="!isMember">
+                        <a-date-picker @change="onChange"  v-if="isRegistering"/>
+                        <a-button type="primary" v-else @click="registerBtn" >注册成为会员</a-button>
+                    </a-form-item>
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
                         <a-button type="primary" @click="saveModify">
                             保存
@@ -93,17 +103,6 @@
                     </span>
                 </a-table>
             </a-tab-pane>
-            <a-tab-pane tab="会员信息" key="3">
-                <div>
-                  <div v-if="isMember">
-                    会员积分：{{this.memInfo.memberPoints}}
-                    <br>
-                    生日：{{this.memInfo.birthday}}
-                  </div>
-                  <a-date-picker @change="onChange"  v-else-if="isRegistering"/>
-                  <a-button v-else @click="registerBtn" >注册成为会员</a-button>
-                </div>
-            </a-tab-pane>
             <RegisterModal></RegisterModal>
         </a-tabs>
     </div>
@@ -111,6 +110,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import RegisterModal from "./registerModal"
+import AFormItem from "ant-design-vue/es/form/FormItem";
 const columns = [
     {
         title: '订单号',
@@ -174,6 +174,7 @@ export default {
         }
     },
     components: {
+        AFormItem,
         RegisterModal
     },
     computed: {

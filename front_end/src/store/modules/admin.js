@@ -176,11 +176,11 @@ const admin = {
             }
         },
         getTmpUserInfo:async({ state, commit })=> {
-            console.log('in getTmpUserInfo >> state.OOIdx',state.OOIdx)
+            //console.log('in getTmpUserInfo >> state.OOIdx',state.OOIdx)
             const res = await getUserInfoAPI(state.OOIdx)
             if(res){
                 commit('set_tmpUserInfo', res)
-                console.log('in getTmpUserInfo >> state.tmpUserInfo',state.tmpUserInfo)
+                //console.log('in getTmpUserInfo >> state.tmpUserInfo',state.tmpUserInfo)
             }
             commit('set_modifyOOModalVisible',true)
         },
@@ -192,10 +192,11 @@ const admin = {
             const res = await updateTmpUserInfoAPI(params)
             if(res){
                 message.success('修改成功')
-                dispatch('getTmpUserInfo')
+                //dispatch('getTmpUserInfo')
                 dispatch('getOperatorList')
-                console.log("0530,in updateTmpUserInfo,admin.js",this.operatorList)
-                commit('set_modifyOOModalVisible',false)
+                dispatch('getManagerList')
+                //console.log("0530,in updateTmpUserInfo,admin.js",this.operatorList)
+
             }
         },
         getTmpClientInfo:async({state,commit})=>{

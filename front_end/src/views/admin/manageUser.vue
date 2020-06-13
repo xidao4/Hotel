@@ -162,7 +162,11 @@
               :columns="colM"
               :dataSource="managerList"
               bordered
-              ></a-table>
+              >
+              <span slot="action" slot-scope="text, record">
+                  <a-button @click="modifyHM(record.id)">修改信息</a-button>
+                </span>
+            </a-table>
           </a-tab-pane>
         </a-tabs>
         <div>
@@ -238,10 +242,10 @@ const colH=[
     }
 ]
 const colM=[
-    // {
-    //     title:'编号',
-    //     dataIndex:'managerId',
-    // },
+    {
+        title:'编号',
+        dataIndex:'id',
+    },
     {
         title:'账号',
         dataIndex:'email',
@@ -249,66 +253,18 @@ const colM=[
         title:'用户名',
         dataIndex:'userName',
     },{
-        title:'密码',
-        dataIndex:'password'
+        title:'创建时间',
+        dataIndex:'createDate',
+    },{
+        title:'操作',
+        key: 'action',
+        scopedSlots: { customRender: 'action' },
     }
+    // {
+    //     title:'密码',
+    //     dataIndex:'password'
+    // }
 ]
-// //not used
-// const colHotel=[
-//     {
-//         title:'id',
-//         dataIndex:'hotelId',
-//     },
-//     {
-//         title:'名称',
-//         dataIndex:'name',
-//     },
-//     {
-//         title:'地址',
-//         dataIndex:'address',
-//     },
-//     {
-//         title:'商圈',
-//         dataIndex:'bizRegion'
-//     },
-//     {
-//         title:'星级',
-//         dataIndex:'hotelStar'
-//     },
-//     {
-//         title:'电话号码',
-//         dataIndex:'phoneNum'
-//     },
-//     {
-//         title:'评分',
-//         dataIndex:'rate'
-//     },
-//     // {
-//     //     title:'描述',
-//     //     dataIndex:'hotelDescription'
-//     // },
-//     {
-//         title:'编号',
-//         dataIndex:'managerId',
-//     },
-//     {
-//         title:'工作人员账号',
-//         dataIndex:'email',
-//     },
-//     {
-//         title:'用户名',
-//         dataIndex:'userName',
-//     },
-//     {
-//         title:'密码',
-//         dataIndex:'password'
-//     },
-//     {
-//         title: '操作',
-//         key: 'action',
-//         scopedSlots: { customRender: 'action' }
-//     }
-// ]
 const columns = [
     {
         title:'用户编号',
@@ -343,13 +299,20 @@ const columns = [
                 },0);
             }
         }
-    }, {
-        title: '用户密码',
-        dataIndex: 'password',
-    }, {
+    },
+    // {
+    //     title: '用户密码',
+    //     dataIndex: 'password',
+    // },
+    {
         title: '用户手机号',
         dataIndex: 'phoneNumber',
-    }, {
+    },
+    {
+        title:'创建时间',
+        dataIndex:'createDate',
+    },
+    {
       title: '操作',
       key: 'action',
       scopedSlots: { customRender: 'action' },
@@ -389,10 +352,16 @@ const colOperator=[
                 },0);
             }
         }
-    },{
-        title:'密码',
-        dataIndex:'password'
-    },{
+    },
+    // {
+    //     title:'密码',
+    //     dataIndex:'password'
+    // },
+    {
+        title:'创建时间',
+        dataIndex:'createDate',
+    },
+    {
         title:'操作',
         key:'action',
         scopedSlots:{customRender:'action'}
@@ -445,7 +414,6 @@ export default {
             'addHotelModalVisible',
             'tmpHotelId',
             'addMModalVisible'
-
         ]),
     },
     watch:{},
@@ -495,6 +463,10 @@ export default {
             console.log("after getTmpUserInfo")
             //this.set_modifyOOModalVisible(true)
         },
+        modifyHM(userId){
+            this.set_OOIdx(userId)
+            this.getTmpUserInfo()
+        },
         onSearchOO(value){
             this.searchOO(value);
         },
@@ -504,11 +476,11 @@ export default {
         },
         async modifyClient(userId){
             this.set_tmpClientId(userId)
-            console.log('tmpClientId',this.tmpClientId)
+            //console.log('tmpClientId',this.tmpClientId)
             await this.getTmpClientInfo()
-            console.log('after await getTmpClientInfo')
+            //console.log('after await getTmpClientInfo')
             this.set_modifyClientModalVisible(true)
-            console.log(this.modifyClientModalVisible)
+            //console.log(this.modifyClientModalVisible)
         },
         onSearchClient(value){
             this.searchClient(value)

@@ -22,6 +22,9 @@
       </a-form-item >
       <a-form-item v-bind="formItemLayout" label="密码">
         <a-input
+                type="password"
+                autocomplete="false"
+                placeholder="密码"
                 v-decorator="[
                         'password',
                         { rules: [{required: true, message: '请输入密码', }] }
@@ -78,16 +81,18 @@
             ...mapActions([
                 'getTmpUserInfo',
                 'updateTmpUserInfo',
-                'getOperatorList'
+                'getOperatorList',
+                'getManagerList'
             ]),
             saveModify() {
-                this.form.validateFields((err, values) => {
+                this.form.validateFields(async(err, values) => {
                     if (!err) {
                         const data = {
                             userName: this.form.getFieldValue('userName'),
                             password: this.form.getFieldValue('password')
                         }
-                        this.updateTmpUserInfo(data)
+                        await this.updateTmpUserInfo(data)
+                        this.set_modifyOOModalVisible(false)
                     }
                 });
 
