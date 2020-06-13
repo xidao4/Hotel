@@ -2,7 +2,7 @@
     <div class="manageHotel-wrapper">
 
         <a-tabs>
-            <a-tab-pane tab="酒店管理" key="1">
+            <a-tab-pane tab="酒店管理(删除)" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
                     <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
                 </div>
@@ -76,7 +76,7 @@
                     </span>
                 </a-table>
             </a-tab-pane>
-            <a-tab-pane tab="基本信息维护" key="3">
+            <a-tab-pane tab="基本信息" key="3">
                 <a-form :form="form" style="margin-top: 30px">
                     <a-form-item label="名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                     <span>{{ currentHotelInfo.name }}</span>
@@ -135,6 +135,12 @@
 
 
                 </a-form>
+            </a-tab-pane>
+            <a-tab-pane tab="房间管理" key="4">
+                可用房间显示与录入房间
+            </a-tab-pane>
+            <a-tab-pane tab="优惠管理" key="5">
+                可用优惠券显示与优惠策略制定
             </a-tab-pane>
         </a-tabs>
         <AddHotelModal></AddHotelModal>

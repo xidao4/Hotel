@@ -111,13 +111,17 @@ const user = {
                     //console.log("this.userId",this.userId)//uncaught typeError: cannot read property 'userId' of undefined
                     console.log("state.userId",state.userId)//1
                 }
-
-                if(res.userType==='Manager'){
-                    router.push('/websiteAdmin')
-                }else {
-                    dispatch('getUserInfo')
-                    router.push('/hotel/hotelList')
-                }
+                // if(res.userType==='Manager'){
+                //     router.push('/websiteAdmin')
+                // }else {
+                //     dispatch('getUserInfo')
+                //     router.push('/hotel/hotelList')
+                // }
+                dispatch('getUserInfo')
+                if(res.userType==='Client')router.push('/hotel/hotelList')
+                else if(res.userType==='Manager')router.push('/admin/manageUser')
+                else if(res.userType==='HotelManager') router.push('/hotelManager/manageHotel')
+                else if(res.userType==='Operator') router.push('/operator/manageOrder')
             }
         },
         register: async({ commit }, data) => {

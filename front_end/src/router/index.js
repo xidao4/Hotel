@@ -13,11 +13,6 @@ const routes = [
     path: '/',
     redirect: '/NJUSE'
   },
-    {
-        path:'/websiteAdmin',
-        name:'websiteAdmin',
-        component:()=>import('@/views/admin/manageUser.vue')
-    },
   {
     path: '/NJUSE',
     name: 'layout',
@@ -64,6 +59,11 @@ const routes = [
         name: 'creditList',
         component: () => import('@/views/operator/creditList')
       },
+      // {
+      //   path:'/websiteAdmin',
+      //   name:'websiteAdmin',
+      //   component:()=>import('@/views/admin/manageUser.vue')
+      // },
     ]
   },
 ]

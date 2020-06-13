@@ -3,12 +3,12 @@
         <div class="label">
             <img src="@/assets/logo.svg" class="logo" alt="logo" @click="jumpToHome">
             <span class="title">NJUSE 酒店管理系统</span>
-
         </div>
+
         <a-menu v-model="current" mode="horizontal" theme="light">
-            <a-menu-item key="1" @click="selectMenu">
+            <a-menu-item key="1" @click="selectMenu" v-if="userInfo.userType=='Client'">
                 <router-link to="/hotel/hotelList">
-                    <a-icon type="home" />首页
+                    <a-icon type="home" />预订酒店
                 </router-link>
             </a-menu-item>
             <a-menu-item key="2" @click="jumpToUserInfo" v-if="userInfo.userType=='Client'">
@@ -19,7 +19,7 @@
                      <a-icon type="switcher" />酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
+            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Manager'">
                 <router-link :to="{ name: 'manageUser'}">
                      <a-icon type="user" />账户管理
                 </router-link>
@@ -48,14 +48,14 @@
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
                 <a-menu slot="overlay">
-                <a-menu-item  @click="jumpToHome()">
-                    <a-icon type="home"></a-icon>
-                    首页
-                </a-menu-item>
-                <a-menu-item @click="jumpToUserInfo()">
-                    <a-icon type="profile"></a-icon>
-                    我的信息
-                </a-menu-item>
+<!--                <a-menu-item  @click="jumpToHome()">-->
+<!--                    <a-icon type="home"></a-icon>-->
+<!--                    首页-->
+<!--                </a-menu-item>-->
+<!--                <a-menu-item @click="jumpToUserInfo()">-->
+<!--                    <a-icon type="profile"></a-icon>-->
+<!--                    我的信息-->
+<!--                </a-menu-item>-->
                 <a-menu-item @click="quit()">
                     <a-icon type="poweroff"></a-icon>
                     退出登录
