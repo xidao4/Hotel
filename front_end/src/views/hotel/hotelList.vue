@@ -29,7 +29,10 @@ export default {
     }
   },
   async mounted() {
-    await this.getHotelList()
+    await this.getHotelList(),
+    console.log('before openNotification')
+    this.openNotification('topLeft')
+    console.log('after openNotification')
   },
   computed: {
     ...mapGetters([
@@ -56,7 +59,16 @@ export default {
     },
     jumpToDetails(id){
       this.$router.push({ name: 'hotelDetail', params: { hotelId: id }})
-    }
+    },
+      openNotification(placement) {
+          this.$notification.open({
+              message: `网站会员优惠`,
+              description:
+                  'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+              // icon: <a-icon type="smile" style="color: #108ee9" />,
+              placement
+          });
+      },
   }
 }
 </script>
