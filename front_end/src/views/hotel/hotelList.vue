@@ -25,13 +25,14 @@ export default {
   },
   data(){
     return{
-      emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}]
+      emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}],
+      msg:'订单价格三倍积分，积分当钱花。可享9折，价格更优惠。提早入住，延迟退房，入住更随心。生日惊喜好礼，礼券更丰富。',
     }
   },
   async mounted() {
     await this.getHotelList(),
     console.log('before openNotification')
-    this.openNotification('topLeft')
+    this.openNotification('bottomLeft')
     console.log('after openNotification')
   },
   computed: {
@@ -62,9 +63,9 @@ export default {
     },
       openNotification(placement) {
           this.$notification.open({
-              message: `网站会员优惠`,
-              description:
-                  'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+              message: `网站会员尊享优惠`,
+              description: this.msg,
+              duration: 0,
               // icon: <a-icon type="smile" style="color: #108ee9" />,
               placement
           });
