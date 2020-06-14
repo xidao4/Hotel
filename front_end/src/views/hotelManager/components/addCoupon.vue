@@ -22,7 +22,7 @@
                     <a-select-option value="3">满减特惠</a-select-option>
                     <a-select-option value="4">限时特惠</a-select-option>
                     <a-select-option value="5">节日特惠</a-select-option>
-                    <a-select-option value="6">会员特惠</a-select-option>
+                    <!--<a-select-option value="6">会员特惠</a-select-option>-->
                 </a-select>
             </a-form-item>
             <a-form-item label="券名" v-bind="formItemLayout">
@@ -39,13 +39,13 @@
                 <a-input placeholder="请填写折扣" v-decorator="['discount',{rules:[{required:true,message:'请填写折扣'}]}]"/>
             </a-form-item>
 
-            <!--            会员优惠所需表单部分-->
+            <!--&lt;!&ndash;            会员优惠所需表单部分&ndash;&gt;
             <a-form-item label="银会员折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='6'">
                 <a-input placeholder="请填写银会员折扣" v-decorator="['discount-silver',{rules:[{required:true,message:'请填写折扣'}]}]"/>
             </a-form-item>
             <a-form-item label="金会员折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='6'">
                 <a-input placeholder="请填写金会员折扣" v-decorator="['discount-gold',{rules:[{required:true,message:'请填写折扣'}]}]"/>
-            </a-form-item>
+            </a-form-item>-->
 
             <!--            targetMoney满减优惠所需表单部分-->
             <a-form-item label="达标金额" v-if="this.form.getFieldValue('type')==='3'">
@@ -241,7 +241,7 @@
                             this.form.resetFields()
 
                         }
-                        else if(this.form.getFieldValue('type')==='6'){
+                        /*else if(this.form.getFieldValue('type')==='6'){
                             const data = {
                                 name: this.form.getFieldValue('name'),
                                 description: this.form.getFieldValue('description'),
@@ -254,7 +254,7 @@
                             this.addHotelVIPSpecialCoupon(data)
                             this.form.resetFields()
 
-                        }
+                        }*/
                     }
                 });
             },

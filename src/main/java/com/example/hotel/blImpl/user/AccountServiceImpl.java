@@ -40,6 +40,8 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private CreditService creditService;
 
+    private String avatar_url = "";
+
     @Override
     public ResponseVO registerAccount(UserVO userVO) {
         User user = new User();
@@ -76,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVO updateUserInfo(int id, String password, String username, String phonenumber) {
         try {
-            accountMapper.updateAccount(id, password, username, phonenumber);
+            accountMapper.updateAccount(id, password, username, phonenumber, avatar_url);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
@@ -152,5 +154,12 @@ public class AccountServiceImpl implements AccountService {
         memInfoVO.setMemberPoints(member.getMemberPoints());
         memInfoVO.setMembership(member.getMembership());
         return memInfoVO;
+    }
+
+    @Override
+    public ResponseVO updateAvatar(String fileName) {
+        avatar_url = fileName;
+        String url = "https://supernatural.oss-cn-beijing.aliyuncs.com/" + avatar_url;
+        return ResponseVO.buildSuccess(url);
     }
 }

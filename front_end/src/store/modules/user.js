@@ -10,6 +10,7 @@ import {
     updateUserInfoAPI,
     getMemInfoAPI,
     registerMemAPI,
+    uploadAPI,
 } from '@/api/user'
 import {
     getUserOrdersAPI,
@@ -41,6 +42,7 @@ const getDefaultState = () => {
         hotelId:'',
         dateRecord: [],
         creditRecord: [],
+        imageUrl: '',
     }
 }
 
@@ -97,7 +99,10 @@ const user = {
         },
         set_creditRecord:(state,data)=>{
             state.creditRecord = data
-        }
+        },
+        set_imageUrl:(state,data)=>{
+            state.imageUrl = data
+        },
 
     },
 
@@ -232,7 +237,20 @@ const user = {
             }else{
                 console.log('fail')
             }
-        }
+        },
+        getImageUrl:async ({commit,state},data)=>{
+            const res = await uploadAPI({
+                id: state.userId,
+                img: data
+            })
+            if(res){
+                /*console.log("module")
+                console.log(res)*/
+                commit('set_imageUrl',res)
+            }else{
+                console.log("error!")
+            }
+        },
     }
 }
 

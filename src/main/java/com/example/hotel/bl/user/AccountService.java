@@ -47,4 +47,11 @@ public interface AccountService {
     ResponseVO upgradeMem(int userId);
 
     MemInfoVO getMemInfo(int userId);
+
+    /**
+     * 更新头像信息
+     * @param fileName
+     * @return
+     */
+    ResponseVO updateAvatar(String fileName);
 }

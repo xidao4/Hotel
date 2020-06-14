@@ -5,8 +5,8 @@
             <a-tab-pane tab="我的信息" key="1">
                 <a-form :form="form" style="margin-top: 30px">
                     <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
-                        <a-avatar v-if="!modify" :src="userInfo.avatar_url"></a-avatar>
-                        <EditAvatar v-if="modify" :avatar_url="userInfo.avatar_url"
+                        <a-avatar v-if="!modify" :src="avatar_url"></a-avatar>
+                        <EditAvatar v-if="modify" :avatar_url="avatar_url"
                                     @editAvatar="editAvatar"></EditAvatar>
                     </a-form-item>
                     <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
@@ -182,6 +182,7 @@ export default {
             avatar_url: '',
             date_curve: [],
             credit_curve: [],
+            avatar_url: ''
         }
     },
     components: {
@@ -207,6 +208,8 @@ export default {
         await this.getMemInfo()
         await this.getUserInfo()
         await this.getUserOrders()
+        this.avatar_url = "https://supernatural.oss-cn-beijing.aliyuncs.com/" + this.userInfo.avatar_url
+        console.log(this.avatar_url)
         //console.log("loading...")
         await this.getUserCredit()
         this.$nextTick(function () {
@@ -248,8 +251,7 @@ export default {
             'set_registerModalVisible',
         ]),
         editAvatar(url) {
-            this.userInfo.avatar_url = url
-            console.log("info_succ")
+            this.avatar_url = url
         },
         showContentModal(recordid){
             this.currentIndex=recordid

@@ -11,6 +11,7 @@ const getters = {
   registerModalVisible:state=>state.user.registerModalVisible,
   dateRecord:state=>state.user.dateRecord,
   creditRecord:state=>state.user.creditRecord,
+  imageUrl:state=>state.user.imageUrl,
   //hotel
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,

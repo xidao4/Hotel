@@ -18,6 +18,80 @@
 --
 -- Table structure for table `Coupon`
 --
+DROP TABLE IF EXISTS `Tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Tag` (
+  `tagId` int(11) NOT NULL AUTO_INCREMENT COMMENT '标签编号',
+  `tagName` varchar(255) NOT NULL COMMENT '标签名称',
+  PRIMARY KEY (`tagId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Tag`
+--
+
+BEGIN;
+/*!40000 ALTER TABLE `Tag` DISABLE KEYS */;
+INSERT INTO `Tag` VALUES (1,'免费无线上网'),(2,'叫醒服务'),(3,'免费保存贵重物品（保险箱）'),(4,'泳池');
+/*!40000 ALTER TABLE `Tag` ENABLE KEYS */;
+COMMIT;
+
+
+
+
+
+--
+-- Table structure for table `TagRelation`
+--
+
+DROP TABLE IF EXISTS `TagRelation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TagRelation` (
+  `relationId` int(11) NOT NULL AUTO_INCREMENT COMMENT '关系编号',
+  `hotelId` int(11) NOT NULL COMMENT '酒店编号',
+  `tagId` int(11) NOT NULL COMMENT '标签编号',
+  PRIMARY KEY (`relationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TagRelation`
+--
+BEGIN;
+/*!40000 ALTER TABLE `TagRelation` DISABLE KEYS */;
+INSERT INTO `TagRelation` VALUES (1,1,1),(2,1,2),(3,2,3),(4,2,4),(5,2,1),(6,3,2);
+/*!40000 ALTER TABLE `TagRelation` ENABLE KEYS */;
+COMMIT;
+
+
+
+
+--
+-- Table structure for table `Member`
+--
+
+DROP TABLE IF EXISTS `Member`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Member` (
+  `userId` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户编号',
+  `membership` int(1) NOT NULL DEFAULT 0 COMMENT '0非会员 1银会员 2金会员',
+  `memberPoints` int(11) NOT NULL DEFAULT 0 COMMENT '会员积分',
+  `birthday` datetime DEFAULT NULL COMMENT '会员生日',
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `Coupon`
+--
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `Coupon`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -202,7 +276,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (4,'1012681@qq.com','123456','测试一号','12345678919',100,'Client',NULL,NULL,NULL),(5,'123@qq.com','123456','测试二号','12345678911',100,'Client',NULL,NULL,NULL),(6,'333@qq.com','123456',NULL,NULL,NULL,'HotelManager',NULL,NULL,NULL);
+INSERT INTO `User` VALUES (4,'1012681@qq.com','123456','测试一号','12345678919','Client',NULL,NULL,NULL),(5,'123@qq.com','123456','测试二号','12345678911','HotelManager',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

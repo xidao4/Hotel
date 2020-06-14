@@ -36,7 +36,7 @@ public interface AccountMapper {
      * @param phonenumber
      * @return
      */
-     int updateAccount(@Param("id") int id, @Param("password") String password,@Param("userName") String username, @Param("phoneNumber") String phonenumber);
+     int updateAccount(@Param("id") int id, @Param("password") String password,@Param("userName") String username, @Param("phoneNumber") String phonenumber, @Param("avatar_url") String avatar_url);
 
      int deleteUser(@Param("id") int id);
 
@@ -47,4 +47,5 @@ public interface AccountMapper {
      List<User> searchOO(@Param("keyword") String keyword);
 
     List<User> searchClient(@Param("keyword") String keyword);
+
 }

@@ -15,12 +15,10 @@ import com.example.hotel.vo.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static java.sql.Types.NULL;
 
@@ -104,6 +102,13 @@ public class AdminServiceImpl implements AdminService {
         }
         dates.add(date);
         nums.add(num);
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+        Date now = new Date(System.currentTimeMillis());
+        while(date.compareTo(formatter.format(now)) <= 0) {
+            dates.add(date);
+            nums.add(num);
+            date = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1).toString().substring(0, 10);
+        }
         return new AdminCurveVO(dates, nums);
     }
 

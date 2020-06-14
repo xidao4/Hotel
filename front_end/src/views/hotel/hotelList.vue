@@ -91,49 +91,57 @@
 			onChangeBizRegion(value) {
 				this.hotelListByBizRegion = []
 				let all = false
-				for (var i = 0; i < value.length; i++) {
-					if (value[i] == "全部") {
-						all = true
-						break
-					}
-				}
-				if (all) {
-					this.hotelListByBizRegion = this.hotelList
-				} else {
-					for (var i = 0; i < this.hotelList.length; i++) {
-						for (var j = 0; j < value.length; j++) {
-							if (this.hotelList[i].bizRegion == value[j]) {
-								this.hotelListByBizRegion.push(this.hotelList[i])
-								console.log(this.hotelList[i])
-								break
-							}
-						}
-					}
-				}
+				if(value.length==0){
+				    this.hotelListByBizRegion = this.hotelList
+                }else{
+                    for (var i = 0; i < value.length; i++) {
+                        if (value[i] == "全部") {
+                            all = true
+                            break
+                        }
+                    }
+                    if (all) {
+                        this.hotelListByBizRegion = this.hotelList
+                    } else {
+                        for (var i = 0; i < this.hotelList.length; i++) {
+                            for (var j = 0; j < value.length; j++) {
+                                if (this.hotelList[i].bizRegion == value[j]) {
+                                    this.hotelListByBizRegion.push(this.hotelList[i])
+                                    console.log(this.hotelList[i])
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
 				this.onChangeTmpHotelList()
 				//console.log(this.hotelListByBizRegion)
 			},
 			onChangeStar(value) {
 				this.hotelListByStar = []
 				let all = false
-				for (var i = 0; i < value.length; i++) {
-					if (value[i] == "全部") {
-						all = true
-						break
-					}
-				}
-				if (all) {
-					this.hotelListByStar = this.hotelList
-				} else {
-					for (let i = 0; i < this.hotelList.length; i++) {
-						for (let j = 0; j < value.length; j++) {
-							if (this.hotelList[i].hotelStar == value[j]) {
-								this.hotelListByStar.push(this.hotelList[i])
-								break
-							}
-						}
-					}
-				}
+				if(value.length==0){
+				    this.hotelListByStar = this.hotelList
+                }else{
+                    for (var i = 0; i < value.length; i++) {
+                        if (value[i] == "全部") {
+                            all = true
+                            break
+                        }
+                    }
+                    if (all) {
+                        this.hotelListByStar = this.hotelList
+                    } else {
+                        for (let i = 0; i < this.hotelList.length; i++) {
+                            for (let j = 0; j < value.length; j++) {
+                                if (this.hotelList[i].hotelStar == value[j]) {
+                                    this.hotelListByStar.push(this.hotelList[i])
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
 				this.onChangeTmpHotelList()
 			},
 			async onChangeDate(value) {
