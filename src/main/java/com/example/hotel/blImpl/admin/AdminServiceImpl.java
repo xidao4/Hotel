@@ -7,6 +7,7 @@ import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
+import com.example.hotel.util.MD5;
 import com.example.hotel.vo.HotelManagerVO;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
@@ -39,7 +40,8 @@ public class AdminServiceImpl implements AdminService {
     public ResponseVO addOperator(UserForm userForm) {
         User user = new User();
         user.setEmail(userForm.getEmail());
-        user.setUserName(userForm.getUserName());
+        //将输入的密码进行散列，再插入数据库
+        user.setUserName(MD5.getMD5(userForm.getUserName()));
         user.setPassword(userForm.getPassword());
         user.setUserType(UserType.Operator);
         try {
@@ -57,7 +59,8 @@ public class AdminServiceImpl implements AdminService {
         User user = new User();
         user.setEmail(vo.getEmail());
         user.setUserName(vo.getUserName());
-        user.setPassword(vo.getPassword());
+        //将输入的密码进行散列，然后再插入数据库
+        user.setPassword(MD5.getMD5(vo.getPassword()));
         user.setUserType(UserType.HotelManager);
         try {
             adminMapper.addManager(user);

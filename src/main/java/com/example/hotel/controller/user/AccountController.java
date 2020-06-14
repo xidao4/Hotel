@@ -4,6 +4,7 @@ import com.example.hotel.bl.credit.CreditService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
+import com.example.hotel.util.MD5;
 import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class AccountController {
 
     @PostMapping("/{id}/userInfo/update")
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
+       //userInfoVO中的密码是输入的密码，或者""（表示没有改动过密码）
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
 

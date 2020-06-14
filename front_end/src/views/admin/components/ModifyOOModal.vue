@@ -22,6 +22,7 @@
       </a-form-item >
       <a-form-item v-bind="formItemLayout" label="密码">
         <a-input
+                v-model="newPWD"
                 type="password"
                 autocomplete="false"
                 placeholder="密码"
@@ -51,6 +52,8 @@
                         sm: { span: 16 },
                     },
                 },
+                newPWD:'',
+                changePWD:false
             }
         },
         computed: {
@@ -64,6 +67,9 @@
         watch:{
             modifyOOModalVisible:function() {
                 this.modifyInfo()
+            },
+            newPWD:function () {
+                this.changePWD=true
             }
         },
         mounted(){
@@ -89,10 +95,14 @@
                     if (!err) {
                         const data = {
                             userName: this.form.getFieldValue('userName'),
-                            password: this.form.getFieldValue('password')
+                            password: this.changePWD?this.form.getFieldValue('password'):''
                         }
                         await this.updateTmpUserInfo(data)
                         this.set_modifyOOModalVisible(false)
+
+                        console.log('newPWD',this.newPWD)
+                        console.log('changePWD',this.changePWD)
+                        this.changePWD=false
                     }
                 });
 
@@ -101,9 +111,9 @@
                 this.set_modifyOOModalVisible(false)
             },
             modifyInfo() {
-                console.log("implementing modifyInfo")
-                console.log(this.tmpUserInfo.userName)
-                console.log(this.tmpUserInfo.password)
+                //console.log("implementing modifyInfo")
+                console.log('userName',this.tmpUserInfo.userName)
+                console.log('数据库中取出的原密码password',this.tmpUserInfo.password)
                 setTimeout(() => {
                     this.form.setFieldsValue({
                         'userName': this.tmpUserInfo.userName,

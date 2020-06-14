@@ -46,6 +46,7 @@ public class AdminController {
 
     @PostMapping("/{id}/tmpUserInfo/update")
     public ResponseVO updateTmpUserInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
+        //userInfoVO中的密码是输入的密码，或者""（表示没有改动过密码）
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
 

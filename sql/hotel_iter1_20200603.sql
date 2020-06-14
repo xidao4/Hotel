@@ -240,9 +240,9 @@ DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) DEFAULT NULL,
-  `password` varchar(11) NOT NULL,
+  `password` varchar(32) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
-  `phonenumber` varchar(255) DEFAULT NULL,
+  `phonenumber` varchar(11) DEFAULT NULL,
   `usertype` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
@@ -255,15 +255,15 @@ CREATE TABLE `User` (
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
 INSERT INTO `User`
-VALUES (0,'websiteAdmin@qq.com','12345678','网站管理员',NULL,'Manager'),
-(1,'hanTing@qq.com','12345678','汉庭酒店',NULL,'HotelManager'),
-(2,'ruJia@qq.com','12345678','儒家酒店',NULL,'HotelManager'),
-(3,'guiYuan@qq.com','12345678','桂圆酒店',NULL,'HotelManager'),
-(4,'client1@qq.com','12345678','测试一号','12345678919','Client'),
-(5,'client2@qq.com','12345678','测试二号','12345678911','Client'),
-(6,'operator1@qq.com','12345678','网站运营人员一',NULL,'Operator'),
-(7,'client3@qq.com','12345678','测试三号','12345678911','Client'),
-(8,'operator2@qq.com','12345678','网站运营人员二',NULL,'Operator');
+VALUES (0,'websiteAdmin@qq.com','d959caadac9b13dcb3e609440135cf54','网站管理员',NULL,'Manager'),
+(1,'hanTing@qq.com','d959caadac9b13dcb3e609440135cf54','汉庭酒店',NULL,'HotelManager'),
+(2,'ruJia@qq.com','d959caadac9b13dcb3e609440135cf54','儒家酒店',NULL,'HotelManager'),
+(3,'guiYuan@qq.com','d959caadac9b13dcb3e609440135cf54','桂圆酒店',NULL,'HotelManager'),
+(4,'client1@qq.com','d959caadac9b13dcb3e609440135cf54','测试一号','1391541689601234','Client'),
+(5,'client2@qq.com','d959caadac9b13dcb3e609440135cf54','测试二号','12345678911','Client'),
+(6,'operator1@qq.com','d959caadac9b13dcb3e609440135cf54','网站运营人员一',NULL,'Operator'),
+(7,'client3@qq.com','d959caadac9b13dcb3e609440135cf54','测试三号','12345678911','Client'),
+(8,'operator2@qq.com','d959caadac9b13dcb3e609440135cf54','网站运营人员二',NULL,'Operator');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

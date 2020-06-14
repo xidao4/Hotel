@@ -11,6 +11,7 @@ import com.example.hotel.data.credit.CreditMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
+import com.example.hotel.util.MD5;
 import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,8 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVO registerAccount(UserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO,user);
+        //真正要插入数据库的密码，是散列后的密码
+        user.setPassword(MD5.getMD5(userVO.getPassword()));
         try {
             accountMapper.createNewAccount(user);
         } catch (Exception e) {
@@ -57,13 +60,18 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public User login(UserForm userForm) {
         User user = accountMapper.getAccountByName(userForm.getEmail());
-        if (null == user || !user.getPassword().equals(userForm.getPassword())) {
+        System.out.println("实际输入密码"+userForm.getPassword());
+        String pwd= MD5.getMD5(userForm.getPassword());
+        System.out.println("散列后密码"+pwd);
+
+        if (null == user || !user.getPassword().equals(pwd)) {
             return null;
         }
         return user;
     }
     @Override
     public User getUserInfo(int id) {
+        //得到的是数据库中经过散列的密码
         User user = accountMapper.getAccountById(id);
         if (user == null) {
             return null;
@@ -72,8 +80,17 @@ public class AccountServiceImpl implements AccountService {
     }
     @Override
     public ResponseVO updateUserInfo(int id, String password, String username, String phonenumber) {
+        //传入的参数password是输入的密码，或者""（表示没有改动过密码）
+        String digest;
+        if(password.equals("")){
+            digest=accountMapper.getAccountById(id).getPassword();
+            //若没改动过密码，则向数据库中插入数据库原来的秘密（散列过的）
+        }else{
+            digest=MD5.getMD5(password);
+            //若改动过密码，则要将输入的密码先进行散列，再插入数据库
+        }
         try {
-            accountMapper.updateAccount(id, password, username, phonenumber);
+            accountMapper.updateAccount(id, digest, username, phonenumber);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
