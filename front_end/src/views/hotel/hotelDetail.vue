@@ -50,6 +50,7 @@
                         </div>
                     </div>
                 </div>
+                </div>
                 <a-divider></a-divider>
                 <a-tabs>
                     <a-tab-pane tab="房间信息" key="1">

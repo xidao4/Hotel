@@ -21,7 +21,6 @@ public class CouponServiceImpl implements CouponService {
     private final  TimeCouponStrategyImpl timeCouponStrategy;
     private final BirthdayCouponStrategyImpl birthdayCouponStrategy;
     private final FestivalCouponStrategyImpl festivalCouponStrategy;
-    private final VIPSpecialCouponStrategyImpl vipSpecialCouponStrategy;
     private final CouponMapper couponMapper;
 
     private static List<CouponMatchStrategy> strategyList = new ArrayList<>();
@@ -32,7 +31,6 @@ public class CouponServiceImpl implements CouponService {
                              RoomNumCouponStrategyImpl roomNumCouponStrategy,
                              BirthdayCouponStrategyImpl birthdayCouponStrategy,
                              FestivalCouponStrategyImpl festivalCouponStrategy,
-                             VIPSpecialCouponStrategyImpl vipSpecialCouponStrategy,
                              CouponMapper couponMapper) {
         this.couponMapper = couponMapper;
         this.targetMoneyCouponStrategy = targetMoneyCouponStrategy;
@@ -40,7 +38,6 @@ public class CouponServiceImpl implements CouponService {
         this.roomNumCouponStrategy=roomNumCouponStrategy;
         this.birthdayCouponStrategy=birthdayCouponStrategy;
         this.festivalCouponStrategy=festivalCouponStrategy;
-        this.vipSpecialCouponStrategy=vipSpecialCouponStrategy;
         //strategyList.add(roomNumCouponStrategy);
         strategyList.add(targetMoneyCouponStrategy);
         //strategyList.add(timeCouponStrategy);
