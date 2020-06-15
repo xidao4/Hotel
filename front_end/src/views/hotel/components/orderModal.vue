@@ -132,7 +132,7 @@
                     </a-checkbox>
                 </a-table>
             </a-checkbox-group>
-             <a-form-item v-bind="formItemLayout" label="结算后总价" v-if="orderMatchCouponList.length>0 ">
+            <a-form-item v-bind="formItemLayout" label="结算后总价" v-if="orderMatchCouponList.length>0">
                 <span>￥{{ finalPrice }}</span>
             </a-form-item>
         </a-form>
@@ -232,7 +232,7 @@ export default {
         changePeopleNum(v) {
         },
         changeRoomNum(v) {
-            this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]),'day')
+            this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
         },
         onchange() {
             console.log('v-model=\'checkedList\'',this.checkedList)//为所有选中的优惠券
@@ -292,7 +292,7 @@ export default {
                     console.log('orderMatchCouponList',this.orderMatchCouponList)
                     this.usePoints=false
                 }
-            });
+            })
         },
     },
     watch:{

@@ -4,6 +4,11 @@
         <a-tabs>
             <a-tab-pane tab="我的信息" key="1">
                 <a-form :form="form" style="margin-top: 30px">
+                    <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <a-avatar v-if="!modify" :src="avatar_url"></a-avatar>
+                        <EditAvatar v-if="modify" :avatar_url="avatar_url"
+                                    @editAvatar="editAvatar"></EditAvatar>
+                    </a-form-item>
                     <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                         <a-input
                                 placeholder="请填写用户名"
@@ -113,6 +118,8 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import RegisterModal from "./registerModal"
 import AFormItem from "ant-design-vue/es/form/FormItem";
+import echarts from 'echarts'
+import EditAvatar from "../../components/EditAvatar"
 const columns = [
     {
         title: '订单号',
@@ -172,12 +179,16 @@ export default {
             columns,
             data: [],
             form: this.$form.createForm(this, { name: 'coordinated' }),
-            isRegistering:false
+            isRegistering:false,
+            avatar_url: '',
+            date_curve: [],
+            credit_curve: [],
         }
     },
     components: {
         AFormItem,
-        RegisterModal
+        RegisterModal,
+        EditAvatar
     },
     computed: {
         ...mapGetters([
@@ -188,12 +199,44 @@ export default {
             'memInfo',
             'registerModalVisible',
             'isMember',
+            'dateRecord',
+            'creditRecord'
         ])
     },
     async mounted() {
         await this.getUserInfo()
         await this.getUserOrders()
         await this.getMemInfo()
+        await this.getUserInfo()
+        await this.getUserOrders()
+        this.avatar_url = "https://supernatural.oss-cn-beijing.aliyuncs.com/" + this.userInfo.avatar_url
+        console.log(this.avatar_url)
+        //console.log("loading...")
+        await this.getUserCredit()
+        this.$nextTick(function () {
+            let dom = document.getElementById('pic')
+            let myChart = echarts.init(dom)
+            myChart.setOption({
+                title: {
+                    text: '信用变化'
+                },
+                toolbox: {
+                    show: true
+                },
+                legend: {
+                    data: ['信用']
+                },
+                xAxis: {
+                    data: this.dateRecord
+                },
+                yAxis: {},
+                series: [{
+                    name: '信用',
+                    type: 'line',
+                    data: this.creditRecord
+                }]
+            })
+        })
     },
 
     methods: {
@@ -205,10 +248,14 @@ export default {
             'getOrderById',
             'getMemInfo',
             'registerMem',
+            'getUserCredit',
         ]),
         ...mapMutations([
             'set_registerModalVisible',
         ]),
+        editAvatar(url) {
+            this.avatar_url = url
+        },
         showContentModal(recordid){
             this.currentIndex=recordid
             console.log('你好啊啊啊啊啊啊啊')
@@ -309,3 +356,4 @@ export default {
         }
     }
 </style>
+

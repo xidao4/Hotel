@@ -60,10 +60,19 @@ export function addManagerAPI(data){
         data
     })
 }
+
+export function getCurveDatasetAPI() {
+    return axios({
+        url: `${api.adminPre}/getCurveDataSet`,
+        method: 'GET'
+    })
+}
+
 export function deleteHMAPI(hotelId){
     return axios({
         url: `${api.adminPre}/${hotelId}/deleteHM`,
         method: 'POST',
     })
 }
+
 

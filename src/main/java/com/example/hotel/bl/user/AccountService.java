@@ -48,4 +48,11 @@ public interface AccountService {
     ResponseVO decreaseMemberPoints(int userId, int amount);
 
     MemInfoVO getMemInfo(int userId);
+
+    /**
+     * 更新头像信息
+     * @param fileName
+     * @return
+     */
+    ResponseVO updateAvatar(String fileName);
 }

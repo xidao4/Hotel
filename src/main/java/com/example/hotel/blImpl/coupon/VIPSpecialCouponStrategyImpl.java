@@ -15,7 +15,7 @@ public class VIPSpecialCouponStrategyImpl implements CouponMatchStrategy {
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
         if(coupon.getCouponType()!=6) return false;
-        int membership = accountService.getUserInfo(orderVO.getUserId()).getMembership();
+        int membership = accountService.getMemInfo(orderVO.getUserId()).getMembership();
         if(membership!=0)return true;
         return false;
     }

@@ -14,15 +14,12 @@
     <select id="getAllManagers" resultMap="User">
         select * from User where usertype='HotelManager'
     </select>
-
     <select id="getAllClients" resultMap="User">
         select * from User where usertype='Client'
     </select>
-
     <select id="getAllOperators" resultMap="User">
         select * from User where userType='Operator'
     </select>
-
 
 
     <resultMap id="User" type="com.example.hotel.po.User">

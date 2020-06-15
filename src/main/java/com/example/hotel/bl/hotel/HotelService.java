@@ -58,7 +58,6 @@ public interface HotelService {
 
    /* int getRoomNumOfTypicalType(HotelVO hotelVO, String roomType);*/
 
-
     ResponseVO getManagerId(Integer hotelId);
 
     int getHotelId(Integer managerId);

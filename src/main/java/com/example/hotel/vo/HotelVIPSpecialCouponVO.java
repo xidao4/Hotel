@@ -1,8 +1,12 @@
 package com.example.hotel.vo;
 
+/**
+ * @Author: syc
+ */
 public class HotelVIPSpecialCouponVO extends CouponVO {
     private Integer hotelId;
-    private Integer discountMoney;
+    private double discountSilver;
+    private double discountGold;
 
     public Integer getHotelId() {
         return hotelId;
@@ -12,11 +16,19 @@ public class HotelVIPSpecialCouponVO extends CouponVO {
         this.hotelId = hotelId;
     }
 
-    public Integer getDiscountMoney() {
-        return discountMoney;
+    public double getDiscountSilver() {
+        return discountSilver;
     }
 
-    public void setDiscountMoney(Integer discountMoney) {
-        this.discountMoney = discountMoney;
+    public void setDiscountSilver(double discountSilver) {
+        this.discountSilver = discountSilver;
+    }
+
+    public double getDiscountGold() {
+        return discountGold;
+    }
+
+    public void setDiscountGold(double discountGold) {
+        this.discountGold = discountGold;
     }
 }

@@ -64,6 +64,11 @@ const routes = [
       //   name:'websiteAdmin',
       //   component:()=>import('@/views/admin/manageUser.vue')
       // },
+      {
+        path: '/operator/proposalCurve',
+        name: 'proposalCurve',
+        component: () => import('@/views/operator/proposalCurve')
+      },
     ]
   },
 ]

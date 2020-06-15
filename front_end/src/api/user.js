@@ -58,3 +58,13 @@ export function decreaseMemberPointsAPI(data){
         data
     })
 }
+export function uploadAPI(data) {
+    return axios({
+        url: `${api.userPre}/${data.id}/upload`,
+        method: 'POST',
+        data: data.img,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+}

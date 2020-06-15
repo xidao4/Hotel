@@ -110,7 +110,6 @@ public class HotelServiceImpl implements HotelService {
         }
     }
 
-
     public List<HotelVO> retrieveHotels() {
 
         return hotelMapper.selectAllHotel();
@@ -174,6 +173,8 @@ public class HotelServiceImpl implements HotelService {
         }
         return num;
     }*/
+
+    @Override
     public int getHotelId(Integer managerId){
         List<HotelVO> hotelVOS=hotelMapper.selectAllHotel();
         for(HotelVO hotelVO:hotelVOS){
@@ -194,6 +195,5 @@ public class HotelServiceImpl implements HotelService {
         }
         return ResponseVO.buildSuccess(true);
     }
-
 
 }

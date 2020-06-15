@@ -11,7 +11,8 @@ import {
     getMemInfoAPI,
     registerMemAPI,
     increaseMemberPointsAPI,
-    decreaseMemberPointsAPI
+    decreaseMemberPointsAPI,
+    uploadAPI,
 } from '@/api/user'
 import {
     getUserOrdersAPI,
@@ -21,6 +22,9 @@ import {
 import{
     getHotelIdByManagerIdAPI
 }from '@/api/hotel'
+import{
+    getUserCreditAPI
+}from '@/api/credit'
 
 const getDefaultState = () => {
     return {
@@ -41,6 +45,9 @@ const getDefaultState = () => {
         isMember:false,
         registerModalVisible:false,
         hotelId:'',
+        dateRecord: [],
+        creditRecord: [],
+        imageUrl: '',
     }
 }
 
@@ -91,7 +98,16 @@ const user = {
         },
         set_hotelId:(state,data)=>{
             state.hotelId=data
-        }
+        },
+        set_dateRecord:(state,data)=>{
+            state.dateRecord = data
+        },
+        set_creditRecord:(state,data)=>{
+            state.creditRecord = data
+        },
+        set_imageUrl:(state,data)=>{
+            state.imageUrl = data
+        },
     },
 
     actions: {
@@ -230,7 +246,33 @@ const user = {
             if(res){
                 message.success('扣除会员积分成功')
             }
-        }
+        },
+        getUserCredit:async ({commit,state})=>{
+            const res = await getUserCreditAPI({
+                userId: Number(state.userId)
+            })
+            if(res){
+                console.log("module")
+                console.log(res)
+                commit('set_dateRecord',res.dateList)
+                commit('set_creditRecord',res.creditList)
+            }else{
+                console.log('fail')
+            }
+        },
+        getImageUrl:async ({commit,state},data)=>{
+            const res = await uploadAPI({
+                id: state.userId,
+                img: data
+            })
+            if(res){
+                /*console.log("module")
+                console.log(res)*/
+                commit('set_imageUrl',res)
+            }else{
+                console.log("error!")
+            }
+        },
     }
 }
 

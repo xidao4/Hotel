@@ -43,6 +43,13 @@ public interface CreditService {
     Double getUserCredit(int userId);
 
     /**
+     * 根据用户id获取信用曲线所需数据
+     * @param userId
+     * @return
+     */
+    CreditCurveVO getCreditCurve(int userId);
+
+    /**
      * 将某条信用变更记录置为无效
      * @param id
      * @return

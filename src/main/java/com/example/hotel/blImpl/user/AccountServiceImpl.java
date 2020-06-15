@@ -17,10 +17,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.time.LocalDateTime;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+
 
 
 @Service
@@ -38,6 +41,8 @@ public class AccountServiceImpl implements AccountService {
     private MemberMapper memberMapper;
     @Autowired
     private CreditService creditService;
+
+    private String avatar_url = "";
 
     @Override
     public ResponseVO registerAccount(UserVO userVO) {
@@ -90,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
             //若改动过密码，则要将输入的密码先进行散列，再插入数据库
         }
         try {
-            accountMapper.updateAccount(id, digest, username, phonenumber);
+            accountMapper.updateAccount(id, password, username, phonenumber, avatar_url);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
@@ -166,5 +171,12 @@ public class AccountServiceImpl implements AccountService {
         memInfoVO.setBirthday(member.getBirthday());
         memInfoVO.setMemberPoints(member.getMemberPoints());
         return memInfoVO;
+    }
+
+    @Override
+    public ResponseVO updateAvatar(String fileName) {
+        avatar_url = fileName;
+        String url = "https://supernatural.oss-cn-beijing.aliyuncs.com/" + avatar_url;
+        return ResponseVO.buildSuccess(url);
     }
 }

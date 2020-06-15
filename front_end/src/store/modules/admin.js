@@ -20,6 +20,8 @@ import { message } from 'ant-design-vue'
 
 const admin = {
     state: {
+        addManagerModalVisible: false,
+        addManagerParams: [],
         operatorList:[],
         displayOperatorList:[],
         hotelList:[],

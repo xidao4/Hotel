@@ -47,7 +47,6 @@ public interface OrderService {
      */
     Order getOrder(int orderid);
 
-
     /**
      * 撤销订单
      * @param orderid

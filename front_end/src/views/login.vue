@@ -160,7 +160,7 @@ export default {
     $route: {
       handler: function(route) {
         this.redirect = route.query && route.query.redirect
-    },
+      },
       immediate: true
     },
   },
@@ -235,9 +235,9 @@ export default {
             email: this.form.getFieldValue('registerUserMail'),
             password: this.form.getFieldValue('registerPassword'),
             phoneNumber: this.form.getFieldValue('registerPhoneNumber'),
-            userName: this.form.getFieldValue('registerUsername'),
+            username: this.form.getFieldValue('registerUsername'),
             credit: 100,
-            userType: 0
+            userType: 1
           }
           await this.register(data).then(() => {
             this.customActiveKey = 'tab1'

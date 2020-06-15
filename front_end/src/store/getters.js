@@ -9,6 +9,9 @@ const getters = {
   isMember:state=>state.user.isMember,
   hotelId:state=>state.user.hotelId,
   registerModalVisible:state=>state.user.registerModalVisible,
+  dateRecord:state=>state.user.dateRecord,
+  creditRecord:state=>state.user.creditRecord,
+  imageUrl:state=>state.user.imageUrl,
   //hotel
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,
@@ -23,6 +26,8 @@ const getters = {
   displayOperatorList:state=>state.admin.displayOperatorList,
   clientList:state=>state.admin.clientList,
   managerList: state => state.admin.managerList,
+  addManagerModalVisible: state => state.admin.addManagerModalVisible,
+  addManagerParams: state => state.admin.addManagerParams,
   addOperatorModalVisible: state => state.admin.addOperatorModalVisible,
   addOperatorParams: state => state.admin.addOperatorParams,
   modifyOOModalVisible:state=>state.admin.modifyOOModalVisible,
@@ -52,6 +57,8 @@ const getters = {
   creditRecordsList: state => state.operator.creditRecordsList,
   currentOrderId: state => state.operator.currentOrderId,
   currentUpdateInfo: state => state.operator.currentUpdateInfo,
+  dateList: state => state.operator.dateList,
+  numList: state => state.operator.numList,
   //tag
   tags:state=>state.tag.tags
   }

@@ -42,11 +42,16 @@
                     <a-icon type="user" />客户消息
                 </router-link>
             </a-menu-item>
+            <a-menu-item key="8" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'proposalCurve'}">
+                    <a-icon type="user" />推广度曲线
+                </router-link>
+            </a-menu-item>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <a-avatar :src="userInfo.avatar_url"></a-avatar>
+                    <a-avatar :src="avatar_url"></a-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
@@ -76,7 +81,8 @@ export default {
     name: '',
     data() {
         return {
-            current: ['1']
+            current: ['1'],
+            avatar_url: ''
         }
     },
     computed: {
@@ -101,7 +107,10 @@ export default {
             this.current = ['6']
         } else if (this.$route.name == 'msgFromUser') {
             this.current = ['7']
+        } else if (this.$route.name == 'proposalCurve') {
+            this.current = ['8']
         }
+        this.avatar_url = "https://supernatural.oss-cn-beijing.aliyuncs.com/" + this.userInfo.avatar_url
     },
     methods: {
         ...mapMutations([]),
@@ -119,7 +128,6 @@ export default {
             this.$router.push({name: 'userInfo', params: {userId: this.userId}})
         },
         jumpToHome() {
-
         }
     }
 }

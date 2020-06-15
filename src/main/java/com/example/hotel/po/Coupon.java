@@ -49,6 +49,10 @@ public class Coupon {
 
     private Integer targetRoomNum;
 
+    private double discountSilver;
+
+    private double discountGold;
+
     /**
      * 优惠券状态 是否已经失效 1可用 0失效
      */
@@ -148,6 +152,22 @@ public class Coupon {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public double getDiscountSilver() {
+        return discountSilver;
+    }
+
+    public void setDiscountSilver(double discountSilver) {
+        this.discountSilver = discountSilver;
+    }
+
+    public double getDiscountGold() {
+        return discountGold;
+    }
+
+    public void setDiscountGold(double discountGold) {
+        this.discountGold = discountGold;
     }
 
     public Coupon() {

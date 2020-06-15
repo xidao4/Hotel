@@ -4,9 +4,8 @@
             list-type="picture-card"
             class="avatar-uploader"
             :show-upload-list="false"
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             :before-upload="beforeUpload"
-            @change="handleChange"
+            :customRequest="upload"
     >
         <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
         <div v-else>
@@ -18,17 +17,16 @@
     </a-upload>
 </template>
 <script>
-
-	function getBase64(img, callback) {
+    import { mapGetters, mapMutations, mapActions } from 'vuex'
+	/*function getBase64(img, callback) {
 		const reader = new FileReader();
 		reader.addEventListener('load', () => callback(reader.result));
 		reader.readAsDataURL(img);
-	}
+	}*/
 	export default {
 		data() {
 			return {
 				loading: false,
-				imageUrl: '',
 			};
 		},
 		props: {
@@ -37,7 +35,26 @@
 		mounted() {
 			this.imageUrl = this.avatar_url
 		},
+        computed: {
+		    ...mapGetters([
+		        'imageUrl'
+            ])
+        },
 		methods: {
+		    ...mapMutations([
+		        'set_imagaUrl'
+            ]),
+		    ...mapActions([
+		        'getImageUrl'
+            ]),
+		    async upload(info){
+		        const formData = new FormData()
+		        formData.append('img',info.file)
+                console.log(info)
+                await this.getImageUrl(formData)
+                this.$emit('editAvatar',this.imageUrl)
+                console.log(this.imageUrl)
+            },
 			handleChange(info) {
 				if (info.file.status === 'uploading') {
 					this.loading = true;
@@ -45,10 +62,11 @@
 				}
 				if (info.file.status === 'done') {
 					// Get this url from response in real world.
-					getBase64(info.file.originFileObj, imageUrl => {
+					/*getBase64(info.file.originFileObj, imageUrl => {
 						this.imageUrl = imageUrl;
 						this.loading = false;
-					});
+					});*/
+
 					this.$emit('editAvatar',this.imageUrl)
                     console.log(this.imageUrl)
                     console.log("compo_succ")

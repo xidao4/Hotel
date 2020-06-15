@@ -1,5 +1,6 @@
 package com.example.hotel.controller.user;
 
+import com.aliyun.oss.OSSClient;
 import com.example.hotel.bl.credit.CreditService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.enums.UserType;
@@ -9,8 +10,13 @@ import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.UUID;
 
 
 @RestController()
@@ -71,6 +77,31 @@ public class AccountController {
         return ResponseVO.buildSuccess(accountService.decreaseMemberPoints(memUpdateVO.getUserId(),memUpdateVO.getMemberPoints()));
     }
 
+    @PostMapping("/{id}/upload")
+    public ResponseVO uploadImage(@RequestParam(value="img") MultipartFile file,@PathVariable int id) {
+        //System.out.println(file);
+        String type = file.getContentType().substring(6);
+        //System.out.println(type);
+        String ENDPOINT = "http://oss-cn-beijing.aliyuncs.com";
+        String ACCESSKEYID = "LTAI4Fo8mZ4975JwdZex9WM1";
+        String ACCESSKEYSECRET = "8L5ESi5AUW5hwq6yeZ2LSaeBUeirGu";
+        String BUCKETNAME = "supernatural";
+        try {
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid.toString() + '.' + type;
+            InputStream input = file.getInputStream();
+            // 创建OSSClient实例
+            OSSClient ossClient = new OSSClient(ENDPOINT, ACCESSKEYID, ACCESSKEYSECRET);
+            // 上传文件流
+            ossClient.putObject(BUCKETNAME, fileName, input);
+            ossClient.shutdown();
+            System.out.println(("图片上传阿里云 name=" + fileName));
+            return accountService.updateAvatar(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("failure!");
+        }
+    }
 
     private ResponseVO getResUserVO(User user) {
         if(user == null) {

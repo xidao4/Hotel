@@ -6,13 +6,15 @@ import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.data.credit.CreditMapper;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.po.CreditRecord;
+import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * @author wyc
@@ -98,6 +100,40 @@ public class CreditServiceImpl implements CreditService {
             return ResponseVO.buildFailure(CANCEL_ERROR);
         }
         return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public CreditCurveVO getCreditCurve(int userId) {
+        List<CreditRecordVO> creditRecords = getUserCreditRecords(userId);
+        List<String> dates = new ArrayList<>();
+        List<Integer> credits = new ArrayList<>();
+        Collections.sort(creditRecords, Comparator.comparing(r -> r.getUpdateTime()));
+        Integer num = 0;
+        String date = creditRecords.get(0).getUpdateTime().substring(0, 10);
+        for (CreditRecordVO creditRecordVO : creditRecords) {
+            if (creditRecordVO.getUpdateTime().substring(0, 10).equals(date))
+                ++num;
+            else {
+                while (date.compareTo(creditRecordVO.getUpdateTime().substring(0, 10)) < 0) {
+                    dates.add(date);
+                    credits.add(num);
+                    date = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1).toString().substring(0, 10);
+                }
+                ++num;
+            }
+        }
+        dates.add(date);
+        credits.add(num);
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+        Date now = new Date(System.currentTimeMillis());
+        while(date.compareTo(formatter.format(now)) <= 0) {
+            dates.add(date);
+            credits.add(num);
+            date = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1).toString().substring(0, 10);
+        }
+        System.out.println(dates);
+        System.out.println(credits);
+        return new CreditCurveVO(dates, credits);
     }
 
     private List<CreditRecordVO> copyList(List<CreditRecord> creditRecordList) {

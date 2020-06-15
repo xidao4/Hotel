@@ -31,6 +31,11 @@ public class AdminController {
         return ResponseVO.buildSuccess(adminService.getAllManagers());
     }
 
+    @GetMapping("/getCurveDataSet")
+    public ResponseVO getCurveDataSet() {
+        return ResponseVO.buildSuccess(adminService.getCurveDataSet());
+    }
+
     @PostMapping("/getAllClients")
     public ResponseVO getAllClients(){
         return ResponseVO.buildSuccess(adminService.getAllClients());

@@ -2,6 +2,7 @@ package com.example.hotel.blImpl.coupon;
 
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.data.user.MemberMapper;
 import com.example.hotel.po.Coupon;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
@@ -18,7 +19,7 @@ public class BirthdayCouponStrategyImpl implements CouponMatchStrategy {
         if(coupon.getCouponType()!=1) return false;
         String createDate = orderVO.getCreateDate().substring(5);
         User user = accountService.getUserInfo(orderVO.getUserId());
-        int membership = user.getMembership();
+        int membership = accountService.getMemInfo(user.getId()).getMembership();
         String birthday = user.getBirthday();
         if((orderVO.getCreateDate().substring(5).equals(birthday.substring(5))) && (membership!=0)){
             return true;
