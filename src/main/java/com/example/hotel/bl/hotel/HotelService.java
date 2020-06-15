@@ -2,6 +2,7 @@ package com.example.hotel.bl.hotel;
 
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.ResponseVO;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface HotelService {
     /**
      * 添加酒店
      * @param hotelVO
-     * @throws
+     * @throws ServiceException
      */
     void addHotel(HotelVO hotelVO) throws ServiceException;
 
@@ -21,7 +22,7 @@ public interface HotelService {
      * @param roomType
      * @param rooms
      */
-    void updateRoomInfo(Integer hotelId, String roomType,Integer rooms);
+    void updateRoomInfo(Integer hotelId, String roomType, Integer rooms);
 
     /**
      * 列表获取酒店信息
@@ -56,5 +57,12 @@ public interface HotelService {
     int getTotalRoomNum(Integer hotelId);
 
    /* int getRoomNumOfTypicalType(HotelVO hotelVO, String roomType);*/
+
+
+    ResponseVO getManagerId(Integer hotelId);
+
+    int getHotelId(Integer managerId);
+
+    ResponseVO updateHotelInfo(int id,String address,String phoneNum);
 
 }

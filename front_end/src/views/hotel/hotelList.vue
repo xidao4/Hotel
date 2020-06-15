@@ -62,7 +62,9 @@
 				tmpHotelList: [],
 				hotelListByBizRegion: [],
 				hotelListByStar: [],
-				hotelListByDate: []
+				hotelListByDate: [],
+                emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}],
+                msg:'订单价格三倍积分，积分当钱花。可享9折，价格更优惠。提早入住，延迟退房，入住更随心。生日惊喜好礼，礼券更丰富。',
 			}
 		},
 		async mounted() {
@@ -71,6 +73,7 @@
 			this.hotelListByBizRegion = this.hotelList
 			this.hotelListByStar = this.hotelList
 			this.hotelListByDate = this.hotelList
+            this.openNotification('bottomLeft')
 		},
 		computed: {
 			...mapGetters([
@@ -183,9 +186,38 @@
 			},
 			jumpToDetails(id) {
 				this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
-			}
+			},
+            openNotification(placement) {
+                this.$notification.open({
+                    message: `网站会员尊享优惠`,
+                    description: this.msg,
+                    duration: 0,
+                    // icon: <a-icon type="smile" style="color: #108ee9" />,
+                    placement
+                });
+            },
 		}
 	}
 </script>
 <style scoped lang="less">
+    .hotelList {
+        text-align: center;
+        padding: 50px 0;
+        .emptyBox {
+            height: 0;
+            margin: 10px 10px
+        }
+        .card-wrapper{
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            flex-grow: 3;
+            min-height: 800px
+        }
+        .card-wrapper .card-item {
+            margin: 30px;
+            position: relative;
+            height: 188px;
+        }
+    }
 </style>

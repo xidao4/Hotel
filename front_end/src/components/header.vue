@@ -3,13 +3,12 @@
         <div class="label">
             <img src="@/assets/logo.svg" class="logo" alt="logo" @click="jumpToHome">
             <span class="title">NJUSE 酒店管理系统</span>
-
         </div>
+
         <a-menu v-model="current" mode="horizontal" theme="light">
-            <a-menu-item key="1" @click="selectMenu">
+            <a-menu-item key="1" @click="selectMenu" v-if="userInfo.userType=='Client'">
                 <router-link to="/hotel/hotelList">
-                    <a-icon type="home"/>
-                    首页
+                    <a-icon type="home" />预订酒店
                 </router-link>
             </a-menu-item>
             <a-menu-item key="2" @click="jumpToUserInfo" v-if="userInfo.userType=='Client'">
@@ -22,10 +21,25 @@
                     酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
+            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Manager'">
                 <router-link :to="{ name: 'manageUser'}">
                     <a-icon type="user"/>
                     账户管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="5" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'manageOrder'}">
+                    <a-icon type="user" />订单管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="6" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'creditList'}">
+                    <a-icon type="user" />信用管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="7" @click="selectMenu" v-if="userInfo.userType=='Operator'">
+                <router-link :to="{ name: 'msgFromUser'}">
+                    <a-icon type="user" />客户消息
                 </router-link>
             </a-menu-item>
         </a-menu>
@@ -37,18 +51,18 @@
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
                 <a-menu slot="overlay">
-                    <a-menu-item @click="jumpToHome()">
-                        <a-icon type="home"></a-icon>
-                        首页
-                    </a-menu-item>
-                    <a-menu-item @click="jumpToUserInfo()">
-                        <a-icon type="profile"></a-icon>
-                        我的信息
-                    </a-menu-item>
-                    <a-menu-item @click="quit()">
-                        <a-icon type="poweroff"></a-icon>
-                        退出登录
-                    </a-menu-item>
+<!--                <a-menu-item  @click="jumpToHome()">-->
+<!--                    <a-icon type="home"></a-icon>-->
+<!--                    首页-->
+<!--                </a-menu-item>-->
+<!--                <a-menu-item @click="jumpToUserInfo()">-->
+<!--                    <a-icon type="profile"></a-icon>-->
+<!--                    我的信息-->
+<!--                </a-menu-item>-->
+                <a-menu-item @click="quit()">
+                    <a-icon type="poweroff"></a-icon>
+                    退出登录
+                </a-menu-item>
                 </a-menu>
             </a-dropdown>
         </div>
@@ -57,59 +71,58 @@
 
 </template>
 <script>
-	import {mapGetters, mapActions, mapMutations} from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+export default {
+    name: '',
+    data() {
+        return {
+            current: ['1']
+        }
+    },
+    computed: {
+        ...mapGetters([
+            'userId',
+            'userInfo',
+            'userOrderList'
+        ])
+    },
+    mounted() {
+        if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
+            this.current = ['1']
+        } else if (this.$route.name == 'userInfo') {
+            this.current = ['2']
+        } else if (this.$route.name == 'manageHotel') {
+            this.current = ['3']
+        } else if (this.$route.name == 'manageUser') {
+            this.current = ['4']
+        } else if (this.$route.name == 'manageOrder') {
+            this.current = ['5']
+        } else if (this.$route.name == 'creditList') {
+            this.current = ['6']
+        } else if (this.$route.name == 'msgFromUser') {
+            this.current = ['7']
+        }
+    },
+    methods: {
+        ...mapMutations([]),
+        ...mapActions([
+            'logout',
+            'getUserInfo'
+        ]),
+        selectMenu(v) {
+        },
+        async quit() {
+            await this.$store.dispatch('logout')
+            this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+        },
+        jumpToUserInfo() {
+            this.$router.push({name: 'userInfo', params: {userId: this.userId}})
+        },
+        jumpToHome() {
 
-	export default {
-		name: '',
-		data() {
-			return {
-				current: ['1']
-			}
-		},
-		computed: {
-			...mapGetters([
-				'userId',
-				'userInfo'
-			])
-		},
-		mounted() {
-			if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
-				this.current = ['1']
-			} else if (this.$route.name == 'userInfo') {
-				this.current = ['2']
-			} else if (this.$route.name == 'manageHotel') {
-				this.current = ['3']
-			} else {
-				this.current = ['4']
-			}
-		},
-		computed: {
-			...mapGetters([
-				'userId',
-				'userInfo',
-				'userOrderList'
-			])
-		},
-		methods: {
-			...mapMutations([]),
-			...mapActions([
-				'logout',
-				'getUserInfo'
-			]),
-			selectMenu(v) {
-			},
-			async quit() {
-				await this.$store.dispatch('logout')
-				this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-			},
-			jumpToUserInfo() {
-				this.$router.push({name: 'userInfo', params: {userId: this.userId}})
-			},
-			jumpToHome() {
-
-			}
-		}
-	}
+        }
+    }
+}
 </script>
 <style scoped lang="less">
     .header {

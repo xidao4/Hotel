@@ -30,12 +30,12 @@
 
             <a-form-item v-bind="formItemLayout" label="入住日期">
                 <a-range-picker
-                        format="YYYY-MM-DD"
-                        @change="changeDate"
-                        v-decorator="[
-                        'date', 
+                    format="YYYY-MM-DD"
+                    @change="changeDate"
+                    v-decorator="[
+                        'date',
                         {
-                            rules: [{ required: true, message: '请选择入住时间' }]   
+                            rules: [{ required: true, message: '请选择入住时间' }]
                         }
                     ]"
                         :placeholder="['入住日期','退房日期']"
@@ -101,9 +101,22 @@
             <a-form-item v-bind="formItemLayout" label="总价">
                 <span>￥{{ totalPrice }}</span>
             </a-form-item>
-            <a-divider></a-divider>
+
+            <a-divider v-if="isMember"></a-divider>
+            <a-form-item v-bind="formItemLayout" label="当前会员积分：" v-if="isMember">
+                <span>{{memInfo.memberPoints}}</span>
+            </a-form-item>
+<!--            <span v-if="isMember">当前会员积分：{{memInfo.memberPoints}}</span>-->
+            <a-checkbox v-model="usePoints" @change="onMemberPointsChange" v-if="isMember">
+                使用积分抵扣（100积分抵扣1元现金）
+            </a-checkbox>
+            <a-form-item v-bind="formItemLayout" label="会员折扣价" v-if="isMember">
+                <span>￥{{memPrice}}</span>
+            </a-form-item>
+
+            <a-divider v-if="orderMatchCouponList.length>0"></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
-            <a-checkbox-group v-model="checkedList" @change="onchange">
+            <a-checkbox-group v-model="checkedList" @change="onchange" v-if="orderMatchCouponList.length>0">
                 <a-table
                         :columns="columns"
                         :dataSource="orderMatchCouponList"
@@ -119,143 +132,210 @@
                     </a-checkbox>
                 </a-table>
             </a-checkbox-group>
-            <a-form-item v-bind="formItemLayout" label="结算后总价">
+             <a-form-item v-bind="formItemLayout" label="结算后总价" v-if="orderMatchCouponList.length>0 ">
                 <span>￥{{ finalPrice }}</span>
             </a-form-item>
         </a-form>
     </a-modal>
 </template>
 <script>
-	import {mapGetters, mapMutations, mapActions} from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+const moment = require('moment')
+const columns = [
+    {
+        title: '勾选',
+        dataIndex: 'id',
+        scopedSlots: {customRender: 'id'}
+    },
+    {
+        title: '优惠类型',
+        dataIndex: 'couponName',
+        scopedSlots: {customRender: 'couponName'}
+    },
+    {
+        title: '折扣',
+        dataIndex: 'discount',
+    },
+    {
+        title: '优惠简介',
+        dataIndex: 'description',
 
-	const moment = require('moment')
-	const columns = [
-		{
-			title: '勾选',
-			dataIndex: 'id',
-			scopedSlots: {customRender: 'id'}
-		},
-		{
-			title: '优惠类型',
-			dataIndex: 'couponName',
-			scopedSlots: {customRender: 'couponName'}
-		},
-		{
-			title: '折扣',
-			dataIndex: 'discount',
-		},
+    },
+    {
+        title: '优惠金额',
+        dataIndex: 'discountMoney',
+    },
+  ];
+export default {
+    name: 'orderModal',
+    data() {
+        return {
+            formItemLayout: {
+                labelCol: {
+                    xs: { span: 12 },
+                    sm: { span: 6 },
+                },
+                wrapperCol: {
+                    xs: { span: 24 },
+                    sm: { span: 16 },
+                },
+            },
+            columns,
+            checkedList: [],
+            totalPrice: '',
+            memPrice:'',
+            finalPrice: '',
+            usePoints:false,
+        }
+    },
+    computed: {
+        ...mapGetters([
+            'orderModalVisible',
+            'currentOrderRoom',
+            'currentHotelId',
+            'currentHotelInfo',
+            'userId',
+            'orderMatchCouponList',
+            'isMember',
+            'memInfo'
+        ]),
+    },
+    mounted(){
+        this.getMemInfo()
+    },
+    beforeCreate() {
+        this.form = this.$form.createForm(this, { name: 'orderModal' });
+    },
+    methods: {
+        ...mapMutations([
+            'set_orderModalVisible',
+            'set_orderMatchCouponList'
+        ]),
+        ...mapActions([
+            'addOrder',
+            'getOrderMatchCoupons',
+            'getMemInfo',
+            'increaseMemberPoints',
+            'decreaseMemberPoints'
+        ]),
+        cancelOrder() {
+            this.set_orderModalVisible(false)
+        },
+        confirmOrder() {
 
-		{
-			title: '优惠简介',
-			dataIndex: 'description',
+        },
+        changeDate(v) {
+            if (this.totalPrice != '') {
+                this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
+            }
+        },
+        changePeopleNum(v) {
+        },
+        changeRoomNum(v) {
+            this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]),'day')
+        },
+        onchange() {
+            console.log('v-model=\'checkedList\'',this.checkedList)//为所有选中的优惠券
+            //console.log('onchange(msg)',msg)//也为所有选中的优惠券
+            if(this.isMember)
+                this.finalPrice=this.memPrice
+            else
+                this.finalPrice=this.totalPrice
+            this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
 
-		},
-		{
-			title: '优惠金额',
-			dataIndex: 'discountMoney',
-		},
-	];
-	export default {
-		name: 'orderModal',
-		data() {
-			return {
-				formItemLayout: {
-					labelCol: {
-						xs: {span: 12},
-						sm: {span: 6},
-					},
-					wrapperCol: {
-						xs: {span: 24},
-						sm: {span: 16},
-					},
-				},
-				totalPrice: '',
-				columns,
-				checkedList: [],
-				finalPrice: ''
-			}
-		},
-		computed: {
-			...mapGetters([
-				'orderModalVisible',
-				'currentOrderRoom',
-				'currentHotelId',
-				'currentHotelInfo',
-				'userId',
-				'orderMatchCouponList'
-			]),
+            // if(this.checkedList.length>0){
+            //     this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
+            // }else{
+            //
+            // }
+        },
+        onMemberPointsChange(){
+            console.log("usePoints",this.usePoints)
+        },
+        handleSubmit(e) {
+            e.preventDefault();
+            console.log("finalPrice",this.finalPrice)
+            this.form.validateFieldsAndScroll(async (err, values) => {
+                if (!err) {
+                    const data = {
+                        hotelId: this.currentHotelId,
+                        hotelName: this.currentHotelInfo.name,
+                        userId: Number(this.userId),
+                        checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                        checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                        roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
+                        roomNum: this.form.getFieldValue('roomNum'),
+                        peopleNum: this.form.getFieldValue('peopleNum'),
+                        haveChild: this.form.getFieldValue('haveChild'),
+                        createDate: '',
+                        //price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
+                        price:this.finalPrice
+                    }
+                    await this.addOrder(data)
+                    console.log('orderInfo',data)
+                    //如果使用了积分，那么扣除积分
+                    if(this.usePoints){
+                        const data={
+                            userId:this.userId,
+                            memberPoints:parseInt(this.memInfo.memberPoints/100)*100   //1137//100*100=11*100=1100
+                        }
+                        console.log('decreaseMemberPointsInfo',data)
+                        await this.decreaseMemberPoints(data)
+                        await this.getMemInfo()
+                    }
 
-		},
-		beforeCreate() {
-			this.form = this.$form.createForm(this, {name: 'orderModal'});
-		},
-		methods: {
-			...mapMutations([
-				'set_orderModalVisible'
-			]),
-			...mapActions([
-				'addOrder',
-				'getOrderMatchCoupons'
-			]),
-			cancelOrder() {
-				this.set_orderModalVisible(false)
-			},
-			confirmOrder() {
+                    this.form.resetFields()
+                    this.totalPrice=0
+                    this.checkedList=[]
+                    console.log('checkedList',this.checkedList)
+                    this.set_orderMatchCouponList( [])
+                    console.log('orderMatchCouponList',this.orderMatchCouponList)
+                    this.usePoints=false
+                }
+            });
+        },
+    },
+    watch:{
+        totalPrice(val) {
+            //得到最新的会员价（如果是会员的话）
+            if(this.isMember) {
+                this.memPrice = 0.9 * this.totalPrice
+                console.log("totalPrice",this.totalPrice)
+                console.log("memPrice=0.9*totalPrice=",this.memPrice)
 
-			},
-			changeDate(v) {
-				if (this.totalPrice != '') {
-					this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
-				}
-			},
-			changePeopleNum(v) {
+                if(this.usePoints){
+                    //eg. 1137积分，可以使用1100积分，抵扣11元
+                    //1137%100=37
+                    //1137//100=11
+                    let subAmount=parseInt(this.memInfo.memberPoints/100)
+                    this.memPrice-=subAmount
+                }
 
-			},
-			changeRoomNum(v) {
-				this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
-			},
-			onchange() {
-				this.finalPrice = this.totalPrice
-				if (this.checkedList.length > 0) {
-					this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) != -1).forEach(item => this.finalPrice = this.finalPrice - item.discountMoney)
-				} else {
+                this.onchange()
+            }else{
+                this.finalPrice=this.totalPrice
+            }
 
-				}
-			},
-			handleSubmit(e) {
-				e.preventDefault();
-				this.form.validateFieldsAndScroll((err, values) => {
-					if (!err) {
-						const data = {
-							hotelId: this.currentHotelId,
-							hotelName: this.currentHotelInfo.name,
-							userId: Number(this.userId),
-							checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-							checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
-							roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
-							roomNum: this.form.getFieldValue('roomNum'),
-							peopleNum: this.form.getFieldValue('peopleNum'),
-							haveChild: this.form.getFieldValue('haveChild'),
-							createDate: '',
-							price: this.checkedList.length > 0 ? this.finalPrice : this.totalPrice
-						}
-						this.addOrder(data)
-					}
-				});
-			},
-		},
-		watch: {
-			totalPrice(val) {
-				let data = {
-					userId: this.userId,
-					hotelId: this.currentHotelId,
-					orderPrice: this.totalPrice,
-					roomNum: this.form.getFieldValue('roomNum'),
-					checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-					checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
-				}
-				this.getOrderMatchCoupons(data)
-			}
-		}
-	}
+            //得到最新的匹配优惠券
+            let data = {
+                userId: this.userId,
+                hotelId: this.currentHotelId,
+                orderPrice: this.isMember?this.memPrice:this.totalPrice,//如果是会员，用会员优惠价来匹配优惠券
+                roomNum: this.form.getFieldValue('roomNum'),
+                checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+            }
+            this.getOrderMatchCoupons(data)
+        },
+        usePoints(val){
+            let subAmount=parseInt(this.memInfo.memberPoints/100)
+            if(!val){//取消勾选，不用积分抵扣
+                this.memPrice+=subAmount
+            }else{//勾选，使用积分抵扣
+                this.memPrice-=subAmount
+            }
+            this.finalPrice=this.memPrice
+        }
+    }
+}
 </script>

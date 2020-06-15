@@ -8,12 +8,19 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
+    getMemInfoAPI,
+    registerMemAPI,
+    increaseMemberPointsAPI,
+    decreaseMemberPointsAPI
 } from '@/api/user'
-
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
+    getOrderAPI
 } from '@/api/order'
+import{
+    getHotelIdByManagerIdAPI
+}from '@/api/hotel'
 
 const getDefaultState = () => {
     return {
@@ -23,7 +30,17 @@ const getDefaultState = () => {
         },
         userOrderList: [
 
-        ]
+        ],
+        idOrder:{
+            id: -1
+        },
+        memInfo: {
+            memberPoints: '',
+            birthday: ''
+        },
+        isMember:false,
+        registerModalVisible:false,
+        hotelId:'',
     }
 }
 
@@ -35,9 +52,12 @@ const user = {
             state.token = '',
             state.userId = '',
             state.userInfo = {
-                
+
             },
-            state.userOrderList = []
+            state.userOrderList = [],
+            state.membership='',
+            state.memInfo=[],
+            state.hotelId=''
         },
         set_token: function(state, token){
             state.token = token
@@ -56,20 +76,59 @@ const user = {
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
+        },
+        set_idOrder: (state,data)=> {
+            state.idOrder = data
+        },
+        set_memInfo:(state,data)=>{
+            state.memInfo=data
+        },
+        set_registerModalVisible:(state,data)=>{
+            state.registerModalVisible=data
+        },
+        set_isMember:(state,data)=>{
+            state.isMember=data
+        },
+        set_hotelId:(state,data)=>{
+            state.hotelId=data
         }
     },
 
     actions: {
-        login: async ({ dispatch, commit }, userData) => {
+        login: async ({ state,dispatch, commit }, userData) => {
             const res = await loginAPI(userData)
             if(res){
                 setToken(res.id)
                 commit('set_userId', res.id)
+
+                //如果是酒店工作人员，
+                if(res.userType==='HotelManager'){
+                    const hotelId=await getHotelIdByManagerIdAPI(res.id)
+                    commit('set_hotelId',hotelId)
+                    commit('set_currentHotelId',hotelId)
+                    console.log('state.currentHotelId',state.currentHotelId)//undefined
+                    console.log("state.hotelId",state.hotelId)//1
+                    //console.log("this.userId",this.userId)//uncaught typeError: cannot read property 'userId' of undefined
+                    console.log("state.userId",state.userId)//1
+                }
+
+                // if(res.userType==='Manager'){
+                //     router.push('/websiteAdmin')
+                // }else {
+                //     dispatch('getUserInfo')
+                //     router.push('/hotel/hotelList')
+                // }
+
                 dispatch('getUserInfo')
-                router.push('/hotel/hotelList')
+
+                if(res.userType==='Client')router.push('/hotel/hotelList')
+                else if(res.userType==='Manager')router.push('/admin/manageUser')
+                else if(res.userType==='HotelManager') router.push('/hotelManager/manageHotel')
+                else if(res.userType==='Operator') router.push('/operator/manageOrder')
             }
         },
         register: async({ commit }, data) => {
+            console.log(data.userType);
             const res = await registerAPI(data)
             if(res){
                 message.success('注册成功')
@@ -111,8 +170,19 @@ const user = {
                 console.log(state.userOrderList)
             }
         },
-        cancelOrder: async({ state, dispatch }, orderId) => {
-            const res = await cancelOrderAPI(orderId)
+        getOrderById: async({state,commit},data)=>{
+            const res=await getOrderAPI(data)
+            if(res){
+                console.log('getOrderById')
+                console.log(res)
+                commit('set_idOrder',res)
+                console.log('已取回目标id的记录')
+            }
+        },
+        cancelOrder: async({ state, dispatch },data) => {
+            const res = await cancelOrderAPI(data)
+            console.log('user.js')
+            console.log(data.reason)
             if(res) {
                 dispatch('getUserOrders')
                 message.success('撤销成功')
@@ -133,6 +203,34 @@ const user = {
                 resolve()
             })
         },
+        getMemInfo:async ({state,commit})=>{
+            const res=await getMemInfoAPI(state.userId)
+            if(!res){
+                commit('set_isMember',false)
+            }else{
+                commit('set_isMember',true)
+                commit('set_memInfo',res)
+            }
+        },
+        registerMem:async ({commit,dispatch},data)=>{
+            const res = await registerMemAPI(data)
+            if(res){
+                message.success('注册成功')
+            }
+            dispatch('getMemInfo')
+        },
+        increaseMemberPoints:async({commit},data)=>{
+            const res=await increaseMemberPointsAPI(data)
+            if(res){
+                message.success('增加会员积分成功')
+            }
+        },
+        decreaseMemberPoints:async({commit},data)=>{
+            const res=await decreaseMemberPointsAPI(data)
+            if(res){
+                message.success('扣除会员积分成功')
+            }
+        }
     }
 }
 

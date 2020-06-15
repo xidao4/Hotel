@@ -4,6 +4,7 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
+import com.example.hotel.data.user.MemberMapper;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
@@ -34,11 +35,20 @@ public class OrderServiceImpl implements OrderService {
     HotelService hotelService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    MemberMapper memberMapper;
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
+        System.out.println("-------------------------------");
         int reserveRoomNum = orderVO.getRoomNum();
-        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(),orderVO.getRoomType());
+        System.out.println("+++++++++++++++++++++++++++++++++");
+        int hotelid=orderVO.getHotelId();
+
+        String type=orderVO.getRoomType();
+
+        int curNum = hotelService.getRoomCurNum(hotelid,type);
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~");
         if(reserveRoomNum>curNum){
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
@@ -47,7 +57,9 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date(System.currentTimeMillis());
             String curdate = sf.format(date);
             orderVO.setCreateDate(curdate);
+            System.out.println("-------------------------------");
             orderVO.setOrderState("已预订");
+            orderVO.setCancelReason("未撤销");
             User user = accountService.getUserInfo(orderVO.getUserId());
             orderVO.setClientName(user.getUserName());
             orderVO.setPhoneNumber(user.getPhoneNumber());
@@ -76,8 +88,8 @@ public class OrderServiceImpl implements OrderService {
     public boolean hasOrderedBefore(int userid, int hotelid) {
         List<Order> orders = getUserOrders(userid);
         boolean res = false;
-        for(Order order: orders){
-            if(order.getHotelId()==hotelid){
+        for (Order order : orders) {
+            if (order.getHotelId() == hotelid) {
                 res = true;
                 break;
             }
@@ -85,9 +97,14 @@ public class OrderServiceImpl implements OrderService {
         return res;
     }
 
+    @Override
+    public Order getOrder(int orderid){
+        return orderMapper.getOrderById(orderid);
+    }
+
     @Transactional
     @Override
-    public ResponseVO annulOrder(int orderid) {
+    public ResponseVO annulOrder(int orderid,String reason) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
         try {
             Order order = orderMapper.getOrderById(orderid);
@@ -102,8 +119,11 @@ public class OrderServiceImpl implements OrderService {
 //            long nowTime = new Date(System.currentTimeMillis()).getTime();
 //
 //            User user = accountService.getUserInfo(order.getUserId());
+            System.out.println("OrderServiceImpl");
+            System.out.println(orderid);
+            System.out.println(reason);
             hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());
-            orderMapper.annulOrder(orderid);
+            orderMapper.annulOrder(orderid,reason);
         } catch (Exception e){
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ANNUL_ERROR);
@@ -117,4 +137,30 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
     }
 
+    @Override
+    public ResponseVO changeStatus(int orderid, String status) {
+        orderMapper.changeStatus(orderid, status);
+
+        //by ljy
+        if(status.equals("已执行")){//如果改为“已执行”，
+            int userId=orderMapper.getUserId(orderid);
+            if(memberMapper.getInfo(userId)!=null){//,且客户是会员,
+                Double amount=orderMapper.getPriceById(orderid);
+                //double->int
+                accountService.increaseMemberPoints(userId,(int)(amount*3));//则更新会员积分
+            }
+        }
+
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public Double getPrice(int orderId) {
+        return orderMapper.getPriceById(orderId);
+    }
+
+    @Override
+    public Integer getUserId(int orderId) {
+        return orderMapper.getUserId(orderId);
+    }
 }

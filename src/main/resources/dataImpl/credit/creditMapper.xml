@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hotel.data.credit.CreditMapper">
+    
+    <select id="getUserCreditRecords" resultMap="creditUserMap">
+        SELECT cr.id as rid, cr.userId, u.username, cr.credit, cr.createTime, cr.updateTime, cr.status, cr.description from CreditRecord cr
+            left outer join User u on cr.userId=u.id where userId=#{userId}
+    </select>
+
+    <select id="getCreditRecords" resultMap="creditUserMap">
+        SELECT cr.id as rid, u.id, u.username, cr.credit, cr.createTime, cr.updateTime, cr.status, cr.description from CreditRecord cr
+            left outer join User u on cr.userId=u.id;
+    </select>
+
+    <select id="getUserCredit" resultType="double">
+        select credit from CreditRecord where userId=#{userId}
+            and updateTime >= all(select updateTime from CreditRecord)
+    </select>
+
+    <update id="cancelCreditRecord">
+        update CreditRecord set status="0" where id=#{id}
+    </update>
+
+    <insert id="insertCreditRecord" parameterType="com.example.hotel.po.CreditRecord" useGeneratedKeys="true" keyProperty="rid">
+        insert into CreditRecord(userId, credit, status, description)
+        values(#{userId},#{credit},#{status},#{desc})
+    </insert>
+
+    <resultMap id="creditUserMap" type="com.example.hotel.po.CreditRecord">
+        <id column="rid" property="rid"></id>
+        <result column="userId" property="userId"></result>
+        <result column="credit" property="credit"></result>
+        <result column="createTime" property="createTime"></result>
+        <result column="updateTime" property="updateTime"></result>
+        <result column="status" property="status"></result>
+        <result column="description" property="desc"></result>
+
+        <association property="user" column="userId">
+            <id column="id" property="id"></id>
+            <result column="email" property="email"></result>
+            <result column="password" property="password"></result>
+            <result column="username" property="userName"></result>
+            <result column="phonenumber" property="phoneNumber"></result>
+            <result column="usertype" property="userType"></result>
+        </association>
+    </resultMap>
+
+</mapper>

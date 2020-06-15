@@ -41,6 +41,12 @@
                                 <div v-if="currentHotelInfo.hasOrderedBefore">预订过</div>
                                 <div v-else>未预订过</div>
                             </span>
+                        <div>
+                            <template v-for="tag in tags">
+                                <a-tag :key="tag.tagName" >
+                                    {{tag.tagName}}
+                                </a-tag>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -75,13 +81,17 @@
 		computed: {
 			...mapGetters([
 				'userId',
-				'currentHotelInfo',
+                'currentHotelId',
+                'currentHotelInfo',
+                'tags'
 			])
 		},
-		mounted() {
-			this.set_currentHotelId(Number(this.$route.params.hotelId))
-			this.getHotelById(Number(this.userId))
-		},
+        async mounted() {
+            await this.set_currentHotelId(Number(this.$route.params.hotelId))
+            await this.getHotelById(Number(this.userId)),
+                await this.getAllTags(this.currentHotelId),
+                console.log('currentHotelId',this.currentHotelId)
+        },
 		beforeRouteUpdate(to, from, next) {
 			this.set_currentHotelId(Number(to.params.hotelId))
 			this.getHotelById(Number(this.userId))
@@ -92,7 +102,8 @@
 				'set_currentHotelId',
 			]),
 			...mapActions([
-				'getHotelById'
+                'getHotelById',
+                'getAllTags'
 			])
 		}
 	}

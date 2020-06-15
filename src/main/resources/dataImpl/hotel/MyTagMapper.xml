@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hotel.data.hotel.MyTagMapper">
+
+    <insert id="insert" parameterType="com.example.hotel.po.MyTag"
+    useGeneratedKeys="true" keyProperty="id">
+        insert into MyTag(hotelId,tagName)
+        values (#{hotelId},#{tagName})
+    </insert>
+
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from MyTag where id=#{id}
+    </delete>
+
+    <select id="getTagsByHotelId" resultMap="MyTag" parameterType="java.lang.Integer">
+        select * from MyTag where hotelId=#{hotelId}
+    </select>
+
+    <select id="selectByHotelIdAndTagName" resultMap="MyTag">
+        select * from MyTag where hotelId=#{hotelId} and tagName=#{tagName}
+    </select>
+
+
+    <resultMap id="MyTag" type="com.example.hotel.po.MyTag">
+        <id column="id" property="id"></id>
+        <result column="hotelId" property="hotelId"></result>
+        <result column="tagName" property="tagName"></result>
+    </resultMap>
+
+
+</mapper>

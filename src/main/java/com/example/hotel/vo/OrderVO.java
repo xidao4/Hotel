@@ -22,6 +22,7 @@ public class OrderVO {
     private String clientName;
     private String phoneNumber;
     private String orderState;
+    private String cancelReason;
 
     public Integer getId() {
         return id;
@@ -142,4 +143,8 @@ public class OrderVO {
     public void setOrderState(String orderState) {
         this.orderState = orderState;
     }
+
+    public String getCancelReason(){return cancelReason;}
+
+    public void setCancelReason(String cancelReason){this.cancelReason=cancelReason;}
 }
