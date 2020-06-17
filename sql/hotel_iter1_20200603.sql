@@ -249,11 +249,11 @@ CREATE TABLE `CommentList` (
 -- Dumping data for table `Room`
 --
 
-BEGIN;
-/*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `CommentList` VALUES (3,2,1,4,'非常好');
-/*!40000 ALTER TABLE `Room` ENABLE KEYS */;
-COMMIT;
+-- BEGIN;
+-- /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
+-- INSERT INTO `CommentList` VALUES (3,2,1,4,'非常好');
+-- /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
+-- COMMIT;
 
 --
 -- Table structure for table `User`
