@@ -51,6 +51,26 @@
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
+          <a-form-item>
+            <a-col span="16">
+              <a-input
+                      size="large"
+                      type="text"
+                      autocomplete="false"
+                      placeholder="验证码"
+                      v-model="identify"
+                      v-decorator="[
+                              'identify',
+                              {rules: [{ required: true, message: '请输入验证码' }, { validator: this.handleIdentify }], validateTrigger: 'blur'}
+                              ]"
+              >
+                <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              </a-input>
+            </a-col>
+            <a-col span="2" offset="2">
+              <Identify :identifyCode="identifyCode" @click.native="refreshCode"></Identify>
+            </a-col>
+          </a-form-item>
           <a-form-item style="margin-top:24px">
             <a-button
               size="large"
@@ -134,11 +154,11 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-
+import Identify from "../components/Identify";
 export default {
   name: 'login',
   components: {
-
+    Identify
   },
   data () {
     return {
@@ -146,6 +166,9 @@ export default {
       loginLoading: false,
       registerLoading: false,
       form: this.$form.createForm(this),
+      identify: '',
+      identifyCode: '',
+      identifyCodes: '1234567890abcdefjhijklinopqrsduvwxyz',
     }
   },
   computed: {
@@ -154,7 +177,9 @@ export default {
     ])
   },
   mounted() {
-
+    // 初始化验证码
+    this.identifyCode = '';
+    this.makeCode(4)
   },
   watch: {
     $route: {
@@ -207,12 +232,23 @@ export default {
       }
       callback()
     },
+    handleIdentify (rule, value, callback) {
+      console.log("value:"+ value.toLowerCase())
+      console.log("id-code: "+ this.identifyCode.toLowerCase())
+      console.log(value.toLowerCase() !== this.identifyCode.toLowerCase())
+      if (value.toLowerCase() !== this.identifyCode.toLowerCase()){
+        callback(new Error('验证码错误'))
+        this.refreshCode()
+      }
+      callback()
+    },
     handleTabClick (key) {
       this.customActiveKey = key
     },
     handlelogin() {
-      const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername', 'registerUserMail','registerPassword','registerPasswordconfirm']
-      this.form.validateFields(validateFieldsKey, { force: true }, async (err, values) => {
+      const { form: { validateFields } } = this
+      const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password', 'identify'] : ['registerUsername', 'registerUserMail','registerPassword','registerPasswordconfirm']
+      validateFields(validateFieldsKey, { force: true }, async (err, values) => {
         if(!err){
           this.loginLoading = true
           const data = {
@@ -222,12 +258,12 @@ export default {
           await this.login(data)
           this.loginLoading = false
         }
-      })
+      });
     },
 
     handleRegister() {
       const { form: { validateFields } } = this
-      const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername','registerPhoneNumber','registerUserMail','registerPassword','registerPasswordconfirm']
+      const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password', 'identify'] : ['registerUsername','registerPhoneNumber','registerUserMail','registerPassword','registerPasswordconfirm']
       validateFields(validateFieldsKey, { force: true }, async (err, values) => {
         if (!err) {
           this.registerLoading = true
@@ -250,7 +286,20 @@ export default {
           this.registerLoading = false
         }
       });
-    }
+    },
+    // 重置验证码
+    refreshCode () {
+      this.identifyCode = '';
+      this.makeCode(4)
+    },
+    makeCode (l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode += this.identifyCodes[this.randomNum(0, this.identifyCodes.length)]
+      }
+    },
+    randomNum (min, max) {
+      return Math.floor(Math.random() * (max - min) + min)
+    },
   }
 }
 </script>

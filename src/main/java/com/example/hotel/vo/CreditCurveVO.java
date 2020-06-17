@@ -4,9 +4,9 @@ import java.util.List;
 
 public class CreditCurveVO {
     private List<String> dateList;
-    private List<Integer> creditList;
+    private List<Double> creditList;
 
-    public CreditCurveVO(List<String> dateList, List<Integer> creditList) {
+    public CreditCurveVO(List<String> dateList, List<Double> creditList) {
         this.dateList = dateList;
         this.creditList = creditList;
     }
@@ -19,11 +19,11 @@ public class CreditCurveVO {
         this.dateList = dateList;
     }
 
-    public List<Integer> getCreditList() {
+    public List<Double> getCreditList() {
         return creditList;
     }
 
-    public void setCreditList(List<Integer> creditList) {
+    public void setCreditList(List<Double> creditList) {
         this.creditList = creditList;
     }
 }

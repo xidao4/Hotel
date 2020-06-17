@@ -106,29 +106,27 @@ public class CreditServiceImpl implements CreditService {
     public CreditCurveVO getCreditCurve(int userId) {
         List<CreditRecordVO> creditRecords = getUserCreditRecords(userId);
         List<String> dates = new ArrayList<>();
-        List<Integer> credits = new ArrayList<>();
+        List<Double> credits = new ArrayList<>();
         Collections.sort(creditRecords, Comparator.comparing(r -> r.getUpdateTime()));
-        Integer num = 0;
+        Double credit = 100.0;
         String date = creditRecords.get(0).getUpdateTime().substring(0, 10);
         for (CreditRecordVO creditRecordVO : creditRecords) {
             if (creditRecordVO.getUpdateTime().substring(0, 10).equals(date))
-                ++num;
+                credit = creditRecordVO.getCredit();
             else {
                 while (date.compareTo(creditRecordVO.getUpdateTime().substring(0, 10)) < 0) {
                     dates.add(date);
-                    credits.add(num);
+                    credits.add(credit);
                     date = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1).toString().substring(0, 10);
                 }
-                ++num;
+                credit = creditRecordVO.getCredit();
             }
         }
-        dates.add(date);
-        credits.add(num);
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
         Date now = new Date(System.currentTimeMillis());
         while(date.compareTo(formatter.format(now)) <= 0) {
             dates.add(date);
-            credits.add(num);
+            credits.add(credit);
             date = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1).toString().substring(0, 10);
         }
         System.out.println(dates);
