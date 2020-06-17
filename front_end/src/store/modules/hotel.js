@@ -4,7 +4,8 @@ import {
     getHotelsAPI,
     getHotelByIdAPI,
     getHotelByDateAPI,
-    getHotelByIdLJYAPI
+    getHotelByIdLJYAPI,
+    getAllHotelsLJYAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -86,6 +87,13 @@ const hotel = {
             if(res){
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
+            }
+        },
+        getHotelListLJY:async({commit,state})=>{
+            const res=await getAllHotelsLJYAPI()
+            if(res){
+                commit('set_hotelList',res)
+                commit('set_hotelListLoading',false)
             }
         },
         getHotelById: async({commit, state}, data) => {

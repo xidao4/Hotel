@@ -90,6 +90,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public List<HotelVO> getAllHotels() {
+        return hotelMapper.selectAllHotel();
+    }
+
+    @Override
     public ResponseVO getManagerId(Integer hotelId) {
         System.out.println(hotelId);
         HotelVO hotelVO=hotelMapper.selectById(hotelId);

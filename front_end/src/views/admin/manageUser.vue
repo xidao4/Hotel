@@ -421,7 +421,7 @@ export default {
         await this.getClientList(),
         await this.getOperatorList(),
         await this.getManagerList(),
-        await this.getHotelList(),
+        await this.getHotelListLJY(),
         this.displayHotelList=[...this.hotelList]
     },
     methods: {
@@ -431,6 +431,7 @@ export default {
             'getManagerList',
             'getClientList',
             'getHotelList',
+            'getHotelListLJY',
             'deleteUser',
             'getTmpUserInfo',
             'getTmpClientInfo',

@@ -1,5 +1,6 @@
 package com.example.hotel.bl.hotel;
 
+import com.example.hotel.po.Hotel;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
@@ -29,6 +30,8 @@ public interface HotelService {
      * @return
      */
     List<HotelVO> retrieveHotels(Integer userid);
+
+    List<HotelVO> getAllHotels();
 
     /**
      * 获取某家酒店详细信息

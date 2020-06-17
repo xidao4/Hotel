@@ -11,6 +11,12 @@ export function getHotelsAPI(param) {
         }
     })
 }
+export function getAllHotelsLJYAPI(){
+    return axios({
+        url: `${api.hotelPre}/allHotels`,
+        method: 'get',
+    })
+}
 export function getHotelByIdAPI(currentHotelId) {
     return axios({
         url: `${api.hotelPre}/${param.hotelId}/detail`,

@@ -37,6 +37,12 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels(userId));
     }
 
+    @GetMapping("/allHotels")
+    public ResponseVO getAllHotels(){
+        return ResponseVO.buildSuccess(hotelService.getAllHotels());
+    }
+
+
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
         roomService.insertRoomInfo(hotelRoom);
