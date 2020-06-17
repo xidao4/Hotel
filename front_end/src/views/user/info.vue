@@ -230,7 +230,7 @@ export default {
             'registerModalVisible',
             'isMember',
             'dateRecord',
-            'creditRecord'
+            'creditRecord',
             'comment'
         ])
     },
