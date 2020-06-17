@@ -79,10 +79,6 @@ public class HotelController {
         return commentService.updateReply(commentId,reply);
     }
 
-    @GetMapping("/all")
-    public ResponseVO retrieveAllHotels(){
-        return ResponseVO.buildSuccess(hotelService.retrieveHotels());
-    }
 
 
     @PostMapping("/roomInfo")
