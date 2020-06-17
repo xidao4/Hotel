@@ -49,6 +49,10 @@ public class HotelController {
         Integer userId = Integer.parseInt(JSON.parseObject(str).get("userId").toString());
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId,userId));
     }
+    @GetMapping("/{currentHotelId}/currentHotelInfo")
+    public ResponseVO getCurrentHotelInfo(@PathVariable int currentHotelId){
+        return ResponseVO.buildSuccess(hotelService.getHotelInfo(currentHotelId));
+    }
 
     @PostMapping("/inDateRange")
     public ResponseVO retrieveAllHotelsInDateRange(@RequestBody String str){

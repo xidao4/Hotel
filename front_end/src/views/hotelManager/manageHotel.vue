@@ -262,13 +262,13 @@ export default {
         ]),
     },
     async mounted() {
-        console.log("this.userId",this.userId)//1
-        console.log("this.currentHotelId",this.currentHotelId)//1
-        console.log("this.hotelId",this.hotelId)//1
+        // console.log("this.userId",this.userId)//1
+        // console.log("this.currentHotelId",this.currentHotelId)//1
+        // console.log("this.hotelId",this.hotelId)//1
+        await this.getHotelInfo()
         await this.getHotelList()
         await this.getAllOrders()
         //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
-        await this.getHotelInfo()
         await this.getAllTags(this.currentHotelId)
     },
     methods: {

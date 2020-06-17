@@ -37,6 +37,7 @@ public interface HotelService {
      */
     HotelVO retrieveHotelDetails(Integer hotelId, Integer userid);
 
+    HotelVO getHotelInfo(Integer hotelId);
     /**
      * 查看酒店剩余某种房间数量
      * @param hotelId

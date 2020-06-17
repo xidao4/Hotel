@@ -21,6 +21,12 @@ export function getHotelByIdAPI(currentHotelId) {
         }
     })
 }
+export function getHotelByIdLJYAPI(currentHotelId){
+    return axios({
+        url:`${api.hotelPre}/${currentHotelId}/currentHotelInfo`,
+        method:'GET',
+    })
+}
 export function getHotelByDateAPI(param) {
     return axios({
         url: `${api.hotelPre}/inDateRange`,

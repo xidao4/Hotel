@@ -135,6 +135,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public HotelVO getHotelInfo(Integer hotelId) {
+        return hotelMapper.selectById(hotelId);
+    }
+
+    @Override
     public List<HotelVO> retrieveHotelByDate(Integer userid, String checkInDate, String checkOutDate) {
         List<HotelVO> hotelVOS = retrieveHotels(userid);
         List<HotelVO> hotelVOSByDate = new ArrayList<>();

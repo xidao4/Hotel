@@ -3,7 +3,8 @@ import store from '@/store'
 import {
     getHotelsAPI,
     getHotelByIdAPI,
-    getHotelByDateAPI
+    getHotelByDateAPI,
+    getHotelByIdLJYAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -93,8 +94,14 @@ const hotel = {
                 userId: data
             })
             if(res){
+                console.log('hotelInfo',res)
                 commit('set_currentHotelInfo', res)
             }
+        },
+        getHotelByIdLJY:async({commit,state})=>{
+          const res=await getHotelByIdLJYAPI(state.currentHotelId)
+          if(res)
+              commit('set_currentHotelInfo',res)
         },
         getHotelByDate: async({commit, state}, data) => {
             const res = await getHotelByDateAPI(data)
@@ -117,12 +124,12 @@ const hotel = {
                 commit('set_orderMatchCouponList', res)
             }
         },
-        getHotelInfo:async({state,commit,dispatch})=>{
-            console.log("in the method getHotelInfo")
-            console.log("state.userId",state.userId)//undefined
-            console.log("state.hotelId",state.hotelId)//undefined
-            console.log("state.currentHotelId",state.currentHotelId)//1
-            dispatch('getHotelById')
+        getHotelInfo:async({dispatch})=>{
+            // console.log("in the method getHotelInfo")
+            // console.log("state.userId",state.userId)//undefined
+            // console.log("state.hotelId",state.hotelId)//undefined
+            // console.log("state.currentHotelId",state.currentHotelId)//1
+            dispatch('getHotelByIdLJY')
         },
         updateHotelInfo:async({state,dispatch},data)=>{
             const params = {
