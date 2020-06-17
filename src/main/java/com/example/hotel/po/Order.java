@@ -23,6 +23,7 @@ public class Order {
     private String phoneNumber;
     private String orderState;
     private String cancelReason;
+    private String residentName;
 
     public Integer getId() {
         return id;
@@ -147,4 +148,12 @@ public class Order {
     public String getCancelReason(){return cancelReason;}
 
     public void setCancelReason(String cancelReason){this.cancelReason=cancelReason;}
+
+    public String getResidentName() {
+        return residentName;
+    }
+
+    public void setResidentName(String residentName) {
+        this.residentName = residentName;
+    }
 }

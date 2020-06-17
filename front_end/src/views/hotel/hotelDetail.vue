@@ -59,8 +59,33 @@
                     <a-tab-pane tab="酒店详情" key="2">
 
                     </a-tab-pane>
-                    <a-tab-pane tab="评价" key="3">
-
+                    <a-tab-pane tab="酒店评价" key="3">
+                        <a-list
+                            class="comment-list"
+                            :header="`${comment.length} comments`"
+                            item-layout="horizontal"
+                            :data-source="comment"
+                        >
+                            <a-list-item slot="renderItem" slot-scope="item">
+                                <a-comment :author="item.userName" avatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
+                                    <template slot="actions" v-if="userInfo.userType==='HotelManager'&&(item.reply==='')">
+                                        <span @click="showReply(item)">{{ actions }}</span>
+                                        <a-modal :visible="visible" title="回复评价" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(item)">
+                                            <a-textarea placeholder="请输入回复" v-model="reply"></a-textarea>
+                                        </a-modal>
+                                    </template>
+                                    <p slot="content">
+                                        <a-rate :default-value="item.commentValue" disabled /><br/><br/>
+                                        {{ item.commentContent }}
+                                    </p>
+                                    <a-comment author="酒店掌柜" avatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" v-if="item.reply!==''">
+                                        <p slot="content">
+                                            {{ item.reply }}
+                                        </p>
+                                    </a-comment>
+                                </a-comment>
+                            </a-list-item>
+                        </a-list>
                     </a-tab-pane>
                 </a-tabs>
             </div>
@@ -77,21 +102,29 @@
 			RoomList,
 		},
 		data() {
-			return {}
+			return {
+                        actions: 'reply to',
+                        visible: false,
+                        reply: ''
+                    }
 		},
 		computed: {
 			...mapGetters([
 				'userId',
                 'currentHotelId',
                 'currentHotelInfo',
-                'tags'
+                'tags',
+                'comment',
+                'userInfo'
 			])
 		},
         async mounted() {
             await this.set_currentHotelId(Number(this.$route.params.hotelId))
             await this.getHotelById(Number(this.userId)),
-                await this.getAllTags(this.currentHotelId),
-                console.log('currentHotelId',this.currentHotelId)
+            await this.getAllTags(this.currentHotelId),
+            console.log('currentHotelId',this.currentHotelId)
+            await this.getCommentByHotelId(Number(this.$route.params.hotelId))
+            console.log(this.userInfo)
         },
 		beforeRouteUpdate(to, from, next) {
 			this.set_currentHotelId(Number(to.params.hotelId))
@@ -104,8 +137,35 @@
 			]),
 			...mapActions([
                 'getHotelById',
-                'getAllTags'
-			])
+                'getAllTags',
+                'getCommentByHotelId',
+                'updateReply'
+			]),
+			showReply(item){
+                        console.log('item:')
+                        console.log(item)
+                        this.visible=true
+                        console.log()
+                    },
+                    cancel(){
+                        this.visible=false
+                        this.reply=''
+                    },
+                    handleSubmit(item){
+                        console.log('提交中的item')
+                        console.log(item)
+                        const param={
+                            commentId: item.id,
+                            reply: this.reply
+                        }
+                        this.updateReply(param).then(val=>{
+                            this.getCommentByHotelId(this.currentHotelId)
+                        })
+                        console.log('重新获取comment')
+                        console.log(this.comment)
+                        this.visible=false
+                        this.reply=''
+                    },
 		}
 	}
 </script>

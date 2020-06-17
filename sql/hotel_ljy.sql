@@ -164,6 +164,7 @@ DROP TABLE IF EXISTS `OrderList`;
 CREATE TABLE `OrderList` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) DEFAULT NULL,
+  `residentName` varchar(255) DEFAULT NULL ,
   `hotelId` int(11) DEFAULT NULL,
   `hotelName` varchar(255) DEFAULT NULL,
   `checkInDate` varchar(255) DEFAULT NULL,
@@ -214,6 +215,35 @@ CREATE TABLE `Room` (
 BEGIN;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
 INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(6,399,10,10,2,'Family');
+<<<<<<< HEAD:sql/hotel_ljy.sql
+=======
+/*!40000 ALTER TABLE `Room` ENABLE KEYS */;
+COMMIT;
+
+DROP TABLE IF EXISTS `CommentList`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CommentList` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL,
+  `hotelId` int(11) DEFAULT NULL,
+  `commentValue` int(11) DEFAULT NULL,
+  `commentContent` varchar(255) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL ,
+  `userName` varchar(255) DEFAULT NULL ,
+  `reply` varchar(255) DEFAULT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Room`
+--
+
+BEGIN;
+/*!40000 ALTER TABLE `Room` DISABLE KEYS */;
+INSERT INTO `CommentList` VALUES (3,2,1,4,'非常好');
+>>>>>>> feature/ydl:sql/hotel.sql
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 COMMIT;
 
