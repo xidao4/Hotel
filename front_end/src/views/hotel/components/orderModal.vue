@@ -229,6 +229,8 @@ export default {
                         hotelId: this.currentHotelId,
                         hotelName: this.currentHotelInfo.name,
                         userId: Number(this.userId),
+                        residentName: this.form.getFieldValue('clientName'),
+                        phoneNumber:this.form.getFieldValue('phoneNumber'),
                         checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                         checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
                         roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',

@@ -76,9 +76,10 @@
                                 <a-descriptions-item label="房间类型">{{idOrder.roomType}}</a-descriptions-item>
                                 <a-descriptions-item label="房间数量">{{idOrder.roomNum}}</a-descriptions-item>
                                 <a-descriptions-item label="入住人数">{{idOrder.peopleNum}}</a-descriptions-item>
-                                <a-descriptions-item label="是否携带孩童">{{idOrder.haveChild}}</a-descriptions-item>
+                                <a-descriptions-item label="是否携带孩童" v-if="idOrder.haveChild===false">否</a-descriptions-item>
+                                <a-descriptions-item label="是否携带孩童" v-else>是</a-descriptions-item>
                                 <a-descriptions-item label="价格">{{idOrder.price}}</a-descriptions-item>
-                                <a-descriptions-item label="客户名称">{{idOrder.clientName}}</a-descriptions-item>
+                                <a-descriptions-item label="客户名称">{{idOrder.residentName}}</a-descriptions-item>
                                 <a-descriptions-item label="手机号">{{idOrder.phoneNumber}}</a-descriptions-item>
                                 <a-descriptions-item label="订单状态">{{idOrder.orderState}}</a-descriptions-item>
                                 <a-descriptions-item label="撤销理由" v-if="idOrder.orderState=='客户撤销'">{{idOrder.cancelReason}}</a-descriptions-item>

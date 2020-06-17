@@ -91,6 +91,7 @@ DROP TABLE IF EXISTS `OrderList`;
 CREATE TABLE `OrderList` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) DEFAULT NULL,
+  `residentName` varchar(255) DEFAULT NULL ,
   `hotelId` int(11) DEFAULT NULL,
   `hotelName` varchar(255) DEFAULT NULL,
   `checkInDate` varchar(255) DEFAULT NULL,
@@ -140,7 +141,7 @@ CREATE TABLE `Room` (
 
 BEGIN;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(5,122,7,0,1,'BigBed'),(6,399,10,10,2,'Family');
+INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(6,399,10,10,2,'Family');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 COMMIT;
 
