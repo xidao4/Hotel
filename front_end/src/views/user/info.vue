@@ -92,16 +92,30 @@
                                 <a-descriptions-item label="房间类型">{{idOrder.roomType}}</a-descriptions-item>
                                 <a-descriptions-item label="房间数量">{{idOrder.roomNum}}</a-descriptions-item>
                                 <a-descriptions-item label="入住人数">{{idOrder.peopleNum}}</a-descriptions-item>
-                                <a-descriptions-item label="是否携带孩童">{{idOrder.haveChild}}</a-descriptions-item>
+                                <a-descriptions-item label="是否携带孩童" v-if="idOrder.haveChild===false">否</a-descriptions-item>
+                                <a-descriptions-item label="是否携带孩童" v-else>是</a-descriptions-item>
                                 <a-descriptions-item label="价格">{{idOrder.price}}</a-descriptions-item>
-                                <a-descriptions-item label="客户名称">{{idOrder.clientName}}</a-descriptions-item>
+                                <a-descriptions-item label="客户名称">{{idOrder.residentName}}</a-descriptions-item>
                                 <a-descriptions-item label="手机号">{{idOrder.phoneNumber}}</a-descriptions-item>
                                 <a-descriptions-item label="订单状态">{{idOrder.orderState}}</a-descriptions-item>
                                 <a-descriptions-item label="撤销理由" v-if="idOrder.orderState=='客户撤销'">{{idOrder.cancelReason}}</a-descriptions-item>
                             </a-descriptions>
                         </a-modal>
-                        <a-divider type="vertical" v-if="record.orderState==='已执行'"></a-divider>
-                        <a-button size="small" v-if="record.orderState==='已执行'" type="primary">评价</a-button>
+                        <a-divider type="vertical"></a-divider>
+                        <a-button size="small" v-if="record.orderState==='已执行'" type="primary" @click="showCommentModal(record.id)">评价</a-button>
+                        <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
+                        <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
+                            <a-form :form="commentForm" v-bind="formItemLayout">
+                                <a-form-item label="评价星级" v-bind="formItemLayout">
+                                    <a-rate v-model="commentValue">
+                                        <a-icon slot="character" type="heart" />
+                                    </a-rate>
+                                </a-form-item>
+                                <a-form-item label="评价内容：" v-bind="formItemLayout">
+                                    <a-textarea placeholder="请填写评价内容" v-model="commentContent" />
+                                </a-form-item>
+                            </a-form>
+                        </a-modal>
                         <a-divider type="vertical" ></a-divider>
                         <a-button type="danger" size="small" @click="showCancelModal" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
                         <a-button type="danger" size="small" @click="showCancelModal" v-else>撤销</a-button>
@@ -175,10 +189,24 @@ export default {
     name: 'info',
     data(){
         return {
+            formItemLayout: {
+                labelCol: {
+                    xs: { span: 12 },
+                    sm: { span: 6 },
+                },
+                wrapperCol: {
+                    xs: { span: 24 },
+                    sm: { span: 16 },
+                },
+            },
+            commentIndex: '',
+            commentValue: 5,
+            commentContent: '',
             currentIndex: '',
             reason: '',
             visible: false,
             contentVisible: false,
+            commentVisible: false,
             modify: false,
             formLayout: 'horizontal',
             pagination: {},
@@ -189,6 +217,8 @@ export default {
             avatar_url: '',
             date_curve: [],
             credit_curve: [],
+            // form: this.$form.createForm(this, { name: 'coordinated' }),
+            commentForm: this.$form.createForm(this,{name: 'commentForm'})
         }
     },
     components: {
@@ -206,7 +236,8 @@ export default {
             'registerModalVisible',
             'isMember',
             'dateRecord',
-            'creditRecord'
+            'creditRecord',
+            'comment'
         ])
     },
     async mounted() {
@@ -243,6 +274,7 @@ export default {
                 }]
             })
         })
+        await this.getCommentByHotelId(1)
     },
 
     methods: {
@@ -258,6 +290,8 @@ export default {
         ]),
         ...mapMutations([
             'set_registerModalVisible',
+            'addHotelComment',
+            'getCommentByHotelId'
         ]),
         editAvatar(url) {
             this.avatar_url = url
@@ -273,6 +307,13 @@ export default {
             console.log(this.currentIndex===recordid)
             console.log(this.currentIndex)
             console.log(this.contentVisible&&(this.currentIndex===recordid))
+        },
+        showCommentModal(recordid){
+            this.commentVisible=true
+            this.commentIndex=recordid
+        },
+        commentCancel(){
+            this.commentVisible=false
         },
         showCancelModal(){
             console.log('show cancelModal')
@@ -295,6 +336,29 @@ export default {
             }
             this.cancelOrder(data)
             this.visible=false
+        },
+        commentSubmit(record){
+            console.log(record)
+            console.log(record.id)
+            console.log(this.commentValue)
+            console.log(this.commentContent)
+            console.log(record.hotelName)
+            const comment={
+                userId: this.userId,
+                hotelId: record.hotelId,
+                commentValue: this.commentValue,
+                commentContent: this.commentContent,
+                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+                userName: this.userInfo.userName,
+                reply: ''
+            }
+            console.log(comment)
+            this.addHotelComment(comment)
+            console.log('Vuex里的comment')
+            console.log(this.comment)
+            this.commentValue=5
+            this.commentContent=''
+            this.commentVisible=false
         },
         saveModify() {
             this.form.validateFields((err, values) => {

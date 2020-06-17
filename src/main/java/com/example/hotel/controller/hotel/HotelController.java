@@ -8,6 +8,10 @@ import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelInfoVO;
+import com.example.hotel.bl.hotel.CommentService;
+import com.example.hotel.po.HotelRoom;
+import com.example.hotel.util.ServiceException;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserInfoVO;
@@ -24,6 +28,7 @@ public class HotelController {
     private RoomService roomService;
     @Autowired
     private OrderService orderService;
+    private CommentService commentService;
 
     @PostMapping("/addHotel")
     public ResponseVO createHotel(@RequestBody HotelVO hotelVO) throws ServiceException {
@@ -38,9 +43,42 @@ public class HotelController {
     }
 
     @GetMapping("/allHotels")
-    public ResponseVO getAllHotels(){
+    public ResponseVO getAllHotels() {
         return ResponseVO.buildSuccess(hotelService.getAllHotels());
     }
+    /**
+     * 添加comment
+     * @author ydl
+     * @param commentVO
+     * @return
+     * @throws ServiceException
+     */
+    @PostMapping("/addComment")
+    public ResponseVO createComment(@RequestBody CommentVO commentVO) throws ServiceException {
+        commentService.addComment(commentVO);
+        return ResponseVO.buildSuccess(true);
+    }
+
+    /**
+     * 根据酒店名称获取对应的所有评价
+     * @author ydl
+     * @param hotelId
+     * @return
+     */
+    @GetMapping("/{hotelId}/getCommentByHotelId")
+    public ResponseVO getCommentByHotelId(@PathVariable Integer hotelId){
+        return ResponseVO.buildSuccess(commentService.getCommentByHotelId(hotelId));
+    }
+
+    /**
+     * 根据评价id来更新对应的酒店管理员reply
+     * @return
+     */
+    @GetMapping("/{commentId}/{reply}/updateReply")
+    public ResponseVO updateReply(@PathVariable int commentId,@PathVariable String reply){
+        return commentService.updateReply(commentId,reply);
+    }
+
 
 
     @PostMapping("/roomInfo")

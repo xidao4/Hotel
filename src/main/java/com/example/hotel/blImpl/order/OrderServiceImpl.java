@@ -46,7 +46,10 @@ public class OrderServiceImpl implements OrderService {
         int hotelid=orderVO.getHotelId();
 
         String type=orderVO.getRoomType();
-
+        String phoneNumber=orderVO.getPhoneNumber();
+        System.out.println(phoneNumber);
+        String residentName=orderVO.getResidentName();
+        System.out.println(residentName);
         int curNum = hotelService.getRoomCurNum(hotelid,type);
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~");
         if(reserveRoomNum>curNum){
@@ -62,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setCancelReason("未撤销");
             User user = accountService.getUserInfo(orderVO.getUserId());
             orderVO.setClientName(user.getUserName());
-            orderVO.setPhoneNumber(user.getPhoneNumber());
+//            orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
             BeanUtils.copyProperties(orderVO,order);
             orderMapper.addOrder(order);
