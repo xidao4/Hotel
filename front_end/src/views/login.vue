@@ -104,6 +104,9 @@
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
+          <a-form-item>
+            <a-date-picker size="large" style="width: 368px;" placeholder="请选择您的生日" v-model="birthday" />
+          </a-form-item>
            <a-form-item>
             <a-input
               size="large"
@@ -155,6 +158,7 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import Identify from "../components/Identify";
+import moment from "moment";
 export default {
   name: 'login',
   components: {
@@ -169,6 +173,7 @@ export default {
       identify: '',
       identifyCode: '',
       identifyCodes: '1234567890abcdefjhijklinopqrsduvwxyz',
+      birthday: '',
     }
   },
   computed: {
@@ -273,6 +278,7 @@ export default {
             phoneNumber: this.form.getFieldValue('registerPhoneNumber'),
             username: this.form.getFieldValue('registerUsername'),
             credit: 100,
+            birthday: this.birthday,
             userType: 1
           }
           await this.register(data).then(() => {

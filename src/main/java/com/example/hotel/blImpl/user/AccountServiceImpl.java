@@ -13,6 +13,7 @@ import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
 import com.example.hotel.util.MD5;
 import com.example.hotel.vo.*;
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,11 @@ public class AccountServiceImpl implements AccountService {
         BeanUtils.copyProperties(userVO,user);
         //真正要插入数据库的密码，是散列后的密码
         user.setPassword(MD5.getMD5(userVO.getPassword()));
+        if(user.getBirthday().equals("")){
+            user.setBirthday("");
+        }else{
+            user.setBirthday(user.getBirthday().substring(0,10));
+        }
         try {
             accountMapper.createNewAccount(user);
         } catch (Exception e) {
