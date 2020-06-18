@@ -70,8 +70,9 @@
 				hotelListByBizRegion: [],
 				hotelListByStar: [],
 				hotelListByDate: [],
-                emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}],
-                msg:'订单价格三倍积分，积分当钱花。可享9折，价格更优惠。提早入住，延迟退房，入住更随心。生日惊喜好礼，礼券更丰富。',
+        emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}],
+        msg:'订单价格三倍积分，积分当钱花。可享9折，价格更优惠。提早入住，延迟退房，入住更随心。生日惊喜好礼，礼券更丰富。',
+
 			}
 		},
 		async mounted() {
@@ -80,24 +81,35 @@
 			this.hotelListByBizRegion = this.hotelList
 			this.hotelListByStar = this.hotelList
 			this.hotelListByDate = this.hotelList
-            this.openNotification('bottomLeft')
+      console.log('before Notification',this.hasShownNoti)
+      this.showNotification()
+      console.log('after Notification',this.hasShownNoti)
 		},
 		computed: {
 			...mapGetters([
 				'userId',
 				'hotelList',
-				'hotelListLoading'
+        'hasShownNoti',
+				'hotelListLoading',
+
 			])
 		},
 		methods: {
 			...mapMutations([
 				'set_hotelListParams',
-				'set_hotelListLoading'
+				'set_hotelListLoading',
+        'set_hasShownNoti'
 			]),
 			...mapActions([
 				'getHotelList',
 				'getHotelByDate'
 			]),
+      showNotification() {
+          if (this.hasShownNoti===false) {
+              this.openNotification('bottomLeft')
+              this.set_hasShownNoti(true)
+          }
+      },
 			onChangeBizRegion(value) {
 				this.hotelListByBizRegion = []
 				let all = false

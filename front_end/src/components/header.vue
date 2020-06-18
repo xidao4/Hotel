@@ -113,7 +113,9 @@ export default {
         this.avatar_url = "https://supernatural.oss-cn-beijing.aliyuncs.com/" + this.userInfo.avatar_url
     },
     methods: {
-        ...mapMutations([]),
+        ...mapMutations([
+            'set_hasShownNoti'
+        ]),
         ...mapActions([
             'logout',
             'getUserInfo'
@@ -121,6 +123,7 @@ export default {
         selectMenu(v) {
         },
         async quit() {
+            this.set_hasShownNoti(false)
             await this.$store.dispatch('logout')
             this.$router.push(`/login?redirect=${this.$route.fullPath}`)
         },

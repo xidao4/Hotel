@@ -36,20 +36,26 @@
                             <span class="value">{{ currentHotelInfo.description }}</span>
                         </div>
                         <div class="items">
+                            <span class="label">酒店服务：</span>
+                            <span class="value">
+                                <template v-for="tag in tags">
+                                <a-tag :key="tag.tagName" >
+                                    {{tag.tagName}}
+                                </a-tag>
+                            </template>
+                            </span>
+                        </div>
+                        <div class="items">
                             <span class="label">是否预订过:</span>
                             <span class="value">
                                 <div v-if="currentHotelInfo.hasOrderedBefore">预订过</div>
                                 <div v-else>未预订过</div>
                             </span>
                         <div>
-                            <template v-for="tag in tags">
-                                <a-tag :key="tag.tagName" >
-                                    {{tag.tagName}}
-                                </a-tag>
-                            </template>
+
                         </div>
                     </div>
-                </div>
+                    </div>
                 </div>
                 <a-divider></a-divider>
                 <a-tabs>

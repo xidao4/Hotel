@@ -269,6 +269,9 @@ CREATE TABLE `User` (
   `username` varchar(255) DEFAULT NULL,
   `phonenumber` varchar(11) DEFAULT NULL,
   `usertype` varchar(255) DEFAULT NULL,
+  `birthday` varchar(255) DEFAULT NULL,
+  `avatar_url` varchar(256) DEFAULT null,
+  `createTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -280,15 +283,15 @@ CREATE TABLE `User` (
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
 INSERT INTO `User`
-VALUES (0,'websiteAdmin@qq.com','d959caadac9b13dcb3e609440135cf54','网站管理员',NULL,'Manager'),
-(1,'hanTing@qq.com','d959caadac9b13dcb3e609440135cf54','汉庭酒店',NULL,'HotelManager'),
-(2,'ruJia@qq.com','d959caadac9b13dcb3e609440135cf54','儒家酒店',NULL,'HotelManager'),
-(3,'guiYuan@qq.com','d959caadac9b13dcb3e609440135cf54','桂圆酒店',NULL,'HotelManager'),
-(4,'client1@qq.com','d959caadac9b13dcb3e609440135cf54','测试一号','1391541689601234','Client'),
-(5,'client2@qq.com','d959caadac9b13dcb3e609440135cf54','测试二号','12345678911','Client'),
-(6,'operator1@qq.com','d959caadac9b13dcb3e609440135cf54','网站运营人员一',NULL,'Operator'),
-(7,'client3@qq.com','d959caadac9b13dcb3e609440135cf54','测试三号','12345678911','Client'),
-(8,'operator2@qq.com','d959caadac9b13dcb3e609440135cf54','网站运营人员二',NULL,'Operator');
+VALUES (0,'websiteAdmin@qq.com','d959caadac9b13dcb3e609440135cf54','网站管理员',NULL,'Manager','2000-01-01',NULL,'2020-06-01'),
+(1,'hanTing@qq.com','d959caadac9b13dcb3e609440135cf54','汉庭酒店',NULL,'HotelManager','2000-02-01',NULL,'2020-06-01'),
+(2,'ruJia@qq.com','d959caadac9b13dcb3e609440135cf54','儒家酒店',NULL,'HotelManager','2000-03-01',NULL,'2020-06-01'),
+(3,'guiYuan@qq.com','d959caadac9b13dcb3e609440135cf54','桂圆酒店',NULL,'HotelManager','2000-04-01',NULL,'2020-06-02'),
+(4,'client1@qq.com','d959caadac9b13dcb3e609440135cf54','测试一号','1391541689601234','Client','2000-05-01','1881bb12-3f09-459a-b288-59e724cb7c94.jpeg','2020-06-03'),
+(5,'client2@qq.com','d959caadac9b13dcb3e609440135cf54','测试二号','12345678911','Client','2000-06-01','f24da812-79ef-4a8e-89f6-bb1b7831100e.jpeg','2020-06-11'),
+(6,'operator1@qq.com','d959caadac9b13dcb3e609440135cf54','网站运营人员一',NULL,'Operator','2000-07-01',NULL,'2020-06-11'),
+(7,'client3@qq.com','d959caadac9b13dcb3e609440135cf54','测试三号','12345678911','Client','2000-07-01',NULL,'2020-06-11'),
+(8,'operator2@qq.com','d959caadac9b13dcb3e609440135cf54','网站运营人员二',NULL,'Operator','2000-08-01',NULL,'2020-06-11');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -103,8 +103,6 @@ public class AdminServiceImpl implements AdminService {
                 ++num;
             }
         }
-        dates.add(date);
-        nums.add(num);
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
         Date now = new Date(System.currentTimeMillis());
         while(date.compareTo(formatter.format(now)) <= 0) {

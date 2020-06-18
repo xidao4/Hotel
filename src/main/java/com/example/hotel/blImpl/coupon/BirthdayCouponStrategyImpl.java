@@ -20,7 +20,7 @@ public class BirthdayCouponStrategyImpl implements CouponMatchStrategy {
         String createDate = orderVO.getCreateDate().substring(5);
         User user = accountService.getUserInfo(orderVO.getUserId());
         String birthday = user.getBirthday();
-        if(orderVO.getCreateDate().substring(5).equals(birthday.substring(5))){
+        if((orderVO.getCreateDate()!="") && (orderVO.getCreateDate().substring(5).equals(birthday.substring(5)))){
             return true;
         }
         return false;

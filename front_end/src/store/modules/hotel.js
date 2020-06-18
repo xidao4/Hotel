@@ -45,6 +45,7 @@ const hotel = {
         comment: [
 
         ],
+        hasShownNoti:false,
     },
     mutations: {
         set_userId: function(state, data) {
@@ -86,6 +87,9 @@ const hotel = {
         set_orderMatchCouponList: function(state, data) {
             state.orderMatchCouponList = data
         },
+        set_hasShownNoti:function(state,data){
+            state.hasShownNoti=data
+        }
     },
 
     actions: {
