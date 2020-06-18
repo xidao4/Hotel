@@ -46,6 +46,7 @@
                                 <span>{{this.memInfo.birthday}}</span>
                             </a-form-item>
                             <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="!isMember">
+                                <span v-if="isRegistering">请选择您的生日（不可更改）</span>
                                 <a-date-picker @change="onChange"  v-if="isRegistering"/>
                                 <a-button type="primary" v-else @click="registerBtn" >注册成为会员</a-button>
                             </a-form-item>

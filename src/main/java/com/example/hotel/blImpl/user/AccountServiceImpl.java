@@ -95,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
             //若改动过密码，则要将输入的密码先进行散列，再插入数据库
         }
         try {
-            accountMapper.updateAccount(id, password, username, phonenumber, avatar_url);
+            accountMapper.updateAccount(id, digest, username, phonenumber, avatar_url);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);

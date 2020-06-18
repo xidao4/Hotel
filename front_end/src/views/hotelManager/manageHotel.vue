@@ -1,31 +1,31 @@
 <template>
     <div class="manageHotel-wrapper">
         <a-tabs>
-            <a-tab-pane tab="酒店管理(删除)" key="1">
-                <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
-                </div>
-                 <a-table
-                    :columns="columns1"
-                    :dataSource="hotelList"
-                    bordered
-                >
-                    <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="addRoom(record)">录入房间</a-button>
-                        <a-divider type="vertical"></a-divider>
-                        <a-button type="info" size="small" @click="showCoupon(record)">优惠策略</a-button>
-                        <a-divider type="vertical"></a-divider>
-                        <a-popconfirm
-                            title="确定想删除该酒店吗？"
-                            @confirm="deleteHotel(record)"
-                            okText="确定"
-                            cancelText="取消"
-                        >
-                            <a-button type="danger" size="small">删除酒店</a-button>
-                        </a-popconfirm>
-                    </span>
-                </a-table>
-            </a-tab-pane>
+<!--            <a-tab-pane tab="酒店管理(删除)" key="1">-->
+<!--                <div style="width: 100%; text-align: right; margin:20px 0">-->
+<!--                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>-->
+<!--                </div>-->
+<!--                 <a-table-->
+<!--                    :columns="columns1"-->
+<!--                    :dataSource="hotelList"-->
+<!--                    bordered-->
+<!--                >-->
+<!--                    <span slot="action" slot-scope="record">-->
+<!--                        <a-button type="primary" size="small" @click="addRoom(record)">录入房间</a-button>-->
+<!--                        <a-divider type="vertical"></a-divider>-->
+<!--                        <a-button type="info" size="small" @click="showCoupon(record)">优惠策略</a-button>-->
+<!--                        <a-divider type="vertical"></a-divider>-->
+<!--                        <a-popconfirm-->
+<!--                            title="确定想删除该酒店吗？"-->
+<!--                            @confirm="deleteHotel(record)"-->
+<!--                            okText="确定"-->
+<!--                            cancelText="取消"-->
+<!--                        >-->
+<!--                            <a-button type="danger" size="small">删除酒店</a-button>-->
+<!--                        </a-popconfirm>-->
+<!--                    </span>-->
+<!--                </a-table>-->
+<!--            </a-tab-pane>-->
             <a-tab-pane tab="订单管理" key="2">
                 <a-table
                     :columns="columns2"
@@ -76,71 +76,74 @@
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="基本信息" key="3">
-                <a-form :form="form" style="margin-top: 30px">
-                    <a-form-item label="名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                    <span>{{ currentHotelInfo.name }}</span>
-                    </a-form-item>
-                    <a-form-item label="地址" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                <a-col :span="12">
+                    <a-form :form="form" style="margin-top: 30px">
+                        <a-form-item label="名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                            <span>{{ currentHotelInfo.name }}</span>
+                        </a-form-item>
+                        <a-form-item label="地址" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                            <a-input
+                                    placeholder="请填写地址"
+                                    v-decorator="['address', { rules: [{ required: true, message: '请输入地址' }] }]"
+                                    v-if="modify"
+                            />
+                            <span v-else>{{ currentHotelInfo.address }}</span>
+                        </a-form-item>
+                        <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                            <a-input
+                                    placeholder="请填写手机号"
+                                    v-decorator="['phoneNum', { rules: [{ required: true, message: '请输入手机号' }] }]"
+                                    v-if="modify"
+                            />
+                            <span v-else>{{ currentHotelInfo.phoneNum}}</span>
+                        </a-form-item>
+                        <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
+                            <a-button type="primary" @click="saveModify">
+                                保存
+                            </a-button>
+                            <a-button type="default" style="margin-left: 30px" @click="cancelModify">
+                                取消
+                            </a-button>
+                        </a-form-item>
+                        <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
+                            <a-button type="primary" @click="modifyInfo">
+                                修改信息
+                            </a-button>
+                        </a-form-item>
+                    </a-form>
+                </a-col>
+                <a-col :span="12">
+                    <div>
+                        <a-button type="primary" size="small" @click="addRoom()">录入房间</a-button>
+<!--                        <a-divider type="vertical"></a-divider>-->
+                        <a-button type="info" size="small" @click="showCoupon()">优惠策略</a-button>
+<!--                        <a-divider type="vertical"></a-divider>-->
+                    </div>
+                    <a-card title="serviceTags" style="width: 70%;margin-left:25%;margin-top:5%">
+                        <template v-for="tag in tags">
+                            <a-tag :key="tag.tagName" closable @close="()=>handleClose(tag)">
+                                {{tag.tagName}}
+
+                            </a-tag>
+                        </template>
                         <a-input
-                                placeholder="请填写地址"
-                                v-decorator="['address', { rules: [{ required: true, message: '请输入地址' }] }]"
-                                v-if="modify"
+                                v-if="inputVisible"
+                                ref="input"
+                                type="txt"
+                                size="small"
+                                :style="{ width: '78px' }"
+                                :value="inputValue"
+                                @change="handleInputChange"
+                                @blur="handleInputConfirm"
+                                @keyup.enter="handleInputConfirm"
                         />
-                        <span v-else>{{ currentHotelInfo.address }}</span>
-                    </a-form-item>
-                    <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                        <a-input
-                                placeholder="请填写手机号"
-                                v-decorator="['phoneNum', { rules: [{ required: true, message: '请输入手机号' }] }]"
-                                v-if="modify"
-                        />
-                        <span v-else>{{ currentHotelInfo.phoneNum}}</span>
-                    </a-form-item>
-                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                        <a-button type="primary" @click="saveModify">
-                            保存
-                        </a-button>
-                        <a-button type="default" style="margin-left: 30px" @click="cancelModify">
-                            取消
-                        </a-button>
-                    </a-form-item>
-                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                        <a-button type="primary" @click="modifyInfo">
-                            修改信息
-                        </a-button>
-                    </a-form-item>
-
-
-                    <template v-for="tag in tags">
-                      <a-tag :key="tag.tagName" closable @close="()=>handleClose(tag)">
-                        {{tag.tagName}}
-
-                      </a-tag>
-                    </template>
-                    <a-input
-                      v-if="inputVisible"
-                      ref="input"
-                      type="txt"
-                      size="small"
-                      :style="{ width: '78px' }"
-                      :value="inputValue"
-                      @change="handleInputChange"
-                      @blur="handleInputConfirm"
-                      @keyup.enter="handleInputConfirm"
-                    />
-                  <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
-                    <a-icon type="plus" /> 新的酒店服务标签
-                  </a-tag>
-
-
-                </a-form>
+                        <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
+                            <a-icon type="plus" /> 新的酒店服务标签
+                        </a-tag>
+                    </a-card>
+                </a-col>
             </a-tab-pane>
-            <a-tab-pane tab="房间管理" key="4">
-                可用房间显示与录入房间
-            </a-tab-pane>
-            <a-tab-pane tab="优惠管理" key="5">
-                可用优惠券显示与优惠策略制定
-            </a-tab-pane>
+
         </a-tabs>
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
@@ -309,12 +312,12 @@ export default {
         addHotel() {
             this.set_addHotelModalVisible(true)
         },
-        addRoom(record) {
-            this.set_activeHotelId(record.id)
+        addRoom() {
+            this.set_activeHotelId(this.currentHotelId)
             this.set_addRoomModalVisible(true)
         },
-        showCoupon(record) {
-            this.set_activeHotelId(record.id)
+        showCoupon() {
+            this.set_activeHotelId(this.currentHotelId)
             this.set_couponVisible(true)
             this.getHotelCoupon()
         },
