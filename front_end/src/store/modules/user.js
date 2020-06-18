@@ -210,6 +210,7 @@ const user = {
             removeToken()
             resetRouter()
             commit('reset_state')
+
         },
           // remove token
         resetToken({ commit }) {

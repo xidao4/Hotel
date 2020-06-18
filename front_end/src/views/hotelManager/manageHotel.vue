@@ -119,7 +119,7 @@
                         <a-button type="info" size="small" @click="showCoupon()">优惠策略</a-button>
 <!--                        <a-divider type="vertical"></a-divider>-->
                     </div>
-                    <a-card title="serviceTags" style="width: 70%;margin-left:25%;margin-top:5%">
+                    <a-card  style="width: 70%;margin-left:25%;margin-top:5%">
                         <template v-for="tag in tags">
                             <a-tag :key="tag.tagName" closable @close="()=>handleClose(tag)">
                                 {{tag.tagName}}
