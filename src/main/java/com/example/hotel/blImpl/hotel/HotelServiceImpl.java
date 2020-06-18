@@ -122,6 +122,8 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId, Integer userid) {
+        System.out.println(hotelId);
+        System.out.println(userid);
         HotelVO hotelVO = hotelMapper.selectById(hotelId);
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
         List<RoomVO> roomVOS = rooms.stream().map(r -> {

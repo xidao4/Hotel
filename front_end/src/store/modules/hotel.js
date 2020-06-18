@@ -114,6 +114,9 @@ const hotel = {
                 hotelId: state.currentHotelId,
                 userId: data
             })
+            console.log("module")
+            console.log(state.currentHotelId)
+            console.log(data)
             if(res){
                 console.log('hotelInfo',res)
                 commit('set_currentHotelInfo', res)
