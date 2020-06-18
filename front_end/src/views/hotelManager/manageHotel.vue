@@ -65,10 +65,14 @@
 <!--                        >-->
 <!--                            <a-button type="danger" size="small">删除订单</a-button>-->
                         <a-popover title="订单状态管理" trigger="click" :ref="`popover-${record.id}`">
-                            <a slot="content" @click="change(record.id,'已入住')"><a-tag>已入住</a-tag></a>
-                            <a slot="content" @click="change(record.id,'已执行')"><a-tag>已执行</a-tag></a>
-                            <a slot="content" @click="change(record.id,'酒店撤销')"><a-tag>撤销</a-tag></a>
-                            <a slot="content" @click="change(record.id,'异常')"><a-tag>异常</a-tag></a>
+                            <a slot="content" @click="change(record.id,'已入住')" v-if="record.orderState==='已预订'"><a-tag color="green">已入住</a-tag></a>
+                            <a slot="content" @click="change(record.id,'已入住')" v-else disabled="true" ><a-tag color="red">已入住</a-tag></a>
+                            <a slot="content" @click="change(record.id,'已执行')" v-if="record.orderState==='已预订' || record.orderState==='已入住'"><a-tag color="green">已执行</a-tag></a>
+                            <a slot="content" @click="change(record.id,'已执行')" v-else disabled="true"><a-tag color="red">已执行</a-tag></a>
+                            <a slot="content" @click="change(record.id,'酒店撤销')" v-if="record.orderState==='已预订'"><a-tag color="green">撤销</a-tag></a>
+                            <a slot="content" @click="change(record.id,'酒店撤销')" v-else disabled="true"><a-tag color="red">撤销</a-tag></a>
+                            <a slot="content" @click="change(record.id,'异常')" v-if="record.orderState==='已预订'"><a-tag color="green">异常</a-tag></a>
+                            <a slot="content" @click="change(record.id,'异常')" v-else disabled="true"><a-tag color="red">异常</a-tag></a>
                             <a-button type="primary" size="small" @click="manage">订单管理</a-button>
                         </a-popover>
 <!--                        </a-popconfirm>-->
@@ -299,12 +303,13 @@ export default {
                 }
             }
         },
-        change(orderid,status){
+        async change(orderid,status){
             const data={
                 orderid:orderid,
                 status:status
             }
-            this.changeStatus(data)
+            await this.changeStatus(data)
+            await this.getAllOrders()
         },
         addHotel() {
             this.set_addHotelModalVisible(true)

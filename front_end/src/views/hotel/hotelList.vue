@@ -31,8 +31,15 @@
                                     <div v-if="item.hasOrderedBefore">预订过</div>
                                     <div v-else>未预订过</div>
                                     <div>
-                                        <a-rate style="font-size: 15px" :value="item.rate" disabled allowHalf/>
-                                        {{item.rate}}分
+                                        星级：<br><a-rate style="font-size: 15px" :value="item.rate" disabled allowHalf/>
+                                        <br>
+                                        好评率：<div style="width: 130px">
+                                            <a-progress :stroke-color="{
+        '0%': '#108ee9',
+        '100%': '#87d068',
+      }" :percent="item.rate*20" status="active" />
+
+                                        </div>
                                     </div>
                                     <br>
                                     <div>
