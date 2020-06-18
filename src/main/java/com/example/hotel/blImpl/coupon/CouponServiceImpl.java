@@ -102,7 +102,7 @@ public class CouponServiceImpl implements CouponService {
         coupon.setCouponName(timeCouponVO.getName());
         coupon.setDescription(timeCouponVO.getDescription());
         coupon.setCouponType(timeCouponVO.getType());
-        coupon.setDiscount(timeCouponVO.getDiscount());
+        coupon.setDiscountMoney(timeCouponVO.getDiscountMoney());
         coupon.setStartTime(timeCouponVO.getStartTime());
         coupon.setEndTime(timeCouponVO.getEndTime());
         coupon.setHotelId(timeCouponVO.getHotelId());
@@ -120,7 +120,7 @@ public class CouponServiceImpl implements CouponService {
         coupon.setCouponType(couponVO.getType());
         coupon.setTargetRoomNum(couponVO.getTargetRoomNum());
         coupon.setHotelId(couponVO.getHotelId());
-        coupon.setDiscount(couponVO.getDiscount());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
@@ -134,7 +134,7 @@ public class CouponServiceImpl implements CouponService {
         coupon.setDescription(couponVO.getDescription());
         coupon.setCouponType(couponVO.getType());
         coupon.setHotelId(couponVO.getHotelId());
-        coupon.setDiscount(couponVO.getDiscount());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
@@ -148,22 +148,7 @@ public class CouponServiceImpl implements CouponService {
         coupon.setDescription(couponVO.getDescription());
         coupon.setCouponType(couponVO.getType());
         coupon.setHotelId(couponVO.getHotelId());
-        coupon.setDiscount(couponVO.getDiscount());
-        coupon.setStatus(1);
-        int result = couponMapper.insertCoupon(coupon);
-        couponVO.setId(result);
-        return couponVO;
-    }
-
-    @Override
-    public CouponVO addHotelVIPSpecialCoupon(HotelVIPSpecialCouponVO couponVO) {
-        Coupon coupon = new Coupon();
-        coupon.setCouponName(couponVO.getName());
-        coupon.setDescription(couponVO.getDescription());
-        coupon.setCouponType(couponVO.getType());
-        coupon.setHotelId(couponVO.getHotelId());
-        coupon.setDiscountSilver(couponVO.getDiscountSilver());
-        coupon.setDiscountGold(couponVO.getDiscountGold());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
