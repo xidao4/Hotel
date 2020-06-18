@@ -126,7 +126,8 @@
 		},
         async mounted() {
             await this.set_currentHotelId(Number(this.$route.params.hotelId))
-            await this.getHotelById(Number(this.userId)),
+            // await this.getHotelById(Number(this.userId)),
+            await this.getHotelByIdLJY()
             await this.getAllTags(this.currentHotelId),
             console.log('currentHotelId',this.currentHotelId)
             await this.getCommentByHotelId(Number(this.$route.params.hotelId))
@@ -134,7 +135,8 @@
         },
 		beforeRouteUpdate(to, from, next) {
 			this.set_currentHotelId(Number(to.params.hotelId))
-			this.getHotelById(Number(this.userId))
+			// this.getHotelById(Number(this.userId))
+            this.getHotelByIdLJY()
 			next()
 		},
 		methods: {
@@ -142,7 +144,7 @@
 				'set_currentHotelId',
 			]),
 			...mapActions([
-                'getHotelById',
+                'getHotelByIdLJY',
                 'getAllTags',
                 'getCommentByHotelId',
                 'updateReply'
