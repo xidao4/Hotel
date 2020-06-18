@@ -83,6 +83,8 @@ public class HotelController {
 
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
+        System.out.println("QQQQQ");
+        System.out.println(hotelRoom);
         roomService.insertRoomInfo(hotelRoom);
         return ResponseVO.buildSuccess();
     }

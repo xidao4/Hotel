@@ -118,7 +118,8 @@
                 </a-col>
                 <a-col :span="12">
                     <div>
-                        <a-button type="primary" size="small" @click="addRoom()">录入房间</a-button>
+                        <a-button type="primary" size="small" @click="addRoom()" v-if="bigV && familyV && doubleV" disabled="true">录入房间</a-button>
+                        <a-button type="primary" size="small" @click="addRoom()" v-else>录入房间</a-button>
 <!--                        <a-divider type="vertical"></a-divider>-->
                         <a-button type="info" size="small" @click="showCoupon()">优惠策略</a-button>
 <!--                        <a-divider type="vertical"></a-divider>-->
@@ -266,6 +267,9 @@ export default {
             'currentHotelId',//used
             'currentHotelInfo',//used
             'tags',
+            'bigV',
+            'doubleV',
+            'familyV'
         ]),
     },
     async mounted() {
@@ -318,6 +322,11 @@ export default {
             this.set_addHotelModalVisible(true)
         },
         addRoom() {
+            console.log(this.bigV)
+            console.log(this.doubleV)
+            console.log('familyV:')
+
+            console.log(this.familyV)
             this.set_activeHotelId(this.currentHotelId)
             this.set_addRoomModalVisible(true)
         },

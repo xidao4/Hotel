@@ -55,7 +55,11 @@ export default {
     computed: {
         ...mapGetters([
             'addRoomModalVisible',
-            'activeHotelId'
+            'activeHotelId',
+            'addRoomParams',
+            'bigV',
+            'familyV',
+            'doubleV'
         ])
     },
     beforeCreate() {
@@ -67,7 +71,10 @@ export default {
     methods: {
         ...mapMutations([
             'set_addRoomModalVisible',
-            'set_addRoomParams'
+            'set_addRoomParams',
+            'set_bigV',
+            'set_doubleV',
+            'set_familyV',
         ]),
         ...mapActions([
             'addRoom'
@@ -77,7 +84,7 @@ export default {
         },
         handleSubmit(e) {
             e.preventDefault();
-            this.form.validateFieldsAndScroll((err, values) => {
+            this.form.validateFieldsAndScroll(async (err, values) => {
                 if (!err) {
                     const data = {
                         roomType: this.form.getFieldValue('roomType'),
@@ -86,8 +93,26 @@ export default {
                         curNum: Number(this.form.getFieldValue('roomNum')),
                         hotelId: this.activeHotelId,
                     }
+                    if(data.roomType==='DoubleBed'){
+                        console.log('db')
+                        this.set_doubleV()
+                    }
+                    if(data.roomType==='BigBed'){
+                        console.log('bb')
+                        this.set_bigV()
+                        console.log(this.bigV)
+                    }
+                    if(data.roomType==='Family'){
+                        console.log('f')
+                        this.set_familyV()
+                        console.log(this.familyV)
+                    }
+                    console.log('view里面的room表单数据')
+                    console.log(data)
                     this.set_addRoomParams(data)
-                    this.addRoom()
+                    console.log(this.addRoomParams)
+                    await this.addRoom()
+                    this.form.resetFields()
                 }
             });
         },

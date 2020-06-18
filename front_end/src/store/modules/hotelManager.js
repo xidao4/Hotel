@@ -43,9 +43,21 @@ const hotelManager = {
         addCouponVisible: false,
         activeHotelId: 0,
         couponList: [],
+        bigV: '',
+        doubleV: '',
+        familyV: '',
     },
     // actions里面主要处理异步事件，mutation则反之
     mutations: {
+        set_bigV:function(state){
+            state.bigV=true
+        },
+        set_doubleV:function(state){
+            state.doubleV=true
+        },
+        set_familyV:function(state){
+            state.familyV=true
+        },
         set_orderList: function(state, data) {
             state.orderList = data
         },
@@ -102,8 +114,11 @@ const hotelManager = {
         //     }
         // },
         addRoom: async({ state, dispatch, commit }) => {
+            console.log('调用API之前')
             const res = await addRoomAPI(state.addRoomParams)
-            if(res){
+            console.log('调用API之后')
+            console.log(res)
+            if(res===null){
                 commit('set_addRoomModalVisible', false)
                 commit('set_addRoomParams', {
                     roomType: '',

@@ -54,6 +54,10 @@ const getters = {
   addCouponVisible: state => state.hotelManager.addCouponVisible,
   activeHotelId: state => state.hotelManager.activeHotelId,
   couponList: state => state.hotelManager.couponList,
+  addRoomParams: state=>state.hotelManager.addRoomParams,
+  bigV: state=>state.hotelManager.bigV,
+  doubleV: state=>state.hotelManager.doubleV,
+  familyV: state=>state.hotelManager.familyV,
   //operator
   manageCreditVisible: state => state.operator.manageCreditVisible,
   creditRecordsList: state => state.operator.creditRecordsList,
