@@ -17,7 +17,7 @@ export function getAllHotelsLJYAPI(){
         method: 'get',
     })
 }
-export function getHotelByIdAPI(currentHotelId) {
+export function getHotelByIdAPI(param) {
     return axios({
         url: `${api.hotelPre}/${param.hotelId}/detail`,
         method: 'POST',

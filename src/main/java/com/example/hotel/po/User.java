@@ -3,6 +3,7 @@ package com.example.hotel.po;
 
 import com.example.hotel.enums.UserType;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class User {
@@ -15,7 +16,7 @@ public class User {
     private int membership;
     private String birthday;
     private String avatar_url;
-    private LocalDateTime createTime;
+    private LocalDate createTime;
 
     public Integer getId() {
         return id;
@@ -90,11 +91,11 @@ public class User {
         this.avatar_url = avatar_url;
     }
 
-    public LocalDateTime getCreateTime() {
+    public LocalDate getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
     }
 

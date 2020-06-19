@@ -44,9 +44,11 @@ CREATE TABLE `Coupon` (
 
 LOCK TABLES `Coupon` WRITE;
 /*!40000 ALTER TABLE `Coupon` DISABLE KEYS */;
-INSERT INTO `Coupon` VALUES (2,'满500-100优惠',2,3,'满减优惠券',500,0,1,NULL,NULL,100),
-(3,'满100-10优惠',2,3,'满减优惠券',100,0,1,NULL,NULL,10),
-(4,'满400-40优惠',2,3,'满减优惠券',400,0,1,NULL,NULL,40);
+INSERT INTO `Coupon` VALUES (1,'生日',2,1,'生日',0,0,1,NULL,NULL,4),
+(2,'生日',1,1,'生日',0,0,1,NULL,NULL,4),
+(3,'多间',1,2,'多间',0,0,1,NULL,NULL,4),
+(4,'满100减4元',1,3,'满减',100,0,1,NULL,NULL,4),
+(5,'限时 6-18到6-30',1,4,'限时',0,0,1,'2020-06-18 00:00:00','2020-06-30 00:00:00',4);
 /*!40000 ALTER TABLE `Coupon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +115,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `Member`
 --
-
 DROP TABLE IF EXISTS `Member`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -124,13 +125,12 @@ CREATE TABLE `Member` (
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Dumping data for table `Member`
 --
-
 LOCK TABLES `Member` WRITE;
 /*!40000 ALTER TABLE `Member` DISABLE KEYS */;
+INSERT INTO Member VALUES(4,444,'1999-11-04 00:00:00');
 /*!40000 ALTER TABLE `Member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +172,7 @@ INSERT INTO `OrderList`
 VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已执行','未撤销'),
 (15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123'),
 (16,5,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试二号','12345678919','已执行','未撤销'),
-(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已执行','未撤销');
+(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已预订','未撤销');
 /*!40000 ALTER TABLE `OrderList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +200,7 @@ CREATE TABLE `Room` (
 
 -- LOCK TABLES `Room` WRITE;
 -- /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
--- INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(6,399,7,10,2,'Family');
+INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(6,399,7,10,2,'Family');
 -- /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 -- UNLOCK TABLES;
 
@@ -225,7 +225,7 @@ CREATE TABLE `MyTag` (
 
 LOCK TABLES `MyTag` WRITE;
 /*!40000 ALTER TABLE `MyTag` DISABLE KEYS */;
-INSERT INTO `MyTag` VALUES (1,'免费无线上网',1),(2,'叫醒服务',1),(3,'免费保存贵重物品（保险箱）',1),(4,'泳池',1);
+INSERT INTO `MyTag` VALUES (1,'免费无线上网',1),(2,'叫醒服务',1),(3,'免费保存贵重物品（保险箱）',1),(4,'泳池',1),(5,'温泉',2),(6,'麻将馆',2),(7,'棋牌室',3),(8,'健身房',3);
 /*!40000 ALTER TABLE `MyTag` ENABLE KEYS */;
 UNLOCK TABLES;
 

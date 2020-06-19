@@ -301,7 +301,7 @@ export default {
         totalPrice(val) {
             //得到最新的会员价（如果是会员的话）
             if(this.isMember) {
-                this.memPrice = 0.9 * this.totalPrice
+                this.memPrice = 0.9 * this.totalPrice.toFixed(2)
                 console.log("totalPrice",this.totalPrice)
                 console.log("memPrice=0.9*totalPrice=",this.memPrice)
 
@@ -326,7 +326,9 @@ export default {
                 roomNum: this.form.getFieldValue('roomNum'),
                 checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                 checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                createDate: moment().format('YYYY-MM-DD')
             }
+            console.log('data.createDate',data.createDate)
             this.getOrderMatchCoupons(data)
         },
         usePoints(val){

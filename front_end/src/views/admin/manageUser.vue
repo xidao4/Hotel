@@ -254,7 +254,7 @@ const colM=[
         dataIndex:'userName',
     },{
         title:'创建时间',
-        dataIndex:'createDate',
+        dataIndex:'createTime',
     },{
         title:'操作',
         key: 'action',
@@ -310,7 +310,7 @@ const columns = [
     },
     {
         title:'创建时间',
-        dataIndex:'createDate',
+        dataIndex:'createTime',
     },
     {
       title: '操作',
@@ -359,7 +359,7 @@ const colOperator=[
     // },
     {
         title:'创建时间',
-        dataIndex:'createDate',
+        dataIndex:'createTime',
     },
     {
         title:'操作',

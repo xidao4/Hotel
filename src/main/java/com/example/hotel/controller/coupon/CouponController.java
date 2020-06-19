@@ -39,11 +39,11 @@ public class CouponController {
         CouponVO couponVO = couponService.addHotelFestivalCoupon(hotelFestivalCouponVO);
         return ResponseVO.buildSuccess(couponVO);
     }
-    @PostMapping("/hotelVIPSpecial")
+    /*@PostMapping("/hotelVIPSpecial")
     public ResponseVO addHotelVIPSpecialCoupon(@RequestBody HotelVIPSpecialCouponVO hotelVIPSpecialCouponVO){
         CouponVO couponVO = couponService.addHotelVIPSpecialCoupon(hotelVIPSpecialCouponVO);
         return ResponseVO.buildSuccess(couponVO);
-    }
+    }*/
 
     @GetMapping("/hotelAllCoupons")
     public ResponseVO getHotelAllCoupons(@RequestParam Integer hotelId) {

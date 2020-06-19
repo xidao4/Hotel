@@ -14,8 +14,12 @@ public class BirthdayCouponStrategyImpl implements CouponMatchStrategy {
     @Autowired
     private AccountService accountService;
 
+
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
+        //is not VIP
+        if(accountService.getMemInfo(orderVO.getUserId())==null) return false;
+        //is VIP
         if(coupon.getCouponType()!=1) return false;
         String createDate = orderVO.getCreateDate().substring(5);
         User user = accountService.getUserInfo(orderVO.getUserId());

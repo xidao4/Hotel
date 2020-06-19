@@ -30,13 +30,13 @@
             </a-form-item>
 
             <!--            生日优惠所需表单部分-->
-            <a-form-item label="折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='1'">
-                <a-input placeholder="请填写折扣" v-decorator="['discount',{rules:[{required:true,message:'请填写折扣'}]}]"/>
+            <a-form-item label="优惠金额" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='1'">
+                <a-input placeholder="请填写优惠金额" v-decorator="['discountMoney',{rules:[{required:true,message:'请填写优惠金额'}]}]"/>
             </a-form-item>
 
             <!--            节日优惠所需表单部分-->
-            <a-form-item label="折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='5'">
-                <a-input placeholder="请填写折扣" v-decorator="['discount',{rules:[{required:true,message:'请填写折扣'}]}]"/>
+            <a-form-item label="优惠金额" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='5'">
+                <a-input placeholder="请填写优惠金额" v-decorator="['discountMoney',{rules:[{required:true,message:'请填写优惠金额'}]}]"/>
             </a-form-item>
 
             <!--&lt;!&ndash;            会员优惠所需表单部分&ndash;&gt;
@@ -56,8 +56,8 @@
             </a-form-item>
 
             <!--            time限时优惠所需表单部分-->
-            <a-form-item label="折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='4'">
-                <a-input placeholder="请填写折扣" v-decorator="['discount',{rules:[{required:true,message:'请填写折扣'}]}]"/>
+            <a-form-item label="优惠金额" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='4'">
+                <a-input placeholder="请填写优惠金额" v-decorator="['discountMoney',{rules:[{required:true,message:'请填写优惠金额'}]}]"/>
             </a-form-item>
 
             <a-form-item label="起始-失效时间" v-if="this.form.getFieldValue('type')==='4'">
@@ -74,8 +74,8 @@
 <!--                        <a-form-item label="达标房间数" v-if="this.form.getFieldValue('type')==='2'">-->
 <!--                            <a-input placeholder="请填写达标房间数" v-decorator="['targetRoomNum',{rules:[{required:true,message:'请填写达标房间数'}]}]"/>-->
 <!--                        </a-form-item>-->
-                        <a-form-item label="折扣" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='2'">
-                            <a-input placeholder="请填写三间以上折扣" v-decorator="['discount',{rules:[{required:true,message:'请填写具体折扣'}]}]"/>
+                        <a-form-item label="优惠金额" v-bind="formItemLayout" v-if="this.form.getFieldValue('type')==='2'">
+                            <a-input placeholder="请填写三间以上折扣" v-decorator="['discountMoney',{rules:[{required:true,message:'请填写具体优惠金额'}]}]"/>
                         </a-form-item>
 
 
@@ -193,7 +193,7 @@
                                 name: this.form.getFieldValue('name'),
                                 description: this.form.getFieldValue('description'),
                                 type: Number(this.form.getFieldValue('type')),
-                                discount: Number(this.form.getFieldValue('discount')),
+                                discountMoney: Number(this.form.getFieldValue('discountMoney')),
                                 hotelId: Number(this.activeHotelId),
                                 status: 1
                             }
@@ -208,7 +208,7 @@
                                 type: Number(this.form.getFieldValue('type')),
                                 startTime: this.form.getFieldValue('time')[0],
                                 endTime: this.form.getFieldValue('time')[1],
-                                discount: Number(this.form.getFieldValue('discount')),
+                                discountMoney: Number(this.form.getFieldValue('discountMoney')),
                                 hotelId: Number(this.activeHotelId),
                                 status: 1
                             }
@@ -220,7 +220,7 @@
                                 name: this.form.getFieldValue('name'),
                                 description: this.form.getFieldValue('description'),
                                 type: Number(this.form.getFieldValue('type')),
-                                discount: Number(this.form.getFieldValue('discount')),
+                                discountMoney: Number(this.form.getFieldValue('discountMoney')),
                                 hotelId: Number(this.activeHotelId),
                                 status: 1
                             }
@@ -233,7 +233,7 @@
                                 name: this.form.getFieldValue('name'),
                                 description: this.form.getFieldValue('description'),
                                 type: Number(this.form.getFieldValue('type')),
-                                discount: Number(this.form.getFieldValue('discount')),
+                                discountMoney: Number(this.form.getFieldValue('discountMoney')),
                                 hotelId: Number(this.activeHotelId),
                                 status: 1
                             }
