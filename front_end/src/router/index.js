@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/login.vue'
+import operatorRouter from './module/operator'
+import msgRouter from './module/chat'
 
 Vue.use(VueRouter)
 const routes = [
@@ -49,21 +51,8 @@ const routes = [
         name: 'manageUser',
         component: () => import('@/views/admin/manageUser')
       },
-      {
-        path: '/operator/manageOrder',
-        name: 'manageOrder',
-        component: () => import('@/views/operator/manageOrder')
-      },
-      {
-        path: '/operator/msgFromUser',
-        name: 'msgFromUser',
-        component: () => import('@/views/operator/msgFromUser')
-      },
-      {
-        path: '/operator/creditList',
-        name: 'creditList',
-        component: () => import('@/views/operator/creditList')
-      },
+      ...operatorRouter,
+      ...msgRouter,
     ]
   },
 ]

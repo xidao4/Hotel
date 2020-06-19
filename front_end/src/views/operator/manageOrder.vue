@@ -109,20 +109,20 @@
                             }
                         },
                     },
-                    // {
-                    //     title: '入住时间',
-                    //     dataIndex: 'checkInDate',
-                    //     scopedSlots: { customRender: 'checkInDate' },
-                    //     sorter: (a, b) => moment(a.checkInDate).isBefore(moment(b.checkInDate)),
-                    //     sortDirections: ['descend', 'ascend'],
-                    // },
-                    // {
-                    //     title: '离店时间',
-                    //     dataIndex: 'checkOutDate',
-                    //     scopedSlots: { customRender: 'checkOutDate' },
-                    //     sorter: (a, b) => moment(a.checkOutDate).isBefore(moment(b.checkOutDate)),
-                    //     sortDirections: ['descend', 'ascend'],
-                    // },
+                    {
+                        title: '入住时间',
+                        dataIndex: 'checkInDate',
+                        scopedSlots: { customRender: 'checkInDate' },
+                        sorter: (a, b) => moment(a.checkInDate).isBefore(moment(b.checkInDate)),
+                        sortDirections: ['descend', 'ascend'],
+                    },
+                    {
+                        title: '离店时间',
+                        dataIndex: 'checkOutDate',
+                        scopedSlots: { customRender: 'checkOutDate' },
+                        sorter: (a, b) => moment(a.checkOutDate).isBefore(moment(b.checkOutDate)),
+                        sortDirections: ['descend', 'ascend'],
+                    },
                     {
                         title: '订单总价',
                         dataIndex: 'price',

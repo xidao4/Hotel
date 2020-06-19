@@ -19,7 +19,7 @@ console.log(process.env.NODE_ENV)
     if (error.response.status === 403) {
       notification.error({
         message: 'Forbidden',
-        description: data.message
+        description: data.messageMapper
       })
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
@@ -54,12 +54,12 @@ service.interceptors.response.use((response) => {
       if(response.data && response.data.success){
         return response.data.content
       }
-      message.error(response.data.message)
+      message.error(response.data.messageMapper)
       break
     case 404:
       return false
     default:
-      message.error(response.data.message)
+      message.error(response.data.messageMapper)
   }
 })
 

@@ -32,6 +32,12 @@
                         v-decorator="['creditVal', { rules: [{ required: true, message: '请输入更新后信用值' }] }]"
                 />
             </a-form-item>
+            <a-form-item label="更新说明" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 1 }" v-show="showInput">
+                <a-input
+                        placeholder="请输入更新说明"
+                        v-decorator="['desc', { rules: [{ required: true, message: '请输入更新说明' }] }]"
+                />
+            </a-form-item>
         </a-form>
     </a-modal>
 </template>
@@ -80,7 +86,7 @@
                         method: this.changeMethod,
                         data: {
                             orderId: this.currentUpdateInfo.orderId,
-                            desc: '撤销订单，扣除信用值'
+                            desc: this.form.getFieldValue('desc')
                         }
                     })
                 } else {
@@ -89,7 +95,7 @@
                         data: {
                             orderId: this.currentUpdateInfo.orderId,
                             creditVal: this.form.getFieldValue('creditVal'),
-                            desc: '撤销订单，扣除信用值'
+                            desc: this.form.getFieldValue('desc')
                         }
                     })
                 }

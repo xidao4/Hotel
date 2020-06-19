@@ -52,6 +52,16 @@ const getters = {
   creditRecordsList: state => state.operator.creditRecordsList,
   currentOrderId: state => state.operator.currentOrderId,
   currentUpdateInfo: state => state.operator.currentUpdateInfo,
+  //message
+  MsgAffixVisible: state => state.chat.MsgAffixVisible,
+  LeaveMsgModalVisible: state => state.chat.LeaveMsgModalVisible,
+  ChatVisible: state => state.chat.ChatVisible,
+  ChatBoxVisible: state => state.chat.ChatBoxVisible,
+  clientQuesList: state => state.chat.clientQuesList,
+  currentQuesId: state => state.chat.currentQuesId,
+  quesRecords: state => state.chat.quesRecords,
+  clientQuesListForC: state => state.chat.clientQuesListForC,
+  currentQuesStatus: state => state.chat.currentQuesStatus,
   }
 
   export default getters

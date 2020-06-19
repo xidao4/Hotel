@@ -12,7 +12,7 @@ export function updateCreditAPI(param) {
     })
 }
 
-export function getCreditRecordsAPI(data){
+export function getCreditRecordsAPI(){
     return axios({
         url:`${api.creditPre}/getCreditRecords`,
         method: 'GET',
