@@ -42,13 +42,13 @@ export function hotelFestivalAPI(data) {
     })
 }
 
-export function hotelVIPSpecialAPI(data) {
+/*export function hotelVIPSpecialAPI(data) {
     return axios({
         url: `${api.couponPre}/hotelVIPSpecial`,
         method: 'POST',
         data,
     })
-}
+}*/
 
 export function hotelAllCouponsAPI(hotelId) {
     return axios({
