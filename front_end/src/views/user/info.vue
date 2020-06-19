@@ -35,7 +35,9 @@
                             <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
                                          v-if="modify">
                                 <a-input
+                                        v-model="newPwd"
                                         placeholder="请输入新密码"
+                                        type="password"
                                         v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
                                 />
                             </a-form-item>
@@ -219,7 +221,9 @@ export default {
             date_curve: [],
             credit_curve: [],
             // form: this.$form.createForm(this, { name: 'coordinated' }),
-            commentForm: this.$form.createForm(this,{name: 'commentForm'})
+            commentForm: this.$form.createForm(this,{name: 'commentForm'}),
+            changedPwd:false,
+            newPwd:''
         }
     },
     components: {
@@ -277,7 +281,11 @@ export default {
         })
         await this.getCommentByHotelId(1)
     },
-
+    watch:{
+      newPwd:function () {
+          this.changedPwd=true
+      }
+    },
     methods: {
         ...mapActions([
             'getUserInfo',
@@ -367,7 +375,7 @@ export default {
                     const data = {
                         userName: this.form.getFieldValue('userName'),
                         phoneNumber: this.form.getFieldValue('phoneNumber'),
-                        password: this.form.getFieldValue('password')
+                        password: this.changedPwd?this.form.getFieldValue('password'):''
                     }
                     this.updateUserInfo(data).then(()=>{
                         this.modify = false
@@ -380,6 +388,7 @@ export default {
                 this.form.setFieldsValue({
                     'userName': this.userInfo.userName,
                     'phoneNumber': this.userInfo.phoneNumber,
+                    'password':this.userInfo.password
                 })
             }, 0)
             this.modify = true

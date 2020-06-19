@@ -44,9 +44,11 @@ CREATE TABLE `Coupon` (
 
 LOCK TABLES `Coupon` WRITE;
 /*!40000 ALTER TABLE `Coupon` DISABLE KEYS */;
-INSERT INTO `Coupon` VALUES (2,'满500-100优惠',2,3,'满减优惠券',500,0,1,NULL,NULL,100),
-(3,'满100-10优惠',2,3,'满减优惠券',100,0,1,NULL,NULL,10),
-(4,'满400-40优惠',2,3,'满减优惠券',400,0,1,NULL,NULL,40);
+INSERT INTO `Coupon` VALUES (1,'生日',2,1,'生日',0,0,1,NULL,NULL,4),
+(2,'生日',1,1,'生日',0,0,1,NULL,NULL,4),
+(3,'多间',1,2,'多间',0,0,1,NULL,NULL,4),
+(4,'满100减4元',1,3,'满减',100,0,1,NULL,NULL,4),
+(5,'限时 6-18到6-30',1,4,'限时',0,0,1,'2020-06-18 00:00:00','2020-06-30 00:00:00',4);
 /*!40000 ALTER TABLE `Coupon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +200,7 @@ CREATE TABLE `Room` (
 
 -- LOCK TABLES `Room` WRITE;
 -- /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
--- INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(6,399,7,10,2,'Family');
+INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(6,399,7,10,2,'Family');
 -- /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 -- UNLOCK TABLES;
 
