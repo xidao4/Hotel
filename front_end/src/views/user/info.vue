@@ -103,7 +103,7 @@
                             </a-descriptions>
                         </a-modal>
                         <a-divider type="vertical"></a-divider>
-                        <a-button size="small" v-if="record.orderState==='已执行'" type="primary" @click="showCommentModal(record.id)">评价</a-button>
+                        <a-button size="small" v-if="record.orderState==='已执行' && this.commentV" type="primary" @click="showCommentModal(record.id)">评价</a-button>
                         <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
                         <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
                             <a-form :form="commentForm" v-bind="formItemLayout">
@@ -218,6 +218,7 @@ export default {
             avatar_url: '',
             date_curve: [],
             credit_curve: [],
+            commentV: true,
             // form: this.$form.createForm(this, { name: 'coordinated' }),
             commentForm: this.$form.createForm(this,{name: 'commentForm'})
         }
@@ -288,10 +289,10 @@ export default {
             'getMemInfo',
             'registerMem',
             'getUserCredit',
+            'addHotelComment',
         ]),
         ...mapMutations([
             'set_registerModalVisible',
-            'addHotelComment',
             'getCommentByHotelId'
         ]),
         editAvatar(url) {
@@ -338,28 +339,30 @@ export default {
             this.cancelOrder(data)
             this.visible=false
         },
-        commentSubmit(record){
+        async commentSubmit(record){
             console.log(record)
             console.log(record.id)
             console.log(this.commentValue)
             console.log(this.commentContent)
+            console.log(this.userInfo)
             console.log(record.hotelName)
             const comment={
                 userId: this.userId,
                 hotelId: record.hotelId,
                 commentValue: this.commentValue,
                 commentContent: this.commentContent,
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+                avatar: this.userInfo.avatar_url,
                 userName: this.userInfo.userName,
                 reply: ''
             }
             console.log(comment)
-            this.addHotelComment(comment)
+            await this.addHotelComment(comment)
             console.log('Vuex里的comment')
             console.log(this.comment)
             this.commentValue=5
             this.commentContent=''
             this.commentVisible=false
+            this.commentV=false
         },
         saveModify() {
             this.form.validateFields((err, values) => {

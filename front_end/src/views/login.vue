@@ -279,7 +279,7 @@ export default {
             username: this.form.getFieldValue('registerUsername'),
             credit: 100,
             birthday: this.birthday,
-            userType: 1
+            userType: "1"
           }
           await this.register(data).then(() => {
             this.customActiveKey = 'tab1'

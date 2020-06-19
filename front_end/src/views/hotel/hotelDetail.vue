@@ -130,7 +130,7 @@
             await this.getHotelByIdLJY()
             await this.getAllTags(this.currentHotelId),
             console.log('currentHotelId',this.currentHotelId)
-            await this.getCommentByHotelId(Number(this.$route.params.hotelId))
+            await this.getCommentByHotelId(this.currentHotelId)
             console.log(this.userInfo)
         },
 		beforeRouteUpdate(to, from, next) {

@@ -28,6 +28,7 @@ public class HotelController {
     private RoomService roomService;
     @Autowired
     private OrderService orderService;
+    @Autowired
     private CommentService commentService;
 
     @PostMapping("/addHotel")
@@ -55,6 +56,8 @@ public class HotelController {
      */
     @PostMapping("/addComment")
     public ResponseVO createComment(@RequestBody CommentVO commentVO) throws ServiceException {
+        System.out.println("$$$$$$$$$$$");
+        System.out.println(commentVO);
         commentService.addComment(commentVO);
         return ResponseVO.buildSuccess(true);
     }

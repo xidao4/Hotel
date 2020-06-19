@@ -165,6 +165,7 @@ const hotel = {
         },
         addHotelComment: async({ state, commit }, data) => {
             console.log('Vuex里调用addComment')
+            console.log(data)
             const res = await addHotelCommentAPI(data)
             if(res){
                 message.success('感谢你的评价～')
