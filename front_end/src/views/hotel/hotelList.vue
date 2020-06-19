@@ -18,52 +18,33 @@
                         <a-select-option key="Five">五星</a-select-option>
                     </a-select>
                     <a-range-picker @change="onChangeDate" format="YYYY-MM-DD"/>
-                    <br><br>
-                    <a-list item-layout="vertical" size="large" :data-source="tmpHotelList">
-                        <a-pagination slot="pagination" showQuickJumper :total="tmpHotelList.totalElements"
-                                      :defaultCurrent="1" @change="pageChange"></a-pagination>
-                        <a-list-item slot="renderItem" :key="index" slot-scope="item,index"
-                                     @click="jumpToDetails(item.id)" style="width: 100%">
-                            <img slot="extra" height="200" alt="logo" src="@/assets/cover.jpeg"/>
-                            <a-list-item-meta>
-                                <template slot="title">{{item.name}}</template>
-                                <template slot="description">
-                                    <div v-if="item.hasOrderedBefore">预订过</div>
-                                    <div v-else>未预订过</div>
-                                    <div>
-                                        星级：<br><a-rate style="font-size: 15px" :value="item.rate" disabled allowHalf/>
-                                        <br>
-                                        好评率：<div style="width: 130px">
-                                            <a-progress :stroke-color="{
-        '0%': '#108ee9',
-        '100%': '#87d068',
-      }" :percent="item.rate*20" status="active" />
-
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div>
-                                        <a-tag v-for="(val,i) in item.couponNames">
-                                            {{val}}
-                                        </a-tag>
-                                    </div>
-                                </template>
-                            </a-list-item-meta>
-                        </a-list-item>
-                    </a-list>
                 </a-spin>
+
+                <a-row>
+                    <a-col :span="6">
+                        <a-card></a-card>
+                    </a-col>
+                    <a-col :span="17" :offset="1">
+                        <HotelCard></HotelCard>
+                    </a-col>
+                </a-row>
+
+
             </a-layout-content>
         </a-layout>
     </div>
 </template>
 
 <script>
-	import {mapGetters, mapActions, mapMutations} from 'vuex'
-	import moment from 'moment'
+	import {mapGetters, mapActions, mapMutations} from 'vuex';
+	import moment from 'moment';
+	import HotelCard from './components/hotelCard';
+    import ARow from "ant-design-vue/es/grid/Row";
+    import ACol from "ant-design-vue/es/grid/Col";
 
 	export default {
 		name: 'home',
-		components: {},
+		components: {ACol, ARow, HotelCard },
 		data() {
 			return {
 				tmpHotelList: [],
@@ -81,15 +62,15 @@
 			this.hotelListByBizRegion = this.hotelList
 			this.hotelListByStar = this.hotelList
 			this.hotelListByDate = this.hotelList
-      console.log('before Notification',this.hasShownNoti)
-      this.showNotification()
-      console.log('after Notification',this.hasShownNoti)
+            console.log('before Notification',this.hasShownNoti)
+            this.showNotification()
+            console.log('after Notification',this.hasShownNoti)
 		},
 		computed: {
 			...mapGetters([
 				'userId',
 				'hotelList',
-        'hasShownNoti',
+                'hasShownNoti',
 				'hotelListLoading',
 
 			])
