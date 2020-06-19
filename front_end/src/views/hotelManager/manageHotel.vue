@@ -85,6 +85,15 @@
                         <a-form-item label="名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                             <span>{{ currentHotelInfo.name }}</span>
                         </a-form-item>
+                      <a-form-item label="星级" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                        <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
+                      </a-form-item>
+                      <a-form-item label="好评率" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                        <a-progress :stroke-color="{
+                                    '0%': '#108ee9',
+                                    '100%': '#87d068',
+                                  }" :percent="currentHotelInfo.rate*20" status="active" />
+                      </a-form-item>
                         <a-form-item label="地址" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                             <a-input
                                     placeholder="请填写地址"
@@ -100,6 +109,25 @@
                                     v-if="modify"
                             />
                             <span v-else>{{ currentHotelInfo.phoneNum}}</span>
+                        </a-form-item>
+<!--                        <a-form-item label="酒店商圈" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">-->
+<!--                          <a-select-->
+<!--                                  default-value=currentHotelInfo.bizRegion-->
+<!--                                  v-if="modify"-->
+<!--                                  v-decorator="['type',{rules: [{required:true,message: '请选择商圈'}]}]" @change="changeType">-->
+<!--                            &lt;!&ndash;                    v-decorator第一个字段是绑定的名称，第二个字段说明了在未填写时提交表单的提示&ndash;&gt;-->
+<!--                            &lt;!&ndash;官方不推荐v-model来做数据绑定：我们不推荐在 Form 中使用双向绑定，同一份数据可能在多处使用，如果使用双向绑定，那么数据的修改会同时同步到各个组件，但这并不是我们想要的， 你应该在表单提交成功或失败或确认时同步数据，使用非双向绑定的表单，你会拥有最大限度的控制数据修改/同步的权限。&ndash;&gt;-->
+<!--                            <a-select-option value="1">西单</a-select-option>-->
+<!--                            <a-select-option value="2">鼓楼</a-select-option>-->
+<!--                            <a-select-option value="3">仙林</a-select-option>-->
+<!--                          </a-select>-->
+<!--                          <span v-else>{{currentHotelInfo.bizRegion}}</span>-->
+<!--                        </a-form-item>-->
+                        <a-form-item label="描述" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                          <a-input type="textarea" :rows="4" placeholder="请填写酒店简介"
+                                   v-decorator="['description',{rules: [{required:true,message:'请填写优惠简介'}]}]"
+                                    v-if="modify"/>
+                          <span v-else>{{currentHotelInfo.description}}</span>
                         </a-form-item>
                         <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
                             <a-button type="primary" @click="saveModify">
@@ -160,6 +188,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddHotelModal from './components/addHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
+import AFormItem from "ant-design-vue/es/form/FormItem";
 const moment = require('moment')
 const columns1 = [
     {
@@ -248,6 +277,7 @@ export default {
         }
     },
     components: {
+        AFormItem,
         AddHotelModal,
         AddRoomModal,
         Coupon,
@@ -277,7 +307,7 @@ export default {
         // console.log("this.currentHotelId",this.currentHotelId)//1
         // console.log("this.hotelId",this.hotelId)//1
         await this.getHotelInfo()
-        await this.getHotelListLJY()
+        //await this.getHotelListLJY()
         await this.getAllOrders()
         //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
         await this.getAllTags(this.currentHotelId)
@@ -357,6 +387,7 @@ export default {
                 this.form.setFieldsValue({
                     'phoneNum': this.currentHotelInfo.phoneNum,
                     'address':this.currentHotelInfo.address,
+                    'description':this.currentHotelInfo.description
                 })
             }, 0)
             this.modify = true
@@ -370,7 +401,9 @@ export default {
                 if (!err) {
                     const data = {
                         phoneNum: this.form.getFieldValue('phoneNum'),
-                        address: this.form.getFieldValue('address')
+                        address: this.form.getFieldValue('address'),
+                        description:this.form.getFieldValue('description'),
+
                     }
                     this.updateHotelInfo(data).then(()=>{
                         this.modify = false

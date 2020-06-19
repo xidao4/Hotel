@@ -113,7 +113,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `Member`
 --
-
 DROP TABLE IF EXISTS `Member`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -124,13 +123,12 @@ CREATE TABLE `Member` (
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Dumping data for table `Member`
 --
-
 LOCK TABLES `Member` WRITE;
 /*!40000 ALTER TABLE `Member` DISABLE KEYS */;
+INSERT INTO Member VALUES(4,444,'1999-11-04 00:00:00');
 /*!40000 ALTER TABLE `Member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +170,7 @@ INSERT INTO `OrderList`
 VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已执行','未撤销'),
 (15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123'),
 (16,5,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试二号','12345678919','已执行','未撤销'),
-(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已执行','未撤销');
+(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已预订','未撤销');
 /*!40000 ALTER TABLE `OrderList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,7 +223,7 @@ CREATE TABLE `MyTag` (
 
 LOCK TABLES `MyTag` WRITE;
 /*!40000 ALTER TABLE `MyTag` DISABLE KEYS */;
-INSERT INTO `MyTag` VALUES (1,'免费无线上网',1),(2,'叫醒服务',1),(3,'免费保存贵重物品（保险箱）',1),(4,'泳池',1);
+INSERT INTO `MyTag` VALUES (1,'免费无线上网',1),(2,'叫醒服务',1),(3,'免费保存贵重物品（保险箱）',1),(4,'泳池',1),(5,'温泉',2),(6,'麻将馆',2),(7,'棋牌室',3),(8,'健身房',3);
 /*!40000 ALTER TABLE `MyTag` ENABLE KEYS */;
 UNLOCK TABLES;
 

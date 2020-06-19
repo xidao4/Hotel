@@ -326,6 +326,7 @@ export default {
                 roomNum: this.form.getFieldValue('roomNum'),
                 checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                 checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                createDate:moment()
             }
             this.getOrderMatchCoupons(data)
         },

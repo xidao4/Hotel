@@ -143,7 +143,18 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelVO getHotelInfo(Integer hotelId) {
-        return hotelMapper.selectById(hotelId);
+        HotelVO hotel= hotelMapper.selectById(hotelId);
+//        HotelVO vo=new HotelVO();
+//        vo.setBizRegion(hotel.getBizRegion().name());
+//        vo.setAddress(hotel.getAddress());
+//        vo.setDescription(hotel.getDescription());
+//        vo.setHotelStar(hotel.getHotelStar().name());
+//        vo.setRate(hotel.getRate());
+//        vo.setName(hotel.getHotelName());
+//        vo.setId(hotel.getId());
+//        vo.setPhoneNum(hotel.getPhoneNum());
+//        vo.setManagerId(hotel.getManagerId());
+        return hotel;
     }
 
     @Override

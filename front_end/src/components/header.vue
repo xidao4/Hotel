@@ -51,7 +51,7 @@
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <a-avatar :src="avatar_url"></a-avatar>
+                    <a-avatar :src="avatar_url" v-if="userInfo.userType==='Client'"></a-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
