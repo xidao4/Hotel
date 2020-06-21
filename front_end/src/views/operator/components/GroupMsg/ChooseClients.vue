@@ -2,10 +2,14 @@
     <div>
         <div class="step-form-style-desc">
             <h3>说明</h3>
-            <h4>私信模式</h4>
-            <p>将显示在客户收件箱中。</p>
-            <h4>公告模式</h4>
-            <p>公告模式将会展示在网站首页，默认全体可见。</p>
+            <div v-if="value===0">
+                <h4>私信模式</h4>
+                <p>将显示在客户收件箱中。</p>
+            </div>
+            <div v-else>
+                <h4>公告模式</h4>
+                <p>公告模式将会展示在网站首页，默认全体可见。</p>
+            </div>
         </div>
 
         <a-divider />
@@ -26,10 +30,11 @@
                     type="primary"
                     :disabled="!hasSelected"
                     :loading="loading"
-                    @click="start">
+                    @click="start"
+                    v-if="value===0">
                 重置
             </a-button>
-            <span style="margin-left: 8px">
+            <span style="margin-left: 8px" v-if="value===0">
                 <template v-if="hasSelected">
                     {{ `已选中 ${selectedRowKeys.length} 位客户` }}
                 </template>
@@ -40,6 +45,7 @@
                 :columns="columns"
                 :dataSource="showMsgClientList"
                 bordered
+                v-if="value===0"
         >
         </a-table>
         <a-form>
@@ -106,7 +112,7 @@
                 }
             },
             nextStep () {
-                if (this.selectedRowKeys.length > 0) {
+                if (this.selectedRowKeys.length > 0 || this.value === 1) {
                     this.set_currentGroupType(this.value);
                     let selectedIds = [];
                     for(let i in this.selectedRowKeys) {

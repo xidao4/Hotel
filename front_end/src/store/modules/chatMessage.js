@@ -1,17 +1,16 @@
 import {
+    changeMessageStatusAPI,
+    getChatByIdAPI,
     getQuesByIdAPI,
     getQuesForClientByIdAPI,
-    getChatByIdAPI,
-    getPrivateAdAPI,
-    getAdSentByIdAPI,
-    getGroupMsgAPI,
     sendMessageAPI,
-    changeMessageStatusAPI
-} from '../../api/chat';
+    getBroadcastListAPI,
+    sendBroadcastAPI,
+    updatePriorityAPI,
+    changeBroadcastStatusAPI
+} from '../../api/chatMessage';
 
-import {
-    getClientListAPI
-} from '../../api/admin';
+import {getClientListAPI} from '../../api/admin';
 
 import {message} from "ant-design-vue";
 
@@ -28,10 +27,11 @@ const state = {
     // 推送相关
     msgClientList: [],
     currentGroupType: null,
-    currentGroupTos: []
+    currentGroupTos: [],
+    broadcastList: []
 }
 
-const chat = {
+const chatMessage = {
     state,
     mutations: {
         set_LeaveMsgModalVisible(state, data) {
@@ -60,7 +60,10 @@ const chat = {
         },
         set_currentGroupTos(state, data) {
             state.currentGroupTos = [...data]
-        }
+        },
+        set_broadcastList(state, data) {
+            state.broadcastList = [...data]
+        },
     },
     actions: {
         getClientQuesList: async ({commit, rootState}) => {
@@ -78,7 +81,7 @@ const chat = {
                 content: param.content,
                 from: rootState.user.userId,
                 tos: [param.operatorId],
-                type: 2,
+                type: 1,
                 retMsgId: -1
             });
             if(res) {
@@ -101,7 +104,7 @@ const chat = {
                 content: param.content,
                 from: rootState.user.userId,
                 tos: [param.clientId],
-                type: 2,
+                type: 1,
                 retMsgId: param.retMsgId
             });
             if(res) {
@@ -130,17 +133,33 @@ const chat = {
                 commit('set_msgClientList', res);
             }
         },
-        sendGroupMsg: async ({state, rootState}, param) => {
-            const res = await sendMessageAPI({
+        sendBroadcast: async ({state, rootState}, param) => {
+            const res = await sendBroadcastAPI({
+                createdId: rootState.user.userId,
                 title: param.title,
                 content: param.content,
-                from: rootState.user.userId,
-                tos: state.currentGroupTos,
-                type: state.currentGroupType,
-                retMsgId: -1
+                priority: param.priority
             });
-        }
+            if(res){
+                return true;
+            } else {
+                message.error(res);
+                return false
+            }
+        },
+        getBroadcastList: async ({commit}, param) => {
+            const res = await getBroadcastListAPI();
+            if (res) {
+                commit('set_broadcastList', res)
+            }
+        },
+        changeBroadcastStatus: async ({state}, param) => {
+            const res = await changeBroadcastStatusAPI({
+                id: param.id,
+                status: param.status
+            })
+        },
     }
 }
 
-export default chat
+export default chatMessage

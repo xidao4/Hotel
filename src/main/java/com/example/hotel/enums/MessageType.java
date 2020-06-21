@@ -6,8 +6,7 @@ package com.example.hotel.enums;
  */
 public enum MessageType {
     Private("0"),
-    Broadcast("1"),
-    Question("2");
+    Question("1");
     private String value;
 
     MessageType(String value) {

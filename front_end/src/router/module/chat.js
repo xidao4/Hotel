@@ -1,7 +1,7 @@
 const msgRouter = [
     {
-        path: '/:userType/chat',
-        name: 'chat',
+        path: '/:userType/chatMessage',
+        name: 'chatMessage',
         component: () => import('@/views/chat/ChatBox'),
     },
 

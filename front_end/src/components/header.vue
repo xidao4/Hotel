@@ -46,7 +46,7 @@
                 </a-menu-item>
                 <a-menu-item key="9">
                     <router-link :to="{ name: 'msgForGroup'}">
-                        <a-icon type="user" />推送
+                        <a-icon type="user" />发送消息
                     </router-link>
                 </a-menu-item>
             </a-sub-menu>

@@ -1,3 +1,5 @@
+import chatMessage from "./modules/chatMessage";
+
 const getters = {
   //user
   token: state => state.user.token,
@@ -53,16 +55,18 @@ const getters = {
   currentOrderId: state => state.operator.currentOrderId,
   currentUpdateInfo: state => state.operator.currentUpdateInfo,
   //message
-  MsgAffixVisible: state => state.chat.MsgAffixVisible,
-  LeaveMsgModalVisible: state => state.chat.LeaveMsgModalVisible,
-  ChatVisible: state => state.chat.ChatVisible,
-  ChatBoxVisible: state => state.chat.ChatBoxVisible,
-  clientQuesList: state => state.chat.clientQuesList,
-  currentQuesId: state => state.chat.currentQuesId,
-  quesRecords: state => state.chat.quesRecords,
-  clientQuesListForC: state => state.chat.clientQuesListForC,
-  currentQuesStatus: state => state.chat.currentQuesStatus,
-  msgClientList: state => state.chat.msgClientList,
+  MsgAffixVisible: state => state.chatMessage.MsgAffixVisible,
+  LeaveMsgModalVisible: state => state.chatMessage.LeaveMsgModalVisible,
+  ChatVisible: state => state.chatMessage.ChatVisible,
+  ChatBoxVisible: state => state.chatMessage.ChatBoxVisible,
+  clientQuesList: state => state.chatMessage.clientQuesList,
+  currentQuesId: state => state.chatMessage.currentQuesId,
+  quesRecords: state => state.chatMessage.quesRecords,
+  clientQuesListForC: state => state.chatMessage.clientQuesListForC,
+  currentQuesStatus: state => state.chatMessage.currentQuesStatus,
+  msgClientList: state => state.chatMessage.msgClientList,
+  currentGroupType: state => state.chatMessage.currentGroupType,
+  broadcastList: state => state.chatMessage.broadcastList,
   }
 
   export default getters

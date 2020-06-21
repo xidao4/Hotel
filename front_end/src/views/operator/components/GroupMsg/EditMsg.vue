@@ -26,6 +26,22 @@
                          placeholder="请填写内容"
                          v-decorator="['content', { rules: [{ required: true, message: '请输入消息内容' }] }]"/>
             </a-form-item>
+            <a-form-item
+                    label="优先级"
+                    :labelCol="labelCol"
+                    :wrapperCol="wrapperCol"
+                    class="stepFormText">
+                <a-select
+                        default-value="0"
+                        @change="handleSelectChange">
+                    <a-select-option value="1">
+                        高
+                    </a-select-option>
+                    <a-select-option value="0">
+                        低
+                    </a-select-option>
+                </a-select>
+            </a-form-item>
             <a-form-item :wrapperCol="{span: 19, offset: 5}">
                 <a-button :loading="loading" type="primary" @click="nextStep">发送</a-button>
                 <a-button style="margin-left: 8px" @click="prevStep">上一步</a-button>
@@ -35,7 +51,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
     import { message } from 'ant-design-vue';
 
     export default {
@@ -46,33 +62,45 @@
                 wrapperCol: { lg: { span: 21 }, sm: { span: 21 } },
                 form: this.$form.createForm(this, { name: 'coordinated' }),
                 loading: false,
-                timer: 0
+                timer: 0,
+                priority: 0
             }
+        },
+        computed: {
+            ...mapGetters([
+                'currentGroupType'
+            ])
         },
         methods: {
             ...mapActions([
-                'sendGroupMsg'
+                'sendBroadcast'
             ]),
             nextStep () {
                 this.loading = true;
                 this.form.validateFields((err, values) => {
                     if (!err) {
-                        this.sendGroupMsg({
+                        const res = this.sendBroadcast({
                             title: this.form.getFieldValue('title'),
                             content: this.form.getFieldValue('content'),
-                            retMsgId: -1
-                        }).then(() => {
-                            this.$emit('nextStep')
+                            priority: this.priority
                         });
+                        if(res) {
+                            this.$emit('nextStep');
+                        } else {
+                            message.error(res);
+                            this.$emit('prevStep');
+                        }
                     } else {
                         this.loading = false;
-                        message.error("消息发送失败")
                     }
                 });
             },
             prevStep () {
                 this.$emit('prevStep')
-            }
+            },
+            handleSelectChange(value) {
+                this.priority = value;
+            },
         },
         beforeDestroy () {
             clearTimeout(this.timer)

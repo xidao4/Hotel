@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @Author: wyc
+ * @Date: 2020-06-05
+ */
 @Mapper
 @Repository
 public interface MessageMapper {

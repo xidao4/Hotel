@@ -1,4 +1,4 @@
-<template>
+<template id="container">
     <div style="margin-top: 20px;">
         <a-row class="header">
             <a-button type="primary" @click="goBack"> <a-icon type="arrow-left" />返回列表</a-button>
@@ -136,6 +136,8 @@
             },
             goDown() {
                 this.$nextTick(() => {
+                    // let container = document.getElementById('container'); // 获取对象
+                    // container.scrollTop = container.scrollHeight;// 滚动高度
                     let outer = document.getElementById('scroll'); // 获取对象
                     outer.scrollTop = outer.scrollHeight;// 滚动高度
                     let inner = document.getElementById('chat-scroll');
@@ -213,8 +215,6 @@
                 this.otherAvatar = "customer-service";
                 this.placeholder = '如需反馈或补充，请在此处填写'
             }
-
-            console.log("status-------------------------",this.currentQuesStatus)
         },
     }
 </script>
@@ -226,7 +226,7 @@
     .demo-infinite-container {
         overflow: auto;
         padding: 8px 24px;
-        height: 400px;
+        height: 430px;
     }
     .chat-container {
         border-style: solid;

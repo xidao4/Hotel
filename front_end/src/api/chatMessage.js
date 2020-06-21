@@ -47,16 +47,39 @@ export function getAdSentByIdAPI(data){
     })
 }
 
-export function getGroupMsgAPI(){
-    return axios({
-        url:`${api.msgPre}/getGroupMsg`,
-        method: 'GET',
-    })
-}
-
 export function changeMessageStatusAPI(data) {
     return axios({
         url:`${api.msgPre}/${data.id}/${data.status}/changeMessageStatus`,
         method: 'GET',
     })
 }
+
+export function getBroadcastListAPI(){
+    return axios({
+        url:`${api.msgPre}/getBroadcastList`,
+        method: 'GET',
+    })
+}
+
+export function sendBroadcastAPI(data) {
+    return axios({
+        url:`${api.msgPre}/sendBroadcast`,
+        method: 'POST',
+        data: data
+    })
+}
+
+export function changeBroadcastStatusAPI(data) {
+    return axios({
+        url:`${api.msgPre}/${data.id}/${data.status}/changeBroadcastStatus`,
+        method: 'GET',
+    })
+}
+
+export function updatePriorityAPI(data) {
+    return axios({
+        url:`${api.msgPre}/${data.id}/${data.priority}/cancelBroadcast`,
+        method: 'GET',
+    })
+}
+

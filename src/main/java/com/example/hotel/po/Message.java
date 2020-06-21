@@ -11,6 +11,11 @@ import java.sql.Timestamp;
 public class Message {
     private Integer id;
     private Timestamp sendTime;
+    /**
+     * 0 未处理
+     * 1 正在处理中
+     * 2 处理完成
+     */
     private String status;
     private String title;
     private String content;

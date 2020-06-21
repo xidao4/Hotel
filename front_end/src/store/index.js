@@ -5,7 +5,7 @@ import hotel from './modules/hotel'
 import hotelManager from './modules/hotelManager'
 import admin from './modules/admin'
 import operator from './modules/operator'
-import chat from './modules/chat'
+import chatMessage from './modules/chatMessage'
 import getters from './getters'
 Vue.use(Vuex)
 
@@ -16,7 +16,7 @@ export default new Vuex.Store({
     hotelManager,
     admin,
     operator,
-    chat
+    chatMessage
   },
   state: {
   },

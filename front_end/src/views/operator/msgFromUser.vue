@@ -60,7 +60,7 @@
                 }
                 this.set_currentQuesId(id);
                 this.set_currentQuesStatus(status)
-                this.$router.push({ name: 'chat', params: { userType: this.userInfo.userType } });
+                this.$router.push({ name: 'chatMessage', params: { userType: this.userInfo.userType } });
             },
         },
         computed: {

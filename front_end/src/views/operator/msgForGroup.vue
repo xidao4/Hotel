@@ -4,7 +4,7 @@
                 style="margin-top: 20px"
                 :activeKey="customActiveKey"
                 @change="handleTabClick">
-            <a-tab-pane key="exit" tab="编辑推送">
+            <a-tab-pane key="exit" tab="编辑消息">
                 <a-card :bordered="false" style="background-color: inherit">
                     <a-steps class="steps" :current="currentTab">
                         <a-step title="选择发送对象"></a-step>
@@ -19,7 +19,13 @@
                 </a-card>
             </a-tab-pane>
             <a-tab-pane key="record" tab="推送记录">
-                <GroupRecords></GroupRecords>
+
+            </a-tab-pane>
+            <a-tab-pane key="broadcast" tab="公告管理">
+                <BroadcastRecords></BroadcastRecords>
+            </a-tab-pane>
+            <a-tab-pane key="coupon" tab="优惠券赠送记录">
+
             </a-tab-pane>
         </a-tabs>
     </div>
@@ -29,16 +35,23 @@
     import ChooseClients from './components/GroupMsg/ChooseClients';
     import EditMsg from './components/GroupMsg/EditMsg';
     import GroupMsgComplete from './components/GroupMsg/GroupMsgComplete';
-    import GroupRecords from './components/GroupMsg/GroupRecords';
+    import BroadcastRecords from './components/GroupMsg/BroadcastRecords';
+
+    import { mapGetters } from 'vuex';
 
     export default {
         name: "msgForGroup",
-        components: { ChooseClients, EditMsg, GroupMsgComplete, GroupRecords },
+        components: { ChooseClients, EditMsg, GroupMsgComplete, BroadcastRecords },
         data() {
             return {
                 currentTab: 0,
                 customActiveKey: 'exit'
             }
+        },
+        computed: {
+            ...mapGetters([
+                'currentGroupType'
+            ])
         },
         methods: {
             nextStep () {
@@ -55,10 +68,17 @@
                 this.currentTab = 0
             },
             seeRecord() {
-                this.customActiveKey = 'record'
+                if(this.currentGroupType === 0) {
+                    this.customActiveKey = 'record'
+                } else if(this.currentGroupType === 1) {
+                    this.customActiveKey = 'broadcast'
+                } else {
+                    this.customActiveKey = 'coupon'
+                }
             },
             handleTabClick (key) {
                 this.customActiveKey = key
+                this.currentTab = 0
             },
         },
     }
