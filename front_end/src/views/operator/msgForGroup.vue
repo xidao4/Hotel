@@ -19,67 +19,28 @@
                 </a-card>
             </a-tab-pane>
             <a-tab-pane key="record" tab="推送记录">
-
+                <GroupRecords></GroupRecords>
             </a-tab-pane>
         </a-tabs>
     </div>
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
     import ChooseClients from './components/GroupMsg/ChooseClients';
     import EditMsg from './components/GroupMsg/EditMsg';
     import GroupMsgComplete from './components/GroupMsg/GroupMsgComplete';
+    import GroupRecords from './components/GroupMsg/GroupRecords';
 
-    const columns = [
-        {
-            title:'用户编号',
-            dataIndex:'id',
-        },
-        {
-            title: '用户名',
-            dataIndex: 'userName',
-        },
-        {
-            title: '是否为会员',
-        }
-    ];
     export default {
         name: "msgForGroup",
-        components: { ChooseClients, EditMsg, GroupMsgComplete },
+        components: { ChooseClients, EditMsg, GroupMsgComplete, GroupRecords },
         data() {
             return {
-                columns,
-                selectedRowKeys: [],
-                loading: false,
-                value: 1,
                 currentTab: 0,
                 customActiveKey: 'exit'
             }
         },
         methods: {
-            ...mapActions([
-                'getMsgClientList'
-            ]),
-            start() {
-                this.loading = true;
-                setTimeout(() => {
-                    this.loading = false;
-                    this.selectedRowKeys = [];
-                    this.value = 1;
-                }, 500);
-            },
-            onSelectChange(selectedRowKeys) {
-                this.selectedRowKeys = selectedRowKeys;
-            },
-            changeMode() {
-                if(this.value === 2) {
-                    this.selectedRowKeys = [...Array(this.msgClientList.length).keys()];
-                }
-            },
-            sendMsg() {
-
-            },
             nextStep () {
                 if (this.currentTab < 2) {
                     this.currentTab += 1
@@ -100,20 +61,6 @@
                 this.customActiveKey = key
             },
         },
-        computed: {
-            ...mapGetters([
-                'msgClientList'
-            ]),
-            showMsgClientList() {
-                return this.msgClientList;
-            },
-            hasSelected() {
-                return this.selectedRowKeys.length > 0;
-            },
-        },
-        async mounted() {
-            await this.getMsgClientList();
-        }
     }
 </script>
 

@@ -9,14 +9,15 @@ import {
     changeMessageStatusAPI
 } from '../../api/chat';
 
+import {
+    getClientListAPI
+} from '../../api/admin';
+
 import {message} from "ant-design-vue";
 
 const state = {
     //组件可见性
-    MsgAffixVisible: false,
     LeaveMsgModalVisible: false,
-    ChatVisible: false,
-    ChatBoxVisible: false,
     //client
     clientQuesList: [],
     clientQuesListForC: [],
@@ -24,31 +25,20 @@ const state = {
     currentQuesId: null,
     quesRecords: [],          //对于某问题的聊天记录
     currentQuesStatus: '',
+    // 推送相关
+    msgClientList: [],
+    currentGroupType: null,
+    currentGroupTos: []
 }
 
 const chat = {
     state,
     mutations: {
-        set_MsgAffixVisible(state, data) {
-            state.MsgAffixVisible = data
-        },
         set_LeaveMsgModalVisible(state, data) {
             state.LeaveMsgModalVisible = data
         },
-        set_ChatVisible(state, data) {
-            state.ChatVisible = data
-        },
-        set_ChatBoxVisible(state, data) {
-            state.ChatBoxVisible = data
-        },
         set_clientQuesList(state, data) {
             state.clientQuesList = [...data]
-        },
-        set_msgGroupList(state, data) {
-            state.msgGroupList = [...data]
-        },
-        set_sendMsgList(state, data) {
-            state.sendMsgList = [...data]
         },
         set_currentQuesId(state, data) {
             state.currentQuesId = data
@@ -62,6 +52,15 @@ const chat = {
         set_currentQuesStatus(state, data) {
             state.currentQuesStatus = data
         },
+        set_msgClientList(state, data) {
+            state.msgClientList = [...data]
+        },
+        set_currentGroupType(state, data) {
+            state.currentGroupType = data
+        },
+        set_currentGroupTos(state, data) {
+            state.currentGroupTos = [...data]
+        }
     },
     actions: {
         getClientQuesList: async ({commit, rootState}) => {
@@ -125,6 +124,22 @@ const chat = {
 
             }
         },
+        getMsgClientList: async ({commit}) => {
+            const res = await getClientListAPI();
+            if(res) {
+                commit('set_msgClientList', res);
+            }
+        },
+        sendGroupMsg: async ({state, rootState}, param) => {
+            const res = await sendMessageAPI({
+                title: param.title,
+                content: param.content,
+                from: rootState.user.userId,
+                tos: state.currentGroupTos,
+                type: state.currentGroupType,
+                retMsgId: -1
+            });
+        }
     }
 }
 

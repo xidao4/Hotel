@@ -62,6 +62,7 @@ const getters = {
   quesRecords: state => state.chat.quesRecords,
   clientQuesListForC: state => state.chat.clientQuesListForC,
   currentQuesStatus: state => state.chat.currentQuesStatus,
+  msgClientList: state => state.chat.msgClientList,
   }
 
   export default getters

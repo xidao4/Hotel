@@ -14,6 +14,11 @@ const operatorRouter = [
         name: 'msgForGroup',
         component: () => import('@/views/operator/msgForGroup'),
     },
+    {
+        path: '/operator/userMessage',
+        name: 'userChatList',
+        component: () => import('@/views/operator/msgFromUser'),
+    },
 ];
 
 export default operatorRouter

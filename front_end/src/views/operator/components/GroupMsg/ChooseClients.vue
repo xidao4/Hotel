@@ -12,10 +12,10 @@
 
         <div class="card-container">
             <a-radio-group v-model="value" @change="changeMode">
-                <a-radio :value="1">
+                <a-radio :value="0">
                     私信
                 </a-radio>
-                <a-radio :value="2">
+                <a-radio :value="1">
                     公告
                 </a-radio>
             </a-radio-group>
@@ -52,7 +52,7 @@
 
 <script>
     import {message} from 'ant-design-vue';
-    import { mapGetters, mapActions } from 'vuex';
+    import { mapGetters, mapMutations, mapActions } from 'vuex';
 
     const columns = [
         {
@@ -77,29 +77,42 @@
                 columns,
                 selectedRowKeys: [],
                 loading: false,
-                value: 1,
+                value: 0,
                 currentTab: 0,
             }
         },
         methods: {
+            ...mapMutations([
+                'set_currentGroupType',
+                'set_currentGroupTos',
+            ]),
+            ...mapActions([
+                'getMsgClientList'
+            ]),
             start() {
                 this.loading = true;
                 setTimeout(() => {
                     this.loading = false;
                     this.selectedRowKeys = [];
-                    this.value = 1;
+                    this.value = 0;
                 }, 500);
             },
             onSelectChange(selectedRowKeys) {
                 this.selectedRowKeys = selectedRowKeys;
             },
             changeMode() {
-                if(this.value === 2) {
+                if(this.value === 1) {
                     this.selectedRowKeys = [...Array(this.msgClientList.length).keys()];
                 }
             },
             nextStep () {
                 if (this.selectedRowKeys.length > 0) {
+                    this.set_currentGroupType(this.value);
+                    let selectedIds = [];
+                    for(let i in this.selectedRowKeys) {
+                        selectedIds.push(this.msgClientList[i].id)
+                    }
+                    this.set_currentGroupTos(selectedIds);
                     this.$emit('nextStep')
                 } else {
                     message.error('请选择收件方')

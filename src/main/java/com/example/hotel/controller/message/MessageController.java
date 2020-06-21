@@ -49,7 +49,7 @@ public class MessageController {
     }
 
     @PostMapping("/sendMessage")
-    public ResponseVO leaveMessage(@RequestBody SendMessageVO sendMessageVO) {
+    public ResponseVO sendMessage(@RequestBody SendMessageVO sendMessageVO) {
         return messageService.sendMessage(sendMessageVO);
     }
 

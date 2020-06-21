@@ -42,6 +42,11 @@ const routes = [
         component: () => import('@/views/user/info')
       },
       {
+        path: '/user/opMessage',
+        name: 'opChatList',
+        component: () => import('@/views/user/msgFromOp'),
+      },
+      {
         path: '/hotelManager/manageHotel',
         name: 'manageHotel',
         component: () => import('@/views/hotelManager/manageHotel')

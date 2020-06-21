@@ -35,33 +35,40 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
+    import { message } from 'ant-design-vue';
+
     export default {
         name: 'EditMsg',
         data () {
             return {
                 labelCol: { lg: { span: 3 }, sm: { span: 3 } },
                 wrapperCol: { lg: { span: 21 }, sm: { span: 21 } },
-                form: this.$form.createForm(this),
+                form: this.$form.createForm(this, { name: 'coordinated' }),
                 loading: false,
                 timer: 0
             }
         },
         methods: {
+            ...mapActions([
+                'sendGroupMsg'
+            ]),
             nextStep () {
-                const that = this
-                const { form: { validateFields } } = this
-                that.loading = true
-                validateFields((err, values) => {
+                this.loading = true;
+                this.form.validateFields((err, values) => {
                     if (!err) {
-                        console.log('表单 values', values)
-                        that.timer = setTimeout(function () {
-                            that.loading = false
-                            that.$emit('nextStep')
-                        }, 1500)
+                        this.sendGroupMsg({
+                            title: this.form.getFieldValue('title'),
+                            content: this.form.getFieldValue('content'),
+                            retMsgId: -1
+                        }).then(() => {
+                            this.$emit('nextStep')
+                        });
                     } else {
-                        that.loading = false
+                        this.loading = false;
+                        message.error("消息发送失败")
                     }
-                })
+                });
             },
             prevStep () {
                 this.$emit('prevStep')
