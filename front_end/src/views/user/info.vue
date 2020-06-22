@@ -385,6 +385,9 @@ export default {
                     }
                     this.updateUserInfo(data).then(()=>{
                         this.modify = false
+                        console.log('重新取userInfo')
+                        this.getUserInfo()
+                        this.getMemInfo()
                         console.log('更新结束')
                         this.set_isLw()
                         console.log('强制刷新')

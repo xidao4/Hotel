@@ -62,7 +62,7 @@
 
         <div class="logout">
             <a-dropdown placement="bottomCenter">
-                <div class="user">
+                <div class="user" v-if="f5">
                     <a-avatar :src="avatar_url" v-if="userInfo.userType==='Client'"></a-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
@@ -96,7 +96,8 @@ export default {
     data() {
         return {
             current: ['1'],
-            avatar_url: ''
+            avatar_url: '',
+            f5: true
         }
     },
     components: { MsgAffix },
@@ -154,6 +155,18 @@ export default {
         },
         getMsg() {
             this.$router.push({ name: 'opChatList'})
+        },
+
+    },
+    watch:{
+        userInfo(val){
+            console.log('watch里的userInfo')
+            console.log(this.userInfo)
+            this.avatar_url = "https://supernatural.oss-cn-beijing.aliyuncs.com/" + this.userInfo.avatar_url
+            this.f5=false
+            console.log('watch关闭')
+            this.f5=true
+            console.log('watch开启')
         }
     }
 }

@@ -194,7 +194,7 @@
             <a-tab-pane tab="酒店评价" key="4">
                 <a-list
                     class="comment-list"
-                    :header="`${comment.length} comments`"
+                    :header="`${comment.length} 评价`"
                     item-layout="horizontal"
                     :data-source="comment"
                 >
@@ -384,7 +384,8 @@ export default {
             'deleteTag',
             'addTag',
             'updateReply',
-            'getCommentByHotelId'
+            'getCommentByHotelId',
+
         ]),
         manage(index,item){
             for (const key in this.$refs) {
