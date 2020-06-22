@@ -12,6 +12,7 @@ const getters = {
   dateRecord:state=>state.user.dateRecord,
   creditRecord:state=>state.user.creditRecord,
   imageUrl:state=>state.user.imageUrl,
+  isLw:state=>state.user.isLw,
   //hotel
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,

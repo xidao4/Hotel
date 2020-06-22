@@ -107,7 +107,7 @@
                             </a-descriptions>
                         </a-modal>
                         <a-divider type="vertical"></a-divider>
-                        <a-button size="small" v-if="record.orderState==='已执行' && this.commentV" type="primary" @click="showCommentModal(record.id)">评价</a-button>
+                        <a-button size="small" v-if="record.orderState==='已执行' && commentV" type="primary" @click="showCommentModal(record.id)">评价</a-button>
                         <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
                         <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
                             <a-form :form="commentForm" v-bind="formItemLayout">
@@ -226,6 +226,7 @@ export default {
             newPwd:''
         }
     },
+    inject:['reload'],
     components: {
         AFormItem,
         RegisterModal,
@@ -242,7 +243,8 @@ export default {
             'isMember',
             'dateRecord',
             'creditRecord',
-            'comment'
+            'comment',
+
         ])
     },
     async mounted() {
@@ -300,8 +302,10 @@ export default {
         ]),
         ...mapMutations([
             'set_registerModalVisible',
-            'getCommentByHotelId'
+            'getCommentByHotelId',
+            'set_isLw'
         ]),
+
         editAvatar(url) {
             this.avatar_url = url
         },
@@ -371,8 +375,8 @@ export default {
             this.commentVisible=false
             this.commentV=false
         },
-        saveModify() {
-            this.form.validateFields((err, values) => {
+        async saveModify() {
+            await this.form.validateFields((err, values) => {
                 if (!err) {
                     const data = {
                         userName: this.form.getFieldValue('userName'),
@@ -381,9 +385,15 @@ export default {
                     }
                     this.updateUserInfo(data).then(()=>{
                         this.modify = false
+                        console.log('更新结束')
+                        this.set_isLw()
+                        console.log('强制刷新')
+                        this.set_isLw()
+                        console.log('刷新解决')
                     })
                 }
             });
+
         },
         modifyInfo() {
             setTimeout(() => {

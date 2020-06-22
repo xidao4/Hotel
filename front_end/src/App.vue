@@ -1,6 +1,6 @@
 <template>
   <a-config-provider :locale="zh_CN">
-    <div id="app" v-title data-title="NJUSE酒店管理系统">
+    <div id="app" v-title data-title="NJUSE酒店管理系统" v-if="isRouterAlive">
       <transition name="fade-transform" mode="out-in">
         <router-view/>
       </transition>
@@ -12,9 +12,24 @@
 
   export default {
     name: 'app',
+    provide (){
+      return {
+        reload:this.reload
+      }
+    },
+    methods:{
+      //解决强制刷新页面重新渲染问题
+      reload (){
+        this.isRouterAlive = false
+        this.$nextTick(function(){
+          this.isRouterAlive = true
+        })
+      }
+    },
     data() {
       return {
         zh_CN,
+        isRouterAlive:true
       };
     },
       //解决刷新userInfo丢失问题，https://juejin.im/post/5c809599f265da2dbe030ec6
