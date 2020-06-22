@@ -19,6 +19,11 @@ public class CouponController {
 
         return ResponseVO.buildSuccess(couponVO);
     }
+    @GetMapping("/{couponId}/deleteCoupon")
+    public ResponseVO deleteCoupon(@PathVariable int couponId){
+        return couponService.deleteCoupon(couponId);
+    }
+
     @PostMapping("/hotelTime")
     public ResponseVO addHotelTimeCoupon(@RequestBody TimeCouponVO timeCouponVO){
         CouponVO couponVO = couponService.addHotelTimeCoupon(timeCouponVO);

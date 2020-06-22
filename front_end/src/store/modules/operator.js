@@ -2,14 +2,26 @@ import {
     getCreditRecordsAPI,
     updateCreditAPI,
     getCreditByIdAPI,
-} from '../../api/credit'
+    cancelUpdateAPI,
+} from '../../api/credit';
+
+import {
+    getOrderAPI,
+} from '../../api/order';
+
+
+import {message} from 'ant-design-vue';
 import { getUserInfoAPI } from "../../api/user";
 import {getCurveDatasetAPI} from "../../api/admin";
 
 const state = {
+    // 组件可见性
     manageCreditVisible: false,
+    // 订单管理相关
     currentOrderId: '',   // 当前展示的orderId
+    currentOrderDetail: [],
     currentUpdateInfo: {},
+    // 信用记录相关
     creditRecordsList: [],
     dateList: [],
     numList: [],
@@ -23,6 +35,9 @@ const operator = {
         },
         set_currentOrderId(state, data) {
             state.currentOrderId = data
+        },
+        set_currentOrderDetail(state, data) {
+            state.currentOrderDetail = [...data]
         },
         set_currentUpdateInfo(state, data) {
             state.currentUpdateInfo = {
@@ -62,10 +77,8 @@ const operator = {
                 commit('set_currentUpdateInfo', res);
             }
         },
-        getCreditRecords: async ({rootState, commit}) => {
-            const res = await getCreditRecordsAPI({
-                userId: rootState.userId
-            });
+        getCreditRecords: async ({commit}) => {
+            const res = await getCreditRecordsAPI();
             if(res) {
                 commit('set_creditRecordsList', res)
             }
@@ -75,8 +88,23 @@ const operator = {
             if(res) {
                 commit('set_manageCreditVisible', false)
                 commit('clear_currentUpdateInfo')
+                message.success('更新成功')
             }
         },
+        getOrderDetail: async ({commit}, param) => {
+            const res = await getOrderAPI(param);
+            if(res) {
+                commit('set_currentOrderDetail', res)
+            }
+        },
+        cancelUpdate: async ({dispatch}, param) => {
+            const res = await cancelUpdateAPI(param);
+            if(res) {
+                message.success('撤销成功')
+                dispatch('getCreditRecords')
+            }
+        },
+
     }
 };
 

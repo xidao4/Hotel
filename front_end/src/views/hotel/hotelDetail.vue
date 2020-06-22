@@ -68,12 +68,12 @@
                     <a-tab-pane tab="酒店评价" key="3">
                         <a-list
                             class="comment-list"
-                            :header="`${comment.length} comments`"
+                            :header="`${comment.length} 评价`"
                             item-layout="horizontal"
                             :data-source="comment"
                         >
                             <a-list-item slot="renderItem" slot-scope="item">
-                                <a-comment :author="item.userName" avatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
+                                <a-comment :author="item.userName" :avatar="'https://supernatural.oss-cn-beijing.aliyuncs.com/'+item.avatar">
                                     <template slot="actions" v-if="userInfo.userType==='HotelManager'&&(item.reply==='')">
                                         <span @click="showReply(item)">{{ actions }}</span>
                                         <a-modal :visible="visible" title="回复评价" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(item)">
@@ -81,7 +81,7 @@
                                         </a-modal>
                                     </template>
                                     <p slot="content">
-                                        <a-rate :default-value="item.commentValue" disabled /><br/><br/>
+                                        <a-rate :default-value="item.commentValue" disabled ><a-icon slot="character" type="heart" /></a-rate><br/><br/>
                                         {{ item.commentContent }}
                                     </p>
                                     <a-comment author="酒店掌柜" avatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" v-if="item.reply!==''">

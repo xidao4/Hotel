@@ -12,6 +12,7 @@ const getters = {
   dateRecord:state=>state.user.dateRecord,
   creditRecord:state=>state.user.creditRecord,
   imageUrl:state=>state.user.imageUrl,
+  isLw:state=>state.user.isLw,
   //hotel
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,
@@ -66,7 +67,20 @@ const getters = {
   dateList: state => state.operator.dateList,
   numList: state => state.operator.numList,
   //tag
-  tags:state=>state.tag.tags
+  tags:state=>state.tag.tags,
+  //message
+  MsgAffixVisible: state => state.chatMessage.MsgAffixVisible,
+  LeaveMsgModalVisible: state => state.chatMessage.LeaveMsgModalVisible,
+  ChatVisible: state => state.chatMessage.ChatVisible,
+  ChatBoxVisible: state => state.chatMessage.ChatBoxVisible,
+  clientQuesList: state => state.chatMessage.clientQuesList,
+  currentQuesId: state => state.chatMessage.currentQuesId,
+  quesRecords: state => state.chatMessage.quesRecords,
+  clientQuesListForC: state => state.chatMessage.clientQuesListForC,
+  currentQuesStatus: state => state.chatMessage.currentQuesStatus,
+  msgClientList: state => state.chatMessage.msgClientList,
+  currentGroupType: state => state.chatMessage.currentGroupType,
+  broadcastList: state => state.chatMessage.broadcastList,
   }
 
   export default getters

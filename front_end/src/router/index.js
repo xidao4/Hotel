@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/login.vue'
+import operatorRouter from './module/operator'
+import msgRouter from './module/chat'
 
 Vue.use(VueRouter)
 const routes = [
@@ -35,6 +37,11 @@ const routes = [
         component: () => import('@/views/user/info')
       },
       {
+        path: '/user/opMessage',
+        name: 'opChatList',
+        component: () => import('@/views/user/msgFromOp'),
+      },
+      {
         path: '/hotelManager/manageHotel',
         name: 'manageHotel',
         component: () => import('@/views/hotelManager/manageHotel')
@@ -44,31 +51,13 @@ const routes = [
         name: 'manageUser',
         component: () => import('@/views/admin/manageUser')
       },
-      {
-        path: '/operator/manageOrder',
-        name: 'manageOrder',
-        component: () => import('@/views/operator/manageOrder')
-      },
-      {
-        path: '/operator/msgFromUser',
-        name: 'msgFromUser',
-        component: () => import('@/views/operator/msgFromUser')
-      },
-      {
-        path: '/operator/creditList',
-        name: 'creditList',
-        component: () => import('@/views/operator/creditList')
-      },
       // {
       //   path:'/websiteAdmin',
       //   name:'websiteAdmin',
       //   component:()=>import('@/views/admin/manageUser.vue')
       // },
-      {
-        path: '/operator/proposalCurve',
-        name: 'proposalCurve',
-        component: () => import('@/views/operator/proposalCurve')
-      },
+      ...operatorRouter,
+      ...msgRouter,
     ]
   },
 ]

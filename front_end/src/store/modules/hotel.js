@@ -15,6 +15,7 @@ import {
 } from '@/api/order'
 import {
     orderMatchCouponsAPI,
+    deleteCouponAPI
 } from '@/api/coupon'
 import {
     updateHotelInfoAPI
@@ -199,7 +200,16 @@ const hotel = {
                 // const r=await this.getCommentByHotelId(this.currentHotelId)
             }
         },
-
+        deleteCoupon: async({ state, commit }, data) => {
+            console.log('Vuex里调用deleteCoupon')
+            console.log(data)
+            const res = await deleteCouponAPI(data)
+            console.log(res)
+            if(res){
+                console.log('删除优惠券成功')
+                message.success('删除成功！')
+            }
+        },
     }
 }
 

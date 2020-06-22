@@ -10,6 +10,8 @@ import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -26,7 +28,7 @@ public class CreditServiceImpl implements CreditService {
     @Autowired
     private CreditMapper creditMapper;
     @Autowired
-    private OrderService orderService;
+    private OrderMapper orderMapper;
 
     private final static String UPDATE_ERROR = "信用值更新失败";
     private final static String CANCEL_ERROR = "撤销失败";
@@ -42,34 +44,42 @@ public class CreditServiceImpl implements CreditService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseVO defaultUpdateCredit(DefaultUpdateCreditVO defaultUpdateCreditVO, DefaultCreditUpdateStrategy defaultCreditUpdateStrategy) {
         try {
-            Integer userId = orderService.getUserId(defaultUpdateCreditVO.getOrderId());
+            Integer userId = orderMapper.getUserId(defaultUpdateCreditVO.getOrderId());
             Double credit = creditMapper.getUserCredit(userId);
-            Double price = orderService.getPrice(defaultUpdateCreditVO.getOrderId());
+            Double price = orderMapper.getPriceById(defaultUpdateCreditVO.getOrderId());
             CreditRecord creditRecord = new CreditRecord();
             creditRecord.setUserId(userId);
             creditRecord.setCredit(defaultCreditUpdateStrategy.getResult(price, credit));
             creditRecord.setStatus("1");
             creditRecord.setDesc(defaultUpdateCreditVO.getDesc());
             creditMapper.insertCreditRecord(creditRecord);
+            int crid = creditRecord.getRid();
+            orderMapper.setCrid(defaultUpdateCreditVO.getOrderId(), crid);
         } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess(true);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseVO manualUpdateCredit(ManualUpdateCreditVO manualUpdateCreditVO) {
         try {
-            Integer userId = orderService.getUserId(manualUpdateCreditVO.getOrderId());
+            Integer userId = orderMapper.getUserId(manualUpdateCreditVO.getOrderId());
             CreditRecord creditRecord = new CreditRecord();
             creditRecord.setUserId(userId);
             creditRecord.setCredit(manualUpdateCreditVO.getCreditVal());
             creditRecord.setStatus("1");
             creditRecord.setDesc(manualUpdateCreditVO.getDesc());
             creditMapper.insertCreditRecord(creditRecord);
+            int crid = creditRecord.getRid();
+            orderMapper.setCrid(manualUpdateCreditVO.getOrderId(), crid);
         } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess(true);
@@ -99,7 +109,7 @@ public class CreditServiceImpl implements CreditService {
         } catch (Exception e) {
             return ResponseVO.buildFailure(CANCEL_ERROR);
         }
-        return ResponseVO.buildSuccess();
+        return ResponseVO.buildSuccess(true);
     }
 
     @Override

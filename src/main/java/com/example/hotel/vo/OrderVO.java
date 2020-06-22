@@ -24,6 +24,7 @@ public class OrderVO {
     private String orderState;
     private String cancelReason;
     private String residentName;
+    private Integer crid;
 
     public Integer getId() {
         return id;
@@ -155,5 +156,13 @@ public class OrderVO {
 
     public String getResidentName() {
         return residentName;
+    }
+
+    public Integer getCrid() {
+        return crid;
+    }
+
+    public void setCrid(Integer crid) {
+        this.crid = crid;
     }
 }

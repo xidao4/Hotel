@@ -273,6 +273,7 @@ export default {
                         //price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                         price:this.finalPrice
                     }
+
                     await this.addOrder(data)
                     console.log('orderInfo',data)
                     //如果使用了积分，那么扣除积分
