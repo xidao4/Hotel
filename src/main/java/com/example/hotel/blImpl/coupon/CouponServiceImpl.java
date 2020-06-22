@@ -156,4 +156,9 @@ public class CouponServiceImpl implements CouponService {
         couponVO.setId(result);
         return couponVO;
     }
+    @Override
+    public ResponseVO deleteCoupon(int couponId){
+        couponMapper.deleteCoupon(couponId);
+        return ResponseVO.buildSuccess(true);
+    }
 }

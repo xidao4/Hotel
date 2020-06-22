@@ -65,3 +65,11 @@ export function orderMatchCouponsAPI(params) {
         params,
     })
 }
+
+export function deleteCouponAPI(params) {
+    return axios({
+        url: `${api.couponPre}/${params}/deleteCoupon`,
+        method: 'GET',
+        params
+    })
+}

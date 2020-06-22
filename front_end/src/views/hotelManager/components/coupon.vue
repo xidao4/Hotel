@@ -17,6 +17,7 @@
         :columns="columns"
         :dataSource="couponList"
         bordered
+        v-if="couponShow"
         >
 <!--定义好了columns、dataSource属性之后，a-table这个组件自动会去找columns、couponList渲染，不需要手动去写每一行-->
 <!--            将couponName映射为text，并作为插值表达式插入，和columns里的第一个字段挂钩-->
@@ -24,6 +25,20 @@
             <a-tag color="red" slot="couponName" slot-scope="text">
                 {{text}}
             </a-tag>
+            <button slot="delete">
+                删除
+            </button>
+            <template slot="delete" slot-scope="record">
+                <a-popconfirm
+                    title="确认删除该优惠券吗?"
+                    ok-text="确认"
+                    cancel-text="取消"
+                    @confirm="deleteCouponV(record.id)"
+                    @cancel="cancel"
+                >
+                    <a href="#">删除</a>
+                </a-popconfirm>
+            </template>
         </a-table>
     </a-modal>
 <!--AddCoupon这个组件默认addCouponVisible属性是false的-->
@@ -45,10 +60,10 @@ const columns = [
         dataIndex: 'couponName',
         scopedSlots: {customRender: 'couponName'}
     },
-    {
-        title: '折扣',
-        dataIndex: 'discount'
-    },
+    // {
+    //     title: '折扣',
+    //     dataIndex: 'discount'
+    // },
     {
         title: '优惠简介',
         dataIndex: 'description'
@@ -56,13 +71,19 @@ const columns = [
     {
         title: '优惠金额',
         dataIndex: 'discountMoney'
+    },
+    {
+        title: '操作',
+        key: 'delete',
+        scopedSlots: {customRender: 'delete'}
     }
   ];
 export default {
     name: 'coupon',
     data() {
         return {
-            columns
+            columns,
+            couponShow: true
         }
     },
     components: {
@@ -87,6 +108,8 @@ export default {
         ...mapActions([
             // 将 `this.getHotelCoupon()` 映射为 `this.$store.dispatch('getHotelCoupon')`
             // 这种方式必须在根结点里注入store
+            'getHotelCoupon',
+            'deleteCoupon',
             'getHotelCoupon'
         ]),
         cancel() {
@@ -97,6 +120,16 @@ export default {
             this.set_addCouponVisible(true),
             this.set_couponVisible(false)
         },
+        async deleteCouponV(recordId){
+            console.log('recordID:')
+            console.log(recordId)
+            await this.deleteCoupon(recordId)
+            await this.getHotelCoupon()
+            this.couponShow=false
+            console.log('不显示优惠券列表')
+            this.couponShow=true
+            console.log('显示优惠券列表')
+        }
     },
 }
 </script>

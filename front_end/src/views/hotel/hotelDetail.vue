@@ -73,7 +73,7 @@
                             :data-source="comment"
                         >
                             <a-list-item slot="renderItem" slot-scope="item">
-                                <a-comment :author="item.userName" :avatar="item.avatar">
+                                <a-comment :author="item.userName" :avatar="'https://supernatural.oss-cn-beijing.aliyuncs.com/'+item.avatar">
                                     <template slot="actions" v-if="userInfo.userType==='HotelManager'&&(item.reply==='')">
                                         <span @click="showReply(item)">{{ actions }}</span>
                                         <a-modal :visible="visible" title="回复评价" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(item)">

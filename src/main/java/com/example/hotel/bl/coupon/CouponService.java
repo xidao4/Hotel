@@ -37,4 +37,10 @@ public interface CouponService {
     CouponVO addHotelTargetRoomNumCoupon(HotelTargetRoomNumCouponVO couponVO);
     CouponVO addHotelBirthdayCoupon(HotelBirthdayCouponVO couponVO);
     CouponVO addHotelFestivalCoupon(HotelFestivalCouponVO couponVO);
+
+    /**
+     * author ydl
+     * 根据优惠券id删除优惠券
+     */
+    ResponseVO deleteCoupon(int couponId);
 }
