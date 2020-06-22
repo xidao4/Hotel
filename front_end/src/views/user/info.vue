@@ -4,6 +4,8 @@
             <a-col :span="19" :order="1">
                 <a-tabs>
                     <a-tab-pane tab="我的信息" key="1">
+                        <div id="pic" style="width: 100%;height:200px;"></div>
+                        <div style="font-size: large;font-weight: bold">修改信息</div>
                         <a-form :form="form" style="margin-top: 30px">
                             <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                                 <a-avatar v-if="!modify" :src="avatar_url"></a-avatar>
@@ -130,9 +132,6 @@
                     </a-tab-pane>
                     <RegisterModal></RegisterModal>
                 </a-tabs>
-            </a-col>
-            <a-col :span="5" :order="2">
-                <div id="pic" style="width: 100%;height:200px;"></div>
             </a-col>
         </a-row>
     </div>

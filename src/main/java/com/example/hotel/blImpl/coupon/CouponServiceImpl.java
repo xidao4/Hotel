@@ -38,9 +38,11 @@ public class CouponServiceImpl implements CouponService {
         this.roomNumCouponStrategy=roomNumCouponStrategy;
         this.birthdayCouponStrategy=birthdayCouponStrategy;
         this.festivalCouponStrategy=festivalCouponStrategy;
-        //strategyList.add(roomNumCouponStrategy);
         strategyList.add(targetMoneyCouponStrategy);
-        //strategyList.add(timeCouponStrategy);
+        strategyList.add(timeCouponStrategy);
+        strategyList.add(roomNumCouponStrategy);
+        strategyList.add(birthdayCouponStrategy);
+        strategyList.add(festivalCouponStrategy);
     }
 
 
