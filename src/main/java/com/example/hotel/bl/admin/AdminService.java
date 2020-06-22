@@ -20,7 +20,6 @@ public interface AdminService {
      * @return
      */
     ResponseVO addOperator(UserForm userForm);
-
     ResponseVO addManager(HotelManagerVO vo);
 
 
@@ -29,16 +28,7 @@ public interface AdminService {
      * @return
      */
     List<User> getAllManagers();
-
-
-    /**
-     * 获得推广度曲线所需的datasets
-     * @return
-     */
-    AdminCurveVO getCurveDataSet();
-
     List<User> getAllClients();
-
     List<User> getAllOperators();
 
     List<User> searchOO(String keyword);
@@ -46,4 +36,9 @@ public interface AdminService {
 
     ResponseVO deleteHM(Integer hotelId);
 
+    /**
+     * 获得推广度曲线所需的datasets
+     * @return
+     */
+    AdminCurveVO getCurveDataSet();
 }

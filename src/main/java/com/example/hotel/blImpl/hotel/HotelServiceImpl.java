@@ -115,10 +115,6 @@ public class HotelServiceImpl implements HotelService {
         }
     }
 
-    public List<HotelVO> retrieveHotels() {
-
-        return hotelMapper.selectAllHotel();
-    }
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId, Integer userid) {

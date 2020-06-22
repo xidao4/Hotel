@@ -21,6 +21,7 @@ export function getOperatorListAPI(){
         method:'POST'
     })
 }
+
 export function addOperatorAPI(data) {
     return axios({
         url: `${api.adminPre}/addOperator`,
@@ -28,12 +29,27 @@ export function addOperatorAPI(data) {
         data
     })
 }
+export function addManagerAPI(data){
+    return axios({
+        url: `${api.adminPre}/addManager`,
+        method: 'POST',
+        data
+    })
+}
+
 export function deleteUserAPI(data) {
     return axios({
         url: `${api.adminPre}/${data}/deleteUser`,
         method: 'POST',
     })
 }
+export function deleteHMAPI(hotelId){
+    return axios({
+        url: `${api.adminPre}/${hotelId}/deleteHM`,
+        method: 'POST',
+    })
+}
+
 export function updateTmpUserInfoAPI(data){
     return axios({
         url: `${api.adminPre}/${data.id}/tmpUserInfo/update`,
@@ -41,6 +57,7 @@ export function updateTmpUserInfoAPI(data){
         data
     })
 }
+
 export function searchOOAPI(data){
     return axios({
         url: `${api.adminPre}/searchOO/${data}`,
@@ -53,13 +70,6 @@ export function searchClientAPI(data){
         method:'GET',
     })
 }
-export function addManagerAPI(data){
-    return axios({
-        url: `${api.adminPre}/addManager`,
-        method: 'POST',
-        data
-    })
-}
 
 export function getCurveDatasetAPI() {
     return axios({
@@ -68,11 +78,6 @@ export function getCurveDatasetAPI() {
     })
 }
 
-export function deleteHMAPI(hotelId){
-    return axios({
-        url: `${api.adminPre}/${hotelId}/deleteHM`,
-        method: 'POST',
-    })
-}
+
 
 
