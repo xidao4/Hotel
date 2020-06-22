@@ -32,9 +32,7 @@
                 <a-popconfirm
                     title="确认删除该优惠券吗?"
                     ok-text="确认"
-                    cancel-text="取消"
                     @confirm="deleteCouponV(record.id)"
-                    @cancel="cancel"
                 >
                     <a href="#">删除</a>
                 </a-popconfirm>
