@@ -48,6 +48,7 @@ const getDefaultState = () => {
         dateRecord: [],
         creditRecord: [],
         imageUrl: '',
+        isLw: true,
     }
 }
 
@@ -80,6 +81,9 @@ const user = {
                 ...state.userInfo,
                 ...data
             }
+        },
+        set_isLw:(state)=>{
+            state.isLw=!state.isLw
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
