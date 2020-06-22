@@ -32,4 +32,6 @@ public interface OrderMapper {
 
     Integer getUserId(@Param("orderid") int orderid);
 
+    Integer setCrid(@Param("orderid") int orderid, @Param("crid") int crid);
+
 }

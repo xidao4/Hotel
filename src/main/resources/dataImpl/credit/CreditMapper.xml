@@ -13,8 +13,8 @@
     </select>
 
     <select id="getUserCredit" resultType="double">
-        select credit from CreditRecord where userId=#{userId}
-            and updateTime >= all(select updateTime from CreditRecord)
+        select credit from CreditRecord where userId=#{userId} and status='1'
+            and updateTime >= all(select updateTime from CreditRecord where userId=#{userId} and status='1')
     </select>
 
     <update id="cancelCreditRecord">

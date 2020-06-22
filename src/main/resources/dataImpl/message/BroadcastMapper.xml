@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hotel.data.message.BroadcastMapper">
+
+    <select id="getBroadcastList" resultMap="broadcastMap">
+        select * from Broadcast
+    </select>
+
+    <update id="changeBroadcastStatus">
+        update Broadcast set status=#{status} where id=#{id}
+    </update>
+
+    <update id="updatePriority">
+        update Broadcast set priority=#{priority} where id=#{id}
+    </update>
+
+    <insert id="insertBroadcast" parameterType="com.example.hotel.po.Broadcast" useGeneratedKeys="true" keyProperty="id">
+        insert into Broadcast(status, title, content, createdId, priority)
+        values('1',#{title},#{content},#{createdId},#{priority})
+    </insert>
+
+    <resultMap id="broadcastMap" type="com.example.hotel.po.Broadcast">
+        <id column="id" property="id"></id>
+        <result column="createdId" property="createdId"></result>
+        <result column="createdTime" property="createdTime"></result>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="status" property="status"></result>
+        <result column="priority" property="priority"></result>
+    </resultMap>
+</mapper>
