@@ -15,31 +15,29 @@
                 <a-icon type="user"/>
                 个人中心
             </a-menu-item>
-            <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'">
+            <a-menu-item key="3" @click="getMsg" v-if="userInfo.userType=='Client'">
+                <a-icon type="user" />消息
+            </a-menu-item>
+            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='HotelManager'">
                 <router-link :to="{ name: 'manageHotel'}">
                     <a-icon type="switcher"/>
                     酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Manager'">
+            <a-menu-item key="5" @click="selectMenu" v-if="userInfo.userType=='Manager'">
                 <router-link :to="{ name: 'manageUser'}">
                     <a-icon type="user"/>
                     账户管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="5" @click="selectMenu" v-if="userInfo.userType=='Operator'">
-                <router-link :to="{ name: 'manageOrder'}">
-                    <a-icon type="user" />订单管理
-                </router-link>
-            </a-menu-item>
             <a-menu-item key="6" @click="selectMenu" v-if="userInfo.userType=='Operator'">
-                <router-link :to="{ name: 'creditList'}">
-                    <a-icon type="user" />信用管理
+                <router-link :to="{ name: 'manageOrder'}">
+                    <a-icon type="user" />信用判定
                 </router-link>
             </a-menu-item>
             <a-menu-item key="7" @click="selectMenu" v-if="userInfo.userType=='Operator'">
-                <router-link :to="{ name: 'msgFromUser'}">
-                    <a-icon type="user" />客户消息
+                <router-link :to="{ name: 'creditList'}">
+                    <a-icon type="user" />信用变更记录
                 </router-link>
             </a-menu-item>
             <a-menu-item key="8" @click="selectMenu" v-if="userInfo.userType=='Operator'">
@@ -47,7 +45,21 @@
                     <a-icon type="user" />推广度曲线
                 </router-link>
             </a-menu-item>
+            <a-sub-menu @click="selectMenu"  v-if="userInfo.userType=='Operator'">
+                <span slot="title"><a-icon type="appstore" /><span>消息</span></span>
+                <a-menu-item key="9">
+                    <router-link :to="{ name: 'userChatList'}">
+                        <a-icon type="user" />问题
+                    </router-link>
+                </a-menu-item>
+                <a-menu-item key="10">
+                    <router-link :to="{ name: 'msgForGroup'}">
+                        <a-icon type="user" />发送消息
+                    </router-link>
+                </a-menu-item>
+            </a-sub-menu>
         </a-menu>
+
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
@@ -71,12 +83,14 @@
                 </a-menu>
             </a-dropdown>
         </div>
-
+        <MsgAffix v-show="userInfo.userType=='Client'"></MsgAffix>
     </div>
 
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+import MsgAffix from '../views/user/components/MsgAffix';
+
 export default {
     name: '',
     data() {
@@ -85,6 +99,7 @@ export default {
             avatar_url: ''
         }
     },
+    components: { MsgAffix },
     computed: {
         ...mapGetters([
             'userId',
@@ -97,18 +112,22 @@ export default {
             this.current = ['1']
         } else if (this.$route.name == 'userInfo') {
             this.current = ['2']
-        } else if (this.$route.name == 'manageHotel') {
+        } else if (this.$route.name == 'opChatList') {
             this.current = ['3']
-        } else if (this.$route.name == 'manageUser') {
+        } else if (this.$route.name == 'manageHotel') {
             this.current = ['4']
-        } else if (this.$route.name == 'manageOrder') {
+        } else if (this.$route.name == 'manageUser') {
             this.current = ['5']
-        } else if (this.$route.name == 'creditList') {
+        } else if (this.$route.name == 'manageOrder') {
             this.current = ['6']
-        } else if (this.$route.name == 'msgFromUser') {
+        } else if (this.$route.name == 'creditList') {
             this.current = ['7']
         } else if (this.$route.name == 'proposalCurve') {
             this.current = ['8']
+        } else if (this.$route.name == 'userChatList') {
+            this.current = ['9']
+        } else if (this.$route.name == 'msgForGroup') {
+            this.current = ['10']
         }
         this.avatar_url = "https://supernatural.oss-cn-beijing.aliyuncs.com/" + this.userInfo.avatar_url
     },
@@ -131,6 +150,10 @@ export default {
             this.$router.push({name: 'userInfo', params: {userId: this.userId}})
         },
         jumpToHome() {
+
+        },
+        getMsg() {
+            this.$router.push({ name: 'opChatList'})
         }
     }
 }

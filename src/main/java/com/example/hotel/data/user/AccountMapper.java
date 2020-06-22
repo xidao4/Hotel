@@ -48,4 +48,5 @@ public interface AccountMapper {
 
     List<User> searchClient(@Param("keyword") String keyword);
 
+    String getUsernameById(@Param("id") int id);
 }

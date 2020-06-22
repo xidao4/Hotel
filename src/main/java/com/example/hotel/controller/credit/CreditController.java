@@ -50,4 +50,9 @@ public class CreditController {
         return ResponseVO.buildSuccess(creditService.getCreditCurve(id));
     }
 
+    @PostMapping("/{id}/cancelUpdate")
+    public ResponseVO cancelUpdate(@PathVariable int id) {
+        return creditService.cancelCreditRecord(id);
+    }
+
 }

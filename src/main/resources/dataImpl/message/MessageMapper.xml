@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hotel.data.message.MessageMapper">
+
+    <select id="getQuesById" resultMap="messageMap">
+        select * from Message where toId=#{toId} and msgType='Question' and retMsgId=-1 order by sendTime desc
+    </select>
+
+    <select id="getQuesForClientById" resultMap="messageMap">
+        select * from Message where fromId=#{fromId} and msgType='Question' and retMsgId=-1 order by sendTime desc
+    </select>
+
+    <select id="getChatById" resultMap="messageMap">
+        select * from Message where id=#{id} or retMsgId=#{id}
+    </select>
+
+    <select id="getPrivateAdById" resultMap="messageMap">
+        select * from Message where toId=#{toId} and msgType='Private'
+    </select>
+
+    <select id="getAdSentById" resultMap="messageMap">
+        select * from Message where fromId=#{toId} and msgType in ('Private', 'Broadcast')
+    </select>
+
+    <select id="getGroupMsg" resultMap="messageMap">
+        select * from Message where msgType='Broadcast'
+    </select>
+
+    <insert id="insertMessage" parameterType="com.example.hotel.po.Message" useGeneratedKeys="true" keyProperty="id">
+        insert into Message(status, title, content, fromId, toId, msgType, retMsgId)
+        values(#{status},#{title},#{content},#{from},#{to},#{type},#{retMsgId})
+    </insert>
+
+    <update id="changeMessageStatus">
+        update Message set status=#{status} where id=#{id}
+    </update>
+
+    <resultMap id="messageMap" type="com.example.hotel.po.Message">
+        <id column="id" property="id"></id>
+        <result column="sendTime" property="sendTime"></result>
+        <result column="status" property="status"></result>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="fromId" property="from"></result>
+        <result column="toId" property="to"></result>
+        <result column="msgType" property="type"></result>
+        <result column="retMsgId" property="retMsgId"></result>
+    </resultMap>
+
+</mapper>

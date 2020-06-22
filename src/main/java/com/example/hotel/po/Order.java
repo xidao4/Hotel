@@ -24,6 +24,7 @@ public class Order {
     private String orderState;
     private String cancelReason;
     private String residentName;
+    private Integer crid;
 
     public Integer getId() {
         return id;
@@ -155,5 +156,12 @@ public class Order {
 
     public void setResidentName(String residentName) {
         this.residentName = residentName;
+    }
+    public Integer getCrid() {
+        return crid;
+    }
+
+    public void setCrid(Integer crid) {
+        this.crid = crid;
     }
 }

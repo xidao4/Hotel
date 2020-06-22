@@ -32,6 +32,9 @@
                     重置
                 </a-button>
             </div>
+            <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
+                撤销理由：{{ record.cancelReason }}
+            </p>
             <a-tag
                     slot="orderState"
                     slot-scope="text"
@@ -46,8 +49,15 @@
                     :style="{ color: filtered ? '#108ee9' : undefined }"
             />
             <span slot="action" slot-scope="record">
-                <a-button type="primary" size="small" v-if="record.orderState === '客户撤销' || record.orderState === '异常'" @click="manageCredit(record)">信用变更</a-button>
-                <a-button type="primary" size="small" v-else @click="showOrderDetail">订单详情</a-button>
+                <a-tag v-if="record.crid != null"
+                       color="cyan">
+                    信用值处理条目号：{{record.crid}}
+                </a-tag>
+                <a-button
+                        type="primary"
+                        size="small"
+                        v-else-if="(record.orderState === '客户撤销' || record.orderState === '异常')"
+                        @click="manageCredit(record)">信用变更</a-button>
             </span>
         </a-table>
 
