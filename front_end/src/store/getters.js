@@ -13,6 +13,7 @@ const getters = {
   creditRecord:state=>state.user.creditRecord,
   imageUrl:state=>state.user.imageUrl,
   isLw:state=>state.user.isLw,
+  usePoints:state=>state.user.usePoints,
   //hotel
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,

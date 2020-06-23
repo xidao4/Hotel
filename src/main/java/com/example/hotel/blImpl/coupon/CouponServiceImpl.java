@@ -62,6 +62,10 @@ public class CouponServiceImpl implements CouponService {
             }
         }
 
+        for(Coupon coupon:availAbleCoupons){
+            System.out.println(coupon.getCouponName());
+        }
+
         return availAbleCoupons;
     }
 

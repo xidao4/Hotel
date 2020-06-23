@@ -31,8 +31,8 @@ public interface AdminService {
     List<User> getAllClients();
     List<User> getAllOperators();
 
-    List<User> searchOO(String keyword);
-    List<User> searchClient(String keyword);
+//    List<User> searchOO(String keyword);
+//    List<User> searchClient(String keyword);
 
     ResponseVO deleteHM(Integer hotelId);
 

@@ -230,7 +230,7 @@ const admin = {
             if(res) {
                 commit('set_addHotelModalVisible', false)
                 message.success('添加成功')
-                dispatch('getHotelList')
+                dispatch('getHotelListLJY')
             }else{
                 message.error('添加失败')
             }

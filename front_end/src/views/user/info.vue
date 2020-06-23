@@ -1,6 +1,6 @@
 <template>
     <div class="info-wrapper">
-        <a-row type="flex">
+        <a-row type="flex" >
             <a-col :span="19" :order="1">
                 <a-tabs>
                     <a-tab-pane tab="我的信息" key="1">

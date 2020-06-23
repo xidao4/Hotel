@@ -40,9 +40,7 @@ const hotel = {
         currentOrderRoom: {
 
         },
-        orderMatchCouponList: [
-
-        ],
+        orderMatchCouponList: [],
         comment: [
 
         ],

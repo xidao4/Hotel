@@ -49,6 +49,7 @@ const getDefaultState = () => {
         creditRecord: [],
         imageUrl: '',
         isLw: true,
+        usePoints:false  //会员是否使用积分抵现
     }
 }
 
@@ -65,7 +66,8 @@ const user = {
             state.userOrderList = [],
             state.membership='',
             state.memInfo=[],
-            state.hotelId=''
+            state.hotelId='',
+            state.usePoints=false
         },
         set_token: function(state, token){
             state.token = token
@@ -112,6 +114,9 @@ const user = {
         set_imageUrl:(state,data)=>{
             state.imageUrl = data
         },
+        set_usePoints:(state,data)=>{
+            state.usePoints=data
+        }
     },
 
     actions: {

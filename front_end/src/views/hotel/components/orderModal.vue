@@ -106,7 +106,6 @@
             <a-form-item v-bind="formItemLayout" label="当前会员积分：" v-if="isMember">
                 <span>{{memInfo.memberPoints}}</span>
             </a-form-item>
-<!--            <span v-if="isMember">当前会员积分：{{memInfo.memberPoints}}</span>-->
             <a-checkbox v-model="usePoints" @change="onMemberPointsChange" v-if="isMember">
                 使用积分抵扣（100积分抵扣1元现金）
             </a-checkbox>
@@ -114,7 +113,7 @@
                 <span>￥{{memPrice}}</span>
             </a-form-item>
 
-            <a-divider v-if="orderMatchCouponList.length>0"></a-divider>
+            <a-divider></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
             <a-checkbox-group v-model="checkedList" @change="onchange" v-if="orderMatchCouponList.length>0">
                 <a-table
@@ -132,7 +131,10 @@
                     </a-checkbox>
                 </a-table>
             </a-checkbox-group>
-            <a-form-item v-bind="formItemLayout" label="结算后总价" v-if="orderMatchCouponList.length>0">
+            <a-form-item v-if="orderMatchCouponList.length===0">
+                <span>当前订单没有可用优惠券</span>
+            </a-form-item>
+            <a-form-item v-bind="formItemLayout" label="结算后总价" >
                 <span>￥{{ finalPrice }}</span>
             </a-form-item>
         </a-form>
@@ -140,6 +142,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import AFormItem from "ant-design-vue/es/form/FormItem";
 const moment = require('moment')
 const columns = [
     {
@@ -168,6 +171,7 @@ const columns = [
   ];
 export default {
     name: 'orderModal',
+    components: {AFormItem},
     data() {
         return {
             formItemLayout: {
@@ -186,6 +190,7 @@ export default {
             memPrice:'',
             finalPrice: '',
             usePoints:false,
+            newDate:false
         }
     },
     computed: {
@@ -227,6 +232,11 @@ export default {
         changeDate(v) {
             if (this.totalPrice != '') {
                 this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
+
+                if(this.newDate)
+                    this.newDate=false
+                else
+                    this.newDate=true
             }
         },
         changePeopleNum(v) {
@@ -241,7 +251,7 @@ export default {
                 this.finalPrice=this.memPrice
             else
                 this.finalPrice=this.totalPrice
-            this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
+            this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= (this.finalPrice-item.discountMoney).toFixed(2))
 
             // if(this.checkedList.length>0){
             //     this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
@@ -267,6 +277,7 @@ export default {
                         checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
                         roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
                         roomNum: this.form.getFieldValue('roomNum'),
+
                         peopleNum: this.form.getFieldValue('peopleNum'),
                         haveChild: this.form.getFieldValue('haveChild'),
                         createDate: '',
@@ -277,6 +288,7 @@ export default {
                     await this.addOrder(data)
                     console.log('orderInfo',data)
                     //如果使用了积分，那么扣除积分
+                    console.log('usePoints',this.usePoints)
                     if(this.usePoints){
                         const data={
                             userId:this.userId,
@@ -286,14 +298,6 @@ export default {
                         await this.decreaseMemberPoints(data)
                         await this.getMemInfo()
                     }
-
-                    this.form.resetFields()
-                    this.totalPrice=0
-                    this.checkedList=[]
-                    console.log('checkedList',this.checkedList)
-                    this.set_orderMatchCouponList( [])
-                    console.log('orderMatchCouponList',this.orderMatchCouponList)
-                    this.usePoints=false
                 }
             })
         },
@@ -302,20 +306,20 @@ export default {
         totalPrice(val) {
             //得到最新的会员价（如果是会员的话）
             if(this.isMember) {
-                this.memPrice = 0.9 * this.totalPrice.toFixed(2)
+                // this.usePoints=false
+
+                this.memPrice = (0.9 * this.totalPrice).toFixed(2)
                 console.log("totalPrice",this.totalPrice)
                 console.log("memPrice=0.9*totalPrice=",this.memPrice)
 
+                //下三行为测试
                 if(this.usePoints){
-                    //eg. 1137积分，可以使用1100积分，抵扣11元
-                    //1137%100=37
-                    //1137//100=11
-                    let subAmount=parseInt(this.memInfo.memberPoints/100)
-                    this.memPrice-=subAmount
+                    this.memPrice-=parseInt(this.memInfo.memberPoints/100)
                 }
 
-                this.onchange()
-            }else{
+
+                this.finalPrice=this.memPrice;
+            } else{
                 this.finalPrice=this.totalPrice
             }
 
@@ -329,8 +333,9 @@ export default {
                 checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
                 createDate: moment().format('YYYY-MM-DD')
             }
-            console.log('data.createDate',data.createDate)
             this.getOrderMatchCoupons(data)
+
+            this.checkedList=[]
         },
         usePoints(val){
             let subAmount=parseInt(this.memInfo.memberPoints/100)
@@ -340,6 +345,47 @@ export default {
                 this.memPrice-=subAmount
             }
             this.finalPrice=this.memPrice
+
+            //得到最新的匹配优惠券
+            let data = {
+                userId: this.userId,
+                hotelId: this.currentHotelId,
+                orderPrice: this.isMember?this.memPrice:this.totalPrice,//如果是会员，用会员优惠价来匹配优惠券
+                roomNum: this.form.getFieldValue('roomNum'),
+                checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                createDate: moment().format('YYYY-MM-DD')
+            }
+            this.getOrderMatchCoupons(data)
+
+            this.checkedList=[]
+        },
+        orderModalVisible(val){
+            this.form.resetFields()
+            this.totalPrice=0
+            this.checkedList=[]
+            console.log('checkedList',this.checkedList)
+            this.set_orderMatchCouponList([])
+            console.log('orderMatchCouponList',this.orderMatchCouponList)
+            this.set_usePoints(false)
+        },
+        newDate(val){
+            this.set_orderMatchCouponList([])
+            console.log('orderMatchCouponList',this.orderMatchCouponList)
+            //得到最新的匹配优惠券
+            let data = {
+                userId: this.userId,
+                hotelId: this.currentHotelId,
+                orderPrice: this.isMember?this.memPrice:this.totalPrice,//如果是会员，用会员优惠价来匹配优惠券
+                roomNum: this.form.getFieldValue('roomNum'),
+                checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                createDate: moment().format('YYYY-MM-DD')
+            }
+            this.getOrderMatchCoupons(data)
+            console.log('orderMatchCouponList',this.orderMatchCouponList)
+            this.checkedList=[]
+
         }
     }
 }

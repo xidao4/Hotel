@@ -121,14 +121,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<User> getAllOperators() { return adminMapper.getAllOperators(); }
 
-    @Override
-    public List<User> searchOO(String keyword) {
-        return accountMapper.searchOO(keyword);
-    }
-    @Override
-    public List<User> searchClient(String keyword) {
-        return accountMapper.searchClient(keyword);
-    }
+//    @Override
+//    public List<User> searchOO(String keyword) {
+//        return accountMapper.searchOO(keyword);
+//    }
+//    @Override
+//    public List<User> searchClient(String keyword) {
+//        return accountMapper.searchClient(keyword);
+//    }
     @Override
     public ResponseVO deleteHM(Integer hotelId){
         HotelVO hotelVO=hotelMapper.selectById(hotelId);
