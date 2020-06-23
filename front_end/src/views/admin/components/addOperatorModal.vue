@@ -40,6 +40,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+const moment = require('moment')
 export default {
     name: 'addOperatorModal',
     data() {
@@ -66,6 +67,11 @@ export default {
         this.form = this.$form.createForm(this, { name: 'addOperatorModal' });
     },
     mounted() {},
+    watch:{
+        addOperatorModalVisible() {
+            this.form.resetFields()
+        }
+    },
     methods: {
         ...mapMutations([
             'set_addOperatorModalVisible',
@@ -85,7 +91,7 @@ export default {
                     const data = {
                         email: this.form.getFieldValue('email'),
                         userName: this.form.getFieldValue('userName'),
-                        password: this.form.getFieldValue('password')
+                        password: this.form.getFieldValue('password'),
                     }
                     this.set_addOperatorParams(data)
                     this.addOperator()

@@ -24,7 +24,7 @@ const admin = {
         addManagerParams: [],
         operatorList:[],
         displayOperatorList:[],
-        hotelList:[],
+        adminHotelList:[],
         clientList:[],
         managerList: [],
         tmpUserInfo:[],
@@ -32,7 +32,7 @@ const admin = {
         addOperatorParams: {
             email:'',
             userName:'',
-            password:''
+            password:'',
         },
         modifyOOModalVisible:false,
         OOIdx:'',
@@ -56,8 +56,8 @@ const admin = {
         set_displayOperatorList:function(state,data){
             state.displayOperatorList=data
         },
-        set_hotelList: function(state,data){
-            state.hotelList=data
+        set_adminHotelList: function(state,data){
+            state.adminHotelList=data
         },
         set_clientList:function(state,data){
             state.clientList=data
@@ -134,11 +134,12 @@ const admin = {
             }
             commit('set_isSearching',true)
         },
-        getOperatorList:async({commit})=>{
+        getOperatorList:async({commit,state})=>{
             const res=await getOperatorListAPI()
             if(res) {
                 commit('set_operatorList', res)
                 commit('set_displayOperatorList', res)
+                console.log('operatorList',state.operatorList)
             }
         },
         getClientList: async({commit}) => {
@@ -155,12 +156,13 @@ const admin = {
             }
         },
         addOperator: async({ state, commit, dispatch }) => {
+            console.log('adOperatorParams 表单提交的数据',state.addOperatorParams)//right
             const res = await addOperatorAPI(state.addOperatorParams)
             if(res) {
                 commit('set_addOperatorParams',{
                     email:'',
                     userName:'',
-                    password:''
+                    password:'',
                 })
                 commit('set_addOperatorModalVisible', false)
                 message.success('添加成功')
@@ -181,8 +183,10 @@ const admin = {
             //console.log('in getTmpUserInfo >> state.OOIdx',state.OOIdx)
             const res = await getUserInfoAPI(state.OOIdx)
             if(res){
+
                 commit('set_tmpUserInfo', res)
                 //console.log('in getTmpUserInfo >> state.tmpUserInfo',state.tmpUserInfo)
+                console.log('getTmpUserInfo tmpUserInfo',res)
             }
             commit('set_modifyOOModalVisible',true)
         },
@@ -205,6 +209,7 @@ const admin = {
             const res=await getUserInfoAPI(state.tmpClientId)
             if(res){
                 commit('set_tmpClientInfo',res)
+                message.success("修改成功")
             }
         },
         updateTmpClientInfo:async({state,commit,dispatch},data)=>{
@@ -225,12 +230,13 @@ const admin = {
             }
             commit('set_isSearching',true)
         },
-        addHotel:async({commit,dispatch},data)=>{
-            const res = await addHotelAPI(data)
+        addHotel:async({commit,dispatch,state},data)=>{
+            const res = await addHotelAPI(data)  //success数据库显示已经加入
             if(res) {
                 commit('set_addHotelModalVisible', false)
                 message.success('添加成功')
                 dispatch('getHotelListLJY')
+                console.log('hotel.hotelList 获取全部酒店列表后',state.hotelList)
             }else{
                 message.error('添加失败')
             }

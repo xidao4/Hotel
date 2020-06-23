@@ -16,7 +16,6 @@ public class UserForm {
 
     private String userName;
 
-
     public String getUserName() {
         return userName;
     }

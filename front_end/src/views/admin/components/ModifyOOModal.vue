@@ -37,7 +37,9 @@
 </template>
 
 <script>
+
     import { mapGetters, mapMutations, mapActions } from 'vuex'
+    const moment = require('moment')
     export default {
         name: "ModifyOOModal",
         data(){
@@ -95,7 +97,8 @@
                     if (!err) {
                         const data = {
                             userName: this.form.getFieldValue('userName'),
-                            password: this.changePWD?this.form.getFieldValue('password'):''
+                            password: this.changePWD?this.form.getFieldValue('password'):'',
+
                         }
                         await this.updateTmpUserInfo(data)
                         this.set_modifyOOModalVisible(false)

@@ -45,8 +45,8 @@ public class AdminServiceImpl implements AdminService {
         User user = new User();
         user.setEmail(userForm.getEmail());
         //将输入的密码进行散列，再插入数据库
-        user.setUserName(MD5.getMD5(userForm.getUserName()));
-        user.setPassword(userForm.getPassword());
+        user.setPassword(MD5.getMD5(userForm.getPassword()));
+        user.setUserName(userForm.getUserName());
         user.setUserType(UserType.Operator);
         try {
             adminMapper.addOperator(user);

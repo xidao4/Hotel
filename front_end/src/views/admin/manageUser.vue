@@ -110,7 +110,7 @@
             </div>
             <a-table
               :columns="colH"
-              :dataSource="displayHotelList"
+              :dataSource="hotelList"
               bordered
               >
               <div
@@ -254,10 +254,8 @@ const colM=[
     },{
         title:'用户名',
         dataIndex:'userName',
-    },{
-        title:'创建时间',
-        dataIndex:'createTime',
-    },{
+    }
+    ,{
         title:'操作',
         key: 'action',
         scopedSlots: { customRender: 'action' },
@@ -311,10 +309,6 @@ const columns = [
         dataIndex: 'phoneNumber',
     },
     {
-        title:'创建时间',
-        dataIndex:'createTime',
-    },
-    {
       title: '操作',
       key: 'action',
       scopedSlots: { customRender: 'action' },
@@ -359,10 +353,6 @@ const colOperator=[
     //     title:'密码',
     //     dataIndex:'password'
     // },
-    {
-        title:'创建时间',
-        dataIndex:'createTime',
-    },
     {
         title:'操作',
         key:'action',
@@ -418,13 +408,13 @@ export default {
             'addMModalVisible'
         ]),
     },
-    watch:{},
     async mounted() {
         await this.getClientList(),
         await this.getOperatorList(),
         await this.getManagerList(),
         await this.getHotelListLJY(),
-        this.displayHotelList=[...this.hotelList]
+        console.log('hotel.hotelList',this.hotelList)
+        //this.displayHotelList=[...this.hotelList]
     },
     methods: {
         ...mapActions([
@@ -513,7 +503,7 @@ export default {
         async deleteHM(hotelId){
             const res=await deleteHMAPI(hotelId)
             this.getManagerList(),
-            this.getHotelList()
+            this.getHotelListLJY()
         },
         handleSearch(selectedKeys, confirm, dataIndex) {
             confirm();

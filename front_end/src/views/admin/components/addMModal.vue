@@ -60,6 +60,11 @@
         beforeCreate() {
             this.form = this.$form.createForm(this, { name: 'addMModal' });
         },
+        watch:{
+          addMModalVisible(){
+              this.form.resetFields()
+          }
+        },
         computed: {
             ...mapGetters([
                 'addMModalVisible',
@@ -86,6 +91,7 @@
                             userName: this.form.getFieldValue('userName'),
                             password: this.form.getFieldValue('password')
                         }
+                        console.log('增加酒店工作人员的信息',data)
                         this.addManager(data)
                     }
                 });

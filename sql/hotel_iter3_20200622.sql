@@ -317,9 +317,9 @@ CREATE TABLE `Room` (
 
 LOCK TABLES `Room` WRITE;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `Room` VALUES (2,299,20,20,2,'BigBed'),
-(3,299,30,30,2,'DoubleBed'),
-(4,399,10,10,2,'Family');
+-- INSERT INTO `Room` VALUES (2,299,20,20,2,'BigBed'),
+-- (3,299,30,30,2,'DoubleBed'),
+-- (4,399,10,10,2,'Family');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 UNLOCK TABLES;
 

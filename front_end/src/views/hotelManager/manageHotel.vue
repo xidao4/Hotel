@@ -402,9 +402,6 @@ export default {
             await this.changeStatus(data)
             await this.getAllOrders()
         },
-        addHotel() {
-            this.set_addHotelModalVisible(true)
-        },
         addRoom() {
             console.log(this.bigV)
             console.log(this.doubleV)

@@ -101,11 +101,12 @@ const hotel = {
                 commit('set_hotelListLoading', false)
             }
         },
-        getHotelListLJY:async({commit})=>{
+        getHotelListLJY:async({commit,state})=>{
             const res=await getAllHotelsLJYAPI()
-            console.log('getAllHotelsLJY',res)
+
             if(res){
                 commit('set_hotelList',res)
+                console.log('添加后，getAllHotelsLJY',state.hotelList)
                 commit('set_hotelListLoading',false)
             }
         },

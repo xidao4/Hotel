@@ -289,7 +289,7 @@ export default {
 
                         peopleNum: this.form.getFieldValue('peopleNum'),
                         haveChild: this.form.getFieldValue('haveChild'),
-                        createDate: '',
+                        createDate: moment().format('YYYY-MM-DD'),
                         //price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                         price:this.finalPrice
                     }
