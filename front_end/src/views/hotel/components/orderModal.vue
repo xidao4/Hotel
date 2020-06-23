@@ -7,11 +7,11 @@
             @cancel="cancelOrder"
             @ok="handleSubmit"
     >
-        <a-form :form="form">
-            <a-form-item v-bind="formItemLayout" label="房型信息">
+        <a-form :form="form"  >
+            <a-form-item v-bind="formItemLayout" label="房型信息" style="margin-bottom:2px">
                 <span>{{ currentOrderRoom.roomType }}</span>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="入住人姓名">
+            <a-form-item v-bind="formItemLayout" label="入住人姓名" style="margin-bottom:2px">
                 <a-input
                         v-decorator="[
                         'clientName',
@@ -19,7 +19,7 @@
                     ]"
                 />
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="手机号">
+            <a-form-item v-bind="formItemLayout" label="手机号" style="margin-bottom:2px">
                 <a-input
                         v-decorator="[
                         'phoneNumber',
@@ -28,7 +28,7 @@
                 />
             </a-form-item>
 
-            <a-form-item v-bind="formItemLayout" label="入住日期">
+            <a-form-item v-bind="formItemLayout" label="入住日期" style="margin-bottom:2px">
                 <a-range-picker
                     format="YYYY-MM-DD"
                     @change="changeDate"
@@ -40,8 +40,8 @@
                     ]"
                         :placeholder="['入住日期','退房日期']"
                 />
-            </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="入住人数">
+            </a-form-item >
+            <a-form-item v-bind="formItemLayout" label="入住人数" style="margin-bottom:2px">
                 <a-select
                         v-decorator="[
                         'peopleNum',
@@ -64,7 +64,7 @@
                     </a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="有无儿童">
+            <a-form-item v-bind="formItemLayout" label="有无儿童" style="margin-bottom:2px">
                 <a-radio-group
                         v-decorator="[
                         'haveChild',
@@ -75,7 +75,7 @@
                     <a-radio :value="0">无</a-radio>
                 </a-radio-group>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="房间数">
+            <a-form-item v-bind="formItemLayout" label="房间数" style="margin-bottom:2px">
                 <a-select
                         v-decorator="[
                         'roomNum',
@@ -95,25 +95,25 @@
                     </a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="房间单价">
-                <span>{{ currentOrderRoom.price }}</span>
+            <a-form-item v-bind="formItemLayout" label="房间单价" style="margin-bottom:2px">
+                <span style="margin-bottom:5px">{{ currentOrderRoom.price }}</span>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="总价">
+            <a-form-item v-bind="formItemLayout" label="总价" style="margin-bottom:2px">
                 <span>￥{{ totalPrice }}</span>
             </a-form-item>
 
-            <a-divider v-if="isMember"></a-divider>
-            <a-form-item v-bind="formItemLayout" label="当前会员积分：" v-if="isMember">
+            <a-divider v-if="isMember" style="margin-top:2px;margin-bottom:2px;"></a-divider>
+            <a-form-item v-bind="formItemLayout" label="当前会员积分：" v-if="isMember" style="margin-bottom:2px">
                 <span>{{memInfo.memberPoints}}</span>
             </a-form-item>
-            <a-checkbox v-model="usePoints" @change="onMemberPointsChange" v-if="isMember">
+            <a-checkbox v-model="usePoints" @change="onMemberPointsChange" v-if="isMember" style="margin-bottom:2px">
                 使用积分抵扣（100积分抵扣1元现金）
             </a-checkbox>
-            <a-form-item v-bind="formItemLayout" label="会员折扣价" v-if="isMember">
+            <a-form-item v-bind="formItemLayout" label="会员折扣价" v-if="isMember" style="margin-bottom:2px">
                 <span>￥{{memPrice}}</span>
             </a-form-item>
 
-            <a-divider></a-divider>
+            <a-divider style="margin-top:2px;margin-bottom:2px;"></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
             <a-checkbox-group v-model="checkedList" @change="onchange" v-if="orderMatchCouponList.length>0">
                 <a-table
@@ -131,10 +131,10 @@
                     </a-checkbox>
                 </a-table>
             </a-checkbox-group>
-            <a-form-item v-if="orderMatchCouponList.length===0">
+            <a-form-item v-if="orderMatchCouponList.length===0" style="margin-bottom:2px">
                 <span>当前订单没有可用优惠券</span>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="结算后总价" >
+            <a-form-item v-bind="formItemLayout" label="结算后总价" style="margin-bottom:2px">
                 <span>￥{{ finalPrice }}</span>
             </a-form-item>
         </a-form>
@@ -156,10 +156,6 @@ const columns = [
         scopedSlots: {customRender: 'couponName'}
     },
     {
-        title: '折扣',
-        dataIndex: 'discount',
-    },
-    {
         title: '优惠简介',
         dataIndex: 'description',
 
@@ -176,11 +172,11 @@ export default {
         return {
             formItemLayout: {
                 labelCol: {
-                    xs: { span: 12 },
+                    xs: { span: 12 },//12 6
                     sm: { span: 6 },
                 },
                 wrapperCol: {
-                    xs: { span: 24 },
+                    xs: { span: 24 }, //24 16
                     sm: { span: 16 },
                 },
             },
@@ -267,6 +263,19 @@ export default {
             console.log("finalPrice",this.finalPrice)
             this.form.validateFieldsAndScroll(async (err, values) => {
                 if (!err) {
+                    //bug:一定要在await之前先判断Usepoints,因为是这个页面的数据
+                    //如果使用了积分，那么扣除积分
+                    console.log('usePoints',this.usePoints)
+                    if(this.usePoints){
+                        const data={
+                            userId:this.userId,
+                            memberPoints:parseInt(this.memInfo.memberPoints/100)*100   //1137//100*100=11*100=1100
+                        }
+                        console.log('decreaseMemberPointsInfo',data)
+                        await this.decreaseMemberPoints(data)
+                        await this.getMemInfo()
+                    }
+
                     const data = {
                         hotelId: this.currentHotelId,
                         hotelName: this.currentHotelInfo.name,
@@ -284,20 +293,8 @@ export default {
                         //price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                         price:this.finalPrice
                     }
-
                     await this.addOrder(data)
                     console.log('orderInfo',data)
-                    //如果使用了积分，那么扣除积分
-                    console.log('usePoints',this.usePoints)
-                    if(this.usePoints){
-                        const data={
-                            userId:this.userId,
-                            memberPoints:parseInt(this.memInfo.memberPoints/100)*100   //1137//100*100=11*100=1100
-                        }
-                        console.log('decreaseMemberPointsInfo',data)
-                        await this.decreaseMemberPoints(data)
-                        await this.getMemInfo()
-                    }
                 }
             })
         },
@@ -362,12 +359,12 @@ export default {
         },
         orderModalVisible(val){
             this.form.resetFields()
-            this.totalPrice=0
+            this.usePoints=false
             this.checkedList=[]
             console.log('checkedList',this.checkedList)
             this.set_orderMatchCouponList([])
             console.log('orderMatchCouponList',this.orderMatchCouponList)
-            this.set_usePoints(false)
+            this.totalPrice=0
         },
         newDate(val){
             this.set_orderMatchCouponList([])

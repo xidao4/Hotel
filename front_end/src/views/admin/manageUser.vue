@@ -43,6 +43,7 @@
                   />
                   <span slot="action" slot-scope="text, record">
                         <a-button @click="modifyClient(record.id)">更改信息</a-button>
+                        <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                           title="确定删除吗？"
                           ok-text="确定"
@@ -146,6 +147,7 @@
               />
               <span slot="action" slot-scope="text, record">
                   <a-button @click="addM(record.id)">添加工作人员</a-button>
+                  <a-divider type="vertical"></a-divider>
                   <a-popconfirm
                           title="删除酒店将同时删除工作人员。确定想删除吗？"
                           @confirm="deleteHM(record.id)"
@@ -548,7 +550,3 @@ export default {
 </style>
 
 
-<!--入驻酒店-->
-<!--增-->
-<!--（操作：增加工作人员、删酒店的同时删除工作账号）-->
-<!--工作人员-->
