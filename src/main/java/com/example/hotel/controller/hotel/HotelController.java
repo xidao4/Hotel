@@ -127,4 +127,9 @@ public class HotelController {
     public ResponseVO updateInfo(@RequestBody HotelInfoVO hotelInfoVO, @PathVariable int id){
         return hotelService.updateHotelInfo(id,hotelInfoVO.getAddress(),hotelInfoVO.getPhoneNum());
     }
+    @GetMapping("/updateRoom/{hotelId}/{roomType}/{curNum}/{total}/{price}")
+    public ResponseVO updateRoom(@PathVariable int hotelId,@PathVariable String roomType,@PathVariable int curNum,@PathVariable int total,@PathVariable double price ){
+        return roomService.updateRoom(hotelId,roomType,curNum,total,price);
+    }
+
 }

@@ -92,8 +92,7 @@
                     />
 <!--                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"-->
                     <template slot="actions" class="ant-card-actions">
-                      <a-button type="primary" size="small" @click="addRoom()" v-if="bigV && familyV && doubleV" disabled="true">录入房间</a-button>
-                      <a-button type="primary" size="small" @click="addRoom()" v-else>录入房间</a-button>
+                      <a-button type="primary" size="small" @click="addRoom()">录入房间</a-button>
                       <a-button type="info" size="small" @click="showCoupon()">优惠策略</a-button>
                     </template>
 <!--                    <a-card-meta title="酒店服务标签">-->

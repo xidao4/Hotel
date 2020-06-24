@@ -1,6 +1,7 @@
 package com.example.hotel.bl.hotel;
 
 import com.example.hotel.po.HotelRoom;
+import com.example.hotel.vo.ResponseVO;
 
 import java.util.List;
 
@@ -34,4 +35,15 @@ public interface RoomService {
      * @return
      */
     int getRoomCurNum(Integer hotelId, String roomType);
+
+    /**
+     * author:ydl
+     * 重复录入房间时覆盖记录
+     * @param hotelId
+     * @param roomType
+     * @param curNum
+     * @param total
+     * @param price
+     */
+    ResponseVO updateRoom(Integer hotelId, String roomType, Integer curNum, Integer total, Double price);
 }

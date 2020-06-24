@@ -19,4 +19,7 @@ public interface RoomMapper {
     List<HotelRoom> selectRoomsByHotelId(@Param("hotelId") Integer hotelId);
 
     int getRoomCurNum(@Param("hotelId") Integer hotelId,@Param("roomType") String roomType);
+
+    int updateRoom(@Param("hotelId") Integer hotelId,@Param("roomType") String roomType,
+                   @Param("curNum") Integer curNum,@Param("total") Integer total,@Param("price") Double price);
 }

@@ -2,6 +2,7 @@
 import {
     addRoomAPI,
     addHotelAPI,
+    updateRoomAPI,
 } from '@/api/hotelManager'
 import {
     getAllOrdersAPI,
@@ -127,9 +128,19 @@ const hotelManager = {
                     total: 0,
                     curNum: 0,
                 })
-                message.success('添加成功')
+                message.success('添加房间成功')
             }else{
                 message.error('添加失败')
+            }
+        },
+        updateRoom: async({ state, commit },data) => {
+            const res = await updateRoomAPI(data)
+            if(res) {
+                commit('set_addRoomModalVisible', false)
+                message.success('更新酒店房间信息成功')
+            }
+            else{
+                message.error('更新失败')
             }
         },
         getHotelCoupon: async({ state, commit }) => {

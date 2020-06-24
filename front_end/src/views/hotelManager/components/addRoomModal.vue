@@ -8,7 +8,7 @@
         @ok="handleSubmit"
     >
         <a-form :form="form" style="margin-top: 30px" v-bind="formItemLayout">
-            <a-form-item label="房型" v-bind="formItemLayout">
+            <a-form-item label="房型" v-bind="formItemLayout" help="如果不是第一次录入该种房间类型，将会覆盖之前的记录，请慎重" validate-status="error">
                 <a-select
                     v-decorator="[
                     'roomType', 
@@ -77,7 +77,8 @@ export default {
             'set_familyV',
         ]),
         ...mapActions([
-            'addRoom'
+            'addRoom',
+            'updateRoom'
         ]),
         cancel() {
             this.set_addRoomModalVisible(false)
@@ -93,25 +94,24 @@ export default {
                         curNum: Number(this.form.getFieldValue('roomNum')),
                         hotelId: this.activeHotelId,
                     }
-                    if(data.roomType==='DoubleBed'){
-                        console.log('db')
+                    if((data.roomType==='DoubleBed' && this.doubleV===true) || (data.roomType==='BigBed' && this.bigV===true) || (data.roomType==='Family' && this.familyV===true)){
+                        await this.updateRoom(data)
+                    }
+                    if(data.roomType==='DoubleBed' && this.doubleV===''){
                         this.set_doubleV()
+                        this.set_addRoomParams(data)
+                        await this.addRoom()
                     }
-                    if(data.roomType==='BigBed'){
-                        console.log('bb')
+                    if(data.roomType==='BigBed' && this.bigV===''){
                         this.set_bigV()
-                        console.log(this.bigV)
+                        this.set_addRoomParams(data)
+                        await this.addRoom()
                     }
-                    if(data.roomType==='Family'){
-                        console.log('f')
+                    if(data.roomType==='Family' && this.familyV===''){
                         this.set_familyV()
-                        console.log(this.familyV)
+                        this.set_addRoomParams(data)
+                        await this.addRoom()
                     }
-                    console.log('view里面的room表单数据')
-                    console.log(data)
-                    this.set_addRoomParams(data)
-                    console.log(this.addRoomParams)
-                    await this.addRoom()
                     this.form.resetFields()
                 }
             });

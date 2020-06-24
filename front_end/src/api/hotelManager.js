@@ -10,3 +10,11 @@ export function addRoomAPI(data) {
     })
 }
 
+export function updateRoomAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/updateRoom/${data.hotelId}/${data.roomType}/${data.curNum}/${data.total}/${data.price}`,
+        method: 'GET',
+    })
+}
+
+
