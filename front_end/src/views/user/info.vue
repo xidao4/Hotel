@@ -445,9 +445,11 @@ export default {
     }
 </style>
 <style lang="less">
+
     .info-wrapper {
+        padding: 20px 100px 144px;
         .ant-tabs-bar {
-            padding-left: 30px
+            padding-left: 30px;
         }
     }
 </style>

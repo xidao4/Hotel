@@ -451,7 +451,7 @@ export default {
         },
         modifyOO(userId){
             this.set_OOIdx(userId)
-            console.log("before getTmpUserInfo","test",this.OOIdx),
+            console.log("before getTmpUserInfo","hotelCard.vue",this.OOIdx),
             this.getTmpUserInfo(),
             console.log("after getTmpUserInfo")
             //this.set_modifyOOModalVisible(true)
