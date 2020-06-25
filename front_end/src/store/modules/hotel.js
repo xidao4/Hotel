@@ -27,6 +27,9 @@ const hotel = {
         hotelList: [
 
         ],
+        showHotelList: [
+
+        ],
         hotelListParams: {
             pageNo: 0,
             pageSize: 12
@@ -55,6 +58,9 @@ const hotel = {
         },
         set_hotelList: function(state, data) {
             state.hotelList = data
+        },
+        set_showHotelList:function(state, data) {
+            state.showHotelList = [...data]
         },
         set_hotelListParams: function(state, data) {
             state.hotelListParams = {
