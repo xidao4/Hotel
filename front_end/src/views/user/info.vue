@@ -107,7 +107,7 @@
                             </a-descriptions>
                         </a-modal>
                         <a-divider type="vertical"></a-divider>
-                        <a-button size="small" v-if="record.orderState==='已执行' && commentV" type="primary" @click="showCommentModal(record.id)">评价</a-button>
+                        <a-button size="small" v-if="record.orderState==='已执行' && record.whetherComment===0" type="primary" @click="showCommentModal(record.id)">评价</a-button>
                         <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
                         <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
                             <a-form :form="commentForm" v-bind="formItemLayout">
@@ -219,7 +219,6 @@ export default {
             avatar_url: '',
             date_curve: [],
             credit_curve: [],
-            commentV: true,
             // form: this.$form.createForm(this, { name: 'coordinated' }),
             commentForm: this.$form.createForm(this,{name: 'commentForm'}),
             changedPwd:false,
@@ -352,14 +351,17 @@ export default {
         },
         async commentSubmit(record){
             console.log(record)
+            //record是订单信息
             console.log(record.id)
             console.log(this.commentValue)
             console.log(this.commentContent)
             console.log(this.userInfo)
+            //userInfo是用户信息
             console.log(record.hotelName)
             const comment={
                 userId: this.userId,
                 hotelId: record.hotelId,
+                orderId: record.id,
                 commentValue: this.commentValue,
                 commentContent: this.commentContent,
                 avatar: this.userInfo.avatar_url,
@@ -373,7 +375,7 @@ export default {
             this.commentValue=5
             this.commentContent=''
             this.commentVisible=false
-            this.commentV=false
+            this.getUserOrders()
         },
         async saveModify() {
             await this.form.validateFields((err, values) => {

@@ -63,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("-------------------------------");
             orderVO.setOrderState("已预订");
             orderVO.setCancelReason("未撤销");
+            orderVO.setWhetherComment(0);
             User user = accountService.getUserInfo(orderVO.getUserId());
             orderVO.setClientName(user.getUserName());
 //            orderVO.setPhoneNumber(user.getPhoneNumber());
@@ -157,6 +158,10 @@ public class OrderServiceImpl implements OrderService {
         return ResponseVO.buildSuccess(true);
     }
 
+    @Override
+    public void changeCommentStatus(int orderId){
+        orderMapper.changeCommentStatus(orderId);
+    }
     @Override
     public Double getPrice(int orderId) {
         return orderMapper.getPriceById(orderId);

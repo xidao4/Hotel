@@ -34,4 +34,6 @@ public interface OrderMapper {
 
     Integer setCrid(@Param("orderid") int orderid, @Param("crid") int crid);
 
+    void changeCommentStatus(@Param("orderId") int orderId);
+
 }

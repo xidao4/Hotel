@@ -56,6 +56,7 @@ CREATE TABLE `CommentList` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` int DEFAULT NULL,
   `hotelId` int DEFAULT NULL,
+  `orderId` int DEFAULT NULL ,
   `commentValue` int DEFAULT NULL,
   `commentContent` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
@@ -276,6 +277,7 @@ CREATE TABLE `OrderList` (
   `orderState` varchar(255) DEFAULT NULL,
   `cancelReason` varchar(255) DEFAULT NULL,
   `residentName` varchar(255),
+  `whetherComment` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -286,10 +288,10 @@ CREATE TABLE `OrderList` (
 
 LOCK TABLES `OrderList` WRITE;
 /*!40000 ALTER TABLE `OrderList` DISABLE KEYS */;
-INSERT INTO `OrderList` VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已执行','未撤销','residentName0'),
-(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123','residentName1'),
-(16,5,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试二号','12345678919','已执行','未撤销','residentName2'),
-(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已预订','未撤销','residentName3');
+INSERT INTO `OrderList` VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已执行','未撤销','residentName0',0),
+(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123','residentName1',0),
+(16,5,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试二号','12345678919','已执行','未撤销','residentName2',0),
+(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已预订','未撤销','residentName3',0);
 /*!40000 ALTER TABLE `OrderList` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -8,6 +8,7 @@ public class CommentVO {
     private Integer id;
     private Integer userId;
     private Integer hotelId;
+    private Integer orderId;
     private Integer commentValue;
     private String commentContent;
     private String avatar;
@@ -75,5 +76,13 @@ public class CommentVO {
 
     public void setReply(String reply) {
         this.reply = reply;
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 }

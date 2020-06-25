@@ -70,6 +70,12 @@ public interface OrderService {
     ResponseVO changeStatus(int orderid,String status);
 
     /**
+     * 改变order是否被评价的状态
+     * @param orderId
+     */
+    void changeCommentStatus(int orderId);
+
+    /**
      * 获得订单金额
      * @param orderId
      * @return

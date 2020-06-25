@@ -25,6 +25,7 @@ public class OrderVO {
     private String cancelReason;
     private String residentName;
     private Integer crid;
+    private Integer whetherComment;
 
     public Integer getId() {
         return id;
@@ -164,5 +165,13 @@ public class OrderVO {
 
     public void setCrid(Integer crid) {
         this.crid = crid;
+    }
+
+    public Integer getWhetherComment() {
+        return whetherComment;
+    }
+
+    public void setWhetherComment(Integer whetherComment) {
+        this.whetherComment = whetherComment;
     }
 }

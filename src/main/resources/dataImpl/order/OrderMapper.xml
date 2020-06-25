@@ -9,8 +9,8 @@
         select * from OrderList where userId=#{userid}
     </select>
     <insert id="addOrder" parameterType="com.example.hotel.po.Order" useGeneratedKeys="true" keyProperty="id">
-        insert into OrderList(userId,residentName,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState,cancelReason)
-        values(#{userId},#{residentName},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState},#{cancelReason})
+        insert into OrderList(userId,residentName,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState,cancelReason,whetherComment)
+        values(#{userId},#{residentName},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState},#{cancelReason},#{whetherComment})
     </insert>
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
@@ -24,6 +24,10 @@
     <!--更新订单状态的数据库操作-->
     <update id="changeStatus">
         update OrderList set orderState=#{status} where id=#{orderid}
+    </update>
+    <!--更新订单是否被评价状态的数据库操作-->
+    <update id="changeCommentStatus">
+        update OrderList set whetherComment=1 where id=#{orderId}
     </update>
 
     <select id="getPriceById" resultType="double">

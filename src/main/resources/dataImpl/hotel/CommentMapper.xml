@@ -3,8 +3,8 @@
 <mapper namespace="com.example.hotel.data.hotel.CommentMapper">
 
     <insert id="addComment" parameterType="com.example.hotel.po.Comment" useGeneratedKeys="true" keyProperty="id">
-        insert into CommentList(userId,hotelId,commentValue,commentContent,avatar,userName,reply)
-        values(#{userId},#{hotelId},#{commentValue},#{commentContent},#{avatar},#{userName},#{reply})
+        insert into CommentList(userId,hotelId,orderId,commentValue,commentContent,avatar,userName,reply)
+        values(#{userId},#{hotelId},#{orderId},#{commentValue},#{commentContent},#{avatar},#{userName},#{reply})
     </insert>
 
     <select id="getCommentByHotelId" resultMap="Comment">
