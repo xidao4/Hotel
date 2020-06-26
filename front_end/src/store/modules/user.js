@@ -271,10 +271,7 @@ const user = {
             }
         },
         getImageUrl:async ({commit,state},data)=>{
-            const res = await uploadAPI({
-                id: state.userId,
-                img: data
-            })
+            const res = await uploadAPI(data)
             if(res){
                 /*console.log("module")
                 console.log(res)*/

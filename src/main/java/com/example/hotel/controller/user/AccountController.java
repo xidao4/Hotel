@@ -77,8 +77,8 @@ public class AccountController {
         return ResponseVO.buildSuccess(accountService.decreaseMemberPoints(memUpdateVO.getUserId(),memUpdateVO.getMemberPoints()));
     }
 
-    @PostMapping("/{id}/upload")
-    public ResponseVO uploadImage(@RequestParam(value="img") MultipartFile file,@PathVariable int id) {
+    @PostMapping("/upload")
+    public ResponseVO uploadImage(@RequestParam(value="img") MultipartFile file) {
         //System.out.println(file);
         String type = file.getContentType().substring(6);
         //System.out.println(type);

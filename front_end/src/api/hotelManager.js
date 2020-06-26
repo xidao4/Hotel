@@ -17,4 +17,28 @@ export function updateRoomAPI(data) {
     })
 }
 
+export function changePicAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/${data.hotelId}/changePic`,
+        method: 'POST',
+        data: data.pics,
+    })
+}
 
+export function uploadPicAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/upload`,
+        method: 'POST',
+        data: data,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+}
+
+export function getPicsAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/${data}/getPics`,
+        method: 'GET',
+    })
+}
