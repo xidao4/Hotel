@@ -9,7 +9,8 @@ import {
 } from '@/api/hotelManager'
 import {
     getAllOrdersAPI,
-    changeStatusAPI
+    changeStatusAPI,
+    getOrderByHotelIdAPI
 } from '@/api/order'
 import {
     hotelAllCouponsAPI,
@@ -122,6 +123,13 @@ const hotelManager = {
         },
         getAllOrders: async({ state, commit }) => {
             const res = await getAllOrdersAPI()
+            // res非空时进行
+            if(res){
+                commit('set_orderList', res)
+            }
+        },
+        getOrderByHotelId: async({ state, commit },data) => {
+            const res = await getOrderByHotelIdAPI(data)
             // res非空时进行
             if(res){
                 commit('set_orderList', res)

@@ -15,6 +15,13 @@ export function getAllOrdersAPI() {
         method: 'GET',
     })
 }
+export function getOrderByHotelIdAPI(data) {
+    return axios({
+        url: `${api.orderPre}/${data}/getOrderByHotelId`,
+        method: 'GET',
+    })
+}
+
 export function getUserOrdersAPI(data) {
     return axios({
         url: `${api.orderPre}/${data.userId}/getUserOrders`,

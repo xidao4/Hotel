@@ -101,10 +101,7 @@
                         </a-modal>
                     </div>
 
-                    <div>
-                        <a-button type="primary" size="small" @click="addRoom()" style="margin-left: 20px;margin-right: 70px;">录入房间</a-button>
-                        <a-button type="info" size="small" @click="showCoupon()" style="margin-left: 70px;margin-right: 20px">优惠策略</a-button>
-                    </div>
+
 
                   <!--<a-card hoverable style="width: 250px;margin-top:8%">
 
@@ -213,6 +210,13 @@
                     </a-tag>
                   </a-card>
                 </a-col>
+                <br>
+                <a-col>
+                    <div>
+                        <a-button type="primary" size="small" @click="addRoom()" style="margin-left: 20px;margin-right: 25px;">录入房间</a-button>
+                        <a-button type="info" size="small" @click="showCoupon()" style="margin-left: 25px;margin-right: 20px">优惠策略</a-button>
+                    </div>
+                </a-col>
             </a-tab-pane>
             <a-tab-pane tab="酒店评价" key="4">
                 <a-list
@@ -233,7 +237,7 @@
                                 <a-rate :default-value="item.commentValue" disabled ><a-icon slot="character" type="heart" /></a-rate><br/><br/>
                                 {{ item.commentContent }}
                             </p>
-                            <a-comment author="酒店掌柜" avatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" v-if="item.reply!==''">
+                            <a-comment author="酒店掌柜" avatar="https://ydl8023.oss-cn-beijing.aliyuncs.com/avatar19.png" v-if="item.reply!==''">
                                 <p slot="content">
                                     {{ item.reply }}
                                 </p>
@@ -399,7 +403,7 @@ export default {
         // console.log("this.hotelId",this.hotelId)//1
         await this.getHotelInfo()
         //await this.getHotelListLJY()
-        await this.getAllOrders()
+        await this.getOrderByHotelId(this.currentHotelId)
         //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
         await this.getAllTags(this.currentHotelId)
         await this.getCommentByHotelId(this.currentHotelId)
@@ -431,7 +435,7 @@ export default {
             'getPicUrl',
             'changePic',
             'getPics',
-
+            'getOrderByHotelId'
         ]),
         async upload(info){
             console.log("list_before",this.fileList)

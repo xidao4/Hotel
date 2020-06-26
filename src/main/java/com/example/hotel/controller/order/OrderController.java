@@ -29,6 +29,11 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
+    @GetMapping("/{hotelId}/getOrderByHotelId")
+    public ResponseVO getOrderByHotelId(@PathVariable int hotelId){
+        return ResponseVO.buildSuccess(orderService.getOrderByHotelId(hotelId));
+    }
+
     @GetMapping("/{userid}/getUserOrders")
     public  ResponseVO retrieveUserOrders(@PathVariable int userid){
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));

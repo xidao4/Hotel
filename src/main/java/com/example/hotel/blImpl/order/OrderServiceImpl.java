@@ -156,6 +156,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getOrderByHotelId(int hotelId){
+        return orderMapper.getOrderByHotelId(hotelId);
+    }
+    @Override
     public List<Order> getUserOrders(int userid) {
         return orderMapper.getUserOrders(userid);
     }
