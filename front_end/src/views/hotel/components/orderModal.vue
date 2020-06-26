@@ -143,6 +143,9 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AFormItem from "ant-design-vue/es/form/FormItem";
+import {
+    reserveHotelAPI
+} from '@/api/order'
 const moment = require('moment')
 const columns = [
     {
@@ -263,18 +266,7 @@ export default {
             console.log("finalPrice",this.finalPrice)
             this.form.validateFieldsAndScroll(async (err, values) => {
                 if (!err) {
-                    //bug:一定要在await之前先判断Usepoints,因为是这个页面的数据
-                    //如果使用了积分，那么扣除积分
-                    console.log('usePoints',this.usePoints)
-                    if(this.usePoints){
-                        const data={
-                            userId:this.userId,
-                            memberPoints:parseInt(this.memInfo.memberPoints/100)*100   //1137//100*100=11*100=1100
-                        }
-                        console.log('decreaseMemberPointsInfo',data)
-                        await this.decreaseMemberPoints(data)
-                        await this.getMemInfo()
-                    }
+
 
                     const data = {
                         hotelId: this.currentHotelId,
@@ -293,8 +285,26 @@ export default {
                         //price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                         price:this.finalPrice
                     }
-                    await this.addOrder(data)
                     console.log('orderInfo',data)
+
+                    const res=await reserveHotelAPI(data)
+                    if(res){
+                        message.success('预定成功')
+
+                        console.log('usePoints',this.usePoints)
+                        if(this.usePoints){
+                            const data={
+                                userId:this.userId,
+                                memberPoints:parseInt(this.memInfo.memberPoints/100)*100   //1137//100*100=11*100=1100
+                            }
+                            console.log('decreaseMemberPointsInfo',data)
+                            await this.decreaseMemberPoints(data)
+                            await this.getMemInfo()
+                        }
+
+                        this.set_orderModalVisible(false)
+                    }
+
                 }
             })
         },
