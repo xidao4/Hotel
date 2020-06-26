@@ -2,7 +2,7 @@
     <div id="layout">
         <Header v-if="isLw"></Header>
         <transition name="fade-transform" mode="out-in">
-            <router-view/>
+            <router-view style="padding: 20px 80px 144px;"/>
         </transition>
     </div>
 </template>
