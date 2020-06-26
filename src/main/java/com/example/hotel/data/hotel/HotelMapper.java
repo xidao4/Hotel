@@ -22,6 +22,6 @@ public interface HotelMapper {
 
     int delete(@Param("id") Integer id);
 
-    int update(@Param("id") int id, @Param("address") String address,@Param("phoneNum") String phoneNum);
+    int update(@Param("id") int id, @Param("address") String address,@Param("phoneNum") String phoneNum,@Param("description") String description);
 
 }
