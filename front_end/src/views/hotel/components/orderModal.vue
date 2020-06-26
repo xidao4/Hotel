@@ -28,19 +28,45 @@
                 />
             </a-form-item>
 
-            <a-form-item v-bind="formItemLayout" label="入住日期" style="margin-bottom:2px">
-                <a-range-picker
+<!--            <a-form-item v-bind="formItemLayout" label="日期" style="margin-bottom:2px">-->
+<!--                <a-range-picker-->
+<!--                    format="YYYY-MM-DD"-->
+<!--                    @change="changeDate"-->
+<!--                    v-decorator="[-->
+<!--                        'date',-->
+<!--                        {-->
+<!--                            rules: [{ required: true, message: '请选择入住时间' }]-->
+<!--                        }-->
+<!--                    ]"-->
+<!--                        :placeholder="['入住日期','退房日期']"-->
+<!--                />-->
+<!--            </a-form-item >-->
+            <a-form-item v-bind="formItemLayout" label="入住日期" style="margin-bottom: 2px">
+                <a-date-picker
+                    :disabled-date="disabledStartDate"
                     format="YYYY-MM-DD"
                     @change="changeDate"
                     v-decorator="[
-                        'date',
+                        'checkInDate',
                         {
-                            rules: [{ required: true, message: '请选择入住时间' }]
+                            rules: [{ required: true, message: '请选择入住日期' }]
                         }
                     ]"
-                        :placeholder="['入住日期','退房日期']"
                 />
-            </a-form-item >
+            </a-form-item>
+            <a-form-item v-bind="formItemLayout" label="退房日期" style="margin-bottom: 2px">
+                <a-date-picker
+                    :disabled-date="disabledStartDate"
+                    format="YYYY-MM-DD"
+                    @change="changeDate"
+                    v-decorator="[
+                        'checkOutDate',
+                        {
+                            rules: [{ required: true, message: '请选择退房退房日期' }]
+                        }
+                    ]"
+                />
+            </a-form-item>
             <a-form-item v-bind="formItemLayout" label="入住人数" style="margin-bottom:2px">
                 <a-select
                         v-decorator="[
@@ -186,7 +212,7 @@ export default {
             memPrice:'',
             finalPrice: '',
             usePoints:false,
-            newDate:false
+            newDate:false,
         }
     },
     computed: {
@@ -225,9 +251,27 @@ export default {
         confirmOrder() {
 
         },
-        changeDate(v) {
+        disabledStartDate(startValue) {
+            const endValue = this.endValue;
+            if(startValue && endValue) {
+                return startValue.valueOf() > endValue.valueOf() || moment(startValue).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD") || moment(startValue).diff(moment(), 'day') > 30;
+            } else if(startValue) {
+                return moment(startValue).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD") || moment(startValue).diff(moment(), 'day') > 30;
+            }
+            return false;
+        },
+        disabledEndDate(endValue) {
+            const startValue = this.startValue;
+            if(startValue && endValue) {
+                return startValue.valueOf() >= endValue.valueOf() || moment(endValue).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD") || moment(endValue).diff(moment(), 'day') > 30;
+            } else if(endValue) {
+                return moment(endValue).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD") || moment(endValue).diff(moment(), 'day') > 30;
+            }
+            return false;
+        },
+        changeDate() {
             if (this.totalPrice != '') {
-                this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
+                this.totalPrice = this.form.getFieldValue('roomNum') * moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day') * Number(this.currentOrderRoom.price)
 
                 if(this.newDate)
                     this.newDate=false
@@ -238,7 +282,7 @@ export default {
         changePeopleNum(v) {
         },
         changeRoomNum(v) {
-            this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+            this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day')
         },
         onchange() {
             console.log('v-model=\'checkedList\'',this.checkedList)//为所有选中的优惠券
@@ -282,8 +326,8 @@ export default {
                         userId: Number(this.userId),
                         residentName: this.form.getFieldValue('clientName'),
                         phoneNumber:this.form.getFieldValue('phoneNumber'),
-                        checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                        checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                        checkInDate: moment(this.form.getFieldValue('checkInDate')).format('YYYY-MM-DD'),
+                        checkOutDate: moment(this.form.getFieldValue('checkOutDate')).format('YYYY-MM-DD'),
                         roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
                         roomNum: this.form.getFieldValue('roomNum'),
 
@@ -291,8 +335,10 @@ export default {
                         haveChild: this.form.getFieldValue('haveChild'),
                         createDate: moment().format('YYYY-MM-DD'),
                         //price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
-                        price:this.finalPrice
+                        price:this.finalPrice,
+                        whetherComment: 0
                     }
+
                     await this.addOrder(data)
                     console.log('orderInfo',data)
                 }
@@ -326,8 +372,8 @@ export default {
                 hotelId: this.currentHotelId,
                 orderPrice: this.isMember?this.memPrice:this.totalPrice,//如果是会员，用会员优惠价来匹配优惠券
                 roomNum: this.form.getFieldValue('roomNum'),
-                checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                checkIn: moment(this.form.getFieldValue('checkInDate')).format('YYYY-MM-DD'),
+                checkOut: moment(this.form.getFieldValue('checkOutDate')).format('YYYY-MM-DD'),
                 createDate: moment().format('YYYY-MM-DD')
             }
             this.getOrderMatchCoupons(data)
@@ -349,8 +395,8 @@ export default {
                 hotelId: this.currentHotelId,
                 orderPrice: this.isMember?this.memPrice:this.totalPrice,//如果是会员，用会员优惠价来匹配优惠券
                 roomNum: this.form.getFieldValue('roomNum'),
-                checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                checkIn: moment(this.form.getFieldValue('checkInDate')).format('YYYY-MM-DD'),
+                checkOut: moment(this.form.getFieldValue('checkOutDate')).format('YYYY-MM-DD'),
                 createDate: moment().format('YYYY-MM-DD')
             }
             this.getOrderMatchCoupons(data)
@@ -375,8 +421,8 @@ export default {
                 hotelId: this.currentHotelId,
                 orderPrice: this.isMember?this.memPrice:this.totalPrice,//如果是会员，用会员优惠价来匹配优惠券
                 roomNum: this.form.getFieldValue('roomNum'),
-                checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                checkIn: moment(this.form.getFieldValue('checkInDate')).format('YYYY-MM-DD'),
+                checkOut: moment(this.form.getFieldValue('checkOutDate')).format('YYYY-MM-DD'),
                 createDate: moment().format('YYYY-MM-DD')
             }
             this.getOrderMatchCoupons(data)

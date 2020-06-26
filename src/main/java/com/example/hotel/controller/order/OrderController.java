@@ -34,9 +34,10 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
-    @GetMapping("/{orderid}/{status}/changeStatus")
-    public ResponseVO changeStatus(@PathVariable int orderid,@PathVariable String status){
-        return orderService.changeStatus(orderid,status);
+    @GetMapping("/{orderid}/{status}/{hotelId}/{roomType}/{startTime}/{endTime}/{reserveNum}/changeStatus")
+    public ResponseVO changeStatus(@PathVariable int orderid,@PathVariable String status,@PathVariable int hotelId,@PathVariable String roomType,
+    @PathVariable String startTime,@PathVariable String endTime,@PathVariable Integer reserveNum){
+        return orderService.changeStatus(orderid,status,hotelId,roomType,startTime,endTime,reserveNum);
     }
 
     @GetMapping("/{orderid}/getOrder")
@@ -44,12 +45,13 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getOrder(orderid));
     }
 
-    @GetMapping("/{orderid}/{reason}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid,@PathVariable String reason){
+    @GetMapping("/{orderid}/{reason}/{hotelId}/{roomType}/{startTime}/{endTime}/{reserveNum}/annulOrder")
+    public ResponseVO annulOrder(@PathVariable int orderid,@PathVariable String reason,@PathVariable int hotelId,
+           @PathVariable String roomType,@PathVariable String startTime,@PathVariable String endTime,@PathVariable int reserveNum){
         System.out.println("OrderController");
         System.out.println(orderid);
         System.out.println(reason);
-        return orderService.annulOrder(orderid,reason);
+        return orderService.annulOrder(orderid,reason,hotelId,roomType,startTime,endTime,reserveNum);
     }
 
     @GetMapping("/{hotelId}/allOrders")

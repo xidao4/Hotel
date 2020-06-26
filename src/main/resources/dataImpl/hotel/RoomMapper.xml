@@ -17,7 +17,7 @@
     </update>
 
     <select id="getRoomCurNum" resultType="int">
-        select curNum from Room where hotel_id=#{hotelId} and roomType=#{roomType}
+        select total from Room where hotel_id=#{hotelId} and roomType=#{roomType}
     </select>
 
     <update id="updateRoom">
