@@ -151,6 +151,14 @@ CREATE TABLE `Hotel` (
   `phoneNum` varchar(11) DEFAULT NULL,
   `rate` double DEFAULT NULL,
   `manager_id` int DEFAULT NULL,
+  `pic_1` varchar(256) DEFAULT NULL,
+  `pic_2` varchar(256) DEFAULT NULL,
+  `pic_3` varchar(256) DEFAULT NULL,
+  `pic_4` varchar(256) DEFAULT NULL,
+  `pic_5` varchar(256) DEFAULT NULL,
+  `pic_6` varchar(256) DEFAULT NULL,
+  `pic_7` varchar(256) DEFAULT NULL,
+  `pic_8` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -161,7 +169,7 @@ CREATE TABLE `Hotel` (
 
 LOCK TABLES `Hotel` WRITE;
 /*!40000 ALTER TABLE `Hotel` DISABLE KEYS */;
-INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住','苏州园区','XiDan','Four',1829373819,4.8,1),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,2),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,3);
+INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住','苏州园区','XiDan','Four',1829373819,4.8,1,'','','','','','','',''),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,2,'','','','','','','',''),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,3,'','','','','','','','');
 /*!40000 ALTER TABLE `Hotel` ENABLE KEYS */;
 UNLOCK TABLES;
 

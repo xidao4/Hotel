@@ -1,22 +1,27 @@
 package com.example.hotel.controller.hotel;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyun.oss.OSSClient;
 import com.example.hotel.bl.coupon.CouponService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
+import com.example.hotel.po.Hotel;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.HotelInfoVO;
+import com.example.hotel.vo.*;
 import com.example.hotel.bl.hotel.CommentService;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.CommentVO;
-import com.example.hotel.vo.HotelVO;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/hotel")
@@ -130,6 +135,42 @@ public class HotelController {
     @GetMapping("/updateRoom/{hotelId}/{roomType}/{curNum}/{total}/{price}")
     public ResponseVO updateRoom(@PathVariable int hotelId,@PathVariable String roomType,@PathVariable int curNum,@PathVariable int total,@PathVariable double price ){
         return roomService.updateRoom(hotelId,roomType,curNum,total,price);
+    }
+
+    @PostMapping("/{hotelId}/changePic")
+    public ResponseVO changePic(@PathVariable int hotelId, @RequestBody List<HotelPicVO> hotelPicVOList){
+        return hotelService.changePic(hotelPicVOList,hotelId);
+    }
+
+    @PostMapping("/upload")
+    public ResponseVO uploadImage(@RequestParam(value="img") MultipartFile file) {
+        //System.out.println(file);
+        String type = file.getContentType().substring(6);
+        //System.out.println(type);
+        String ENDPOINT = "http://oss-cn-beijing.aliyuncs.com";
+        String ACCESSKEYID = "LTAI4Fo8mZ4975JwdZex9WM1";
+        String ACCESSKEYSECRET = "8L5ESi5AUW5hwq6yeZ2LSaeBUeirGu";
+        String BUCKETNAME = "supernatural";
+        try {
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid.toString() + '.' + type;
+            InputStream input = file.getInputStream();
+            // 创建OSSClient实例
+            OSSClient ossClient = new OSSClient(ENDPOINT, ACCESSKEYID, ACCESSKEYSECRET);
+            // 上传文件流
+            ossClient.putObject(BUCKETNAME, fileName, input);
+            ossClient.shutdown();
+            System.out.println(("图片上传阿里云 name=" + fileName));
+            return ResponseVO.buildSuccess(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("failure!");
+        }
+    }
+
+    @GetMapping("/{hotelId}/getPics")
+    public ResponseVO getPics(@PathVariable int hotelId){
+        return hotelService.getPics(hotelId);
     }
 
 }

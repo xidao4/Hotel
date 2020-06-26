@@ -215,4 +215,66 @@ public class HotelServiceImpl implements HotelService {
         return ResponseVO.buildSuccess(true);
     }
 
+    @Override
+    public ResponseVO changePic(List<HotelPicVO> hotelPicVOList, int id) {
+        String[] pics = {"","","","","","","",""};
+        int ptr = 0;
+        try{
+            for(HotelPicVO hotelPicVO: hotelPicVOList){
+                //System.out.println(hotelPicVO.getUrl());
+                //System.out.println(hotelPicVO.getUrl().substring(49));
+                if(!hotelPicVO.getStatus().equals("removed")){
+                    pics[ptr++] = hotelPicVO.getUrl().substring(49);
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure("更新酒店图片失败");
+        }
+        hotelMapper.updatePic(id,pics[0],pics[1],pics[2],pics[3],pics[4],pics[5],pics[6],pics[7]);
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO getPics(int hotelId) {
+        List<HotelPicVO> hotelPicVOS = new ArrayList<>();
+        String status = "done";
+        String prefix = "https://supernatural.oss-cn-beijing.aliyuncs.com/";
+        String name;
+        Integer uid = 0;
+        HotelVO hotel = hotelMapper.selectById(hotelId);
+        if(hotel.getPic_1().length()>0){
+            name = hotel.getPic_1();
+            hotelPicVOS.add(new HotelPicVO(prefix+name,uid++,name,status));
+        }
+        if(hotel.getPic_2().length()>0){
+            name = hotel.getPic_2();
+            hotelPicVOS.add(new HotelPicVO(prefix+name,uid++,name,status));
+        }
+        if(hotel.getPic_3().length()>0){
+            name = hotel.getPic_3();
+            hotelPicVOS.add(new HotelPicVO(prefix+name,uid++,name,status));
+        }
+        if(hotel.getPic_4().length()>0){
+            name = hotel.getPic_4();
+            hotelPicVOS.add(new HotelPicVO(prefix+name,uid++,name,status));
+        }
+        if(hotel.getPic_5().length()>0){
+            name = hotel.getPic_5();
+            hotelPicVOS.add(new HotelPicVO(prefix+name,uid++,name,status));
+        }
+        if(hotel.getPic_6().length()>0){
+            name = hotel.getPic_6();
+            hotelPicVOS.add(new HotelPicVO(prefix+name,uid++,name,status));
+        }
+        if(hotel.getPic_7().length()>0){
+            name = hotel.getPic_7();
+            hotelPicVOS.add(new HotelPicVO(prefix+name,uid++,name,status));
+        }
+        if(hotel.getPic_8().length()>0){
+            name = hotel.getPic_8();
+            hotelPicVOS.add(new HotelPicVO(prefix+name,uid++,name,status));
+        }
+        return ResponseVO.buildSuccess(hotelPicVOS);
+    }
 }

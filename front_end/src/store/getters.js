@@ -61,6 +61,8 @@ const getters = {
   bigV: state=>state.hotelManager.bigV,
   doubleV: state=>state.hotelManager.doubleV,
   familyV: state=>state.hotelManager.familyV,
+  pic: state=>state.hotelManager.pic,
+  fileList: state=>state.hotelManager.fileList,
   //operator
   manageCreditVisible: state => state.operator.manageCreditVisible,
   creditRecordsList: state => state.operator.creditRecordsList,

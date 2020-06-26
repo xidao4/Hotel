@@ -24,6 +24,13 @@
         update Hotel set address=#{address}, phoneNum=#{phoneNum},hotelDescription=#{description}
         where id=#{id}
     </update>
+    <update id="updatePic">
+        update Hotel set pic_1=#{pic_1},pic_2=#{pic_2},pic_3=#{pic_3},pic_4=#{pic_4},pic_5=#{pic_5},pic_6=#{pic_6},pic_7=#{pic_7},pic_8=#{pic_8}
+        where id=#{id}
+    </update>
+    <update id="ex">
+        update Hotel set pic_1=#{pic_1} where id=#{id}
+    </update>
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"></id>
         <result column="address" property="address"></result>
@@ -34,7 +41,14 @@
         <result column="phoneNum" property="phoneNum"></result>
         <result column="rate" property="rate"></result>
         <result column="manager_id" property="managerId"></result>
-
+        <result column="pic_1" property="pic_1"></result>
+        <result column="pic_2" property="pic_2"></result>
+        <result column="pic_3" property="pic_3"></result>
+        <result column="pic_4" property="pic_4"></result>
+        <result column="pic_5" property="pic_5"></result>
+        <result column="pic_6" property="pic_6"></result>
+        <result column="pic_7" property="pic_7"></result>
+        <result column="pic_8" property="pic_8"></result>
     </resultMap>
 
 

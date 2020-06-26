@@ -3,6 +3,9 @@ import {
     addRoomAPI,
     addHotelAPI,
     updateRoomAPI,
+    changePicAPI,
+    uploadPicAPI,
+    getPicsAPI,
 } from '@/api/hotelManager'
 import {
     getAllOrdersAPI,
@@ -16,7 +19,7 @@ import {
 } from '@/api/coupon'
 // 提示组件
 import { message } from 'ant-design-vue'
-import {hotelBirthdayAPI, hotelFestivalAPI, hotelVIPSpecialAPI} from "../../api/coupon";
+import {hotelBirthdayAPI, hotelFestivalAPI} from "../../api/coupon";
 
 const hotelManager = {
     state: {
@@ -47,6 +50,8 @@ const hotelManager = {
         bigV: '',
         doubleV: '',
         familyV: '',
+        pic: '',
+        fileList: [],
     },
     // actions里面主要处理异步事件，mutation则反之
     mutations: {
@@ -84,9 +89,37 @@ const hotelManager = {
         },
         set_addCouponVisible: function(state, data) {
             state.addCouponVisible =data
+        },
+        set_pic: function (state, data) {
+            state.pic = data
+        },
+        set_fileList: function (state,data) {
+            state.fileList = data
         }
     },
     actions: {
+        getPicUrl:async ({commit,state},data)=>{
+            const res = await uploadPicAPI(data)
+            if(res){
+                /*console.log("module")
+                console.log(res)*/
+                commit('set_pic',res)
+            }else{
+                console.log("error!")
+            }
+        },
+        changePic:async ({rootState},data)=>{
+            await changePicAPI(data)
+        },
+        getPics:async ({commit,state},data)=>{
+            const res = await getPicsAPI(data)
+            if(res){
+                console.log("module",res)
+                commit('set_fileList',res)
+            }else{
+                console.log("error!")
+            }
+        },
         getAllOrders: async({ state, commit }) => {
             const res = await getAllOrdersAPI()
             // res非空时进行
