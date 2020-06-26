@@ -83,22 +83,46 @@
 
                 <a-col :span="8">
 
-                  <a-card hoverable style="width: 250px;margin-top:8%">
+                    <div class="clearfix">
+                        <a-upload
+                                :customRequest="upload"
+                                list-type="picture-card"
+                                :file-list="fileList"
+                                @preview="handlePreview"
+                                @change="handleChange"
+                        >
+                            <div v-if="fileList.length < 8">
+                                <a-icon type="plus" />
+                                <div class="ant-upload-text">上传</div>
+                            </div>
+                        </a-upload>
+                        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+                            <img alt="example" style="width: 100%" :src="previewImage" />
+                        </a-modal>
+                    </div>
+
+                    <div>
+                        <a-button type="primary" size="small" @click="addRoom()" style="margin-left: 20px;margin-right: 70px;">录入房间</a-button>
+                        <a-button type="info" size="small" @click="showCoupon()" style="margin-left: 70px;margin-right: 20px">优惠策略</a-button>
+                    </div>
+
+                  <!--<a-card hoverable style="width: 250px;margin-top:8%">
+
                     <img
                             slot="cover"
                             alt="logo"
                             src="@/static/image/cover.jpeg"
                             height="350"
                     />
-<!--                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"-->
+&lt;!&ndash;                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"&ndash;&gt;
                     <template slot="actions" class="ant-card-actions">
                       <a-button type="primary" size="small" @click="addRoom()">录入房间</a-button>
                       <a-button type="info" size="small" @click="showCoupon()">优惠策略</a-button>
                     </template>
-<!--                    <a-card-meta title="酒店服务标签">-->
-<!--                      -->
-<!--                    </a-card-meta>-->
-                  </a-card>
+&lt;!&ndash;                    <a-card-meta title="酒店服务标签">&ndash;&gt;
+&lt;!&ndash;                      &ndash;&gt;
+&lt;!&ndash;                    </a-card-meta>&ndash;&gt;
+                  </a-card>-->
                 </a-col>
 
               <a-col :span="8">
@@ -301,6 +325,14 @@ const columns2 = [
       scopedSlots: { customRender: 'action' },
     },
   ];
+/*function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}*/
 export default {
     name: 'manageHotel',
     data(){
@@ -319,7 +351,16 @@ export default {
             actions: 'reply to',
             commentvisible: false,
             reply: '',
-            index: ''
+            index: '',
+            previewVisible: false,
+            previewImage: '',
+            /*file: {
+                uid: 1,
+                name: 'image.png',
+                status: 'done',
+                url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            },
+            maxL: 0,*/
         }
     },
     components: {
@@ -347,7 +388,9 @@ export default {
             'doubleV',
             'familyV',
             'comment',
-            'userInfo'
+            'userInfo',
+            'pic',
+            `fileList`,
         ]),
     },
     async mounted() {
@@ -360,6 +403,7 @@ export default {
         //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
         await this.getAllTags(this.currentHotelId)
         await this.getCommentByHotelId(this.currentHotelId)
+        await this.getPics(this.currentHotelId)
         console.log(this.userInfo)
     },
     methods: {
@@ -384,8 +428,68 @@ export default {
             'addTag',
             'updateReply',
             'getCommentByHotelId',
+            'getPicUrl',
+            'changePic',
+            'getPics',
 
         ]),
+        async upload(info){
+            console.log("list_before",this.fileList)
+            //console.log("len",this.fileList.length)
+            const formData = new FormData()
+            formData.append('img',info.file)
+            //console.log("info",info)
+            await this.getPicUrl(formData)
+            //console.log("pic",this.pic)
+            //console.log(this.fileList.length)
+            let file = {
+                uid: 0,
+                name: 'image.png',
+                status: 'done',
+                url: "https://supernatural.oss-cn-beijing.aliyuncs.com/" + this.pic,
+            }
+            if(this.fileList.length!=0){
+                file.uid = this.fileList[this.fileList.length-1].uid+1
+            }
+            //console.log("before",this.fileList)
+            this.fileList.push(file)
+            await this.changePic({
+                pics: this.fileList,
+                hotelId: this.currentHotelId
+            })
+            //console.log("list1",this.fileList[0])
+            //console.log("list",this.fileList)
+            console.log("list_after",this.fileList)
+            //this.fileList.pop(this.fileList.length-1)
+            //console.log("file",file)
+            //console.log("after",this.fileList.length)
+        },
+        handleCancel() {
+            this.previewVisible = false;
+        },
+        async handlePreview(file) {
+            this.previewImage = file.url || file.preview;
+            this.previewVisible = true;
+        },
+        async handleChange({ fileList }) {
+            this.fileList = fileList
+            /*if(this.fileList.length>this.maxL){
+                this.fileList.pop(-1)
+                this.maxL = this.fileList.length
+            }*/
+            /*for(let i=fileList.length()-1;i>=0;i--){
+                if(fileList[i].status=="removed"){
+                    //this.fileList.pop(i)
+                    console.log(i)
+                }
+            }*/
+            await this.changePic({
+                pics: this.fileList,
+                hotelId: this.currentHotelId
+            })
+            await this.getPics(this.currentHotelId)
+            console.log("change",this.fileList)
+        },
         manage(index,item){
             for (const key in this.$refs) {
                 if (key.indexOf('popover-') !== -1) {
@@ -524,6 +628,7 @@ export default {
             this.commentvisible=false
             this.reply=''
         },
+
     }
 }
 </script>
@@ -546,5 +651,13 @@ export default {
     }
 </style>
 <style lang="less">
+    .ant-upload-select-picture-card i {
+        font-size: 32px;
+        color: #999;
+    }
 
+    .ant-upload-select-picture-card .ant-upload-text {
+        margin-top: 8px;
+        color: #666;
+    }
 </style>
