@@ -59,6 +59,11 @@
         beforeCreate() {
             this.form = this.$form.createForm(this, { name: 'addHotelModal' });
         },
+        watch:{
+            addHotelModalVisible() {
+                this.form.resetFields()
+            }
+        },
         computed: {
             ...mapGetters([
                 'addHotelModalVisible',

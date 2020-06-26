@@ -502,7 +502,8 @@ export default {
         },
         async deleteHM(hotelId){
             const res=await deleteHMAPI(hotelId)
-            this.getManagerList(),
+            if(res) message.success("删除酒店及工作人员成功")
+            this.getManagerList()
             this.getHotelListLJY()
         },
         handleSearch(selectedKeys, confirm, dataIndex) {
