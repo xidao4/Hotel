@@ -168,6 +168,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { message } from 'ant-design-vue'
 import AFormItem from "ant-design-vue/es/form/FormItem";
 import {
     reserveHotelAPI
@@ -310,8 +311,6 @@ export default {
             console.log("finalPrice",this.finalPrice)
             this.form.validateFieldsAndScroll(async (err, values) => {
                 if (!err) {
-
-
                     const data = {
                         hotelId: this.currentHotelId,
                         hotelName: this.currentHotelInfo.name,
@@ -333,6 +332,7 @@ export default {
                     console.log('orderInfo',data)
 
                     const res=await reserveHotelAPI(data)
+                    console.log("reserveHotelAPI",res)
                     if(res){
                         message.success('预定成功')
 
