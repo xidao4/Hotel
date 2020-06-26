@@ -31,7 +31,7 @@ CREATE TABLE `Broadcast` (
   `status` varchar(8) NOT NULL DEFAULT '1',
   `priority` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,7 +54,7 @@ CREATE TABLE `CommentList` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` int DEFAULT NULL,
   `hotelId` int DEFAULT NULL,
-  `orderId` int DEFAULT NULL ,
+  `orderId` int DEFAULT NULL,
   `commentValue` int DEFAULT NULL,
   `commentContent` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE `CreditRecord` (
   `status` varchar(8) DEFAULT '1',
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,8 +131,35 @@ CREATE TABLE `CreditRecord` (
 
 LOCK TABLES `CreditRecord` WRITE;
 /*!40000 ALTER TABLE `CreditRecord` DISABLE KEYS */;
-INSERT INTO `CreditRecord` VALUES (1,4,100,'2020-06-03 23:16:42','2020-06-03 23:16:42','1','用户注册，信用值初始化'),(2,5,100,'2020-06-03 23:16:42','2020-06-03 23:16:42','1','用户注册，信用值初始化'),(3,7,100,'2020-06-03 23:16:42','2020-06-03 23:16:42','1','用户注册，信用值初始化');
+INSERT INTO `CreditRecord` VALUES (1,4,100,'2020-06-03 23:16:42','2020-06-03 23:16:42','1','用户注册，信用值初始化'),(2,5,100,'2020-06-03 23:16:42','2020-06-03 23:16:42','1','用户注册，信用值初始化'),(3,7,100,'2020-06-03 23:16:42','2020-06-03 23:16:42','1','用户注册，信用值初始化'),(22,4,0,'2020-06-26 15:17:17','2020-06-26 15:17:17','1',NULL);
 /*!40000 ALTER TABLE `CreditRecord` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CurRoomNum`
+--
+
+DROP TABLE IF EXISTS `CurRoomNum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CurRoomNum` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `hotelId` int DEFAULT NULL,
+  `roomType` varchar(255) DEFAULT NULL,
+  `daytime` varchar(255) DEFAULT NULL,
+  `curRoomNum` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CurRoomNum`
+--
+
+LOCK TABLES `CurRoomNum` WRITE;
+/*!40000 ALTER TABLE `CurRoomNum` DISABLE KEYS */;
+INSERT INTO `CurRoomNum` VALUES (1,2,'BigBed','2020-06-26',38),(2,2,'BigBed','2020-06-28',38),(3,2,'BigBed','2020-06-29',37);
+/*!40000 ALTER TABLE `CurRoomNum` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -170,7 +197,7 @@ CREATE TABLE `Hotel` (
 
 LOCK TABLES `Hotel` WRITE;
 /*!40000 ALTER TABLE `Hotel` DISABLE KEYS */;
-INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住','苏州园区','XiDan','Four',1829373819,4.8,1,'','','','','','','',''),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,2,'','','','','','','',''),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,3,'','','','','','','','');
+INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住','苏州园区','XiDan','Four','1829373819',4.8,1,'','','','','','','',''),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four','1829373819',4.8,2,'','','','','','','',''),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four','1829553719',4.8,3,'','','','','','','','');
 /*!40000 ALTER TABLE `Hotel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +222,7 @@ CREATE TABLE `Member` (
 
 LOCK TABLES `Member` WRITE;
 /*!40000 ALTER TABLE `Member` DISABLE KEYS */;
-INSERT INTO `Member` VALUES (4,444,'1999-11-04 00:00:00');
+INSERT INTO `Member` VALUES (4,44,'1999-11-04 00:00:00');
 /*!40000 ALTER TABLE `Member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,7 +244,7 @@ CREATE TABLE `Message` (
   `msgType` varchar(255) DEFAULT NULL,
   `retMsgId` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,10 +306,11 @@ CREATE TABLE `OrderList` (
   `phoneNumber` varchar(255) DEFAULT NULL,
   `orderState` varchar(255) DEFAULT NULL,
   `cancelReason` varchar(255) DEFAULT NULL,
-  `residentName` varchar(255),
-  `whetherComment` int(11) DEFAULT 0,
+  `residentName` varchar(255) DEFAULT NULL,
+  `whetherComment` int DEFAULT '0',
+  `crid` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -291,7 +319,7 @@ CREATE TABLE `OrderList` (
 
 LOCK TABLES `OrderList` WRITE;
 /*!40000 ALTER TABLE `OrderList` DISABLE KEYS */;
-INSERT INTO `OrderList` VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已执行','未撤销',NULL,NULL),(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123',NULL,NULL),(16,5,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试二号','12345678919','已执行','未撤销',NULL,NULL),(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已预订','未撤销',NULL,NULL);
+INSERT INTO `OrderList` VALUES (14,4,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试一号','12345678919','已执行','未撤销',NULL,NULL,NULL),(15,4,2,'儒家酒店','2020-06-25','2020-06-30','Family',1,2,'0','2020-06-03',1895,'测试一号','12345678919','客户撤销','123',NULL,NULL,22),(16,5,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试二号','12345678919','已执行','未撤销',NULL,NULL,NULL),(17,7,2,'儒家酒店','2020-06-23','2020-06-25','Family',3,3,'0','2020-06-03',2294,'测试三号','12345678919','已预订','未撤销',NULL,NULL,NULL),(18,4,2,'儒家酒店','2020-06-26','2020-06-27','BigBed',1,1,'0','2020-06-26',255,'测试一号','139','已预订','未撤销','ljy',0,NULL),(19,4,2,'儒家酒店','2020-06-26','2020-06-27','BigBed',1,1,'0','2020-06-26',255,'测试一号','139','已预订','未撤销','ljy',0,NULL),(20,4,2,'儒家酒店','2020-06-28','2020-06-29','BigBed',2,1,'0','2020-06-26',394,'测试一号','139','已预订','未撤销','ljy',0,NULL),(21,4,2,'儒家酒店','2020-06-29','2020-06-30','BigBed',3,1,'0','2020-06-26',657,'测试一号','139','已预订','未撤销','ljy',0,NULL);
 /*!40000 ALTER TABLE `OrderList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -310,7 +338,7 @@ CREATE TABLE `Room` (
   `hotel_id` int DEFAULT NULL,
   `roomType` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -319,6 +347,7 @@ CREATE TABLE `Room` (
 
 LOCK TABLES `Room` WRITE;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
+INSERT INTO `Room` VALUES (7,299,33,40,2,'BigBed');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,7 +366,7 @@ CREATE TABLE `SysCoupon` (
   `target` double NOT NULL,
   `minus` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -376,7 +405,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (0,'websiteAdmin@qq.com','d959caadac9b13dcb3e609440135cf54','网站管理员',NULL,'Manager','2000-01-01',NULL,'2020-06-01 00:00:00'),(1,'hanTing@qq.com','d959caadac9b13dcb3e609440135cf54','汉庭酒店',NULL,'HotelManager','2000-02-01',NULL,'2020-06-01 00:00:00'),(2,'ruJia@qq.com','d959caadac9b13dcb3e609440135cf54','儒家酒店',NULL,'HotelManager','2000-03-01',NULL,'2020-06-01 00:00:00'),(3,'guiYuan@qq.com','d959caadac9b13dcb3e609440135cf54','桂圆酒店',NULL,'HotelManager','2000-04-01',NULL,'2020-06-02 00:00:00'),(4,'client1@qq.com','d959caadac9b13dcb3e609440135cf54','测试一号','13915416896','Client','2000-05-01','1881bb12-3f09-459a-b288-59e724cb7c94.jpeg','2020-06-03 00:00:00'),(5,'client2@qq.com','d959caadac9b13dcb3e609440135cf54','测试二号','12345678911','Client','2000-06-01','f24da812-79ef-4a8e-89f6-bb1b7831100e.jpeg','2020-06-11 00:00:00'),(6,'operator1@qq.com','d959caadac9b13dcb3e609440135cf54','网站运营人员一',NULL,'Operator','2000-07-01',NULL,'2020-06-11 00:00:00'),(7,'client3@qq.com','d959caadac9b13dcb3e609440135cf54','测试三号','12345678911','Client','2000-07-01',NULL,'2020-06-11 00:00:00'),(8,'operator2@qq.com','d959caadac9b13dcb3e609440135cf54','网站运营人员二',NULL,'Operator','2000-08-01',NULL,'2020-06-11 00:00:00');
+INSERT INTO `User` VALUES (0,'websiteAdmin@qq.com','a01610228fe998f515a72dd730294d87','网站管理员',NULL,'Manager','2000-01-01',NULL,'2020-06-01 00:00:00'),(1,'hanTing@qq.com','a01610228fe998f515a72dd730294d87','汉庭酒店',NULL,'HotelManager','2000-02-01',NULL,'2020-06-01 00:00:00'),(2,'ruJia@qq.com','a01610228fe998f515a72dd730294d87','儒家酒店',NULL,'HotelManager','2000-03-01',NULL,'2020-06-01 00:00:00'),(3,'guiYuan@qq.com','a01610228fe998f515a72dd730294d87','桂圆酒店',NULL,'HotelManager','2000-04-01',NULL,'2020-06-02 00:00:00'),(4,'client1@qq.com','a01610228fe998f515a72dd730294d87','测试一号','13915416896','Client','2000-05-01','1881bb12-3f09-459a-b288-59e724cb7c94.jpeg','2020-06-03 00:00:00'),(5,'client2@qq.com','a01610228fe998f515a72dd730294d87','测试二号','12345678911','Client','2000-06-01','f24da812-79ef-4a8e-89f6-bb1b7831100e.jpeg','2020-06-11 00:00:00'),(6,'operator1@qq.com','a01610228fe998f515a72dd730294d87','网站运营人员一',NULL,'Operator','2000-07-01',NULL,'2020-06-11 00:00:00'),(7,'client3@qq.com','a01610228fe998f515a72dd730294d87','测试三号','12345678911','Client','2000-07-01',NULL,'2020-06-11 00:00:00'),(8,'operator2@qq.com','a01610228fe998f515a72dd730294d87','网站运营人员二',NULL,'Operator','2000-08-01',NULL,'2020-06-11 00:00:00');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -389,17 +418,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-24 23:26:04
-
-DROP TABLE IF EXISTS `CurRoomNum`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `CurRoomNum` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `hotelId` int(11) DEFAULT NULL,
-  `roomType` varchar(255) DEFAULT NULL,
-  `daytime` varchar(255) DEFAULT NULL,
-  `curRoomNum` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- Dump completed on 2020-06-26 23:20:55

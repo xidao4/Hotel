@@ -71,12 +71,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public User login(UserForm userForm) {
         User user = accountMapper.getAccountByName(userForm.getEmail());
-        System.out.println("实际输入密码"+userForm.getPassword());
+        //System.out.println("实际输入密码"+userForm.getPassword());
         String pwd= MD5.getMD5(userForm.getPassword());
-        System.out.println("散列后密码"+pwd);
+        //System.out.println("散列后密码"+pwd);
 
         if (null == user || !user.getPassword().equals(pwd)) {
-            return null;
+           return null;
         }
         return user;
     }

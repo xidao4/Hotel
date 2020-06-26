@@ -10,11 +10,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class HotelApplication {
 
     public static void main(String[] args) {
-        System.out.println("GeeksForGeeks"+MD5.getMD5("GeeksForGeeks"));
         System.out.println("ILoveJava"+MD5.getMD5("ILoveJava"));
         System.out.println("ILoveCPP"+MD5.getMD5("ILoveCPP"));
         System.out.println("12345678"+MD5.getMD5("12345678"));
-        System.out.println("01234"+MD5.getMD5("01234"));
+        System.out.println("12"+MD5.getMD5("12"));
         SpringApplication.run(HotelApplication.class, args);
     }
 

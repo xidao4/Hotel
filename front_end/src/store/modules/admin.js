@@ -209,7 +209,6 @@ const admin = {
             const res=await getUserInfoAPI(state.tmpClientId)
             if(res){
                 commit('set_tmpClientInfo',res)
-                message.success("修改成功")
             }
         },
         updateTmpClientInfo:async({state,commit,dispatch},data)=>{
@@ -219,6 +218,7 @@ const admin = {
             }
             const res = await updateTmpUserInfoAPI(params)
             if(res){
+                message.success("修改成功")
                 dispatch('getTmpClientInfo')
                 dispatch('getClientList')
             }

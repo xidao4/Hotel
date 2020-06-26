@@ -130,7 +130,7 @@ public class HotelController {
 
     @PostMapping("/{id}/hotelInfo/update")
     public ResponseVO updateInfo(@RequestBody HotelInfoVO hotelInfoVO, @PathVariable int id){
-        return hotelService.updateHotelInfo(id,hotelInfoVO.getAddress(),hotelInfoVO.getPhoneNum());
+        return hotelService.updateHotelInfo(id,hotelInfoVO.getAddress(),hotelInfoVO.getPhoneNum(),hotelInfoVO.getDescription());
     }
     @GetMapping("/updateRoom/{hotelId}/{roomType}/{curNum}/{total}/{price}")
     public ResponseVO updateRoom(@PathVariable int hotelId,@PathVariable String roomType,@PathVariable int curNum,@PathVariable int total,@PathVariable double price ){

@@ -205,9 +205,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ResponseVO updateHotelInfo(int id, String address, String phoneNum) {
+    public ResponseVO updateHotelInfo(int id, String address, String phoneNum,String description) {
         try {
-            hotelMapper.update(id, address, phoneNum);
+            hotelMapper.update(id, address, phoneNum,description);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure("更新酒店基本信息失败");
