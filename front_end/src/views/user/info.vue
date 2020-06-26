@@ -135,7 +135,7 @@
                         <a-divider type="vertical" ></a-divider>
                         <a-button type="danger" size="small" @click="showCancelModal" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
                         <a-button type="danger" size="small" @click="showCancelModal" v-else>撤销</a-button>
-                        <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record.id)">
+                        <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record)">
                             <a-input placeholder="请输入撤销理由" maxLength={30} v-model="reason"></a-input>
                         </a-modal>
                     </span>
@@ -351,13 +351,18 @@ export default {
             console.log('close cancelModal')
             this.visible=false
         },
-        handleSubmit(orderid){
+        handleSubmit(order){
             console.log('submit')
             // console.log(this.reason)
             // console.log(orderid)
             const data={
-                orderid: orderid,
-                reason: this.reason
+                orderid: order.id,
+                reason: this.reason,
+                hotelId: order.hotelId,
+                roomType: order.roomType,
+                startTime: order.checkInDate,
+                endTime: order.checkOutDate,
+                reserveNum: order.roomNum,
             }
             this.cancelOrder(data)
             this.visible=false
@@ -411,7 +416,6 @@ export default {
                     })
                 }
             });
-
         },
         modifyInfo() {
             setTimeout(() => {

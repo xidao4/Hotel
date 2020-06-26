@@ -3,8 +3,11 @@ package com.example.hotel.blImpl.order;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.data.curRoom.CurRoomMapper;
+import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.MemberMapper;
+import com.example.hotel.po.CurRoom;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
@@ -14,7 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +44,10 @@ public class OrderServiceImpl implements OrderService {
     AccountService accountService;
     @Autowired
     MemberMapper memberMapper;
+    @Autowired
+    CurRoomMapper curRoomMapper;
+    @Autowired
+    RoomMapper roomMapper;
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
@@ -44,17 +55,78 @@ public class OrderServiceImpl implements OrderService {
         int reserveRoomNum = orderVO.getRoomNum();
         System.out.println("+++++++++++++++++++++++++++++++++");
         int hotelid=orderVO.getHotelId();
+        orderVO.setWhetherComment(0);
+        System.out.println("时间");
+        System.out.println(orderVO.getCheckInDate());
+        System.out.println(orderVO.getCheckOutDate());
+        //这一段是处理从具体的住房日期的，把日期都放在了days里
+        List<String> days = new ArrayList<String>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date start = dateFormat.parse(orderVO.getCheckInDate());
+            Date end = dateFormat.parse(orderVO.getCheckOutDate());
+
+            Calendar tempStart = Calendar.getInstance();
+            tempStart.setTime(start);
+
+            Calendar tempEnd = Calendar.getInstance();
+            tempEnd.setTime(end);
+            while (tempStart.before(tempEnd)) {
+                days.add(dateFormat.format(tempStart.getTime()));
+                tempStart.add(Calendar.DAY_OF_YEAR, 1);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(reserveRoomNum>roomMapper.getRoomCurNum(orderVO.getHotelId(),orderVO.getRoomType())){
+            return ResponseVO.buildSuccess(ROOMNUM_LACK);
+        }
+        //下面这个for循环用来看这段日期里是否有记录、如果有记录看每天房间数是否大于0；最终判断可用房间数够不够
+        int signal=1;
+        //signal默认为1，表示房间数是够的，当房间数小于等于0时置为0
+        for(String day: days){
+            System.out.println(day);
+            System.out.println("assssssssssssss");
+            System.out.println(curRoomMapper.isExist(orderVO.getHotelId(),orderVO.getRoomType(),day));
+            if(curRoomMapper.isExist(orderVO.getHotelId(),orderVO.getRoomType(),day)!=null){
+                int roomNum=curRoomMapper.selectCurRoomNum(orderVO.getHotelId(),orderVO.getRoomType(),day);
+                if(roomNum<=0){
+                    signal=0;
+                }
+            }
+        }
+        if(signal==0){
+            return ResponseVO.buildSuccess(ROOMNUM_LACK);
+        }
+        else{
+            for(String day:days){
+                if(curRoomMapper.isExist(orderVO.getHotelId(),orderVO.getRoomType(),day)!=null){
+                    curRoomMapper.updateCurRoomNum(orderVO.getHotelId(),orderVO.getRoomType(),day,orderVO.getRoomNum());
+                }
+                else{
+                    CurRoom curRoom=new CurRoom();
+                    curRoom.setHotelId(orderVO.getHotelId());
+                    curRoom.setRoomType(orderVO.getRoomType());
+                    curRoom.setCurRoomNum(roomMapper.getRoomCurNum(orderVO.getHotelId(),orderVO.getRoomType()));
+                    curRoom.setDayTime(day);
+                    curRoomMapper.insertCurRoom(curRoom);
+                    curRoomMapper.updateCurRoomNum(orderVO.getHotelId(),orderVO.getRoomType(),day,orderVO.getRoomNum());
+                }
+            }
+        }
+
 
         String type=orderVO.getRoomType();
         String phoneNumber=orderVO.getPhoneNumber();
         System.out.println(phoneNumber);
         String residentName=orderVO.getResidentName();
         System.out.println(residentName);
-        int curNum = hotelService.getRoomCurNum(hotelid,type);
+//        int curNum = hotelService.getRoomCurNum(hotelid,type);
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~");
-        if(reserveRoomNum>curNum){
-            return ResponseVO.buildFailure(ROOMNUM_LACK);
-        }
+//        if(reserveRoomNum>curNum){
+//            return ResponseVO.buildFailure(ROOMNUM_LACK);
+//        }
         try {
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date(System.currentTimeMillis());
@@ -108,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public ResponseVO annulOrder(int orderid,String reason) {
+    public ResponseVO annulOrder(int orderid,String reason,int hotelId,String roomType,String startTime,String endTime,int reserveNum) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
         try {
             Order order = orderMapper.getOrderById(orderid);
@@ -132,6 +204,34 @@ public class OrderServiceImpl implements OrderService {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ANNUL_ERROR);
         }
+
+        //by ydl
+        System.out.println("撤销");
+            List<String> days = new ArrayList<String>();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date start = dateFormat.parse(startTime);
+                Date end = dateFormat.parse(endTime);
+
+                Calendar tempStart = Calendar.getInstance();
+                tempStart.setTime(start);
+
+                Calendar tempEnd = Calendar.getInstance();
+                tempEnd.setTime(end);
+                while (tempStart.before(tempEnd)) {
+                    days.add(dateFormat.format(tempStart.getTime()));
+                    tempStart.add(Calendar.DAY_OF_YEAR, 1);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            for(String day:days){
+                System.out.println(-reserveNum);
+                curRoomMapper.updateCurRoomNum(hotelId,roomType,day,-reserveNum);
+            }
+
+
         return ResponseVO.buildSuccess(true);
     }
 
@@ -142,9 +242,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseVO changeStatus(int orderid, String status) {
+    public ResponseVO changeStatus(int orderid,String status,int hotelId,String roomType,String startTime,String endTime,int reserveNum) {
         orderMapper.changeStatus(orderid, status);
-
+        System.out.println(reserveNum);
         //by ljy
         if(status.equals("已执行")){//如果改为“已执行”，
             int userId=orderMapper.getUserId(orderid);
@@ -155,6 +255,33 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
+        //by ydl
+        System.out.println("撤销");
+        if(status.equals("酒店撤销") || status.equals("异常")){
+            List<String> days = new ArrayList<String>();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date start = dateFormat.parse(startTime);
+                Date end = dateFormat.parse(endTime);
+
+                Calendar tempStart = Calendar.getInstance();
+                tempStart.setTime(start);
+
+                Calendar tempEnd = Calendar.getInstance();
+                tempEnd.setTime(end);
+                while (tempStart.before(tempEnd)) {
+                    days.add(dateFormat.format(tempStart.getTime()));
+                    tempStart.add(Calendar.DAY_OF_YEAR, 1);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            for(String day:days){
+                System.out.println(-reserveNum);
+                curRoomMapper.updateCurRoomNum(hotelId,roomType,day,-reserveNum);
+            }
+        }
         return ResponseVO.buildSuccess(true);
     }
 

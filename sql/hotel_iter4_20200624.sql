@@ -54,6 +54,7 @@ CREATE TABLE `CommentList` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` int DEFAULT NULL,
   `hotelId` int DEFAULT NULL,
+  `orderId` int DEFAULT NULL ,
   `commentValue` int DEFAULT NULL,
   `commentContent` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
@@ -278,8 +279,8 @@ CREATE TABLE `OrderList` (
   `phoneNumber` varchar(255) DEFAULT NULL,
   `orderState` varchar(255) DEFAULT NULL,
   `cancelReason` varchar(255) DEFAULT NULL,
-  `crid` int DEFAULT NULL,
-  `residentName` varchar(255) DEFAULT NULL,
+  `residentName` varchar(255),
+  `whetherComment` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -389,3 +390,16 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-06-24 23:26:04
+
+DROP TABLE IF EXISTS `CurRoomNum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CurRoomNum` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `hotelId` int(11) DEFAULT NULL,
+  `roomType` varchar(255) DEFAULT NULL,
+  `daytime` varchar(255) DEFAULT NULL,
+  `curRoomNum` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;

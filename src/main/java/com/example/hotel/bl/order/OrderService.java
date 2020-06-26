@@ -52,7 +52,7 @@ public interface OrderService {
      * @param orderid
      * @return
      */
-    ResponseVO annulOrder(int orderid,String reason);
+    ResponseVO annulOrder(int orderid,String reason,int hotelId,String roomType,String startTime,String endTime,int reserveNum);
 
     /**
      * 查看酒店的所有订单
@@ -67,7 +67,7 @@ public interface OrderService {
      * @param status
      * @return
      */
-    ResponseVO changeStatus(int orderid,String status);
+    ResponseVO changeStatus(int orderid,String status,int hotelId,String roomType,String startTime,String endTime,int reserveNum);
 
     /**
      * 改变order是否被评价的状态
