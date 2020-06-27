@@ -513,7 +513,7 @@ export default {
                 reserveNum: order.roomNum,
             }
             await this.changeStatus(data)
-            await this.getAllOrders()
+            await this.getOrderByHotelId(this.currentHotelId)
         },
         addRoom() {
             console.log(this.bigV)

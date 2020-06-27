@@ -1,8 +1,10 @@
 package com.example.hotel.blImpl.order;
 
+import com.example.hotel.bl.credit.CreditService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.blImpl.credit.DefaultDefaultCreditIncreImpl;
 import com.example.hotel.data.curRoom.CurRoomMapper;
 import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.order.OrderMapper;
@@ -10,6 +12,7 @@ import com.example.hotel.data.user.MemberMapper;
 import com.example.hotel.po.CurRoom;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.DefaultUpdateCreditVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
@@ -48,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
     CurRoomMapper curRoomMapper;
     @Autowired
     RoomMapper roomMapper;
+    @Autowired
+    CreditService creditService;
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
@@ -257,6 +262,11 @@ public class OrderServiceImpl implements OrderService {
                 //double->int
                 accountService.increaseMemberPoints(userId,(int)(amount*3));//则更新会员积分
             }
+            DefaultUpdateCreditVO defaultUpdateCreditVO=new DefaultUpdateCreditVO();
+            defaultUpdateCreditVO.setOrderId(orderid);
+            defaultUpdateCreditVO.setDesc("正常执行订单增加信用");
+            System.out.println("正常执行订单增加信用");
+            creditService.defaultUpdateCredit(defaultUpdateCreditVO, new DefaultDefaultCreditIncreImpl());
         }
 
         //by ydl

@@ -75,7 +75,6 @@
         components: { ManageCredit },
         data() {
             return {
-                showOrderList: [],
                 searchText: '',
                 searchInput: null,
                 searchedColumn: '',
@@ -83,7 +82,8 @@
         },
         computed: {
             ...mapGetters([
-                'orderList'
+                'orderList',
+                'showOrderList'
             ]),
             columns() {
                 return [
@@ -150,7 +150,13 @@
         },
         async mounted() {
             await this.getAllOrders();
-            this.showOrderList = [...this.orderList];
+            this.set_showOrderList(this.orderList)
+        },
+        watch:{
+            async showOrderList(val){
+                await this.getAllOrders();
+                this.set_showOrderList(this.orderList)
+            }
         },
         methods: {
             ...mapActions([
@@ -158,7 +164,8 @@
             ]),
             ...mapMutations([
                 'set_manageCreditVisible',
-                'set_currentUpdateInfo'
+                'set_currentUpdateInfo',
+                'set_showOrderList'
             ]),
             handleSearch(selectedKeys, confirm, dataIndex) {
                 confirm();
