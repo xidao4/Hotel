@@ -5,6 +5,7 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.data.curRoom.CurRoomMapper;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.user.AccountMapper;
@@ -24,6 +25,9 @@ import com.example.hotel.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,6 +50,8 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private CouponService couponService;
+    @Autowired
+    private CurRoomMapper curRoomMapper;
 
 
     @Override
@@ -75,18 +81,6 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public int getRoomCurNum(Integer hotelId, String roomType) {
         return roomService.getRoomCurNum(hotelId,roomType);
-    }
-
-    @Override
-    public List<HotelVO> retrieveHotels(Integer userid) {
-        List<HotelVO> hotelVOS = hotelMapper.selectAllHotel();
-        for (HotelVO hotelVO : hotelVOS) {
-            boolean hasOrderedBefore = orderService.hasOrderedBefore(userid, hotelVO.getId());
-            hotelVO.setHasOrderedBefore(hasOrderedBefore);
-            List<String> couponNames = couponService.getHotelAllCouponName(hotelVO.getId());
-            hotelVO.setCouponNames(couponNames);
-        }
-        return hotelVOS;
     }
 
     @Override
@@ -154,18 +148,86 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public List<HotelVO> retrieveHotels(Integer userid) {
+        List<HotelVO> hotelVOS = hotelMapper.selectAllHotel();
+        for (HotelVO hotelVO : hotelVOS) {
+            boolean hasOrderedBefore = orderService.hasOrderedBefore(userid, hotelVO.getId());
+            hotelVO.setHasOrderedBefore(hasOrderedBefore);
+            List<String> couponNames = couponService.getHotelAllCouponName(hotelVO.getId());
+            hotelVO.setCouponNames(couponNames);
+        }
+        return hotelVOS;
+    }
+
+    @Override
     public List<HotelVO> retrieveHotelByDate(Integer userid, String checkInDate, String checkOutDate) {
         List<HotelVO> hotelVOS = retrieveHotels(userid);
         List<HotelVO> hotelVOSByDate = new ArrayList<>();
+        //ydl
+        //这一段是处理从入住到退房之间有哪些日期的，具体日期放在了days里
+        List<String> days = new ArrayList<String>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date start = dateFormat.parse(checkInDate);
+            Date end = dateFormat.parse(checkOutDate);
+
+            Calendar tempStart = Calendar.getInstance();
+            tempStart.setTime(start);
+
+            Calendar tempEnd = Calendar.getInstance();
+            tempEnd.setTime(end);
+            while (tempStart.before(tempEnd)) {
+                days.add(dateFormat.format(tempStart.getTime()));
+                tempStart.add(Calendar.DAY_OF_YEAR, 1);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         for(HotelVO hotelVO: hotelVOS){
-            List<Order> orders = orderService.getHotelOrders(hotelVO.getId());
-            int curRoomNum = getTotalRoomNum(hotelVO.getId());
-            for(Order order: orders){
-                if((checkInDate.compareTo(order.getCheckInDate())>=0 && checkInDate.compareTo(order.getCheckOutDate())<=0) || checkOutDate.compareTo(order.getCheckInDate())>=0 && checkOutDate.compareTo(order.getCheckOutDate())<=0){
-                    curRoomNum -= order.getRoomNum();
+//            List<Order> orders = orderService.getHotelOrders(hotelVO.getId());
+//            int curRoomNum = getTotalRoomNum(hotelVO.getId());
+//            for(Order order: orders){
+//                if((checkInDate.compareTo(order.getCheckInDate())>=0 && checkInDate.compareTo(order.getCheckOutDate())<=0) || checkOutDate.compareTo(order.getCheckInDate())>=0 && checkOutDate.compareTo(order.getCheckOutDate())<=0){
+//                    curRoomNum -= order.getRoomNum();
+//                }
+//            }
+//
+//            if(curRoomNum>0){
+//                hotelVOSByDate.add(hotelVO);
+//            }
+            int bigSignal=1;
+            for(String day:days){
+                if(curRoomMapper.isExist(hotelVO.getId(),"BigBed",day)!=null){
+                    int roomNum=curRoomMapper.selectCurRoomNum(hotelVO.getId(),"BigBed",day);
+                    if(roomNum<=0){
+                        bigSignal=0;
+                    }
                 }
             }
-            if(curRoomNum>0){
+            int doubleSignal=1;
+            for(String day:days){
+                if(curRoomMapper.isExist(hotelVO.getId(),"BigBed",day)!=null){
+                    int roomNum=curRoomMapper.selectCurRoomNum(hotelVO.getId(),"BigBed",day);
+                    if(roomNum<=0){
+                        doubleSignal=0;
+                    }
+                }
+            }
+            int familySignal=1;
+            for(String day:days){
+                if(curRoomMapper.isExist(hotelVO.getId(),"BigBed",day)!=null){
+                    int roomNum=curRoomMapper.selectCurRoomNum(hotelVO.getId(),"BigBed",day);
+                    if(roomNum<=0){
+                        familySignal=0;
+                    }
+                }
+            }
+            if(bigSignal==0 && doubleSignal==0 && familySignal==0){
+                System.out.println("这家酒店的三种房间在这段时间内都不够了");
+            }
+            else{
                 hotelVOSByDate.add(hotelVO);
             }
         }

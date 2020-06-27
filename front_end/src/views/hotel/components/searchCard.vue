@@ -91,7 +91,7 @@
 
             <a-row style="text-align: center;">
                 <a-col :span="8" :offset="7">
-                    <a-button type="primary" shape="round" size="small">筛选</a-button>
+                    <a-button type="primary" shape="round" size="small" @click="test">筛选</a-button>
                     <a-button type="primary" shape="round" size="small" style="margin-left: 10px">重置</a-button>
                     <a-button type="primary" shape="round" size="small" style="margin-left: 10px" @click="onClose">取消</a-button>
                 </a-col>
@@ -158,7 +158,9 @@
                 'getHotelList',
                 'getHotelByDate'
             ]),
+            test(){
 
+            },
             onClose() {
                 this.visible = false;
             },
