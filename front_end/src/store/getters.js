@@ -70,6 +70,7 @@ const getters = {
   currentUpdateInfo: state => state.operator.currentUpdateInfo,
   dateList: state => state.operator.dateList,
   numList: state => state.operator.numList,
+  showOrderList: state=>state.operator.showOrderList,
   //tag
   tags:state=>state.tag.tags,
   //message

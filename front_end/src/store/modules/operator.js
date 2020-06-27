@@ -25,11 +25,15 @@ const state = {
     creditRecordsList: [],
     dateList: [],
     numList: [],
+    showOrderList: []
 };
 
 const operator = {
     state,
     mutations: {
+        set_showOrderList(state,data){
+            state.showOrderList = [...data]
+        },
         set_manageCreditVisible(state, data) {
             state.manageCreditVisible = data
         },

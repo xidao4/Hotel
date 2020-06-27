@@ -133,11 +133,10 @@
                                 </a-form-item>
                             </a-form>
                         </a-modal>
-                                <br>
-<!--                        <a-divider type="vertical" ></a-divider>-->
-                        <a-button type="danger" size="small" @click="showCancelModal" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
-                        <a-button type="danger" size="small" @click="showCancelModal" v-else>撤销</a-button>
-                        <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record)">
+                        <a-divider type="vertical" ></a-divider>
+                        <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
+                        <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-else>撤销</a-button>
+                        <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible&&(vv===record.id)" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record)">
                             <a-input placeholder="请输入撤销理由" maxLength={30} v-model="reason"></a-input>
                         </a-modal>
                     </span>
@@ -237,7 +236,8 @@ export default {
             changedPwd:false,
             newPwd:'',
             tabPosition: 'left',
-            size: 'small'
+            size: 'small',
+            vv: ''
         }
     },
     inject:['reload'],
@@ -342,8 +342,9 @@ export default {
         commentCancel(){
             this.commentVisible=false
         },
-        showCancelModal(){
+        showCancelModal(orderId){
             console.log('show cancelModal')
+            this.vv=orderId
             this.visible=true
         },
         cancelContent(){
@@ -368,6 +369,7 @@ export default {
             }
             this.cancelOrder(data)
             this.visible=false
+            this.reason=''
         },
         async commentSubmit(record){
             console.log(record)
