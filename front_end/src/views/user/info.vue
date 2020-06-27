@@ -86,9 +86,9 @@
                                 :dataSource="userOrderList"
                                 bordered
                         >
-                    <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
-                    </span>
+                            <span slot="price" slot-scope="text">
+                                <span>￥{{ text }}</span>
+                            </span>
                             <span slot="roomType" slot-scope="text">
                         <span v-if="text == 'BigBed'">大床房</span>
                         <span v-if="text == 'DoubleBed'">双床房</span>
@@ -98,48 +98,47 @@
                                 {{ text }}
                             </a-tag>
                             <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showContentModal(record.id)">查看</a-button>
-                        <a-modal title="订单详情" :visible="contentVisible&&(currentIndex===record.id)"  @cancel="cancelContent" :footer="null" >
-                            <a-descriptions title="订单详情" bordered :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }" layout="vertical">
-                                <a-descriptions-item label="订单号">{{idOrder.id}}</a-descriptions-item>
-                                <a-descriptions-item label="酒店名称">{{idOrder.hotelName}}</a-descriptions-item>
-                                <a-descriptions-item label="入住时间">{{idOrder.checkInDate}}</a-descriptions-item>
-                                <a-descriptions-item label="退房时间">{{idOrder.checkOutDate}}</a-descriptions-item>
-                                <a-descriptions-item label="房间类型">{{idOrder.roomType}}</a-descriptions-item>
-                                <a-descriptions-item label="房间数量">{{idOrder.roomNum}}</a-descriptions-item>
-                                <a-descriptions-item label="入住人数">{{idOrder.peopleNum}}</a-descriptions-item>
-                                <a-descriptions-item label="是否携带孩童" v-if="idOrder.haveChild===false">否</a-descriptions-item>
-                                <a-descriptions-item label="是否携带孩童" v-else>是</a-descriptions-item>
-                                <a-descriptions-item label="价格">{{idOrder.price}}</a-descriptions-item>
-                                <a-descriptions-item label="客户名称">{{idOrder.residentName}}</a-descriptions-item>
-                                <a-descriptions-item label="手机号">{{idOrder.phoneNumber}}</a-descriptions-item>
-                                <a-descriptions-item label="订单状态">{{idOrder.orderState}}</a-descriptions-item>
-                                <a-descriptions-item label="撤销理由" v-if="idOrder.orderState=='客户撤销'">{{idOrder.cancelReason}}</a-descriptions-item>
-                            </a-descriptions>
-                        </a-modal>
-                            <br>
-<!--                        <a-divider type="vertical"></a-divider>-->
-                        <a-button size="small" v-if="record.orderState==='已执行' && record.whetherComment===0" type="primary" @click="showCommentModal(record.id)">评价</a-button>
-                        <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
-                        <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
-                            <a-form :form="commentForm" v-bind="formItemLayout">
-                                <a-form-item label="评价星级" v-bind="formItemLayout">
-                                    <a-rate v-model="commentValue">
-                                        <a-icon slot="character" type="heart" />
-                                    </a-rate>
-                                </a-form-item>
-                                <a-form-item label="评价内容：" v-bind="formItemLayout">
-                                    <a-textarea placeholder="请填写评价内容" v-model="commentContent" />
-                                </a-form-item>
-                            </a-form>
-                        </a-modal>
-                        <a-divider type="vertical" ></a-divider>
-                        <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
-                        <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-else>撤销</a-button>
-                        <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible&&(vv===record.id)" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record)">
-                            <a-input placeholder="请输入撤销理由" maxLength={30} v-model="reason"></a-input>
-                        </a-modal>
-                    </span>
+                                <a-button type="primary" size="small" @click="showContentModal(record.id)">查看</a-button>
+                                <a-modal title="订单详情" :visible="contentVisible&&(currentIndex===record.id)"  @cancel="cancelContent" :footer="null" >
+                                    <a-descriptions title="订单详情" bordered :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }" layout="vertical">
+                                        <a-descriptions-item label="订单号">{{idOrder.id}}</a-descriptions-item>
+                                        <a-descriptions-item label="酒店名称">{{idOrder.hotelName}}</a-descriptions-item>
+                                        <a-descriptions-item label="入住时间">{{idOrder.checkInDate}}</a-descriptions-item>
+                                        <a-descriptions-item label="退房时间">{{idOrder.checkOutDate}}</a-descriptions-item>
+                                        <a-descriptions-item label="房间类型">{{idOrder.roomType}}</a-descriptions-item>
+                                        <a-descriptions-item label="房间数量">{{idOrder.roomNum}}</a-descriptions-item>
+                                        <a-descriptions-item label="入住人数">{{idOrder.peopleNum}}</a-descriptions-item>
+                                        <a-descriptions-item label="是否携带孩童" v-if="idOrder.haveChild===false">否</a-descriptions-item>
+                                        <a-descriptions-item label="是否携带孩童" v-else>是</a-descriptions-item>
+                                        <a-descriptions-item label="价格">{{idOrder.price}}</a-descriptions-item>
+                                        <a-descriptions-item label="客户名称">{{idOrder.residentName}}</a-descriptions-item>
+                                        <a-descriptions-item label="手机号">{{idOrder.phoneNumber}}</a-descriptions-item>
+                                        <a-descriptions-item label="订单状态">{{idOrder.orderState}}</a-descriptions-item>
+                                        <a-descriptions-item label="撤销理由" v-if="idOrder.orderState=='客户撤销'">{{idOrder.cancelReason}}</a-descriptions-item>
+                                    </a-descriptions>
+                                </a-modal>
+                                <br/>
+                                <a-button size="small" v-if="record.orderState==='已执行' && record.whetherComment===0" type="primary" @click="showCommentModal(record.id)">评价</a-button>
+                                <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
+                                <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
+                                    <a-form :form="commentForm" v-bind="formItemLayout">
+                                        <a-form-item label="评价星级" v-bind="formItemLayout">
+                                            <a-rate v-model="commentValue">
+                                                <a-icon slot="character" type="heart" />
+                                            </a-rate>
+                                        </a-form-item>
+                                        <a-form-item label="评价内容：" v-bind="formItemLayout">
+                                            <a-textarea placeholder="请填写评价内容" v-model="commentContent" />
+                                        </a-form-item>
+                                    </a-form>
+                                </a-modal>
+                                <br/>
+                                <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
+                                <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-else>撤销</a-button>
+                                <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible&&(vv===record.id)" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record)">
+                                    <a-input placeholder="请输入撤销理由" maxLength={30} v-model="reason"></a-input>
+                                </a-modal>
+                            </span>
                         </a-table>
                     </a-tab-pane>
                     <RegisterModal></RegisterModal>
