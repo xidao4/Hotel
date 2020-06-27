@@ -117,7 +117,8 @@
                                 <a-descriptions-item label="撤销理由" v-if="idOrder.orderState=='客户撤销'">{{idOrder.cancelReason}}</a-descriptions-item>
                             </a-descriptions>
                         </a-modal>
-                        <a-divider type="vertical"></a-divider>
+                            <br>
+<!--                        <a-divider type="vertical"></a-divider>-->
                         <a-button size="small" v-if="record.orderState==='已执行' && record.whetherComment===0" type="primary" @click="showCommentModal(record.id)">评价</a-button>
                         <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
                         <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
@@ -132,7 +133,8 @@
                                 </a-form-item>
                             </a-form>
                         </a-modal>
-                        <a-divider type="vertical" ></a-divider>
+                                <br>
+<!--                        <a-divider type="vertical" ></a-divider>-->
                         <a-button type="danger" size="small" @click="showCancelModal" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
                         <a-button type="danger" size="small" @click="showCancelModal" v-else>撤销</a-button>
                         <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record)">
@@ -155,7 +157,7 @@ import echarts from 'echarts'
 import EditAvatar from "../../components/EditAvatar"
 const columns = [
     {
-        title: '订单号',
+        title: '编号',
         dataIndex: 'id',
     },
     {
@@ -168,17 +170,17 @@ const columns = [
         scopedSlots: { customRender: 'roomType' }
     },
     {
-        title: '入住时间',
+        title: '入住',
         dataIndex: 'checkInDate',
         scopedSlots: { customRender: 'checkInDate' }
     },
     {
-        title: '离店时间',
+        title: '离店',
         dataIndex: 'checkOutDate',
         scopedSlots: { customRender: 'checkOutDate' }
     },
     {
-        title: '入住人数',
+        title: '人数',
         dataIndex: 'peopleNum',
     },
     {
@@ -235,7 +237,7 @@ export default {
             changedPwd:false,
             newPwd:'',
             tabPosition: 'left',
-            size: 'large'
+            size: 'small'
         }
     },
     inject:['reload'],
