@@ -149,6 +149,7 @@ public class AccountServiceImpl implements AccountService {
                 }
             }
         }
+        System.out.println("注册会员资格不足");
         return ResponseVO.buildFailure("注册会员资格不足");
     }
 

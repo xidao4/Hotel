@@ -242,6 +242,8 @@ const user = {
             const res = await registerMemAPI(data)
             if(res){
                 message.success('注册成功')
+            }else{
+                message.error('很抱歉，注册会员资格不足！')
             }
             dispatch('getMemInfo')
         },
