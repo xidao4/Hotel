@@ -60,14 +60,18 @@
             ...mapGetters([
                 'manageCreditVisible',
                 'currentUpdateInfo',
+                'orderList',
+                'showOrderList'
             ])
         },
         methods: {
             ...mapMutations([
                 'set_manageCreditVisible',
+                'set_showOrderList'
             ]),
             ...mapActions([
                 'updateCredit',
+                'getAllOrders'
             ]),
             cancel() {
                 this.set_manageCreditVisible(false)
@@ -99,6 +103,8 @@
                         }
                     })
                 }
+                await this.getAllOrders();
+                this.set_showOrderList(this.orderList);
             }
         }
     }

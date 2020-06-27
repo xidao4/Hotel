@@ -143,10 +143,14 @@ const hotel = {
         },
         addOrder: async({ state, commit }, data) => {
             const res = await reserveHotelAPI(data)
+            console.log('预定结果')
             console.log(res)
-            if(res){
+            if(res!='预订房间数量剩余不足'){
                 message.success('预定成功')
                 commit('set_orderModalVisible', false)
+            }
+            else{
+                message.error('房间数量不足')
             }
         },
         getOrderMatchCoupons: async({ state, commit }, data) => {

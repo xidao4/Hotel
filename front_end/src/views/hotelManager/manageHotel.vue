@@ -1,6 +1,6 @@
 <template>
     <div class="manageHotel-wrapper">
-        <a-tabs>
+        <a-tabs type="card">
 <!--            <a-tab-pane tab="酒店管理(删除)" key="1">-->
 <!--                <div style="width: 100%; text-align: right; margin:20px 0">-->
 <!--                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>-->
@@ -65,14 +65,14 @@
 <!--                        >-->
 <!--                            <a-button type="danger" size="small">删除订单</a-button>-->
                         <a-popover title="订单状态管理" trigger="click" :ref="`popover-${record.id}`">
-                            <a slot="content" @click="change(record.id,'已入住')" v-if="record.orderState==='已预订'"><a-tag color="green">已入住</a-tag></a>
-                            <a slot="content" @click="change(record.id,'已入住')" v-else disabled="true" ><a-tag color="red">已入住</a-tag></a>
-                            <a slot="content" @click="change(record.id,'已执行')" v-if="record.orderState==='已预订' || record.orderState==='已入住'"><a-tag color="green">已执行</a-tag></a>
-                            <a slot="content" @click="change(record.id,'已执行')" v-else disabled="true"><a-tag color="red">已执行</a-tag></a>
-                            <a slot="content" @click="change(record.id,'酒店撤销')" v-if="record.orderState==='已预订'"><a-tag color="green">撤销</a-tag></a>
-                            <a slot="content" @click="change(record.id,'酒店撤销')" v-else disabled="true"><a-tag color="red">撤销</a-tag></a>
-                            <a slot="content" @click="change(record.id,'异常')" v-if="record.orderState==='已预订'"><a-tag color="green">异常</a-tag></a>
-                            <a slot="content" @click="change(record.id,'异常')" v-else disabled="true"><a-tag color="red">异常</a-tag></a>
+                            <a slot="content" @click="change(record,'已入住')" v-if="record.orderState==='已预订'"><a-tag color="green">已入住</a-tag></a>
+                            <a slot="content" @click="change(record,'已入住')" v-else disabled="true" ><a-tag color="red">已入住</a-tag></a>
+                            <a slot="content" @click="change(record,'已执行')" v-if="record.orderState==='已预订' || record.orderState==='已入住'"><a-tag color="green">已执行</a-tag></a>
+                            <a slot="content" @click="change(record,'已执行')" v-else disabled="true"><a-tag color="red">已执行</a-tag></a>
+                            <a slot="content" @click="change(record,'酒店撤销')" v-if="record.orderState==='已预订'"><a-tag color="green">撤销</a-tag></a>
+                            <a slot="content" @click="change(record,'酒店撤销')" v-else disabled="true"><a-tag color="red">撤销</a-tag></a>
+                            <a slot="content" @click="change(record,'异常')" v-if="record.orderState==='已预订'"><a-tag color="green">异常</a-tag></a>
+                            <a slot="content" @click="change(record,'异常')" v-else disabled="true"><a-tag color="red">异常</a-tag></a>
                             <a-button type="primary" size="small" @click="manage">订单管理</a-button>
                         </a-popover>
 <!--                        </a-popconfirm>-->
@@ -81,138 +81,132 @@
             </a-tab-pane>
             <a-tab-pane tab="基本信息" key="3">
 
-                <a-col :span="8">
+              <a-col :span="12">
+                <div style="margin-top: 40px">
 
-                    <div class="clearfix">
-                        <a-upload
-                                :customRequest="upload"
-                                list-type="picture-card"
-                                :file-list="fileList"
-                                @preview="handlePreview"
-                                @change="handleChange"
-                        >
-                            <div v-if="fileList.length < 8">
-                                <a-icon type="plus" />
-                                <div class="ant-upload-text">上传</div>
-                            </div>
-                        </a-upload>
-                        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-                            <img alt="example" style="width: 100%" :src="previewImage" />
-                        </a-modal>
+                  <a-row>
+                    <div class="clearfix" style="margin:auto">
+                      <a-upload
+                              :customRequest="upload"
+                              list-type="picture-card"
+                              :file-list="fileList"
+                              @preview="handlePreview"
+                              @change="handleChange"
+                      >
+                        <div v-if="fileList.length < 8">
+                          <a-icon type="plus" />
+                          <div class="ant-upload-text">上传</div>
+                        </div>
+                      </a-upload>
+                      <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+                        <img alt="example" style="width: 100%" :src="previewImage" />
+                      </a-modal>
                     </div>
+                  </a-row>
 
-                    <div>
-                        <a-button type="primary" size="small" @click="addRoom()" style="margin-left: 20px;margin-right: 70px;">录入房间</a-button>
-                        <a-button type="info" size="small" @click="showCoupon()" style="margin-left: 70px;margin-right: 20px">优惠策略</a-button>
-                    </div>
+                  <a-row>
+                      <div style="margin-top:15px;">
+                        <a-button type="primary" size="large" @click="addRoom()" style="margin-left: 20px;margin-right: 25px;">录入房间</a-button>
+                        <a-button type="info" size="large" @click="showCoupon()" style="margin-left: 25px;margin-right: 20px">优惠策略</a-button>
+                      </div>
+                  </a-row>
 
-                  <!--<a-card hoverable style="width: 250px;margin-top:8%">
+                  <a-row>
 
-                    <img
-                            slot="cover"
-                            alt="logo"
-                            src="@/static/image/cover.jpeg"
-                            height="350"
-                    />
-&lt;!&ndash;                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"&ndash;&gt;
-                    <template slot="actions" class="ant-card-actions">
-                      <a-button type="primary" size="small" @click="addRoom()">录入房间</a-button>
-                      <a-button type="info" size="small" @click="showCoupon()">优惠策略</a-button>
-                    </template>
-&lt;!&ndash;                    <a-card-meta title="酒店服务标签">&ndash;&gt;
-&lt;!&ndash;                      &ndash;&gt;
-&lt;!&ndash;                    </a-card-meta>&ndash;&gt;
-                  </a-card>-->
+                      <a-card  title="酒店服务设施标签" style="margin-top:25px;margin-right: 50px">
+                        <template v-for="tag in tags">
+                          <a-tag :key="tag.tagName" closable @close="()=>handleClose(tag)" style="margin-top:10px">
+                            {{tag.tagName}}
+                          </a-tag>
+                        </template>
+                        <a-input
+                                v-if="inputVisible"
+                                ref="input"
+                                type="txt"
+                                size="small"
+                                :style="{ width: '78px' }"
+                                :value="inputValue"
+                                @change="handleInputChange"
+                                @blur="handleInputConfirm"
+                                @keyup.enter="handleInputConfirm"
+                        />
+                        <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
+                          <a-icon type="plus" /> 新的酒店服务标签
+                        </a-tag>
+                      </a-card>
+
+                  </a-row>
+
+                </div>
                 </a-col>
-
-              <a-col :span="8">
-                <a-form :form="form" style="margin-top: 30px">
-                  <a-form-item label="名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                    <span>{{ currentHotelInfo.name }}</span>
-                  </a-form-item>
-                  <a-form-item label="星级" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                    <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
-                  </a-form-item>
-                  <a-form-item label="好评率" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                    <a-progress :stroke-color="{
+              <a-col :span="12">
+                <a-card title="酒店基本信息" style="width:450px;margin-top:40px">
+                  <a-form :form="form" style="margin-top: 30px;margin-left:20px;margin-bottom: 30px">
+                    <a-form-item label="名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:3px">
+                      <span>{{ currentHotelInfo.name }}</span>
+                    </a-form-item>
+                    <a-form-item label="星级" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:3px">
+                      <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
+                    </a-form-item>
+                    <a-form-item label="好评率" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:3px">
+                      <a-progress :stroke-color="{
                                     '0%': '#108ee9',
                                     '100%': '#87d068',
                                   }" :percent="currentHotelInfo.rate*20" status="active" />
-                  </a-form-item>
-                  <a-form-item label="地址" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
-                    <a-input
-                            placeholder="请填写地址"
-                            v-decorator="['address', { rules: [{ required: true, message: '请输入地址' }] }]"
-                            v-if="modify"
-                    />
-                    <span v-else>{{ currentHotelInfo.address }}</span>
-                  </a-form-item>
-                  <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                    <a-input
-                            placeholder="请填写手机号"
-                            v-decorator="['phoneNum', { rules: [{ required: true, message: '请输入手机号' }] }]"
-                            v-if="modify"
-                    />
-                    <span v-else>{{ currentHotelInfo.phoneNum}}</span>
-                  </a-form-item>
-                  <!--                        <a-form-item label="酒店商圈" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">-->
-                  <!--                          <a-select-->
-                  <!--                                  default-value=currentHotelInfo.bizRegion-->
-                  <!--                                  v-if="modify"-->
-                  <!--                                  v-decorator="['type',{rules: [{required:true,message: '请选择商圈'}]}]" @change="changeType">-->
-                  <!--                            &lt;!&ndash;                    v-decorator第一个字段是绑定的名称，第二个字段说明了在未填写时提交表单的提示&ndash;&gt;-->
-                  <!--                            &lt;!&ndash;官方不推荐v-model来做数据绑定：我们不推荐在 Form 中使用双向绑定，同一份数据可能在多处使用，如果使用双向绑定，那么数据的修改会同时同步到各个组件，但这并不是我们想要的， 你应该在表单提交成功或失败或确认时同步数据，使用非双向绑定的表单，你会拥有最大限度的控制数据修改/同步的权限。&ndash;&gt;-->
-                  <!--                            <a-select-option value="1">西单</a-select-option>-->
-                  <!--                            <a-select-option value="2">鼓楼</a-select-option>-->
-                  <!--                            <a-select-option value="3">仙林</a-select-option>-->
-                  <!--                          </a-select>-->
-                  <!--                          <span v-else>{{currentHotelInfo.bizRegion}}</span>-->
-                  <!--                        </a-form-item>-->
-                  <a-form-item label="描述" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                    <a-input type="textarea" :rows="4" placeholder="请填写酒店简介"
-                             v-decorator="['description',{rules: [{required:true,message:'请填写优惠简介'}]}]"
-                             v-if="modify"/>
-                    <span v-else>{{currentHotelInfo.description}}</span>
-                  </a-form-item>
-                  <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                    <a-button type="primary" @click="saveModify">
-                      保存
-                    </a-button>
-                    <a-button type="default" style="margin-left: 30px" @click="cancelModify">
-                      取消
-                    </a-button>
-                  </a-form-item>
-                  <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                    <a-button type="primary" @click="modifyInfo">
-                      修改信息
-                    </a-button>
-                  </a-form-item>
-                </a-form>
+                    </a-form-item>
+                    <a-form-item label="地址" :label-col="{ span: 3 }" :wrapper-col="{ span: 18, offset: 1  }" style="margin-bottom:3px">
+                      <a-input
+                              placeholder="请填写地址"
+                              v-decorator="['address', { rules: [{ required: true, message: '请输入地址' }] }]"
+                              v-if="modify"
+                      />
+                      <span v-else>{{ currentHotelInfo.address }}</span>
+                    </a-form-item>
+                    <a-form-item label="手机" :label-col="{ span: 3 }" :wrapper-col="{ span: 18, offset: 1 }" style="margin-bottom:3px">
+                      <a-input
+                              placeholder="请填写手机号"
+                              v-decorator="['phoneNum', { rules: [{ required: true, message: '请输入手机号' }] }]"
+                              v-if="modify"
+                      />
+                      <span v-else>{{ currentHotelInfo.phoneNum}}</span>
+                    </a-form-item>
+                    <!--                        <a-form-item label="酒店商圈" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">-->
+                    <!--                          <a-select-->
+                    <!--                                  default-value=currentHotelInfo.bizRegion-->
+                    <!--                                  v-if="modify"-->
+                    <!--                                  v-decorator="['type',{rules: [{required:true,message: '请选择商圈'}]}]" @change="changeType">-->
+                    <!--                            &lt;!&ndash;                    v-decorator第一个字段是绑定的名称，第二个字段说明了在未填写时提交表单的提示&ndash;&gt;-->
+                    <!--                            &lt;!&ndash;官方不推荐v-model来做数据绑定：我们不推荐在 Form 中使用双向绑定，同一份数据可能在多处使用，如果使用双向绑定，那么数据的修改会同时同步到各个组件，但这并不是我们想要的， 你应该在表单提交成功或失败或确认时同步数据，使用非双向绑定的表单，你会拥有最大限度的控制数据修改/同步的权限。&ndash;&gt;-->
+                    <!--                            <a-select-option value="1">西单</a-select-option>-->
+                    <!--                            <a-select-option value="2">鼓楼</a-select-option>-->
+                    <!--                            <a-select-option value="3">仙林</a-select-option>-->
+                    <!--                          </a-select>-->
+                    <!--                          <span v-else>{{currentHotelInfo.bizRegion}}</span>-->
+                    <!--                        </a-form-item>-->
+                    <a-form-item label="描述" :label-col="{ span: 3 }" :wrapper-col="{ span: 18, offset: 1 }" style="margin-bottom:3px">
+                      <a-input type="textarea" :rows="4" placeholder="请填写酒店简介"
+                               v-decorator="['description',{rules: [{required:true,message:'请填写优惠简介'}]}]"
+                               v-if="modify"/>
+                      <span v-else>{{currentHotelInfo.description}}</span>
+                    </a-form-item>
+                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify" style="margin-bottom:3px">
+                      <a-button type="primary" @click="saveModify">
+                        保存
+                      </a-button>
+                      <a-button type="default" style="margin-left: 30px" @click="cancelModify">
+                        取消
+                      </a-button>
+                    </a-form-item>
+                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else style="margin-bottom:3px">
+                      <a-button type="primary" @click="modifyInfo">
+                        修改信息
+                      </a-button>
+                    </a-form-item>
+                  </a-form>
+                </a-card>
+
               </a-col>
 
-                <a-col :span="8">
-                  <a-card  style="width:250px;margin-top:10%">
-                    <template v-for="tag in tags">
-                      <a-tag :key="tag.tagName" closable @close="()=>handleClose(tag)">
-                        {{tag.tagName}}
-                      </a-tag>
-                    </template>
-                    <a-input
-                            v-if="inputVisible"
-                            ref="input"
-                            type="txt"
-                            size="small"
-                            :style="{ width: '78px' }"
-                            :value="inputValue"
-                            @change="handleInputChange"
-                            @blur="handleInputConfirm"
-                            @keyup.enter="handleInputConfirm"
-                    />
-                    <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
-                      <a-icon type="plus" /> 新的酒店服务标签
-                    </a-tag>
-                  </a-card>
-                </a-col>
             </a-tab-pane>
             <a-tab-pane tab="酒店评价" key="4">
                 <a-list
@@ -233,7 +227,7 @@
                                 <a-rate :default-value="item.commentValue" disabled ><a-icon slot="character" type="heart" /></a-rate><br/><br/>
                                 {{ item.commentContent }}
                             </p>
-                            <a-comment author="酒店掌柜" avatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" v-if="item.reply!==''">
+                            <a-comment author="酒店掌柜" avatar="https://ydl8023.oss-cn-beijing.aliyuncs.com/avatar19.png" v-if="item.reply!==''">
                                 <p slot="content">
                                     {{ item.reply }}
                                 </p>
@@ -399,7 +393,7 @@ export default {
         // console.log("this.hotelId",this.hotelId)//1
         await this.getHotelInfo()
         //await this.getHotelListLJY()
-        await this.getAllOrders()
+        await this.getOrderByHotelId(this.currentHotelId)
         //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
         await this.getAllTags(this.currentHotelId)
         await this.getCommentByHotelId(this.currentHotelId)
@@ -431,7 +425,7 @@ export default {
             'getPicUrl',
             'changePic',
             'getPics',
-
+            'getOrderByHotelId'
         ]),
         async upload(info){
             console.log("list_before",this.fileList)
@@ -497,13 +491,19 @@ export default {
                 }
             }
         },
-        async change(orderid,status){
+        async change(order,status){
+            console.log(order)
             const data={
-                orderid:orderid,
-                status:status
+                orderid:order.id,
+                status:status,
+                hotelId:order.hotelId,
+                roomType:order.roomType,
+                startTime: order.checkInDate,
+                endTime: order.checkOutDate,
+                reserveNum: order.roomNum,
             }
             await this.changeStatus(data)
-            await this.getAllOrders()
+            await this.getOrderByHotelId(this.currentHotelId)
         },
         addRoom() {
             console.log(this.bigV)

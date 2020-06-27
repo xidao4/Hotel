@@ -26,6 +26,12 @@ public interface OrderService {
     List<Order> getAllOrders();
 
     /**
+     * 根据hotelId获取对应酒店所有订单
+     * @param hotelId
+     * @return
+     */
+    List<Order> getOrderByHotelId(int hotelId);
+    /**
      * 获得指定用户的所有订单信息
      * @param userid
      * @return
@@ -52,7 +58,7 @@ public interface OrderService {
      * @param orderid
      * @return
      */
-    ResponseVO annulOrder(int orderid,String reason);
+    ResponseVO annulOrder(int orderid,String reason,int hotelId,String roomType,String startTime,String endTime,int reserveNum);
 
     /**
      * 查看酒店的所有订单
@@ -67,7 +73,7 @@ public interface OrderService {
      * @param status
      * @return
      */
-    ResponseVO changeStatus(int orderid,String status);
+    ResponseVO changeStatus(int orderid,String status,int hotelId,String roomType,String startTime,String endTime,int reserveNum);
 
     /**
      * 改变order是否被评价的状态

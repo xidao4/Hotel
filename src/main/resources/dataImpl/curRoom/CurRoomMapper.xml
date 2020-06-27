@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hotel.data.curRoom.CurRoomMapper">
+
+    <insert id="insertCurRoom" parameterType="com.example.hotel.po.CurRoom"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into CurRoomNum(hotelId,roomType,daytime,curRoomNum)
+        values (#{hotelId},#{roomType},#{dayTime},#{curRoomNum})
+    </insert>
+
+    <select id="selectCurRoomNum" resultType="Integer">
+        select curRoomNum from CurRoomNum where hotelId=#{hotelId} and roomType=#{roomType} and daytime=#{daytime}
+    </select>
+
+    <update id="updateCurRoomNum">
+        update CurRoomNum set curRoomNum=curRoomNum-#{reserveNum} where hotelId=#{hotelId} and roomType=#{roomType} and daytime=#{daytime}
+    </update>
+
+    <select id="isExist" resultType="Integer">
+        select curRoomNum  from CurRoomNum where hotelId=#{hotelId} and roomType=#{roomType} and daytime=#{daytime}
+    </select>
+
+    <resultMap id="curRoom" type="com.example.hotel.po.CurRoom">
+    </resultMap>
+
+
+</mapper>

@@ -21,7 +21,7 @@
         delete from Hotel where id=#{id}
     </delete>
     <update id="update">
-        update Hotel set address=#{address}, phoneNum=#{phoneNum}
+        update Hotel set address=#{address}, phoneNum=#{phoneNum},hotelDescription=#{description}
         where id=#{id}
     </update>
     <update id="updatePic">

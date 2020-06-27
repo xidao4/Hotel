@@ -1,75 +1,86 @@
 <template>
     <div class="info-wrapper">
         <a-row type="flex" >
-            <a-col :span="19" :order="1">
-                <a-tabs>
-                    <a-tab-pane tab="我的信息" key="1">
+            <a-col  :span="24" :order="1">
+<!--                -->
+                <a-tabs :tab-position="tabPosition" :size="size" >
+                    <a-tab-pane key="1">
+                        <span slot="tab">
+                            <a-icon type="user" />
+                            我的信息
+                        </span>
                         <div id="pic" style="width: 100%;height:200px;"></div>
                         <div style="font-size: large;font-weight: bold">修改信息</div>
-                        <a-form :form="form" style="margin-top: 30px">
-                            <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
-                                <a-avatar v-if="!modify" :src="avatar_url"></a-avatar>
-                                <EditAvatar v-if="modify" :avatar_url="avatar_url"
-                                            @editAvatar="editAvatar"></EditAvatar>
-                            </a-form-item>
-                            <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
-                                <a-input
-                                        placeholder="请填写用户名"
-                                        v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
-                                        v-if="modify"
-                                />
-                                <span v-else>{{ userInfo.userName }}</span>
-                            </a-form-item>
-                            <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                                <span>{{ userInfo.email }}</span>
-                            </a-form-item>
-                            <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                                <a-input
-                                        placeholder="请填写手机号"
-                                        v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"
-                                        v-if="modify"
-                                />
-                                <span v-else>{{ userInfo.phoneNumber}}</span>
-                            </a-form-item>
-                            <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                                <span>{{ userInfo.credit }}</span>
-                            </a-form-item>
-                            <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
-                                         v-if="modify">
-                                <a-input
-                                        v-model="newPwd"
-                                        placeholder="请输入新密码"
-                                        type="password"
-                                        v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
-                                />
-                            </a-form-item>
-                            <a-form-item label="会员积分" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="isMember">
-                                <span>{{this.memInfo.memberPoints}}</span>
-                            </a-form-item>
-                            <a-form-item label="生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="isMember">
-                                <span>{{this.memInfo.birthday}}</span>
-                            </a-form-item>
-                            <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="!isMember">
-                                <span v-if="isRegistering">请选择您的生日（不可更改）</span>
-                                <a-date-picker @change="onChange"  v-if="isRegistering"/>
-                                <a-button type="primary" v-else @click="registerBtn" >注册成为会员</a-button>
-                            </a-form-item>
-                            <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                                <a-button type="primary" @click="saveModify">
-                                    保存
-                                </a-button>
-                                <a-button type="default" style="margin-left: 30px" @click="cancelModify">
-                                    取消
-                                </a-button>
-                            </a-form-item>
-                            <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                                <a-button type="primary" @click="modifyInfo">
-                                    修改信息
-                                </a-button>
-                            </a-form-item>
-                        </a-form>
+                        <div class="my_card">
+                            <a-form :form="form" style="margin-top: 30px" >
+                                <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" style="margin-bottom:4px">
+                                    <a-avatar v-if="!modify" :src="avatar_url"></a-avatar>
+                                    <EditAvatar v-if="modify" :avatar_url="avatar_url"
+                                                @editAvatar="editAvatar"></EditAvatar>
+                                </a-form-item>
+                                <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" style="margin-bottom:4px">
+                                    <a-input
+                                            placeholder="请填写用户名"
+                                            v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
+                                            v-if="modify"
+                                    />
+                                    <span v-else>{{ userInfo.userName }}</span>
+                                </a-form-item>
+                                <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:4px">
+                                    <span>{{ userInfo.email }}</span>
+                                </a-form-item>
+                                <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:4px">
+                                    <a-input
+                                            placeholder="请填写手机号"
+                                            v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"
+                                            v-if="modify"
+                                    />
+                                    <span v-else>{{ userInfo.phoneNumber}}</span>
+                                </a-form-item>
+                                <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:4px">
+                                    <span>{{ userInfo.credit }}</span>
+                                </a-form-item>
+                                <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
+                                             v-if="modify" style="margin-bottom:4px">
+                                    <a-input
+                                            v-model="newPwd"
+                                            placeholder="请输入新密码"
+                                            type="password"
+                                            v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
+                                    />
+                                </a-form-item>
+                                <a-form-item label="会员积分" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="isMember" style="margin-bottom:4px">
+                                    <span>{{this.memInfo.memberPoints}}</span>
+                                </a-form-item>
+                                <a-form-item label="生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="isMember" style="margin-bottom:4px">
+                                    <span>{{this.memInfo.birthday}}</span>
+                                </a-form-item>
+                                <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="!isMember" style="margin-bottom:4px">
+                                    <span v-if="isRegistering">请选择您的生日（不可更改）</span>
+                                    <a-date-picker @change="onChange"  v-if="isRegistering"/>
+                                    <a-button type="primary" v-else @click="registerBtn" >注册成为会员</a-button>
+                                </a-form-item>
+                                <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify" style="margin-bottom:4px">
+                                    <a-button type="primary" @click="saveModify">
+                                        保存
+                                    </a-button>
+                                    <a-button type="default" style="margin-left: 30px" @click="cancelModify">
+                                        取消
+                                    </a-button>
+                                </a-form-item>
+                                <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else style="margin-bottom:4px">
+                                    <a-button type="primary" @click="modifyInfo">
+                                        修改信息
+                                    </a-button>
+                                </a-form-item>
+                            </a-form>
+                        </div>
                     </a-tab-pane>
-                    <a-tab-pane tab="我的订单" key="2">
+                    <a-tab-pane  key="2">
+                        <span slot="tab">
+                            <a-icon type="wallet" />
+                            我的订单
+                        </span>
                         <a-table
                                 :columns="columns"
                                 :dataSource="userOrderList"
@@ -106,7 +117,8 @@
                                 <a-descriptions-item label="撤销理由" v-if="idOrder.orderState=='客户撤销'">{{idOrder.cancelReason}}</a-descriptions-item>
                             </a-descriptions>
                         </a-modal>
-                        <a-divider type="vertical"></a-divider>
+                            <br>
+<!--                        <a-divider type="vertical"></a-divider>-->
                         <a-button size="small" v-if="record.orderState==='已执行' && record.whetherComment===0" type="primary" @click="showCommentModal(record.id)">评价</a-button>
                         <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
                         <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
@@ -122,9 +134,9 @@
                             </a-form>
                         </a-modal>
                         <a-divider type="vertical" ></a-divider>
-                        <a-button type="danger" size="small" @click="showCancelModal" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
-                        <a-button type="danger" size="small" @click="showCancelModal" v-else>撤销</a-button>
-                        <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record.id)">
+                        <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
+                        <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-else>撤销</a-button>
+                        <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible&&(vv===record.id)" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record)">
                             <a-input placeholder="请输入撤销理由" maxLength={30} v-model="reason"></a-input>
                         </a-modal>
                     </span>
@@ -144,7 +156,7 @@ import echarts from 'echarts'
 import EditAvatar from "../../components/EditAvatar"
 const columns = [
     {
-        title: '订单号',
+        title: '编号',
         dataIndex: 'id',
     },
     {
@@ -157,17 +169,17 @@ const columns = [
         scopedSlots: { customRender: 'roomType' }
     },
     {
-        title: '入住时间',
+        title: '入住',
         dataIndex: 'checkInDate',
         scopedSlots: { customRender: 'checkInDate' }
     },
     {
-        title: '离店时间',
+        title: '离店',
         dataIndex: 'checkOutDate',
         scopedSlots: { customRender: 'checkOutDate' }
     },
     {
-        title: '入住人数',
+        title: '人数',
         dataIndex: 'peopleNum',
     },
     {
@@ -222,7 +234,10 @@ export default {
             // form: this.$form.createForm(this, { name: 'coordinated' }),
             commentForm: this.$form.createForm(this,{name: 'commentForm'}),
             changedPwd:false,
-            newPwd:''
+            newPwd:'',
+            tabPosition: 'left',
+            size: 'small',
+            vv: ''
         }
     },
     inject:['reload'],
@@ -327,8 +342,9 @@ export default {
         commentCancel(){
             this.commentVisible=false
         },
-        showCancelModal(){
+        showCancelModal(orderId){
             console.log('show cancelModal')
+            this.vv=orderId
             this.visible=true
         },
         cancelContent(){
@@ -338,16 +354,22 @@ export default {
             console.log('close cancelModal')
             this.visible=false
         },
-        handleSubmit(orderid){
+        handleSubmit(order){
             console.log('submit')
             // console.log(this.reason)
             // console.log(orderid)
             const data={
-                orderid: orderid,
-                reason: this.reason
+                orderid: order.id,
+                reason: this.reason,
+                hotelId: order.hotelId,
+                roomType: order.roomType,
+                startTime: order.checkInDate,
+                endTime: order.checkOutDate,
+                reserveNum: order.roomNum,
             }
             this.cancelOrder(data)
             this.visible=false
+            this.reason=''
         },
         async commentSubmit(record){
             console.log(record)
@@ -398,7 +420,6 @@ export default {
                     })
                 }
             });
-
         },
         modifyInfo() {
             setTimeout(() => {
@@ -436,7 +457,7 @@ export default {
 </script>
 <style scoped lang="less">
     .info-wrapper {
-        padding: 20px;
+        padding: 60px;
 
         .chart {
             display: flex;
@@ -447,12 +468,16 @@ export default {
     }
 </style>
 <style lang="less">
-
     .info-wrapper {
         padding: 20px 100px 144px;
         .ant-tabs-bar {
             padding-left: 30px;
         }
+    }
+    .my_card{
+        width: 500px;
+        margin-left: 250px;
+        //border: 1px solid blue;
     }
 </style>
 

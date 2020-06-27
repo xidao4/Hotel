@@ -66,7 +66,7 @@ public interface HotelService {
 
     int getHotelId(Integer managerId);
 
-    ResponseVO updateHotelInfo(int id,String address,String phoneNum);
+    ResponseVO updateHotelInfo(int id,String address,String phoneNum,String description);
 
     ResponseVO changePic(List<HotelPicVO> hotelPicVOList, int hotelId);
 

@@ -20,6 +20,8 @@ public interface OrderMapper {
 
     List<Order> getAllOrders();
 
+    List<Order> getOrderByHotelId(@Param("hotelId") int hotelId);
+
     List<Order> getUserOrders(@Param("userid") int userid);
 
     int annulOrder(@Param("orderid") int orderid,@Param("reason") String reason);
