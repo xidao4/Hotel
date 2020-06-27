@@ -37,9 +37,9 @@
                         </div>
                         <div class="items">
                             <span class="label">酒店服务：</span>
-                            <span class="value">
+                            <span class="value" style="text-align: left">
                                 <template v-for="tag in tags">
-                                <a-tag :key="tag.tagName" >
+                                <a-tag :key="tag.tagName" style="font-size: medium" color="#abc2e8">
                                     {{tag.tagName}}
                                 </a-tag>
                             </template>
