@@ -208,7 +208,7 @@ public class HotelServiceImpl implements HotelService {
             }
             int doubleSignal=1;
             for(String day:days){
-                if(curRoomMapper.isExist(hotelVO.getId(),"BigBed",day)!=null){
+                if(curRoomMapper.isExist(hotelVO.getId(),"DoubleBed",day)!=null){
                     int roomNum=curRoomMapper.selectCurRoomNum(hotelVO.getId(),"BigBed",day);
                     if(roomNum<=0){
                         doubleSignal=0;
@@ -217,7 +217,7 @@ public class HotelServiceImpl implements HotelService {
             }
             int familySignal=1;
             for(String day:days){
-                if(curRoomMapper.isExist(hotelVO.getId(),"BigBed",day)!=null){
+                if(curRoomMapper.isExist(hotelVO.getId(),"Family",day)!=null){
                     int roomNum=curRoomMapper.selectCurRoomNum(hotelVO.getId(),"BigBed",day);
                     if(roomNum<=0){
                         familySignal=0;
