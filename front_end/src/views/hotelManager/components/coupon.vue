@@ -54,7 +54,7 @@ const columns = [
     //使用 columns 时，可以通过该slot、slot-scope配置支持 slot、slot-scope 的属性
     //问题二：从mapGetters里面获取的couponList的属性，是怎么和dataIndex挂钩的？
     {
-        title: '优惠类型',
+        title: '优惠名称',
         dataIndex: 'couponName',
         scopedSlots: {customRender: 'couponName'}
     },
