@@ -26,7 +26,11 @@
 <!--                    </span>-->
 <!--                </a-table>-->
 <!--            </a-tab-pane>-->
-            <a-tab-pane tab="订单管理" key="2">
+            <a-tab-pane  key="2">
+                <span slot="tab">
+        <a-icon type="file-done"/>
+        订单管理
+      </span>
                 <a-table
                     :columns="columns2"
                     :dataSource="orderList"
@@ -79,7 +83,11 @@
                     </span>
                 </a-table>
             </a-tab-pane>
-            <a-tab-pane tab="基本信息" key="3">
+            <a-tab-pane  key="3">
+                 <span slot="tab">
+        <a-icon type="solution"/>
+        基本信息
+      </span>
 
               <a-col :span="12">
                 <div style="margin-top: 40px">
@@ -106,8 +114,8 @@
 
                   <a-row>
                       <div style="margin-top:15px;">
-                        <a-button type="primary" size="large" @click="addRoom()" style="margin-left: 20px;margin-right: 25px;">录入房间</a-button>
-                        <a-button type="info" size="large" @click="showCoupon()" style="margin-left: 25px;margin-right: 20px">优惠策略</a-button>
+                        <a-button type="primary" size="normal" @click="addRoom()" style="margin-left: 20px;margin-right: 25px;">录入房间</a-button>
+                        <a-button type="info" size="normal" @click="showCoupon()" style="margin-left: 25px;margin-right: 20px">优惠策略</a-button>
                       </div>
                   </a-row>
 
@@ -208,7 +216,11 @@
               </a-col>
 
             </a-tab-pane>
-            <a-tab-pane tab="酒店评价" key="4">
+            <a-tab-pane  key="4">
+                <span slot="tab">
+        <a-icon type="profile"/>
+        酒店评价
+      </span>
                 <a-list
                     class="comment-list"
                     :header="`${comment.length} 评价`"
