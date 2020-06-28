@@ -7,7 +7,7 @@
                     slot="prevArrow"
                     slot-scope="props"
                     class="custom-slick-arrow"
-                    style="left: 10px;zIndex: 1"
+                    style="left: 10px;zIndex: 1;"
             >
                 <a-icon type="left-circle" />
             </div>
@@ -23,49 +23,16 @@
                 </div>
             </div>
         </a-carousel>
-
-        <a-list class="list-box" bordered :data-source="data">
-            <a-list-item slot="renderItem" slot-scope="item, index" style="cursor: pointer;" @click="getDetail">
-                <div>
-                    <div class="s-title-box">{{item.title}}</div>
-                    <div>
-                        <span class="s-content-box">{{item.content}}</span>
-                        <span class="for-detail">
-                            了解详情>>>
-                        </span>
-                    </div>
-                </div>
-            </a-list-item>
-        </a-list>
     </a-card>
 
 </template>
 
 <script>
     import {mapActions,mapGetters} from 'vuex'
-    const data = [
-        {
-            title: '网站会员专属优惠',
-            content: '订单价格三倍积分...'
-        },
-        {
-            title: '网站会员专属优惠',
-            content: '订单价格三倍积分...'
-        },
-        {
-            title: '网站会员专属优惠',
-            content: '订单价格三倍积分...'
-        },
-        {
-            title: '网站会员专属优惠',
-            content: '订单价格三倍积分...'
-        },
-    ];
     export default {
         name: "broadcastCard",
         data() {
             return {
-                data
             }
         },
         methods: {

@@ -9,16 +9,16 @@
                             <a-icon type="user" />
                             我的信息
                         </span>
-                        <div id="pic" style="width: 100%;height:200px;"></div>
-                        <div style="font-size: large;font-weight: bold">修改信息</div>
+                        <div id="pic" style="width: 500px;height:200px;"></div>
+                        <div style="font-size: large;font-weight: bold">个人信息</div>
                         <div class="my_card">
                             <a-form :form="form" style="margin-top: 30px" >
-                                <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" style="margin-bottom:4px">
-                                    <a-avatar v-if="!modify" :src="avatar_url"></a-avatar>
+                                <a-form-item  :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" style="margin-bottom:2px;margin-left: 160px">
+                                    <a-avatar v-if="!modify" :src="avatar_url" :size="100"></a-avatar>
                                     <EditAvatar v-if="modify" :avatar_url="avatar_url"
                                                 @editAvatar="editAvatar"></EditAvatar>
                                 </a-form-item>
-                                <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" style="margin-bottom:4px">
+                                <a-form-item  :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" style="margin-bottom:8px;margin-left: 173px;font-size: 18px" >
                                     <a-input
                                             placeholder="请填写用户名"
                                             v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
@@ -26,10 +26,10 @@
                                     />
                                     <span v-else>{{ userInfo.userName }}</span>
                                 </a-form-item>
-                                <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:4px">
+                                <a-form-item label="邮箱" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 0 }" style="margin-bottom:2px;margin-left: 130px">
                                     <span>{{ userInfo.email }}</span>
                                 </a-form-item>
-                                <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:4px">
+                                <a-form-item label="手机号" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 0 }" style="margin-bottom:2px;margin-left: 130px">
                                     <a-input
                                             placeholder="请填写手机号"
                                             v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"
@@ -37,11 +37,11 @@
                                     />
                                     <span v-else>{{ userInfo.phoneNumber}}</span>
                                 </a-form-item>
-                                <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:4px">
+                                <a-form-item label="信用值" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 0 }" style="margin-bottom:2px;margin-left: 130px">
                                     <span>{{ userInfo.credit }}</span>
                                 </a-form-item>
-                                <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
-                                             v-if="modify" style="margin-bottom:4px">
+                                <a-form-item label="密码" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 0 }"
+                                             v-if="modify" style="margin-bottom:2px;margin-left: 130px">
                                     <a-input
                                             v-model="newPwd"
                                             placeholder="请输入新密码"
@@ -49,18 +49,18 @@
                                             v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
                                     />
                                 </a-form-item>
-                                <a-form-item label="会员积分" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="isMember" style="margin-bottom:4px">
+                                <a-form-item label="会员积分" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 0 }" v-if="isMember" style="margin-bottom:2px;margin-left: 130px">
                                     <span>{{this.memInfo.memberPoints}}</span>
                                 </a-form-item>
-                                <a-form-item label="生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="isMember" style="margin-bottom:4px">
+                                <a-form-item label="生日" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 0 }" v-if="isMember" style="margin-bottom:2px;margin-left: 130px">
                                     <span>{{this.memInfo.birthday}}</span>
                                 </a-form-item>
-                                <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="!isMember" style="margin-bottom:4px">
+                                <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="!isMember" style="margin-bottom:2px;margin-left: 130px">
                                     <span v-if="isRegistering">请选择您的生日（不可更改）</span>
                                     <a-date-picker @change="onChange"  v-if="isRegistering"/>
                                     <a-button type="primary" v-else @click="registerBtn" >注册成为会员</a-button>
                                 </a-form-item>
-                                <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify" style="margin-bottom:4px">
+                                <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify" style="margin-bottom:2px;margin-left: 80px">
                                     <a-button type="primary" @click="saveModify">
                                         保存
                                     </a-button>
@@ -68,7 +68,7 @@
                                         取消
                                     </a-button>
                                 </a-form-item>
-                                <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else style="margin-bottom:4px">
+                                <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else style="margin-bottom:2px;margin-left: 120px">
                                     <a-button type="primary" @click="modifyInfo">
                                         修改信息
                                     </a-button>
@@ -475,7 +475,7 @@ export default {
     }
     .my_card{
         width: 500px;
-        margin-left: 250px;
+        /*margin-left: 250px;*/
         //border: 1px solid blue;
     }
 </style>
