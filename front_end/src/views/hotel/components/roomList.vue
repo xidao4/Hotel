@@ -23,26 +23,26 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import OrderModal from './orderModal'
 const columns = [
-    {  
+    {
       title: '房型',
       dataIndex: 'roomType',
       key: 'roomType',
     },
-    {
-      title: '床型',
-      dataIndex: 'bedType',
-      key: 'bedType',
-    },
-    {
-      title: '早餐',
-      dataIndex: 'breakfast',
-      key: 'breakfast',
-    },
-    {
-      title: '入住人数',
-      key: 'peopleNum',
-      dataIndex: 'peopleNum',
-    },
+    // {
+    //   title: '床型',
+    //   dataIndex: 'bedType',
+    //   key: 'bedType',
+    // },
+    // {
+    //   title: '早餐',
+    //   dataIndex: 'breakfast',
+    //   key: 'breakfast',
+    // },
+    // {
+    //   title: '入住人数',
+    //   key: 'peopleNum',
+    //   dataIndex: 'peopleNum',
+    // },
     {
       title: '房价',
       key: 'price',
