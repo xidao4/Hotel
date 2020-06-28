@@ -68,12 +68,14 @@
         },
         computed: {
             ...mapGetters([
-                'currentGroupType'
+                'currentGroupType',
+                'broadcastList'
             ])
         },
         methods: {
             ...mapActions([
-                'sendBroadcast'
+                'sendBroadcast',
+                'getBroadcastList'
             ]),
             nextStep () {
                 this.loading = true;
@@ -83,6 +85,8 @@
                             title: this.form.getFieldValue('title'),
                             content: this.form.getFieldValue('content'),
                             priority: this.priority
+                        }).then(val=>{
+                            this.getBroadcastList()
                         });
                         if(res) {
                             this.$emit('nextStep');
@@ -94,6 +98,7 @@
                         this.loading = false;
                     }
                 });
+                this.getBroadcastList()
             },
             prevStep () {
                 this.$emit('prevStep')

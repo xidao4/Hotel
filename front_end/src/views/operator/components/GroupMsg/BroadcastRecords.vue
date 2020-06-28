@@ -174,6 +174,11 @@
         },
         mounted() {
             this.getBroadcastList()
+        },
+        watch:{
+            broadcastList(val){
+
+            }
         }
     }
 </script>

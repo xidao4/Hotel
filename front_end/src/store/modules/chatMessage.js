@@ -147,7 +147,7 @@ const chatMessage = {
                 return false
             }
         },
-        getBroadcastList: async ({commit}, param) => {
+        getBroadcastList: async ({commit}) => {
             const res = await getBroadcastListAPI();
             if (res) {
                 commit('set_broadcastList', res)

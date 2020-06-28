@@ -61,6 +61,7 @@ public class MessageController {
 
     @GetMapping("/getBroadcastList")
     public ResponseVO getBroadcastList(){
+        System.out.println("啊啊啊啊啊啊，调用了broadcast");
         return ResponseVO.buildSuccess(broadcastService.getBroadcastList());
     }
 

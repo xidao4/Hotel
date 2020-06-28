@@ -14,12 +14,12 @@
             <div slot="nextArrow" slot-scope="props" class="custom-slick-arrow" style="right: 10px">
                 <a-icon type="right-circle" />
             </div>
-            <div v-for="(item, index) in 4" :key="index" @click="getDetail">
+            <div v-for="item in broadcastList" :key="id" @click="getDetail">
                 <div class="title-box">
-                    网站会员专属优惠
+                    {{item.title}}
                 </div>
                 <div class="content-box">
-                    订单价格三倍积分，积分当钱花。可享9折，价格更优惠。提早入住，延迟退房，入住更随心。生日惊喜好礼，礼券更丰富。
+                    {{item.content}}
                 </div>
             </div>
         </a-carousel>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+    import {mapActions,mapGetters} from 'vuex'
     const data = [
         {
             title: '网站会员专属优惠',
@@ -68,10 +69,28 @@
             }
         },
         methods: {
+            ...mapActions([
+                'getBroadcastList'
+            ]),
             getDetail() {
                 alert("hahahha")
+            },
+
+        },
+        computed:{
+            ...mapGetters([
+                'broadcastList'
+            ])
+        },
+        mounted() {
+            this.getBroadcastList()
+        },
+        watch:{
+            broadcastList(val){
+
             }
         }
+
     }
 </script>
 
