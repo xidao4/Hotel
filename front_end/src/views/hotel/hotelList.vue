@@ -85,7 +85,7 @@
 			await this.getHotelList(this.userId)
 			this.set_showHotelList(this.hotelList)
             console.log('before Notification',this.hasShownNoti)
-            this.showNotification()
+            //this.showNotification()
             console.log('after Notification',this.hasShownNoti)
 		},
 		computed: {
