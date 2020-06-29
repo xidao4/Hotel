@@ -1,19 +1,20 @@
 <template>
     <a-drawer
             title="筛选您心仪的酒店"
-            placement="top"
+            placement="left"
             :closable="false"
-            :visible="visible"
+            :visible="showFilter"
+            :width="600"
             @close="onClose"
     >
         <a-card :bordered="false">
 
             <a-row>
-                <a-col :span="2">
+                <a-col :span="4">
                     <a-icon type="crown" theme="twoTone" two-tone-color="#18a581" class="icon-box" />
                     <span class="desc-box">排序</span>
                 </a-col>
-                <a-col :span="7">
+                <a-col :span="20">
                     <a-radio-group v-model="type" @change="onChange">
                         <a-radio value="rate">
                             好评优先
@@ -23,37 +24,49 @@
                         </a-radio>
                     </a-radio-group>
                 </a-col>
+            </a-row>
 
-                <a-col :span="2">
+            <a-row class="margin-top">
+                <a-col :span="4">
                     <a-icon type="star" theme="twoTone" two-tone-color="#18a581" class="icon-box" />
                     <span class="desc-box">星级</span>
                 </a-col>
-                <a-col :span="2" style="font-size: 14px;" >
+                <a-col :span="4" style="font-size: 14px;" >
                     <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange">
                         全选
                     </a-checkbox>
                 </a-col>
-                <a-col :span="10" style="margin-left: 8px; font-size: 14px;">
+            </a-row>
+
+            <a-row style="margin-top: 10px;">
+                <a-col :span="4">
+
+                </a-col>
+                <a-col :span="16" style="font-size: 14px;">
                     <a-checkbox-group v-model="checkedList" :options="plainOptions" @change="onChange" />
                 </a-col>
             </a-row>
-            <a-row style="margin-top: 10px;">
-                <a-col :span="2">
+
+            <a-row class="margin-top">
+                <a-col :span="4">
                     <a-icon type="environment" theme="twoTone" two-tone-color="#18a581" class="icon-box" />
                     <span class="desc-box">商圈</span>
                 </a-col>
-                <a-col :span="7">
+                <a-col :span="20">
                     <a-select mode="multiple" placeholder="请选择商圈" @change="onChangeBizRegion"
                               style="width: 250px;" size="small">
                         <a-select-option v-for="item in ['全部','XiDan']" :key="item">{{item}}</a-select-option>
                     </a-select>
                 </a-col>
 
-                <a-col :span="2">
+            </a-row>
+
+            <a-row class="margin-top">
+                <a-col :span="4">
                     <a-icon type="calendar" theme="twoTone" two-tone-color="#18a581" class="icon-box" />
                     <span class="desc-box">时间</span>
                 </a-col>
-                <a-col :span="10">
+                <a-col :span="20">
                     <a-date-picker
                             v-model="startValue"
                             :disabled-date="disabledStartDate"
@@ -75,24 +88,24 @@
                             size="small">
                     </a-date-picker>
                 </a-col>
-
             </a-row>
-            <a-row style="margin-top: 10px;">
-                <a-col :span="2">
+
+            <a-row class="margin-top">
+                <a-col :span="4">
                     <a-icon type="account-book" theme="twoTone" two-tone-color="#18a581" class="icon-box" />
                     <span class="desc-box">价格</span>
                 </a-col>
-                <a-col :span="1"><span>0元</span></a-col>
-                <a-col :span="8" style="display: inline; font-size: 5px;">
-                    <a-slider range :max="1000" :step="50" v-model="priceRange" style="margin-right: 15px"/>
+                <a-col :span="2"><span>{{priceRange[0]}}</span></a-col>
+                <a-col :span="14" style="display: inline; font-size: 5px;">
+                    <a-slider range :max="3000" :step="50" v-model="priceRange" style="margin-right: 15px"/>
                 </a-col>
-                <a-col :span="3"><span>1000及以上</span></a-col>
+                <a-col :span="2"><span>{{priceRange[1]}}</span></a-col>
             </a-row>
 
-            <a-row style="text-align: center;">
-                <a-col :span="8" :offset="7">
-                    <a-button type="primary" shape="round" size="small" @click="test">筛选</a-button>
-                    <a-button type="primary" shape="round" size="small" style="margin-left: 10px">重置</a-button>
+            <a-row class="margin-top" style="text-align: center;">
+                <a-col :span="16" :offset="4">
+                    <a-button type="primary" shape="round" size="small" @click="filter">筛选</a-button>
+<!--                    <a-button type="primary" shape="round" size="small" style="margin-left: 10px" @click="reset">重置</a-button>-->
                     <a-button type="primary" shape="round" size="small" style="margin-left: 10px" @click="onClose">取消</a-button>
                 </a-col>
             </a-row>
@@ -119,8 +132,6 @@
                 hotelListByStar: [],
                 hotelListByDate: [],
 
-                visible: true,
-
                 type: 'rate',
 
                 checkedList: defaultCheckedList,
@@ -132,7 +143,7 @@
                 endValue: null,
                 endOpen: false,
 
-                priceRange: [0, 1000],
+                priceRange: [0, 3000],
             }
         },
         async mounted() {
@@ -147,22 +158,28 @@
                 'userId',
                 'hotelList',
                 'hotelListLoading',
+                'showFilter'
             ])
         },
         methods: {
             ...mapMutations([
                 'set_hotelListParams',
                 'set_hotelListLoading',
+                'set_showFilter',
             ]),
             ...mapActions([
                 'getHotelList',
                 'getHotelByDate'
             ]),
-            test(){
+            filter() {
+
+            },
+            reset() {
 
             },
             onClose() {
-                this.visible = false;
+                this.reset();
+                this.set_showFilter(false);
             },
 
             // 星级
@@ -334,16 +351,19 @@
 <style scoped>
     .desc-box {
         margin-left: 5px;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: bold;
     }
     .icon-box {
-        font-size: 18px;
+        font-size: 20px;
     }
     .form-item {
         font-size: 10px;
     }
     .code-box-demo .ant-slider {
         margin-bottom: 16px;
+    }
+    .margin-top {
+        margin-top: 45px;
     }
 </style>
