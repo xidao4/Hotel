@@ -34,14 +34,19 @@
                     ]"
         />
       </a-form-item>
+      <a-form-item v-bind="formItemLayout" label="星级">
+        <a-rate v-model="star_value"></a-rate>
+      </a-form-item>
     </a-Form>
   </a-modal>
 </template>
 
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
+    import AFormItem from "ant-design-vue/es/form/FormItem";
     export default {
         name: "addHotelModal.vue",
+        components: {AFormItem},
         data() {
             return {
                 formItemLayout: {
@@ -54,6 +59,7 @@
                         sm: { span: 16 },
                     },
                 },
+                star_value:''
             }
         },
         beforeCreate() {
@@ -86,8 +92,11 @@
                         const data = {
                             name: this.form.getFieldValue('name'),
                             bizRegion: this.form.getFieldValue('bizRegion'),
-                            address: this.form.getFieldValue('address')
+                            address: this.form.getFieldValue('address'),
+                            hotelStar:this.star_value
                         }
+                        console.log('star',data.hotelStar)//undefined
+                        console.log('star',this.star_value)
                         this.addHotel(data)
                     }
                 });
