@@ -52,9 +52,11 @@
                     </span>
                     </a-row>
                     <a-row type="flex" align="bottom" style="margin-top: 5px">
-                        <a-tag color="#18a581">
-                            满300减50
-                        </a-tag>
+                        <div v-for="(item, index) in detail.couponNames" :key="index" style="line-height: 25px">
+                            <a-tag color="#18a581">
+                                {{item}}
+                            </a-tag>
+                        </div>
                     </a-row>
                 </a-col>
             </a-row>

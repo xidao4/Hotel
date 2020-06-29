@@ -26,6 +26,7 @@ const getters = {
   hotelInfo:state=>state.hotel.hotelInfo,
   comment: state=>state.hotel.comment,
   hasShownNoti:state=>state.hotel.hasShownNoti,
+  showFilter: state=>state.hotel.showFilter,
   //admin
   operatorList:state=>state.admin.operatorList,
   displayOperatorList:state=>state.admin.displayOperatorList,
