@@ -3,49 +3,69 @@
         <a-card hoverable class="hotelCard">
             <a-row type="flex" align="center">
                 <a-col :span="6">
-                    <div>
-                        <img src="@/assets/cover.jpeg" alt="hotelImg">
+                    <div class="img-box">
+                        <img :src="previewUrl" alt="hotelImg" v-if="previewUrl !==''">
+                        <img src="@/assets/cover.jpeg" v-else>
+                    </div>
+                    <div
+                            style="margin-top: 2px; display: inline-flex;"
+                            v-for="(item, index) in image_urls"
+                            :key="index">
+                        <a-avatar
+                                shape="square"
+                                :src="item"
+                                :style="(index > 0)?'margin-left: 2px;':''"
+                                :class="(selectedImg === index)?'selectedImg':''"
+                                @click.stop="preview(index)"/>
                     </div>
                 </a-col>
-                <a-col :span="8" :offset="1">
+                <a-col :span="10" :offset="2">
                     <a-row type="flex">
                         <span class="name-box">{{detail.name}}</span>
                         <span style="color: gold; margin-left: 10px;margin-top: 7px" v-if="detail.hasOrderedBefore">
                             预定过的酒店
                         </span>
                     </a-row>
-                    <a-row type="flex" align="bottom" style="margin-top: 5px">
-                        <span class="assess-num-box" style="margin-right: 10px;">200条评价</span>
-
-                        <span class="desc-box">早餐</span>
-                        <a-divider type="vertical"></a-divider>
-                        <span class="desc-box">叫醒服务</span>
+                    <a-row type="flex" align="bottom" style="margin-top: 7px">
+                        <div v-if="hotelTags.length > 0" style="display: inline-flex;">
+                            <div v-for="(item, index) in hotelTags" :key="index">
+                                <a-divider type="vertical" v-if="index > 0"></a-divider>
+                                <span class="desc-box">{{item}}</span>
+                            </div>
+                            <span style="margin-left: 4px">...更多</span>
+                        </div>
+                        <div v-else>
+                            <span class="desc-box">暂无酒店服务标签</span>
+                        </div>
                     </a-row>
-                    <a-row type="flex" align="bottom" style="margin-top: 3px">
+                    <a-row type="flex" align="bottom" style="margin-top: 7px">
+                        <span class="assess-num-box" style="margin-right: 10px;">{{detail.commentNum}}条评价</span>
+
+                        <span class="desc-box">好评率</span>
+                        <span style="width: 105px; margin-left: 6px">
+                            <a-progress :stroke-color="{
+                                '0%': '#108ee9',
+                                '100%': '#87d068',
+                              }" :percent="detail.rate*20" status="active" /></span>
+                    </a-row>
+                    <a-row type="flex" align="bottom" style="margin-top: 7px">
                         <span class="text-box">星级</span>
                         <div class="symbol-box">
                             <a-rate :value="hotelStar" disabled allowHalf/>
                         </div>
                     </a-row>
-                    <a-row type="flex" align="bottom" style="margin-top: 5px">
-                        <span class="text-box">好评率</span>
-                        <div class="symbol-box" style="width: 130px;">
-                            <a-progress :stroke-color="{
-                                '0%': '#108ee9',
-                                '100%': '#87d068',
-                              }" :percent="detail.rate*20" status="active" /></div>
-                    </a-row>
-                    <a-row type="flex" align="bottom" style="margin-top: 5px">
-                        <span>南京市鼓楼区珠江路268号</span>
+                    <a-row type="flex" align="bottom" style="margin-top: 7px">
+                        <a-icon type="environment" theme="twoTone" two-tone-color="#18a581" style="font-size: 18px" />
+                        <span>{{detail.address}}</span>
                     </a-row>
                 </a-col>
-                <a-col :span="7" :offset="2">
-                    <a-row style="margin-top: 40px;">
+                <a-col :span="5">
+                    <a-row style="margin-top: 20px;">
                         <span style="color: #18a581">
                         ¥
                     </span>
                         <span class="price-box">
-                        256
+                        {{detail.minPrice}}
                     </span>
                         <span>
                         起 >
@@ -53,10 +73,13 @@
                     </a-row>
                     <a-row type="flex" align="bottom" style="margin-top: 5px">
                         <div v-for="(item, index) in detail.couponNames" :key="index" style="line-height: 25px">
-                            <a-tag color="#18a581">
+                            <a-tag color="#18a581" v-if="index < 2">
                                 {{item}}
                             </a-tag>
                         </div>
+                    </a-row>
+                    <a-row type="flex" align="bottom" style="margin-top: 10px">
+                        <span style="font-weight: bold">查看更多优惠 >>></span>
                     </a-row>
                 </a-col>
             </a-row>
@@ -71,6 +94,12 @@
         name: "test",
         components: {ACol, ARow},
         props: ['detail'],
+        data() {
+            return {
+                previewUrl: '',
+                selectedImg: 0,
+            }
+        },
         computed: {
             hotelStar() {
                 if(this.detail.hotelStar === 'One') {
@@ -84,7 +113,55 @@
                 } else {
                     return 5;
                 }
+            },
+            hotelTags() {
+                let arr = [];
+                let cnt = 0;
+                let tags = this.detail.tags;
+                for(let i = 0; i < tags.length; i++) {
+                    if(cnt > 8) break;
+                    arr.push(tags[i].tagName);
+                    cnt += tags[i].tagName.length
+                }
+                return arr;
+            },
+            image_url() {
+                if(this.detail.pic_1 != '') {
+                    return 'https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_1;
+                } else {
+                    return ''
+                }
+            },
+            image_urls() {
+                let arr = [];
+                if(this.detail.pic_1 != '' && this.detail.pic_1 != null) {
+                    arr.push('https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_1)
+                } else {
+                    arr.push('')
+                }
+                if(this.detail.pic_2 != '' && this.detail.pic_2 != null) {
+                    arr.push('https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_2)
+                }
+                if(this.detail.pic_3 != '' && this.detail.pic_3 != null) {
+                    arr.push('https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_3)
+                }
+                if(this.detail.pic_4 != '' && this.detail.pic_4 != null) {
+                    arr.push('https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_4)
+                }
+                return arr;
             }
+        },
+        methods: {
+            preview(idx) {
+                this.previewUrl = this.image_urls[idx];
+                this.selectedImg = idx;
+            },
+        },
+        mounted() {
+            this.previewUrl = this.image_urls[this.selectedImg];
+        },
+        updated() {
+            this.previewUrl = this.image_urls[this.selectedImg];
         }
     }
 </script>
@@ -94,10 +171,14 @@
         margin-top: 15px;
         margin-left: 20px;
         min-width: 180px;
-        max-height: 250px;
+        height: 230px;
+        .img-box {
+            width: 180px;
+            height: 145px;
+            overflow: hidden;
+        }
         img {
-            height: 150px;
-            width: 150px;
+            width: 220px;
             overflow: hidden;
         }
     }
@@ -124,5 +205,8 @@
     }
     .assess-num-box {
         color: #5287df;
+    }
+    .selectedImg {
+        border:2.5px solid #18a581;
     }
 </style>

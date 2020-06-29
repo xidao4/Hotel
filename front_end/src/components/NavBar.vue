@@ -4,7 +4,7 @@
                 :ghost="false"
                 style="padding-bottom: 0; padding-top: 0;"
         >
-            <div style="display: inline-flex; width: 100%">
+            <div style="display: inline-flex; width: 100%; ">
                 <a-menu v-model="current" mode="horizontal" theme="light" style="height: 50px; border-bottom: 0;">
                     <a-menu-item key="1" @click="selectMenu" v-if="userInfo.userType=='Client' || userInfo.userType=='Operator'">
                         <router-link to="/hotel/hotelList">
@@ -61,12 +61,17 @@
                 </a-menu>
 
                 <div v-if="showSearch" class="search-box">
-                    <a-input-search
-                            placeholder="搜索酒店"
-                            enter-button="搜索"
-                            @search="onSearch"></a-input-search>
 
-                    <a-button type="primary" style="margin-left: 10px" @click="showChoices">筛选酒店</a-button>
+                    <a-input-search
+                            placeholder="输入酒店名称"
+                            enter-button="搜索酒店"
+                            @search="searchHotel"
+                            v-model="searchValue"></a-input-search>
+
+
+                    <a-button type="primary" style="margin-left: 20px" @click="showChoices">筛选酒店</a-button>
+
+                    <a-button type="primary" style="margin-left: 20px" @click="reset">重置</a-button>
                 </div>
             </div>
         </a-page-header>
@@ -81,14 +86,16 @@
             return {
                 current: ['1'],
                 avatar_url: '',
-                f5: true
+                f5: true,
+                searchValue: ''
             }
         },
         computed: {
             ...mapGetters([
                 'userId',
                 'userInfo',
-                'userOrderList'
+                'userOrderList',
+                'showHotelList'
             ]),
             showSearch() {
                 return this.$route.name == 'hotelList';
@@ -96,12 +103,13 @@
         },
         methods: {
             ...mapMutations([
-                'set_hasShownNoti',
                 'set_showFilter',
+                'set_spinning',
+                'set_showHotelList'
             ]),
             ...mapActions([
-                'logout',
-                'getUserInfo'
+                'getUserInfo',
+                'getHotelCardInfos'
             ]),
             showChoices() {
                 this.set_showFilter(true);
@@ -122,6 +130,32 @@
             getMsg() {
                 this.$router.push({ name: 'opChatList'})
             },
+            async filter(value) {
+
+
+            },
+            async searchHotel() {
+                this.set_spinning(true);
+                await this.getHotelCardInfos();
+                let data = [];
+                let secondData = [];
+                for(let i = 0; i < this.showHotelList.length; i++) {
+                    if(this.showHotelList[i].name.indexOf(this.searchValue) !== -1){
+                        data.push(this.showHotelList[i])
+                    }
+                    if(this.searchValue.indexOf(this.showHotelList[i].name) !== -1) {
+                        data.push(this.showHotelList[i])
+                    }
+                }
+                this.set_showHotelList(data);
+                this.set_spinning(false);
+                this.searchValue = '';
+            },
+            async reset() {
+                this.set_spinning(true);
+                await this.getHotelCardInfos();
+                this.set_spinning(false);
+            }
 
         },
         mounted() {

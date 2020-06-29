@@ -1,27 +1,28 @@
 package com.example.hotel.blImpl.hotel;
 
 import com.example.hotel.bl.coupon.CouponService;
+import com.example.hotel.bl.hotel.CommentService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
+import com.example.hotel.bl.hotel.TagService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.curRoom.CurRoomMapper;
+import com.example.hotel.data.hotel.CommentMapper;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
 import com.example.hotel.enums.UserType;
-import com.example.hotel.po.Hotel;
-import com.example.hotel.po.HotelRoom;
-import com.example.hotel.po.Order;
-import com.example.hotel.po.User;
+import com.example.hotel.po.*;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.*;
 import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,15 @@ public class HotelServiceImpl implements HotelService {
     private CouponService couponService;
     @Autowired
     private CurRoomMapper curRoomMapper;
+
+    @Autowired
+    private TagService tagService;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private RoomMapper roomMapper;
 
 
     @Override
@@ -106,6 +116,21 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public List<HotelVO> getAllHotels() {
         return hotelMapper.selectAllHotel();
+    }
+
+    @Override
+    public List<HotelCardVO> getHotelCardInfos(Integer userId) {
+        List<HotelVO> hotelVOS = retrieveHotels(userId);
+        ArrayList<HotelCardVO> hotelCardVOS = new ArrayList<>();
+        for(HotelVO hotelVO: hotelVOS) {
+            HotelCardVO hotelCardVO = new HotelCardVO();
+            BeanUtils.copyProperties(hotelVO, hotelCardVO);
+            hotelCardVO.setTags(tagService.getTagsByHotelId(hotelCardVO.getId()));
+            hotelCardVO.setCommentNum(commentMapper.getCommentNumByHotelId(hotelCardVO.getId()));
+            hotelCardVO.setMinPrice(roomMapper.getMinPriceByHotelId(hotelCardVO.getId()));
+            hotelCardVOS.add(hotelCardVO);
+        }
+        return hotelCardVOS;
     }
 
     @Override

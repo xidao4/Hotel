@@ -8,7 +8,8 @@ import {
     getAllHotelsLJYAPI,
     addHotelCommentAPI,
     getCommentByHotelIdAPI,
-    updateReplyAPI
+    updateReplyAPI,
+    getHotelCardInfosAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -50,6 +51,8 @@ const hotel = {
         hasShownNoti:false,
 
         showFilter: false,
+
+        spinning: false,
     },
     mutations: {
         set_userId: function(state, data) {
@@ -100,6 +103,9 @@ const hotel = {
         set_showFilter:function(state,data){
             state.showFilter=data
         },
+        set_spinning:function(state,data){
+            state.spinning=data
+        },
     },
 
     actions: {
@@ -132,6 +138,14 @@ const hotel = {
             if(res){
                 console.log('hotelInfo',res)
                 commit('set_currentHotelInfo', res)
+            }
+        },
+        getHotelCardInfos: async({rootState, commit}) => {
+            const res = await getHotelCardInfosAPI({
+                userId: rootState.user.userId
+            })
+            if(res) {
+                commit('set_showHotelList', res);
             }
         },
         getHotelByIdLJY:async({commit,state})=>{
