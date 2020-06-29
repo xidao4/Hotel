@@ -1,5 +1,6 @@
 <template>
-  <div class="main">
+  <div class="wrapper">
+    <div class="main">
       <div class="top">
         <div class="header">
           <div>
@@ -11,147 +12,148 @@
 
         </div>
       </div>
-    <a-form
-      id="formLogin"
-      class="user-layout-login"
-      ref="formLogin"
-      :form="form"
-    >
-      <a-tabs
-        :activeKey="customActiveKey"
-        :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
-        @change="handleTabClick"
+      <a-form
+              id="formLogin"
+              class="user-layout-login"
+              ref="formLogin"
+              :form="form"
       >
-        <a-tab-pane key="tab1" tab="账号密码登录">
-          <a-form-item>
-            <a-input
-              size="large"
-              type="text"
-              placeholder="邮箱"
-              v-decorator="[
-                'username',
-                {rules: [{ required: true, message: '请输入邮箱地址' }], validateTrigger: 'blur'}
-              ]"
-            >
-              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-
-          <a-form-item>
-            <a-input
-              size="large"
-              type="password"
-              autocomplete="false"
-              placeholder="密码"
-              v-decorator="[
-                'password',
-                {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
-              ]"
-            >
-              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-col span="16">
+        <a-tabs
+                :activeKey="customActiveKey"
+                :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
+                @change="handleTabClick"
+        >
+          <a-tab-pane key="tab1" tab="账号密码登录">
+            <a-form-item>
               <a-input
                       size="large"
                       type="text"
-                      autocomplete="false"
-                      placeholder="验证码"
-                      v-model="identify"
+                      placeholder="邮箱"
                       v-decorator="[
+                'username',
+                {rules: [{ required: true, message: '请输入邮箱地址' }], validateTrigger: 'blur'}
+              ]"
+              >
+                <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              </a-input>
+            </a-form-item>
+
+            <a-form-item>
+              <a-input
+                      size="large"
+                      type="password"
+                      autocomplete="false"
+                      placeholder="密码"
+                      v-decorator="[
+                'password',
+                {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
+              ]"
+              >
+                <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-col span="16">
+                <a-input
+                        size="large"
+                        type="text"
+                        autocomplete="false"
+                        placeholder="验证码"
+                        v-model="identify"
+                        v-decorator="[
                               'identify',
                               {rules: [{ required: true, message: '请输入验证码' }, { validator: this.handleIdentify }], validateTrigger: 'blur'}
                               ]"
-              >
-                <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-              </a-input>
-            </a-col>
-            <a-col span="2" offset="2">
-              <Identify :identifyCode="identifyCode" @click.native="refreshCode"></Identify>
-            </a-col>
-          </a-form-item>
-          <a-form-item style="margin-top:24px">
-            <a-button
-              size="large"
-              type="primary"
-              class="login-button"
-              :loading="loginLoading"
-              @click="handlelogin()"
-            >确定</a-button>
-          </a-form-item>
-        </a-tab-pane>
+                >
+                  <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                </a-input>
+              </a-col>
+              <a-col span="2" offset="2">
+                <Identify :identifyCode="identifyCode" @click.native="refreshCode"></Identify>
+              </a-col>
+            </a-form-item>
+            <a-form-item style="margin-top:24px">
+              <a-button
+                      size="large"
+                      type="primary"
+                      class="login-button"
+                      :loading="loginLoading"
+                      @click="handlelogin()"
+              >确定</a-button>
+            </a-form-item>
+          </a-tab-pane>
 
-        <a-tab-pane key="tab2" tab="注册新账号">
-          <a-form-item>
-            <a-input
-              size="large"
-              type="email"
-              placeholder="邮箱"
-              v-decorator="[
+          <a-tab-pane key="tab2" tab="注册新账号">
+            <a-form-item>
+              <a-input
+                      size="large"
+                      type="email"
+                      placeholder="邮箱"
+                      v-decorator="[
               'registerUserMail',
               {rules: [{ required: true, type: 'email', message: '请输入邮箱' }], validateTrigger: 'blur'}]">
-              <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-input
-              size="large"
-              placeholder="用户名"
-              v-decorator="[
+                <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                      size="large"
+                      placeholder="用户名"
+                      v-decorator="[
               'registerUsername',
               {rules: [{ required: true, message: '请输入用户名' }], validateTrigger: 'blur'}]">
-              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-date-picker size="large" style="width: 368px;" placeholder="请选择您的生日" v-model="birthday" />
-          </a-form-item>
-           <a-form-item>
-            <a-input
-              size="large"
-              placeholder="手机号"
-              v-decorator="[
+                <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-date-picker size="large" style="width: 368px;" placeholder="请选择您的生日" v-model="birthday" />
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                      size="large"
+                      placeholder="手机号"
+                      v-decorator="[
               'registerPhoneNumber',
               {rules: [{ required: true, message: '请输入手机号' }], validateTrigger: 'blur'}]">
-              <a-icon slot="prefix" type="book" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-input
-              size="large"
-              type="password"
-              placeholder="密码"
-              v-decorator="[
+                <a-icon slot="prefix" type="book" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                      size="large"
+                      type="password"
+                      placeholder="密码"
+                      v-decorator="[
                 'registerPassword',
                 {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePassword }], validateTrigger: 'blur'}]">
-              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-input
-              size="large"
-              type="password"
-              placeholder="确认密码"
-              v-decorator="[
+                <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                      size="large"
+                      type="password"
+                      placeholder="确认密码"
+                      v-decorator="[
                 'registerPasswordconfirm',
                 {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePasswordCheck }], validateTrigger: 'blur'}]">
-              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
-          </a-form-item>
-           <a-form-item style="margin-top:24px">
-            <a-button
-              size="large"
-              type="primary"
-              class="login-button"
-              :loading="registerLoading"
-              @click="handleRegister()"
-            >确定</a-button>
-          </a-form-item>
-        </a-tab-pane>
-      </a-tabs>
-    </a-form>
+                <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+              </a-input>
+            </a-form-item>
+            <a-form-item style="margin-top:24px">
+              <a-button
+                      size="large"
+                      type="primary"
+                      class="login-button"
+                      :loading="registerLoading"
+                      @click="handleRegister()"
+              >确定</a-button>
+            </a-form-item>
+          </a-tab-pane>
+        </a-tabs>
+      </a-form>
 
+    </div>
   </div>
 </template>
 
@@ -312,10 +314,18 @@ export default {
 
 <style lang="less" scoped>
 
+.wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  overflow: hidden;
+}
+
 .main{
     min-width: 260px;
     width: 368px;
-    margin: 100px auto;
+    margin-top: 100px;
     .top {
         text-align: center;
 
