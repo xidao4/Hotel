@@ -19,14 +19,14 @@
                 </a-card>
             </a-tab-pane>
             <a-tab-pane key="record" tab="推送记录">
-
+                <PrivateMsg></PrivateMsg>
             </a-tab-pane>
             <a-tab-pane key="broadcast" tab="公告管理">
                 <BroadcastRecords></BroadcastRecords>
             </a-tab-pane>
-            <a-tab-pane key="coupon" tab="优惠券赠送记录">
+<!--            <a-tab-pane key="coupon" tab="优惠券赠送记录">-->
 
-            </a-tab-pane>
+<!--            </a-tab-pane>-->
         </a-tabs>
     </div>
 </template>
@@ -38,10 +38,11 @@
     import BroadcastRecords from './components/GroupMsg/BroadcastRecords';
 
     import { mapGetters } from 'vuex';
+    import PrivateMsg from "./components/GroupMsg/PrivateMsg";
 
     export default {
         name: "msgForGroup",
-        components: { ChooseClients, EditMsg, GroupMsgComplete, BroadcastRecords },
+        components: {PrivateMsg, ChooseClients, EditMsg, GroupMsgComplete, BroadcastRecords },
         data() {
             return {
                 currentTab: 0,

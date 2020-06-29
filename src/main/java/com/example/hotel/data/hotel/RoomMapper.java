@@ -22,4 +22,6 @@ public interface RoomMapper {
 
     int updateRoom(@Param("hotelId") Integer hotelId,@Param("roomType") String roomType,
                    @Param("curNum") Integer curNum,@Param("total") Integer total,@Param("price") Double price);
+
+    Double getMinPriceByHotelId(@Param("hotelId") Integer hotelId);
 }

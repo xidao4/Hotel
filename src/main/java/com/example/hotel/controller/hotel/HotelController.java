@@ -57,6 +57,13 @@ public class HotelController {
     public ResponseVO getAllHotels() {
         return ResponseVO.buildSuccess(hotelService.getAllHotels());
     }
+
+    @GetMapping("/getHotelCardInfos/{userId}")
+    public ResponseVO getHotelCardInfos(@PathVariable Integer userId) {
+        return ResponseVO.buildSuccess(hotelService.getHotelCardInfos(userId));
+    }
+
+
     /**
      * 添加comment
      * @author ydl

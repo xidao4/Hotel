@@ -30,6 +30,14 @@ export function getHotelByIdAPI(param) {
         }
     })
 }
+//获取酒店卡片信息
+export function getHotelCardInfosAPI(param) {
+    return axios({
+        url: `${api.hotelPre}/getHotelCardInfos/${param.userId}`,
+        method: 'GET',
+    })
+}
+
 //根据Hotelid获取酒店信息
 export function getHotelByIdLJYAPI(currentHotelId){
     return axios({

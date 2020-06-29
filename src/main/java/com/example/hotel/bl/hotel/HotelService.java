@@ -1,6 +1,7 @@
 package com.example.hotel.bl.hotel;
 
 import com.example.hotel.util.ServiceException;
+import com.example.hotel.vo.HotelCardVO;
 import com.example.hotel.vo.HotelPicVO;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
@@ -32,6 +33,12 @@ public interface HotelService {
     List<HotelVO> retrieveHotels(Integer userid);
 
     List<HotelVO> getAllHotels();
+
+    /**
+     * 首页展示卡片信息
+     * @return
+     */
+    List<HotelCardVO> getHotelCardInfos(Integer userId);
 
     /**
      * 获取某家酒店详细信息
