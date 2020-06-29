@@ -9,17 +9,30 @@
                         <BroadcastCard></BroadcastCard>
                     </a-col>
                     <a-col :span="17">
-                        <div v-for="(item, index) in showHotelList" :key="index">
-                            <div @click="jumpToDetails(item.id)">
-                                <HotelCard :detail="item"></HotelCard>
+                        <a-spin :spinning="spinning" :delay="500">
+                            <div v-for="(item, index) in showHotelList.slice(thisPage[0], thisPage[1])" :key="index" v-if="showHotelList.length > 0">
+                                <div @click="jumpToDetails(item.id)">
+                                    <HotelCard :detail="item"></HotelCard>
+                                </div>
                             </div>
-                        </div>
+                            <div v-if="showHotelList.length === 0">
+                                <a-result status="404" title="未找到合适的酒店" sub-title="搜索其他酒店？">
+                                    <template #extra>
+                                        <a-button key="console" type="primary">
+                                            为您推荐
+                                        </a-button>
+                                    </template>
+                                </a-result>
+                            </div>
+                        </a-spin>
                         <div style="margin-top: 20px; text-align: right">
                             <a-pagination
                                     show-quick-jumper
+                                    :total="showHotelList.length"
+                                    :show-total="total => `共 ${total} 家酒店`"
+                                    :default-current="1"
                                     :item-render="itemRender"
-                                    :defaultCurrent="1" @change="pageChange">
-                            </a-pagination>
+                                    @change="pageChange" />
                         </div>
                     </a-col>
                 </a-row>
@@ -79,6 +92,7 @@
 			return {
                 emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}],
                 msg:'订单价格三倍积分，积分当钱花。可享9折，价格更优惠。提早入住，延迟退房，入住更随心。生日惊喜好礼，礼券更丰富。',
+                thisPage: [0, 8],
 			}
 		},
 		async mounted() {
@@ -93,7 +107,8 @@
                 'showHotelList',
                 'hasShownNoti',
 				'hotelListLoading',
-			])
+                'spinning'
+			]),
 		},
 		methods: {
 			...mapMutations([
@@ -113,25 +128,19 @@
             //     }
             // },
 			pageChange(page, pageSize) {
-				const data = {
-					pageNo: page - 1
-				}
-				this.set_hotelListParams(data)
-				this.set_hotelListLoading(true)
-				this.getHotelList(this.userId)
+				this.thisPage = [(page - 1) * 8, page * 8]
 			},
 			jumpToDetails(id) {
 				this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
 			},
-            // openNotification(placement) {
-            //     this.$notification.open({
-            //         message: `网站会员尊享优惠`,
-            //         description: this.msg,
-            //         duration: 0,
-            //         // icon: <a-icon type="smile" style="color: #108ee9" />,
-            //         placement
-            //     });
-            // }
+            itemRender(current, type, originalElement) {
+                if (type === 'prev') {
+                    return <a>上一页</a>;
+                } else if (type === 'next') {
+                    return <a>下一页</a>;
+                }
+                return originalElement;
+            },
 		}
 	}
 </script>

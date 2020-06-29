@@ -27,11 +27,16 @@
                         </span>
                     </a-row>
                     <a-row type="flex" align="bottom" style="margin-top: 7px">
-                        <div v-for="(item, index) in hotelTags" :key="index">
-                            <a-divider type="vertical" v-if="index > 0"></a-divider>
-                            <span class="desc-box">{{item}}</span>
+                        <div v-if="hotelTags.length > 0" style="display: inline-flex;">
+                            <div v-for="(item, index) in hotelTags" :key="index">
+                                <a-divider type="vertical" v-if="index > 0"></a-divider>
+                                <span class="desc-box">{{item}}</span>
+                            </div>
+                            <span style="margin-left: 4px">...更多</span>
                         </div>
-                        <span style="margin-left: 4px">...更多</span>
+                        <div v-else>
+                            <span class="desc-box">暂无酒店服务标签</span>
+                        </div>
                     </a-row>
                     <a-row type="flex" align="bottom" style="margin-top: 7px">
                         <span class="assess-num-box" style="margin-right: 10px;">{{detail.commentNum}}条评价</span>
@@ -54,7 +59,7 @@
                         <span>{{detail.address}}</span>
                     </a-row>
                 </a-col>
-                <a-col :span="6">
+                <a-col :span="5">
                     <a-row style="margin-top: 20px;">
                         <span style="color: #18a581">
                         ¥
@@ -129,18 +134,18 @@
             },
             image_urls() {
                 let arr = [];
-                if(this.detail.pic_1 != '') {
+                if(this.detail.pic_1 != '' && this.detail.pic_1 != null) {
                     arr.push('https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_1)
                 } else {
                     arr.push('')
                 }
-                if(this.detail.pic_2 != '') {
+                if(this.detail.pic_2 != '' && this.detail.pic_2 != null) {
                     arr.push('https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_2)
                 }
-                if(this.detail.pic_3 != '') {
+                if(this.detail.pic_3 != '' && this.detail.pic_3 != null) {
                     arr.push('https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_3)
                 }
-                if(this.detail.pic_4 != '') {
+                if(this.detail.pic_4 != '' && this.detail.pic_4 != null) {
                     arr.push('https://supernatural.oss-cn-beijing.aliyuncs.com/' + this.detail.pic_4)
                 }
                 return arr;
@@ -153,7 +158,10 @@
             },
         },
         mounted() {
-            this.previewUrl = this.image_urls[0];
+            this.previewUrl = this.image_urls[this.selectedImg];
+        },
+        updated() {
+            this.previewUrl = this.image_urls[this.selectedImg];
         }
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div id="layout">
         <Header v-if="isLw"></Header>
-        <SearchBar></SearchBar>
+        <NavBar></NavBar>
         <transition name="fade-transform" mode="out-in">
             <router-view style="padding: 20px 80px 144px;"/>
         </transition>
@@ -10,11 +10,11 @@
 <script>
 import Header from '@/components/header'
 import {mapGetters,mapMutations} from 'vuex'
-import SearchBar from "../components/SearchBar";
+import NavBar from "../components/NavBar";
 export default {
     name: 'layout',
     components: {
-        SearchBar,
+        NavBar,
         Header
     },
     computed:{

@@ -27,6 +27,7 @@ const getters = {
   comment: state=>state.hotel.comment,
   hasShownNoti:state=>state.hotel.hasShownNoti,
   showFilter: state=>state.hotel.showFilter,
+  spinning: state=>state.hotel.spinning,
   //admin
   operatorList:state=>state.admin.operatorList,
   displayOperatorList:state=>state.admin.displayOperatorList,
