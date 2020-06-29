@@ -84,9 +84,9 @@
 		async mounted() {
 			await this.getHotelList(this.userId)
 			this.set_showHotelList(this.hotelList)
-            console.log('before Notification',this.hasShownNoti)
-            this.showNotification()
-            console.log('after Notification',this.hasShownNoti)
+            // console.log('before Notification',this.hasShownNoti)
+            // this.showNotification()
+            // console.log('after Notification',this.hasShownNoti)
 		},
 		computed: {
 			...mapGetters([
@@ -95,7 +95,6 @@
                 'showHotelList',
                 'hasShownNoti',
 				'hotelListLoading',
-
 			])
 		},
 		methods: {
@@ -109,12 +108,12 @@
 				'getHotelList',
 				'getHotelByDate'
 			]),
-            showNotification() {
-                if (this.hasShownNoti===false) {
-                    this.openNotification('bottomLeft')
-                    this.set_hasShownNoti(true)
-                }
-            },
+            // showNotification() {
+            //     if (this.hasShownNoti===false) {
+            //         this.openNotification('bottomLeft')
+            //         this.set_hasShownNoti(true)
+            //     }
+            // },
 			pageChange(page, pageSize) {
 				const data = {
 					pageNo: page - 1
@@ -126,15 +125,15 @@
 			jumpToDetails(id) {
 				this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
 			},
-            openNotification(placement) {
-                this.$notification.open({
-                    message: `网站会员尊享优惠`,
-                    description: this.msg,
-                    duration: 0,
-                    // icon: <a-icon type="smile" style="color: #108ee9" />,
-                    placement
-                });
-            }
+            // openNotification(placement) {
+            //     this.$notification.open({
+            //         message: `网站会员尊享优惠`,
+            //         description: this.msg,
+            //         duration: 0,
+            //         // icon: <a-icon type="smile" style="color: #108ee9" />,
+            //         placement
+            //     });
+            // }
 		}
 	}
 </script>

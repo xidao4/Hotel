@@ -48,6 +48,8 @@ const hotel = {
 
         ],
         hasShownNoti:false,
+
+        showFilter: false,
     },
     mutations: {
         set_userId: function(state, data) {
@@ -94,7 +96,10 @@ const hotel = {
         },
         set_hasShownNoti:function(state,data){
             state.hasShownNoti=data
-        }
+        },
+        set_showFilter:function(state,data){
+            state.showFilter=data
+        },
     },
 
     actions: {

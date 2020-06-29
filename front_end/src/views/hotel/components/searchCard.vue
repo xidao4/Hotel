@@ -3,7 +3,7 @@
             title="筛选您心仪的酒店"
             placement="left"
             :closable="false"
-            :visible="visible"
+            :visible="showFilter"
             :width="600"
             @close="onClose"
     >
@@ -104,8 +104,8 @@
 
             <a-row class="margin-top" style="text-align: center;">
                 <a-col :span="16" :offset="4">
-                    <a-button type="primary" shape="round" size="small">筛选</a-button>
-                    <a-button type="primary" shape="round" size="small" style="margin-left: 10px">重置</a-button>
+                    <a-button type="primary" shape="round" size="small" @click="filter">筛选</a-button>
+<!--                    <a-button type="primary" shape="round" size="small" style="margin-left: 10px" @click="reset">重置</a-button>-->
                     <a-button type="primary" shape="round" size="small" style="margin-left: 10px" @click="onClose">取消</a-button>
                 </a-col>
             </a-row>
@@ -131,8 +131,6 @@
                 hotelListByBizRegion: [],
                 hotelListByStar: [],
                 hotelListByDate: [],
-
-                visible: true,
 
                 type: 'rate',
 
@@ -160,20 +158,28 @@
                 'userId',
                 'hotelList',
                 'hotelListLoading',
+                'showFilter'
             ])
         },
         methods: {
             ...mapMutations([
                 'set_hotelListParams',
                 'set_hotelListLoading',
+                'set_showFilter',
             ]),
             ...mapActions([
                 'getHotelList',
                 'getHotelByDate'
             ]),
+            filter() {
 
+            },
+            reset() {
+
+            },
             onClose() {
-                this.visible = false;
+                this.reset();
+                this.set_showFilter(false);
             },
 
             // 星级

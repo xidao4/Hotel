@@ -54,7 +54,7 @@
     width: 100%;
     /*padding: 20px 80px 144px;*/
     background: #f0f2f5 url('assets/background.svg') repeat 100%;
-    min-height: 800px;
+    min-height: 100%;
   }
 
   #nav {

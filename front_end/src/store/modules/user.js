@@ -146,10 +146,9 @@ const user = {
 
                 dispatch('getUserInfo')
 
-                if(res.userType==='Client')router.push('/hotel/hotelList')
+                if(res.userType==='Client' || res.userType==='Operator')router.push('/hotel/hotelList')
                 else if(res.userType==='Manager')router.push('/admin/manageUser')
                 else if(res.userType==='HotelManager') router.push('/hotelManager/manageHotel')
-                else if(res.userType==='Operator') router.push('/operator/manageOrder')
             }
         },
         register: async({ commit }, data) => {
