@@ -82,8 +82,7 @@
 			}
 		},
 		async mounted() {
-			await this.getHotelList(this.userId)
-			this.set_showHotelList(this.hotelList)
+			await this.getHotelCardInfos();
             // console.log('before Notification',this.hasShownNoti)
             // this.showNotification()
             // console.log('after Notification',this.hasShownNoti)
@@ -91,7 +90,6 @@
 		computed: {
 			...mapGetters([
 				'userId',
-				'hotelList',
                 'showHotelList',
                 'hasShownNoti',
 				'hotelListLoading',
@@ -105,7 +103,7 @@
                 'set_showHotelList',
 			]),
 			...mapActions([
-				'getHotelList',
+				'getHotelCardInfos',
 				'getHotelByDate'
 			]),
             // showNotification() {

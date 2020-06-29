@@ -19,4 +19,6 @@ public interface CommentMapper {
     List<Comment> getCommentByHotelId(@Param("hotelId") Integer hotelId);
 
     int updateReply(@Param("commentId") int commentId,@Param("reply") String reply);
+
+    int getCommentNumByHotelId(@Param("hotelId") Integer hotelId);
 }

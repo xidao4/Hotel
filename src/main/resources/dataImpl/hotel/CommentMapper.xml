@@ -16,6 +16,12 @@
         update CommentList set reply=#{reply} where id=#{commentId}
     </update>
 
+    <select id="getCommentNumByHotelId" resultType="INT">
+        select count(*) from CommentList where hotelId=#{hotelId}
+    </select>
+
+
+
     <resultMap id="Comment" type="com.example.hotel.po.Comment">
     </resultMap>
 

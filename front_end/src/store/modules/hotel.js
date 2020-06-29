@@ -8,7 +8,8 @@ import {
     getAllHotelsLJYAPI,
     addHotelCommentAPI,
     getCommentByHotelIdAPI,
-    updateReplyAPI
+    updateReplyAPI,
+    getHotelCardInfosAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -132,6 +133,14 @@ const hotel = {
             if(res){
                 console.log('hotelInfo',res)
                 commit('set_currentHotelInfo', res)
+            }
+        },
+        getHotelCardInfos: async({rootState, commit}) => {
+            const res = await getHotelCardInfosAPI({
+                userId: rootState.user.userId
+            })
+            if(res) {
+                commit('set_showHotelList', res);
             }
         },
         getHotelByIdLJY:async({commit,state})=>{
