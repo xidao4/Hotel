@@ -54,11 +54,23 @@ public class AccountController {
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
 
+    /**
+     * 注册会员
+     * @author ljy
+     * @param memRegisterVO
+     * @return
+     */
     @PostMapping("/registerMem")
     public ResponseVO registerMem(@RequestBody MemRegisterVO memRegisterVO){
         return accountService.registerMem(memRegisterVO);
     }
 
+    /**
+     * 获取是否是会员，以及会员信息
+     * @author ljy
+     * @param userId
+     * @return
+     */
     @GetMapping("/{userId}/getMemInfo")
     public ResponseVO getMemInfo(@PathVariable int userId){
         MemInfoVO memInfoVO=accountService.getMemInfo(userId);
@@ -68,10 +80,23 @@ public class AccountController {
         return ResponseVO.buildSuccess(memInfoVO);
     }
 
+    /**
+     * 增加会员积分
+     * @author ljy
+     * @param memUpdateVO
+     * @return
+     */
     @PostMapping("/increaseMemberPoints")
     public ResponseVO increaseMemberPoints(@RequestBody MemUpdateVO memUpdateVO){
         return ResponseVO.buildSuccess(accountService.increaseMemberPoints(memUpdateVO.getUserId(),memUpdateVO.getMemberPoints()));
     }
+
+    /**
+     * 扣除会员积分
+     * @author ljy
+     * @param memUpdateVO
+     * @return
+     */
     @PostMapping("/decreaseMemberPoints")
     public ResponseVO decreaseMemberPoints(@RequestBody MemUpdateVO memUpdateVO){
         return ResponseVO.buildSuccess(accountService.decreaseMemberPoints(memUpdateVO.getUserId(),memUpdateVO.getMemberPoints()));

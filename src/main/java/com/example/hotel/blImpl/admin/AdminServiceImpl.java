@@ -40,6 +40,11 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     HotelMapper hotelMapper;
 
+    /**
+     * 添加运营人员
+     * @param userForm
+     * @return
+     */
     @Override
     public ResponseVO addOperator(UserForm userForm) {
         User user = new User();
@@ -57,6 +62,11 @@ public class AdminServiceImpl implements AdminService {
         return ResponseVO.buildSuccess(true);
     }
 
+    /**
+     * 添加酒店工作人员
+     * @param vo
+     * @return
+     */
     @Override
     public ResponseVO addManager(HotelManagerVO vo) {
         //first add the hotelManager into the user table
@@ -78,6 +88,10 @@ public class AdminServiceImpl implements AdminService {
         return ResponseVO.buildSuccess(true);
     }
 
+    /**
+     * 获取列表
+     * @return
+     */
     @Override
     public List<User> getAllManagers() {
         return adminMapper.getAllManagers();
@@ -118,17 +132,13 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getAllClients();
     }
 
+    /**
+     * 获取列表
+     * @return
+     */
     @Override
     public List<User> getAllOperators() { return adminMapper.getAllOperators(); }
 
-//    @Override
-//    public List<User> searchOO(String keyword) {
-//        return accountMapper.searchOO(keyword);
-//    }
-//    @Override
-//    public List<User> searchClient(String keyword) {
-//        return accountMapper.searchClient(keyword);
-//    }
     @Override
     public ResponseVO deleteHM(Integer hotelId){
         HotelVO hotelVO=hotelMapper.selectById(hotelId);
@@ -137,12 +147,5 @@ public class AdminServiceImpl implements AdminService {
             accountMapper.deleteUser(hotelVO.getManagerId());
         }
         return ResponseVO.buildSuccess(true);
-//        try{
-//            accountMapper.deleteUser(hotelVO.getManagerId());
-//        }catch (Exception e){
-//            System.out.println(e.getMessage());
-//        }
-//        hotelMapper.delete(hotelId);
-//        return ResponseVO.buildSuccess(true);
     }
 }

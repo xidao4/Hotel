@@ -28,4 +28,13 @@ public class hotelTest {
         System.out.println(hotelService.retrieveHotelDetails(1,4));
     }
 
+    @Test
+    public void getManagerIdTest(){
+        hotelService.getManagerId(1);
+    }
+
+    @Test
+    public void getHotelIdTest(){
+        hotelService.getHotelId(1);
+    }
 }

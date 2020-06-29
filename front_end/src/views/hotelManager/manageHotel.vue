@@ -138,7 +138,7 @@
                                 @blur="handleInputConfirm"
                                 @keyup.enter="handleInputConfirm"
                         />
-                        <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
+                        <a-tag v-else style="background: #1DA57A; borderStyle: dashed;" @click="showInput">
                           <a-icon type="plus" /> 新的酒店服务标签
                         </a-tag>
                       </a-card>

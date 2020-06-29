@@ -51,7 +51,7 @@
                                 <div class="label">设施服务：</div>
                                 <div class="value" style="text-align: left">
                                 <template v-for="tag in tags">
-                                <a-tag :key="tag.tagName" style="font-size: medium" color="#abc2e8">
+                                <a-tag :key="tag.tagName" color="#1DA57A">
                                     {{tag.tagName}}
                                 </a-tag>
                             </template>

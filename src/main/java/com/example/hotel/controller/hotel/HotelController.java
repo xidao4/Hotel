@@ -48,6 +48,11 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels(userId));
     }
 
+    /**
+     * @author ljy
+     * 获取全部酒店的列表
+     * @return
+     */
     @GetMapping("/allHotels")
     public ResponseVO getAllHotels() {
         return ResponseVO.buildSuccess(hotelService.getAllHotels());
@@ -118,11 +123,23 @@ public class HotelController {
     }
 
 
+    /**
+     * @author ljy
+     * 根据酒店Id获取工作人员id
+     * @param hotelId
+     * @return
+     */
     @PostMapping("/{hotelId}/getManagerId")
     public ResponseVO getManagerId(@PathVariable Integer hotelId){
         return hotelService.getManagerId(hotelId);
     }
 
+    /**
+     * 根据工作人员id获取酒店id
+     * @param managerId
+     * @return
+     * @Author ljy
+     */
     @PostMapping("/{managerId}/getHotelId")
     public ResponseVO getHotelId(@PathVariable Integer managerId){
         return ResponseVO.buildSuccess(hotelService.getHotelId(managerId));

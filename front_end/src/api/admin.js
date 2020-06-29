@@ -58,19 +58,6 @@ export function updateTmpUserInfoAPI(data){
     })
 }
 
-export function searchOOAPI(data){
-    return axios({
-        url: `${api.adminPre}/searchOO/${data}`,
-        method:'POST',
-    })
-}
-export function searchClientAPI(data){
-    return axios({
-        url: `${api.adminPre}/searchClient/${data}`,
-        method:'GET',
-    })
-}
-
 export function getCurveDatasetAPI() {
     return axios({
         url: `${api.adminPre}/getCurveDataSet`,
