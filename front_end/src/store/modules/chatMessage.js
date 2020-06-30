@@ -20,6 +20,7 @@ import {message} from "ant-design-vue";
 const state = {
     //组件可见性
     LeaveMsgModalVisible: false,
+    AdListVisible: false,
     //client
     clientQuesList: [],
     clientQuesListForC: [],
@@ -33,7 +34,7 @@ const state = {
     currentGroupTos: [],
     broadcastList: [],
     adReceivedList: [],
-    adSentList: []
+    adSentList: [],
 }
 
 const chatMessage = {
@@ -41,6 +42,9 @@ const chatMessage = {
     mutations: {
         set_LeaveMsgModalVisible(state, data) {
             state.LeaveMsgModalVisible = data
+        },
+        set_AdListVisible(state, data) {
+            state.AdListVisible = data
         },
         set_clientQuesList(state, data) {
             state.clientQuesList = [...data]

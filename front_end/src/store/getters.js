@@ -77,6 +77,7 @@ const getters = {
   tags:state=>state.tag.tags,
   //message
   MsgAffixVisible: state => state.chatMessage.MsgAffixVisible,
+  AdListVisible: state => state.chatMessage.AdListVisible,
   LeaveMsgModalVisible: state => state.chatMessage.LeaveMsgModalVisible,
   ChatVisible: state => state.chatMessage.ChatVisible,
   ChatBoxVisible: state => state.chatMessage.ChatBoxVisible,
