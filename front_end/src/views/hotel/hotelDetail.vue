@@ -227,6 +227,7 @@
 			])
 		},
         async mounted() {
+		        console.log('currentHotelInfo',this.currentHotelInfo)
             await this.set_currentHotelId(Number(this.$route.params.hotelId))
             await this.getHotelById(this.userId),
             //await this.getHotelByIdLJY()
