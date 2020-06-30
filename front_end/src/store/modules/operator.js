@@ -25,7 +25,7 @@ const state = {
     creditRecordsList: [],
     dateList: [],
     numList: [],
-    showOrderList: []
+    showOrderList: [],
 };
 
 const operator = {
@@ -108,6 +108,14 @@ const operator = {
                 dispatch('getCreditRecords')
             }
         },
+        getOpUserInfo: async ({state, commit}) => {
+            const res = await getCreditByIdAPI({
+                userId: Number(state.currentUpdateInfo.userId),
+            })
+            if(res) {
+                commit('set_currentUpdateInfo', res)
+            }
+        }
 
     }
 };

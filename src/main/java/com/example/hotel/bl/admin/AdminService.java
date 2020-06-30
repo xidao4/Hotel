@@ -1,10 +1,7 @@
 package com.example.hotel.bl.admin;
 
 import com.example.hotel.po.User;
-import com.example.hotel.vo.AdminCurveVO;
-import com.example.hotel.vo.HotelManagerVO;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.*;
 
 import java.util.List;
 
@@ -39,4 +36,10 @@ public interface AdminService {
      * @return
      */
     AdminCurveVO getCurveDataSet();
+
+
+    /**
+     * 运营获取包含会员信息的客户信息
+     */
+    List<OpUserVO> getAllClientsMen();
 }

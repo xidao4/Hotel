@@ -83,3 +83,9 @@ export function updatePriorityAPI(data) {
     })
 }
 
+export function getAllClientsMenAPI() {
+    return axios({
+        url:`${api.msgPre}/getAllClientsMen`,
+        method: 'GET',
+    })
+}

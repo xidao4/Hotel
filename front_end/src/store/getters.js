@@ -88,6 +88,8 @@ const getters = {
   msgClientList: state => state.chatMessage.msgClientList,
   currentGroupType: state => state.chatMessage.currentGroupType,
   broadcastList: state => state.chatMessage.broadcastList,
+  adReceivedList: state => state.chatMessage.adReceivedList,
+  adSentList: state => state.chatMessage.adSentList,
   }
 
   export default getters

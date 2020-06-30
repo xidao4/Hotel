@@ -49,12 +49,12 @@
                         <span slot="title"><a-icon type="appstore" /><span>消息</span></span>
                         <a-menu-item key="9">
                             <router-link :to="{ name: 'userChatList'}">
-                                <a-icon type="user" />问题
+                                <a-icon type="user" />客户留言
                             </router-link>
                         </a-menu-item>
                         <a-menu-item key="10">
                             <router-link :to="{ name: 'msgForGroup'}">
-                                <a-icon type="user" />发送消息
+                                <a-icon type="user" />消息
                             </router-link>
                         </a-menu-item>
                     </a-sub-menu>
@@ -187,8 +187,8 @@
 <style scoped>
 
     .search-box {
-        width: 50%;
-        margin-left: 20%;
+        width: 60%;
+        margin-left: 10%;
         display: inline-flex;
         justify-content: space-between;
     }
