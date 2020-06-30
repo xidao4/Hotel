@@ -275,7 +275,10 @@ export default {
         },
         changeDate() {
             if (this.totalPrice != '') {
-                this.totalPrice = this.form.getFieldValue('roomNum') * moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day') * Number(this.currentOrderRoom.price)
+                // console.log('checkInDate',this.form.getFieldValue('checkInDate'))
+                // console.log(moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day'))
+                //
+                // this.totalPrice = this.form.getFieldValue('roomNum') * moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day') * Number(this.currentOrderRoom.price)
 
                 if(this.newDate)
                     this.newDate=false
@@ -422,6 +425,12 @@ export default {
             this.totalPrice=0
         },
         newDate(val){
+            console.log('checkInDate',this.form.getFieldValue('checkInDate'))
+            console.log(moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day'))
+
+            this.totalPrice = this.form.getFieldValue('roomNum') * moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day') * Number(this.currentOrderRoom.price)
+
+
             this.set_orderMatchCouponList([])
             console.log('orderMatchCouponList',this.orderMatchCouponList)
             //得到最新的匹配优惠券

@@ -18,10 +18,10 @@ public class tagTest {
     TagService tagService;
     @Test
     public void save(){
-        tagService.save("健身房",1);
+        System.out.println(tagService.save("豪华客房",1));
     }
     @Test
     public void list(){
-        tagService.getTagsByHotelId(2);
+        System.out.println(tagService.getTagsByHotelId(1));
     }
 }

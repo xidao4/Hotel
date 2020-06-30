@@ -2,11 +2,14 @@ package com.example.hotel.blImpl.admin;
 
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.po.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 /**
  * @author ljy
@@ -20,15 +23,16 @@ public class adminTest {
     @Autowired
     AccountService accountService;
     @Test
-    public void modifyUserInfoTest(){
-        accountService.updateUserInfo(4,"","测试一号","13861300984");
+    public void getAllClientTest(){
+        System.out.println(adminService.getAllClients());
     }
     @Test
     public void getAllOperatorsTest(){
-        adminService.getAllOperators();
+        System.out.println(adminService.getAllOperators());
     }
     @Test
     public void getAllManagersTest(){
-        adminService.getAllManagers();
+
+        System.out.println(adminService.getAllManagers());
     }
 }

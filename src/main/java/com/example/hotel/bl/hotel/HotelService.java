@@ -63,7 +63,7 @@ public interface HotelService {
      * @param checkOutDate
      * @return
      */
-    List<HotelVO> retrieveHotelByDate(Integer userid, String checkInDate, String checkOutDate);
+    List<HotelCardVO> retrieveHotelByDate(Integer userid, String checkInDate, String checkOutDate);
 
     int getTotalRoomNum(Integer hotelId);
 

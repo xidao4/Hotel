@@ -53,6 +53,7 @@ const hotel = {
         showFilter: false,
 
         spinning: false,
+        hotelListByDate: [],
     },
     mutations: {
         set_userId: function(state, data) {
@@ -106,6 +107,9 @@ const hotel = {
         set_spinning:function(state,data){
             state.spinning=data
         },
+        set_hotelListByDate:function (state,data) {
+            state.hotelListByDate = data
+        }
     },
 
     actions: {
@@ -155,9 +159,10 @@ const hotel = {
         },
         getHotelByDate: async({commit, state}, data) => {
             const res = await getHotelByDateAPI(data)
-            console.log(data)
+            //console.log(data)
             if (res) {
                 commit('set_hotelListLoading', false)
+                commit('set_hotelListByDate',res)
             }
         },
         addOrder: async({ state, commit }, data) => {

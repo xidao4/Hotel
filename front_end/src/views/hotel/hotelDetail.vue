@@ -41,7 +41,7 @@
                             </div>
                             <div class="items" v-if="currentHotelInfo.hotelStar">
                                 <div class="label">星级:</div>
-                                <a-rate style="font-size: 15px;margin-left:10px" :value="currentHotelInfo.rate" disabled allowHalf/>
+                                <a-rate style="font-size: 15px;margin-left:10px" :value="hotelStar" disabled allowHalf/>
                             </div>
                             <div class="items" v-if="currentHotelInfo.description">
                                 <div class="label">简介:</div>
@@ -213,7 +213,8 @@
         actions: 'reply to',
         visible: false,
         reply: '',
-        photos:[]
+        photos:[],
+
       }
 		},
 		computed: {
@@ -224,9 +225,23 @@
         'tags',
         'comment',
         'userInfo'
-			])
+			]),
+        hotelStar() {
+            if(this.currentHotelInfo.hotelStar === 'One') {
+                return 1;
+            } else if(this.currentHotelInfo.hotelStar === 'Two') {
+                return 2;
+            } else if(this.currentHotelInfo.hotelStar === 'Three') {
+                return 3;
+            } else if(this.currentHotelInfo.hotelStar === 'Four') {
+                return 4;
+            } else {
+                return 5;
+            }
+        },
 		},
         async mounted() {
+		        console.log('currentHotelInfo',this.currentHotelInfo)
             await this.set_currentHotelId(Number(this.$route.params.hotelId))
             await this.getHotelById(this.userId),
             //await this.getHotelByIdLJY()

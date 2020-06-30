@@ -44,7 +44,7 @@ public class accountTest {
 
     @Test
     public void updateUserInfoTest() {
-        System.out.println(accountService.updateUserInfo(4,"1234","测试1号","11111111"));
+        System.out.println(accountService.updateUserInfo(4,"12","测试一号","11111111"));
     }
 
     @Test
