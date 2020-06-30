@@ -1,7 +1,9 @@
 package com.example.hotel.controller.message;
 
+import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.bl.message.BroadcastService;
 import com.example.hotel.bl.message.MessageService;
+import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.SendBroadcastVO;
 import com.example.hotel.vo.SendMessageVO;
@@ -22,6 +24,9 @@ public class MessageController {
 
     @Autowired
     BroadcastService broadcastService;
+
+    @Autowired
+    AdminService adminService;
 
     @GetMapping("/{id}/getQuesById")
     public ResponseVO getQuesById(@PathVariable int id){
@@ -78,5 +83,10 @@ public class MessageController {
     @GetMapping("/{id}/{priority}/updatePriority")
     public ResponseVO updatePriority(@PathVariable int id, @PathVariable int priority) {
         return broadcastService.updatePriority(id, priority);
+    }
+
+    @GetMapping("/getAllClientsMen")
+    public ResponseVO getAllClientsMen() {
+        return ResponseVO.buildSuccess(adminService.getAllClientsMen());
     }
 }

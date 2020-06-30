@@ -14,6 +14,9 @@
             <a-form-item label="用户ID" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 1 }">
                 <span>{{ currentUpdateInfo.userId }}</span>
             </a-form-item>
+            <a-form-item label="当前信用值" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 1 }">
+                <span>{{ currentUpdateInfo.credit }}</span>
+            </a-form-item>
             <a-form-item label="更新方式" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 1 }">
                 <a-select
                         default-value="defaultDecre"
@@ -24,6 +27,9 @@
                     <a-select-option value="manualUpdate">
                         手动更新
                     </a-select-option>
+                    <a-select-option value="none">
+                        非过失方
+                    </a-select-option>
                 </a-select>
             </a-form-item>
             <a-form-item label="更新为" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 1 }" v-show="showInput">
@@ -32,9 +38,9 @@
                         v-decorator="['creditVal', { rules: [{ required: true, message: '请输入更新后信用值' }] }]"
                 />
             </a-form-item>
-            <a-form-item label="更新说明" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 1 }" v-show="showInput">
+            <a-form-item label="说明" :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 1 }">
                 <a-input
-                        placeholder="请输入更新说明"
+                        placeholder="请输入变更说明"
                         v-decorator="['desc', { rules: [{ required: true, message: '请输入更新说明' }] }]"
                 />
             </a-form-item>
@@ -54,6 +60,7 @@
                 form: this.$form.createForm(this, { name: 'coordinated' }),
                 changeMethod: 'decreDefault',
                 showInput: false,
+                showInput2: true
             }
         },
         computed: {
@@ -71,7 +78,8 @@
             ]),
             ...mapActions([
                 'updateCredit',
-                'getAllOrders'
+                'getAllOrders',
+                'getOpUserInfo'
             ]),
             cancel() {
                 this.set_manageCreditVisible(false)
@@ -83,6 +91,9 @@
                 } else {
                     this.showInput = false
                 }
+                if(value === "none") {
+                    this.showInput2 = false;
+                }
             },
             async handleUpdate() {
                 if(this.changeMethod === 'decreDefault') {
@@ -93,7 +104,7 @@
                             desc: this.form.getFieldValue('desc')
                         }
                     })
-                } else {
+                } else if (this.changeMethod === 'manualUpdate'){
                     await this.updateCredit({
                         method: this.changeMethod,
                         data: {
@@ -102,10 +113,22 @@
                             desc: this.form.getFieldValue('desc')
                         }
                     })
+                } else {
+                    await this.updateCredit({
+                        method: 'manualUpdate',
+                        data: {
+                            orderId: this.currentUpdateInfo.orderId,
+                            creditVal: this.currentUpdateInfo.credit,
+                            desc: this.form.getFieldValue('desc')
+                        }
+                    })
                 }
                 await this.getAllOrders();
                 this.set_showOrderList(this.orderList);
             }
+        },
+        mounted() {
+            this.getOpUserInfo()
         }
     }
 </script>

@@ -12,7 +12,7 @@
                     <span>￥{{ text }}</span>
                 </span>
                 <span slot="action" slot-scope="text, record">
-                    <a-button type="primary" @click="order(record)">预定</a-button>
+                    <a-button type="primary" @click="order(record)" :disabled="userInfo.userType!='Client'">预定</a-button>
                 </span>
             </a-table>
         </div>
@@ -72,7 +72,8 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'orderModalVisible'
+            'orderModalVisible',
+            'userInfo'
         ])
     },
     monuted() {
