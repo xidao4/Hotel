@@ -5,6 +5,8 @@ public enum HotelStar {
     Four("四星级"),
     Three("三星级");
 
+
+
     private String value;
 
     HotelStar(String value) {

@@ -5,8 +5,6 @@ import {
     addOperatorAPI,
     deleteUserAPI,
     updateTmpUserInfoAPI,
-    searchOOAPI,
-    searchClientAPI,
     addManagerAPI
 } from '@/api/admin'
 import{

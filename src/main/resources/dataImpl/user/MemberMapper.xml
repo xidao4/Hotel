@@ -4,7 +4,7 @@
 
     <insert id="insert" parameterType="com.example.hotel.po.Member">
         insert into Member(memberPoints,birthday,userId)
-        values(0,#{birthday},#{userId})
+        values(108,#{birthday},#{userId})
     </insert>
 
     <select id="getInfo" resultMap="Member">

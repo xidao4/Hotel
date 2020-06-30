@@ -28,6 +28,17 @@ public class HotelVO {
     private String pic_6;
     private String pic_7;
     private String pic_8;
+//    private Integer star;
+//
+//    public Integer getStar() {
+//        return star;
+//    }
+//
+//    public void setStar(Integer star) {
+//        this.star = star;
+//    }
+
+
 
     public Integer getId() {
         return id;
