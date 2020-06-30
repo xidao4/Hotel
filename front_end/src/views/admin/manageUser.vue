@@ -42,7 +42,7 @@
                           :style="{ color: filtered ? '#108ee9' : undefined }"
                   />
                   <span slot="action" slot-scope="text, record">
-                        <a-button @click="modifyClient(record.id)">更改信息</a-button>
+                        <a-button @click="modifyClient(record.id)" type="primary" size="small">更改信息</a-button>
                         <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                           title="确定删除吗？"
@@ -50,7 +50,7 @@
                           cancel-text="取消"
                           @confirm="order(record.id)"
                           >
-                          <a-button type="danger">删除用户</a-button>
+                          <a-button type="danger" size="small">删除用户</a-button>
                         </a-popconfirm>
 <!--                        <a-button type="danger" @click="order(record.id)">删除用户</a-button>-->
                   </span>
@@ -100,7 +100,7 @@
                         :style="{ color: filtered ? '#108ee9' : undefined }"
                 />
                 <span slot="action" slot-scope="text, record">
-                  <a-button @click="modifyOO(record.id)">更改信息</a-button>
+                  <a-button @click="modifyOO(record.id)" type="primary" size="small">更改信息</a-button>
                 </span>
               </a-table>
             </a-tab-pane>
@@ -146,7 +146,7 @@
                       :style="{ color: filtered ? '#108ee9' : undefined }"
               />
               <span slot="action" slot-scope="text, record">
-                  <a-button @click="addM(record.id)">添加工作人员</a-button>
+                  <a-button @click="addM(record.id)" size="small" type="primary">添加工作人员</a-button>
                   <a-divider type="vertical"></a-divider>
                   <a-popconfirm
                           title="删除酒店将同时删除工作人员。确定想删除吗？"
@@ -154,7 +154,7 @@
                           okText="确定"
                           cancelText="取消"
                   >
-                    <a-button type="danger">删除酒店及工作人员</a-button>
+                    <a-button type="danger" size="small">删除酒店及工作人员</a-button>
                   </a-popconfirm>
                 </span>
             </a-table>
@@ -166,7 +166,7 @@
               bordered
               >
               <span slot="action" slot-scope="text, record">
-                  <a-button @click="modifyHM(record.id)">修改信息</a-button>
+                  <a-button @click="modifyHM(record.id)" size="small" type="primary">修改信息</a-button>
                 </span>
             </a-table>
           </a-tab-pane>

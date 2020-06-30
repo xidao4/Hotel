@@ -98,7 +98,9 @@
                                 {{ text }}
                             </a-tag>
                             <span slot="action" slot-scope="record">
-                                <a-button type="primary" size="small" @click="showContentModal(record.id)">查看</a-button>
+                                <div class="my-button">
+                                    <a-button type="primary" style="margin-top: 2px;" size="small" @click="showContentModal(record.id)">查看</a-button>
+                                </div>
                                 <a-modal title="订单详情" :visible="contentVisible&&(currentIndex===record.id)"  @cancel="cancelContent" :footer="null" >
                                     <a-descriptions title="订单详情" bordered :column="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }" layout="vertical">
                                         <a-descriptions-item label="订单号">{{idOrder.id}}</a-descriptions-item>
@@ -117,9 +119,11 @@
                                         <a-descriptions-item label="撤销理由" v-if="idOrder.orderState=='客户撤销'">{{idOrder.cancelReason}}</a-descriptions-item>
                                     </a-descriptions>
                                 </a-modal>
-                                <br/>
-                                <a-button size="small" v-if="record.orderState==='已执行' && record.whetherComment===0" type="primary" @click="showCommentModal(record.id)">评价</a-button>
-                                <a-button size="small" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
+
+                                <div class="my-button">
+                                    <a-button size="small" style="margin-top: 1px;" v-if="record.orderState==='已执行' && record.whetherComment===0" type="primary" @click="showCommentModal(record.id)">评价</a-button>
+                                    <a-button size="small" style="margin-top: 1px;" v-else type="primary" disabled=true @click="showCommentModal(record.id)">评价</a-button>
+                                </div>
                                 <a-modal title="评价" :visible="commentVisible&&(commentIndex===record.id)" cancelText="取消" okText="确定" @cancel="commentCancel" @ok="commentSubmit(record)">
                                     <a-form :form="commentForm" v-bind="formItemLayout">
                                         <a-form-item label="评价星级" v-bind="formItemLayout">
@@ -132,9 +136,11 @@
                                         </a-form-item>
                                     </a-form>
                                 </a-modal>
-                                <br/>
-                                <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
-                                <a-button type="danger" size="small" @click="showCancelModal(record.id)" v-else>撤销</a-button>
+
+                                <div class="my-button" style="margin-top: 1px;">
+                                    <a-button type="danger" style="margin-top: 1px;" size="small" @click="showCancelModal(record.id)" v-if="record.orderState!=='已预订'" disabled=true>撤销</a-button>
+                                    <a-button type="danger" style="margin-top: 1px;" size="small" @click="showCancelModal(record.id)" v-else>撤销</a-button>
+                                </div>
                                 <a-modal v-if="record.orderState == '已预订'" title="撤销订单" :visible="visible&&(vv===record.id)" cancelText="取消" okText="确定" @cancel="cancel" @ok="handleSubmit(record)">
                                     <a-input placeholder="请输入撤销理由" maxLength={30} v-model="reason"></a-input>
                                 </a-modal>
@@ -477,6 +483,9 @@ export default {
         width: 500px;
         /*margin-left: 250px;*/
         //border: 1px solid blue;
+    }
+    .my-button{
+        margin-bottom:1px;
     }
 </style>
 

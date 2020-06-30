@@ -7,7 +7,10 @@ import {
     getBroadcastListAPI,
     sendBroadcastAPI,
     updatePriorityAPI,
-    changeBroadcastStatusAPI
+    changeBroadcastStatusAPI,
+    getPrivateAdAPI,
+    getAdSentByIdAPI,
+    getAllClientsMenAPI
 } from '../../api/chatMessage';
 
 import {getClientListAPI} from '../../api/admin';
@@ -28,7 +31,9 @@ const state = {
     msgClientList: [],
     currentGroupType: null,
     currentGroupTos: [],
-    broadcastList: []
+    broadcastList: [],
+    adReceivedList: [],
+    adSentList: []
 }
 
 const chatMessage = {
@@ -64,6 +69,12 @@ const chatMessage = {
         set_broadcastList(state, data) {
             state.broadcastList = [...data]
         },
+        set_adReceivedList(state, data) {
+            state.adReceivedList = [...data]
+        },
+        set_adSentList(state, data) {
+            state.adSentList = [...data]
+        }
     },
     actions: {
         getClientQuesList: async ({commit, rootState}) => {
@@ -128,7 +139,7 @@ const chatMessage = {
             }
         },
         getMsgClientList: async ({commit}) => {
-            const res = await getClientListAPI();
+            const res = await getAllClientsMenAPI();
             if(res) {
                 commit('set_msgClientList', res);
             }
@@ -153,11 +164,40 @@ const chatMessage = {
                 commit('set_broadcastList', res)
             }
         },
+        sendPrivateAd: async ({state, rootState}, param) => {
+            const res = await sendMessageAPI({
+                title: param.title,
+                content: param.content,
+                from: rootState.user.userId,
+                tos: state.currentGroupTos,
+                type: 0,
+                retMsgId: -1
+            });
+            if(res) {
+                message.success('发送成功')
+            }
+        },
         changeBroadcastStatus: async ({state}, param) => {
             const res = await changeBroadcastStatusAPI({
                 id: param.id,
                 status: param.status
             })
+        },
+        get_adReceivedList: async ({rootState, commit}) => {
+            const res = await getPrivateAdAPI({
+                toId: rootState.user.userId
+            })
+            if(res) {
+                commit('set_adReceivedList', res)
+            }
+        },
+        get_adSentList: async ({rootState, commit}) => {
+            const res = await getAdSentByIdAPI({
+                fromId: rootState.user.userId
+            })
+            if(res) {
+                commit('set_adSentList', res)
+            }
         },
     }
 }

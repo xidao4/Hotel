@@ -66,10 +66,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
-//        User manager = accountService.getUserInfo(hotelVO.getManagerId());
-//        if(manager == null || !manager.getUserType().equals(UserType.HotelManager)){
-//            throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
-//        }
+
         Hotel hotel = new Hotel();
         hotel.setAddress(hotelVO.getAddress());
         hotel.setHotelName(hotelVO.getName());
@@ -79,7 +76,30 @@ public class HotelServiceImpl implements HotelService {
         hotel.setPhoneNum(hotelVO.getPhoneNum());
         hotel.setRate(hotelVO.getRate());
         hotel.setDescription(hotelVO.getDescription());
-        //hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
+
+        String star=hotelVO.getHotelStar();
+        System.out.println("酒店的星级"+star);
+//        String val="";
+//        if(star.equals("3")){
+//            val="三星级";
+//        }else if(star.equals("4")){
+//            val="四星级";
+//        }else if(star.equals("5")){
+//            val="五星级";
+//        }
+//        System.out.println("enums"+HotelStar.valueOf(val));
+//
+//        hotel.setHotelStar(HotelStar.valueOf(val));
+
+        HotelStar val;
+        if(star.equals("3")){
+            val=HotelStar.Three;
+        }else if(star.equals("4")){
+            val=HotelStar.Four;
+        }else {
+            val=HotelStar.Five;
+        }
+        hotel.setHotelStar(val);
         hotelMapper.insertHotel(hotel);
     }
 

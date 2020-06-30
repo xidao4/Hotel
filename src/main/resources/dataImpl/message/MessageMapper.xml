@@ -19,7 +19,7 @@
     </select>
 
     <select id="getAdSentById" resultMap="messageMap">
-        select * from Message where fromId=#{toId} and msgType in ('Private', 'Broadcast')
+        select * from Message where fromId=#{fromId} and msgType='Private'
     </select>
 
     <select id="getGroupMsg" resultMap="messageMap">

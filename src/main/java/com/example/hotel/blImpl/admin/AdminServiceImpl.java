@@ -2,17 +2,16 @@ package com.example.hotel.blImpl.admin;
 
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.bl.hotel.HotelService;
+import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.admin.AdminMapper;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.data.user.MemberMapper;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
 import com.example.hotel.util.MD5;
-import com.example.hotel.vo.AdminCurveVO;
-import com.example.hotel.vo.HotelManagerVO;
-import com.example.hotel.vo.HotelVO;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +38,9 @@ public class AdminServiceImpl implements AdminService {
     HotelService hotelService;
     @Autowired
     HotelMapper hotelMapper;
+
+    @Autowired
+    AccountService accountService;
 
     /**
      * 添加运营人员
@@ -147,5 +149,22 @@ public class AdminServiceImpl implements AdminService {
             accountMapper.deleteUser(hotelVO.getManagerId());
         }
         return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public List<OpUserVO> getAllClientsMen() {
+        List<User> clients = getAllClients();
+        ArrayList<OpUserVO> opUserVOS = new ArrayList<>();
+        for(User client: clients) {
+            OpUserVO clientMem = new OpUserVO();
+            BeanUtils.copyProperties(client, clientMem);
+            if(accountService.getMemInfo(clientMem.getId()) == null) {
+                clientMem.setMem(false);
+            } else {
+                clientMem.setMem(true);
+            }
+            opUserVOS.add(clientMem);
+        }
+        return opUserVOS;
     }
 }
