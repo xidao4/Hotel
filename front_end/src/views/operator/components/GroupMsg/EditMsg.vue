@@ -30,7 +30,8 @@
                     label="优先级"
                     :labelCol="labelCol"
                     :wrapperCol="wrapperCol"
-                    class="stepFormText">
+                    class="stepFormText"
+                    v-if="currentGroupType === 1">
                 <a-select
                         default-value="0"
                         @change="handleSelectChange">
@@ -69,30 +70,47 @@
         computed: {
             ...mapGetters([
                 'currentGroupType',
-                'broadcastList'
+                'broadcastList',
+                'currentGroupTos'
             ])
         },
         methods: {
             ...mapActions([
                 'sendBroadcast',
-                'getBroadcastList'
+                'getBroadcastList',
+                'sendPrivateAd'
             ]),
             nextStep () {
                 this.loading = true;
                 this.form.validateFields((err, values) => {
                     if (!err) {
-                        const res = this.sendBroadcast({
-                            title: this.form.getFieldValue('title'),
-                            content: this.form.getFieldValue('content'),
-                            priority: this.priority
-                        }).then(val=>{
-                            this.getBroadcastList()
-                        });
-                        if(res) {
-                            this.$emit('nextStep');
-                        } else {
-                            message.error(res);
-                            this.$emit('prevStep');
+                        if(this.currentGroupType === 1) {
+                            const res = this.sendBroadcast({
+                                title: this.form.getFieldValue('title'),
+                                content: this.form.getFieldValue('content'),
+                                priority: this.priority
+                            }).then(val=>{
+                                this.getBroadcastList()
+                            });
+                            if(res) {
+                                this.$emit('nextStep');
+                            } else {
+                                message.error(res);
+                                this.$emit('prevStep');
+                            }
+                        } else if(this.currentGroupType === 0){
+                            const res = this.sendPrivateAd({
+                                title: this.form.getFieldValue('title'),
+                                content: this.form.getFieldValue('content'),
+                            }).then(val=>{
+                                this.get_adSentList()
+                            });
+                            if(res) {
+                                this.$emit('nextStep');
+                            } else {
+                                message.error(res);
+                                this.$emit('prevStep');
+                            }
                         }
                     } else {
                         this.loading = false;

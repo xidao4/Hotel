@@ -47,6 +47,13 @@
                 bordered
                 v-if="value===0"
         >
+            <a-tag
+                    slot="mem"
+                    slot-scope="text"
+                    :color="(text === true)? 'green' : 'gray'"
+            >
+                {{(text === true)? '是' : '否'}}
+            </a-tag>
         </a-table>
         <a-form>
             <a-form-item :wrapperCol="{span: 3, offset: 10}">
@@ -70,7 +77,18 @@
             dataIndex: 'userName',
         },
         {
+            title: '生日',
+            dataIndex: 'birthday',
+        },
+        {
             title: '是否为会员',
+            dataIndex: 'mem',
+            filters: [
+                { text: '是', value: true },
+                { text: '否', value: false },
+            ],
+            onFilter: (value, record) => record.mem === value,
+            scopedSlots: { customRender: 'mem' }
         }
     ];
 
@@ -119,6 +137,7 @@
                         selectedIds.push(this.msgClientList[i].id)
                     }
                     this.set_currentGroupTos(selectedIds);
+                    console.log(selectedIds)
                     this.$emit('nextStep')
                 } else {
                     message.error('请选择收件方')
