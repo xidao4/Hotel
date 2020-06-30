@@ -43,7 +43,7 @@
 
                 </a-col>
                 <a-col :span="16" style="font-size: 14px;">
-                    <a-checkbox-group v-model="checkedList" :options="plainOptions" @change="onChangeStar" />
+                    <a-checkbox-group v-model="checkedList" :options="plainOptions" @change="onChangeStar1" />
                 </a-col>
             </a-row>
 
@@ -74,7 +74,8 @@
                             :disabled-date="disabledStartDate"
                             format="YYYY-MM-DD"
                             placeholder="入住时间"
-                            @openChange="handleStartOpenChange">
+                            @openChange="handleStartOpenChange"
+                            @change="onChangeDate">
                     </a-date-picker>
                     <span style="text-align: center; margin-left: 2px; margin-right: 2px;">
                             -
@@ -85,7 +86,8 @@
                             format="YYYY-MM-DD"
                             placeholder="退房时间"
                             :open="endOpen"
-                            @openChange="handleEndOpenChange">
+                            @openChange="handleEndOpenChange"
+                            @change="onChangeDate">
                     </a-date-picker>
                 </a-col>
             </a-row>
@@ -128,53 +130,60 @@
         data() {
             return {
                 tmpHotelList: [],
-                hotelListByBizRegion: [],
+                /*hotelListByBizRegion: [],
                 hotelListByStar: [],
-                hotelListByDate: [],
+                hotelListByDate: [],*/
 
                 type: 'rate',
 
                 allBizRegion: false,
+                bizRegion: [],
 
                 checkedList: defaultCheckedList,
                 indeterminate: true,
                 checkAll: false,
                 plainOptions,
+                checkedNum: ['One','Two','Three','Four','Five'],
 
                 startValue: null,
                 endValue: null,
                 endOpen: false,
 
                 priceRange: [0, 3000],
+                prefer: 'rate'
             }
         },
         async mounted() {
             await this.getHotelCardInfos()
             this.tmpHotelList = this.showHotelList;
-            this.hotelListByBizRegion = this.showHotelList;
+            /*this.hotelListByBizRegion = this.showHotelList;
             this.hotelListByStar = this.showHotelList;
-            this.hotelListByDate = this.showHotelList
+            this.hotelListByDate = this.showHotelList*/
         },
         computed: {
             ...mapGetters([
+                'userId',
                 'showHotelList',
-                'showFilter'
+                'showFilter',
+                'hotelListByDate'
             ])
         },
         methods: {
             ...mapMutations([
                 'set_hotelListParams',
                 'set_showFilter',
-                'set_showHotelList'
+                'set_showHotelList',
+                'set_hotelListByDate',
             ]),
             ...mapActions([
                 'getHotelCardInfos',
-                'getHotelByDate'
+                'getHotelByDate',
+                'getHotelByDate',
             ]),
-            async filter() {
+            /*async filter() {
                 this.set_showHotelList(this.tmpHotelList);
                 this.set_showFilter(false)
-            },
+            },*/
             reset() {
 
             },
@@ -182,11 +191,16 @@
                 this.reset();
                 this.set_showFilter(false);
             },
+            //优先级
+            onChange(e){
+                this.prefer = e.target.value
+            },
 
             // 星级
-            onChange(checkedList) {
+            onChangeStar1(checkedList) {
                 this.indeterminate = !!checkedList.length && checkedList.length < plainOptions.length;
                 this.checkAll = checkedList.length === plainOptions.length;
+                this.onChangeStar()
             },
             onCheckAllChange(e) {
                 Object.assign(this, {
@@ -194,11 +208,52 @@
                     indeterminate: false,
                     checkAll: e.target.checked,
                 });
+                this.onChangeStar()
+            },
+            onChangeStar() {
+                if(this.checkAll || this.checkedList.length === 0) {
+                    this.checkedNum = ['One','Two','Three','Four','Five']
+                } else {
+                    this.checkedNum = []
+                    for(let i = 0; i < this.checkedList.length; i++) {
+                        if (this.checkedList[i] === '一星') {
+                            checkedNum.push('One')
+                        }
+                        if (this.checkedList[i] === '二星') {
+                            checkedNum.push('Two')
+                        }
+                        if (this.checkedList[i] === '三星') {
+                            checkedNum.push('Three')
+                        }
+                        if (this.checkedList[i] === '四星') {
+                            checkedNum.push('Four')
+                        }
+                        if (this.checkedList[i] === '五星') {
+                            checkedNum.push('Five')
+                        }
+                    }
+                }
+                /*console.log('star', this.hotelListByStar)
+                this.onChangeTmpHotelList()*/
             },
 
             // 商圈
             onChangeBizRegion(value) {
-                this.hotelListByBizRegion = []
+                if (value.length === 0) {
+                    this.bizRegion = ['XiDan']
+                    this.allBizRegion = true;
+                } else {
+                    for (let i = 0; i < value.length; i++) {
+                        if (value[i] === "全部") {
+                            this.bizRegion = ['XiDan']
+                            this.allBizRegion = true
+                            break
+                        }else{
+                            this.bizRegion.push(value[i])
+                        }
+                    }
+                }
+                /*this.hotelListByBizRegion = []
                 this.allBizRegion = false;
                 if (value.length === 0) {
                     this.hotelListByBizRegion = this.showHotelList
@@ -223,44 +278,10 @@
                         }
                     }
                 }
-                this.onChangeTmpHotelList()
+                this.onChangeTmpHotelList()*/
             },
 
-            onChangeStar(value) {
-                this.hotelListByStar = []
-                if(this.checkAll || this.checkedList.length === 0) {
-                    this.hotelListByStar = this.showHotelList;
-                } else {
-                    let checkedNum = [];
-                    for(let i = 0; i < this.checkedList.length; i++) {
-                        if (this.checkedList[i] === '一星') {
-                            checkedNum.push('One');
-                        }
-                        if (this.checkedList[i] === '二星') {
-                            checkedNum.push('Two');
-                        }
-                        if (this.checkedList[i] === '三星') {
-                            checkedNum.push('Three');
-                        }
-                        if (this.checkedList[i] === '四星') {
-                            checkedNum.push('Four');
-                        }
-                        if (this.checkedList[i] === '五星') {
-                            checkedNum.push('Five');
-                        }
-                    }
-                    for (let i = 0; i < this.showHotelList.length; i++) {
-                        for (let j = 0; j < checkedNum.length; j++) {
-                            if (this.showHotelList[i].hotelStar === checkedNum[j]) {
-                                this.hotelListByStar.push(this.showHotelList[i]);
-                                break;
-                            }
-                        }
-                    }
-                }
-                console.log('star', this.hotelListByStar)
-                this.onChangeTmpHotelList()
-            },
+            //日期
             async onChangeDate(value) {
                 let checkInDate = moment().format('YYYY-MM-DD');
                 let checkOutDate = moment().format('YYYY-MM-DD');
@@ -271,9 +292,10 @@
                     checkInDate: checkInDate,
                     checkOutDate: checkOutDate
                 });
-                this.onChangeTmpHotelList()
+                //console.log("date",this.hotelListByDate)
+                /*this.onChangeTmpHotelList()*/
             },
-            onChangeTmpHotelList() {
+            /*onChangeTmpHotelList() {
                 this.tmpHotelList = []
                 for (let i = 0; i < this.hotelListByBizRegion.length; i++) {
                     let flag = false;
@@ -298,7 +320,7 @@
                     }
                 }
                 console.log('tmp', this.tmpHotelList)
-            },
+            },*/
             pageChange(page, pageSize) {
                 const data = {
                     pageNo: page - 1
@@ -335,6 +357,47 @@
             },
             handleEndOpenChange(open) {
                 this.endOpen = open;
+            },
+            filter(){
+                if(this.prefer=="history"){
+                    this.hotelListByDate.sort(function(a,b){return (a.hasOrderedBefore==true)?-1:1})
+                }else{
+                    this.hotelListByDate.sort(function(a,b){return b.rate-a.rate})
+                }
+                let tmp = []
+                let tmp2 = []
+                this.tmpHotelList = []
+                //星级,日期
+                //console.log("checkedNum",this.checkedNum)
+                for (let i = 0; i < this.hotelListByDate.length; i++) {
+                    for (let j = 0; j < this.checkedNum.length; j++) {
+                        if (this.hotelListByDate[i].hotelStar === this.checkedNum[j]) {
+                            tmp.push(this.hotelListByDate[i])
+                            break
+                        }
+                    }
+                }
+                //console.log("star,date",tmp)
+                //商圈
+                for (let i = 0; i < tmp.length; i++) {
+                    for (let j = 0; j < this.bizRegion.length; j++) {
+                        if (tmp[i].bizRegion === this.bizRegion[j]) {
+                            tmp2.push(tmp[i])
+                            break
+                        }
+                    }
+                }
+                //console.log("biz",this.bizRegion)
+                //console.log("biz",tmp2)
+                //价格
+                //console.log("price",this.priceRange[0],this.priceRange[1])
+                for (let i = 0; i < tmp2.length; i++) {
+                    if (tmp2[i].minPrice>=this.priceRange[0] && tmp2[i].minPrice<=this.priceRange[1]) {
+                        //console.log(tmp2[i].minPrice)
+                        this.tmpHotelList.push(tmp2[i])
+                    }
+                }
+                this.$emit('searchChange',this.tmpHotelList)
             },
         }
     }

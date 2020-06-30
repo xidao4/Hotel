@@ -185,9 +185,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveHotelByDate(Integer userid, String checkInDate, String checkOutDate) {
-        List<HotelVO> hotelVOS = retrieveHotels(userid);
-        List<HotelVO> hotelVOSByDate = new ArrayList<>();
+    public List<HotelCardVO> retrieveHotelByDate(Integer userid, String checkInDate, String checkOutDate) {
+        List<HotelCardVO> hotelVOS = getHotelCardInfos(userid);
+        List<HotelCardVO> hotelVOSByDate = new ArrayList<>();
         //ydl
         //这一段是处理从入住到退房之间有哪些日期的，具体日期放在了days里
         List<String> days = new ArrayList<String>();
@@ -210,7 +210,7 @@ public class HotelServiceImpl implements HotelService {
             e.printStackTrace();
         }
 
-        for(HotelVO hotelVO: hotelVOS){
+        for(HotelCardVO hotelCardVO: hotelVOS){
 //            List<Order> orders = orderService.getHotelOrders(hotelVO.getId());
 //            int curRoomNum = getTotalRoomNum(hotelVO.getId());
 //            for(Order order: orders){
@@ -224,8 +224,8 @@ public class HotelServiceImpl implements HotelService {
 //            }
             int bigSignal=1;
             for(String day:days){
-                if(curRoomMapper.isExist(hotelVO.getId(),"BigBed",day)!=null){
-                    int roomNum=curRoomMapper.selectCurRoomNum(hotelVO.getId(),"BigBed",day);
+                if(curRoomMapper.isExist(hotelCardVO.getId(),"BigBed",day)!=null){
+                    int roomNum=curRoomMapper.selectCurRoomNum(hotelCardVO.getId(),"BigBed",day);
                     if(roomNum<=0){
                         bigSignal=0;
                     }
@@ -233,8 +233,8 @@ public class HotelServiceImpl implements HotelService {
             }
             int doubleSignal=1;
             for(String day:days){
-                if(curRoomMapper.isExist(hotelVO.getId(),"DoubleBed",day)!=null){
-                    int roomNum=curRoomMapper.selectCurRoomNum(hotelVO.getId(),"BigBed",day);
+                if(curRoomMapper.isExist(hotelCardVO.getId(),"DoubleBed",day)!=null){
+                    int roomNum=curRoomMapper.selectCurRoomNum(hotelCardVO.getId(),"BigBed",day);
                     if(roomNum<=0){
                         doubleSignal=0;
                     }
@@ -242,8 +242,8 @@ public class HotelServiceImpl implements HotelService {
             }
             int familySignal=1;
             for(String day:days){
-                if(curRoomMapper.isExist(hotelVO.getId(),"Family",day)!=null){
-                    int roomNum=curRoomMapper.selectCurRoomNum(hotelVO.getId(),"BigBed",day);
+                if(curRoomMapper.isExist(hotelCardVO.getId(),"Family",day)!=null){
+                    int roomNum=curRoomMapper.selectCurRoomNum(hotelCardVO.getId(),"BigBed",day);
                     if(roomNum<=0){
                         familySignal=0;
                     }
@@ -253,9 +253,11 @@ public class HotelServiceImpl implements HotelService {
                 System.out.println("这家酒店的三种房间在这段时间内都不够了");
             }
             else{
-                hotelVOSByDate.add(hotelVO);
+                hotelVOSByDate.add(hotelCardVO);
             }
         }
+        System.out.println("size:");
+        System.out.println(hotelVOSByDate.size());
         return hotelVOSByDate;
     }
 

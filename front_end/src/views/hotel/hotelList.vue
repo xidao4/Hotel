@@ -1,6 +1,6 @@
 <template>
     <div>
-        <SearchCard></SearchCard>
+        <SearchCard @searchChange="searchChange"></SearchCard>
 
         <a-layout>
             <a-layout-content style="min-width: 800px">
@@ -10,7 +10,7 @@
                     </a-col>
                     <a-col :span="17">
                         <a-spin :spinning="spinning" :delay="500">
-                            <div v-for="(item, index) in showHotelList.slice(thisPage[0], thisPage[1])" :key="index" v-if="showHotelList.length > 0">
+                            <div v-for="(item, index) in tmpHotelList.slice(thisPage[0], thisPage[1])" :key="index" v-if="showHotelList.length > 0">
                                 <div @click="jumpToDetails(item.id)">
                                     <HotelCard :detail="item"></HotelCard>
                                 </div>
@@ -93,10 +93,12 @@
                 emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}],
                 msg:'订单价格三倍积分，积分当钱花。可享9折，价格更优惠。提早入住，延迟退房，入住更随心。生日惊喜好礼，礼券更丰富。',
                 thisPage: [0, 8],
+                tmpHotelList: [],
 			}
 		},
 		async mounted() {
-			await this.getHotelCardInfos();
+			await this.getHotelCardInfos()
+			this.tmpHotelList = this.showHotelList
             // console.log('before Notification',this.hasShownNoti)
             // this.showNotification()
             // console.log('after Notification',this.hasShownNoti)
@@ -127,6 +129,9 @@
             //         this.set_hasShownNoti(true)
             //     }
             // },
+            searchChange(list){
+			    this.tmpHotelList = list
+            },
 			pageChange(page, pageSize) {
 				this.thisPage = [(page - 1) * 8, page * 8]
 			},

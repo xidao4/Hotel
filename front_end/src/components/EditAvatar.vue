@@ -29,12 +29,6 @@
 				loading: false,
 			};
 		},
-		props: {
-			avatar_url: String
-		},
-		mounted() {
-			this.imageUrl = this.avatar_url
-		},
         computed: {
 		    ...mapGetters([
 		        'imageUrl'
