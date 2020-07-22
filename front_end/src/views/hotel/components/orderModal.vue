@@ -27,20 +27,6 @@
                     ]"
                 />
             </a-form-item>
-
-<!--            <a-form-item v-bind="formItemLayout" label="日期" style="margin-bottom:2px">-->
-<!--                <a-range-picker-->
-<!--                    format="YYYY-MM-DD"-->
-<!--                    @change="changeDate"-->
-<!--                    v-decorator="[-->
-<!--                        'date',-->
-<!--                        {-->
-<!--                            rules: [{ required: true, message: '请选择入住时间' }]-->
-<!--                        }-->
-<!--                    ]"-->
-<!--                        :placeholder="['入住日期','退房日期']"-->
-<!--                />-->
-<!--            </a-form-item >-->
             <a-form-item v-bind="formItemLayout" label="入住日期" style="margin-bottom: 2px">
                 <a-date-picker
                     :disabled-date="disabledStartDate"
@@ -429,7 +415,6 @@ export default {
             console.log(moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day'))
 
             this.totalPrice = this.form.getFieldValue('roomNum') * moment(this.form.getFieldValue('checkOutDate')).diff(moment(this.form.getFieldValue('checkInDate')), 'day') * Number(this.currentOrderRoom.price)
-
 
             this.set_orderMatchCouponList([])
             console.log('orderMatchCouponList',this.orderMatchCouponList)

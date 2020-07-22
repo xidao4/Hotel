@@ -1,31 +1,6 @@
 <template>
     <div class="manageHotel-wrapper">
         <a-tabs type="card">
-<!--            <a-tab-pane tab="酒店管理(删除)" key="1">-->
-<!--                <div style="width: 100%; text-align: right; margin:20px 0">-->
-<!--                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>-->
-<!--                </div>-->
-<!--                 <a-table-->
-<!--                    :columns="columns1"-->
-<!--                    :dataSource="hotelList"-->
-<!--                    bordered-->
-<!--                >-->
-<!--                    <span slot="action" slot-scope="record">-->
-<!--                        <a-button type="primary" size="small" @click="addRoom(record)">录入房间</a-button>-->
-<!--                        <a-divider type="vertical"></a-divider>-->
-<!--                        <a-button type="info" size="small" @click="showCoupon(record)">优惠策略</a-button>-->
-<!--                        <a-divider type="vertical"></a-divider>-->
-<!--                        <a-popconfirm-->
-<!--                            title="确定想删除该酒店吗？"-->
-<!--                            @confirm="deleteHotel(record)"-->
-<!--                            okText="确定"-->
-<!--                            cancelText="取消"-->
-<!--                        >-->
-<!--                            <a-button type="danger" size="small">删除酒店</a-button>-->
-<!--                        </a-popconfirm>-->
-<!--                    </span>-->
-<!--                </a-table>-->
-<!--            </a-tab-pane>-->
             <a-tab-pane  key="2">
                 <span slot="tab">
         <a-icon type="file-done"/>
@@ -61,13 +36,6 @@
                             </a-descriptions>
                         </a-modal>
                         <a-divider type="vertical"></a-divider>
-<!--                        <a-popconfirm-->
-<!--                            title="确定想删除该订单吗？"-->
-<!--                            @confirm="deleteOrder(record)"-->
-<!--                            okText="确定"-->
-<!--                            cancelText="取消"-->
-<!--                        >-->
-<!--                            <a-button type="danger" size="small">删除订单</a-button>-->
                         <a-popover title="订单状态管理" trigger="click" :ref="`popover-${record.id}`">
                             <a slot="content" @click="change(record,'已入住')" v-if="record.orderState==='已预订'"><a-tag color="green">已入住</a-tag></a>
                             <a slot="content" @click="change(record,'已入住')" v-else disabled="true" ><a-tag color="red">已入住</a-tag></a>
@@ -79,7 +47,6 @@
                             <a slot="content" @click="change(record,'异常')" v-else disabled="true"><a-tag color="red">异常</a-tag></a>
                             <a-button type="primary" size="small" @click="manage">订单管理</a-button>
                         </a-popover>
-<!--                        </a-popconfirm>-->
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -114,8 +81,8 @@
 
                   <a-row>
                       <div style="margin-top:15px;">
-                        <a-button type="primary" size="normal" @click="addRoom()" style="margin-left: 20px;margin-right: 25px;">录入房间</a-button>
-                        <a-button type="info" size="normal" @click="showCoupon()" style="margin-left: 25px;margin-right: 20px">优惠策略</a-button>
+                        <a-button type="primary" size="default" @click="addRoom()" style="margin-left: 20px;margin-right: 25px;">录入房间</a-button>
+                        <a-button type="info" size="default" @click="showCoupon()" style="margin-left: 25px;margin-right: 20px">优惠策略</a-button>
                       </div>
                   </a-row>
 
@@ -154,7 +121,7 @@
                       <span>{{ currentHotelInfo.name }}</span>
                     </a-form-item>
                     <a-form-item label="星级" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:3px">
-                      <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
+                      <a-rate style="font-size: 15px" :value="hotelStar" disabled allowHalf/>
                     </a-form-item>
                     <a-form-item label="好评率" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" style="margin-bottom:3px">
                       <a-progress :stroke-color="{
@@ -178,19 +145,6 @@
                       />
                       <span v-else>{{ currentHotelInfo.phoneNum}}</span>
                     </a-form-item>
-                    <!--                        <a-form-item label="酒店商圈" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">-->
-                    <!--                          <a-select-->
-                    <!--                                  default-value=currentHotelInfo.bizRegion-->
-                    <!--                                  v-if="modify"-->
-                    <!--                                  v-decorator="['type',{rules: [{required:true,message: '请选择商圈'}]}]" @change="changeType">-->
-                    <!--                            &lt;!&ndash;                    v-decorator第一个字段是绑定的名称，第二个字段说明了在未填写时提交表单的提示&ndash;&gt;-->
-                    <!--                            &lt;!&ndash;官方不推荐v-model来做数据绑定：我们不推荐在 Form 中使用双向绑定，同一份数据可能在多处使用，如果使用双向绑定，那么数据的修改会同时同步到各个组件，但这并不是我们想要的， 你应该在表单提交成功或失败或确认时同步数据，使用非双向绑定的表单，你会拥有最大限度的控制数据修改/同步的权限。&ndash;&gt;-->
-                    <!--                            <a-select-option value="1">西单</a-select-option>-->
-                    <!--                            <a-select-option value="2">鼓楼</a-select-option>-->
-                    <!--                            <a-select-option value="3">仙林</a-select-option>-->
-                    <!--                          </a-select>-->
-                    <!--                          <span v-else>{{currentHotelInfo.bizRegion}}</span>-->
-                    <!--                        </a-form-item>-->
                     <a-form-item label="描述" :label-col="{ span: 3 }" :wrapper-col="{ span: 18, offset: 1 }" style="margin-bottom:3px">
                       <a-input type="textarea" :rows="4" placeholder="请填写酒店简介"
                                v-decorator="['description',{rules: [{required:true,message:'请填写优惠简介'}]}]"
@@ -398,20 +352,35 @@ export default {
             'pic',
             `fileList`,
         ]),
+        hotelStar() {
+            if(this.currentHotelInfo.hotelStar === 'One') {
+                return 1;
+            } else if(this.currentHotelInfo.hotelStar === 'Two') {
+                return 2;
+            } else if(this.currentHotelInfo.hotelStar === 'Three') {
+                return 3;
+            } else if(this.currentHotelInfo.hotelStar === 'Four') {
+                return 4;
+            } else {
+                return 5;
+            }
+        },
     },
     async mounted() {
         // console.log("this.userId",this.userId)//1
-        // console.log("this.currentHotelId",this.currentHotelId)//1
+        console.log("currentHotelId",this.currentHotelId)//1
         // console.log("this.hotelId",this.hotelId)//1
         await this.getHotelInfo()
+        console.log('currentHotelInfo',this.currentHotelInfo)
         //await this.getHotelListLJY()
         await this.getOrderByHotelId(this.currentHotelId)
         //console.log("0602::2",state.hotelId) 'state' is not defined  no-undef
         await this.getAllTags(this.currentHotelId)
         await this.getCommentByHotelId(this.currentHotelId)
         await this.getPics(this.currentHotelId)
-        console.log(this.userInfo)
+        console.log('userInfo',this.userInfo)
     },
+
     methods: {
         ...mapMutations([
             'set_addHotelModalVisible',

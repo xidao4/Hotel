@@ -2,8 +2,6 @@
     <div class="manageUser-wrapper">
         <a-tabs>
             <a-tab-pane tab="用户" key="2">
-<!--              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchClient" />-->
-<!--              <a-button @click="showAllClient">显示全部</a-button>-->
                 <a-table
                   :columns="columns"
                   :dataSource="displayClientList"
@@ -52,13 +50,10 @@
                           >
                           <a-button type="danger" size="small">删除用户</a-button>
                         </a-popconfirm>
-<!--                        <a-button type="danger" @click="order(record.id)">删除用户</a-button>-->
                   </span>
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="网站运营人员" key="3">
-<!--              <a-input-search placeholder="输入搜索关键词" enter-button @search="onSearchOO" />-->
-<!--              <a-button @click="showAll">显示全部</a-button>-->
               <div style="width: 100%; text-align: right; margin:20px 0">
                 <a-button type="primary" @click="addOperator"><a-icon type="plus" />添加网站运营人员</a-button>
               </div>
@@ -367,8 +362,8 @@ export default {
             pagination: {},
             colH, //hotel
             colM, //manager
-            columns,   //client
-            colOperator,
+            columns,//client
+            colOperator,//operator
             data: [],
             form: this.$form.createForm(this, { name: 'manageUser' }),
             displayHotelList:[],
